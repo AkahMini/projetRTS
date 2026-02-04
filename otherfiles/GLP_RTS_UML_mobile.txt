@@ -1,0 +1,70 @@
+@startuml
+
+' ===========================
+'    Diagramme-RTS-mobile
+' ===========================
+
+Abstract class MobileElements{
+  -position:Block
+}
+
+class Units{
+  -hp:float
+  -attackSpeed:float
+  -dmg:float
+  -speed:float
+  -populationCost:int
+  -type:String
+  -dmgMultBuilding:float
+  -dmgMultCavalry:float
+  -dmgMultArchery:float
+  -dmgMultInfantry:float
+}
+
+Abstract Building{
+  -hp:float
+}
+
+class ScienceLab{
+}
+
+class HQ{
+}
+
+class Defense{
+}
+
+class UnitProducer{
+}
+
+class PopulationAugment{
+}
+
+Building <|.. ScienceLab
+Building <|.. HQ
+Building <|.. Defense
+Building <|.. UnitProducer
+Building <|.. PopulationAugment
+
+class Player{
+  -populationCount:int
+  -ressourceAqtty:int
+  -ressourceBqtty:int
+  -factionType:String
+  -buildingsCount:HashMap<String,int>
+  -unitsCount:HashMap<String,int>
+}
+
+class Gisement{
+  -ressourceType:String
+  -amount:int
+}
+
+MobileElements <|.. Units
+MobileElements <|.. Building
+MobileElements <|.. Gisement
+
+Units -- Player
+Building -- Player
+
+@enduml
