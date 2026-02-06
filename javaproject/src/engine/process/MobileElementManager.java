@@ -20,7 +20,7 @@ public class MobileElementManager implements MobileInterface {
 	}
 
 	public void nextRound() {
-		System.out.println("next Round");
+		System.out.println("tick");
 	}
 
 	private static int getRandomNumber(int min, int max) {

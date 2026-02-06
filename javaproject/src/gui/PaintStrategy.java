@@ -18,12 +18,28 @@ public class PaintStrategy {
 		int blockSize = GameConfiguration.BLOCK_SIZE;
 		Block[][] blocks = map.getBlocks();
 
+		
+		
+		
+		//used for drawing the game grid
 		for (int lineIndex = 0; lineIndex < map.getLineCount(); lineIndex++) {
 			for (int columnIndex = 0; columnIndex < map.getColumnCount(); columnIndex++) {
 				Block block = blocks[lineIndex][columnIndex];
-
-				if ((lineIndex + columnIndex) % 2 == 0) {
-					graphics.setColor(Color.GRAY);
+				
+				if(lineIndex==3) {
+					graphics.setColor(Color.BLACK);
+					graphics.fillRect(block.getColumn() * blockSize, block.getLine() * blockSize, blockSize, blockSize);
+				}
+				
+				else if(lineIndex>3 && columnIndex<GameConfiguration.COLUMN_COUNT-15) {
+					if ((lineIndex + columnIndex) % 2 == 0) {
+						graphics.setColor(Color.GRAY);
+						graphics.fillRect(block.getColumn() * blockSize, block.getLine() * blockSize, blockSize, blockSize);
+					}
+				}
+				
+				else if(lineIndex>3 && columnIndex==GameConfiguration.COLUMN_COUNT-15) {
+					graphics.setColor(Color.BLACK);
 					graphics.fillRect(block.getColumn() * blockSize, block.getLine() * blockSize, blockSize, blockSize);
 				}
 			}
