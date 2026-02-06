@@ -1,0 +1,189 @@
+@startuml
+
+' ===================================
+'    DIAGRAMME DE DONNÉES - RTS
+' ===================================
+
+package config {
+
+class GameConfiguration{
+    + WINDOW_WIDTH : int
+    + WINDOW_HEIGHT : int
+    + BLOCK_SIZE : int
+    + LINE_COUNT : int
+    + COLUMN_COUNT : int
+    + GAME_SPEED : int
+}
+
+}
+
+package engine {
+
+' ===================================
+'            MAP
+' ===================================
+
+package map {
+
+class Block {
+    - line : int
+    - column : int
+}
+
+class Map {
+    -blocks : Block[][]
+    -lineCount : int
+    -columnCount : int
+}
+
+
+}
+
+
+package mobile {
+
+abstract class MobileElement {
+    -position : Block
+}
+
+' ===================================
+'            UNITÉS
+' ===================================
+
+
+package unit {
+
+abstract class Unit {
+    - faction : string
+    - hp : int
+    - maxHp : int
+    - populationCost : int
+    - ambroisieCost : int
+    - faithCost : int
+    - attackDamage : int
+    - attackSpeed : float
+    - movementSpeed : float
+    - attackRange : int
+    - visionRange : int 
+    - hpRegenRate : float 
+    - tierLevel : int 
+    - target : MobileElement
+}
+
+class Worker {
+    - currentResourceLoad : int
+    - ressourceType : String
+    - maxCargoCapacity : int
+    - currentDeposit : ResourceDeposit
+}
+
+class Infantry {
+    - shieldValue : int
+}
+
+class Cavalry {
+    - troughObstacles : boolean
+    - chargeBonusDamage : int
+}
+
+class Artillery {
+    - blastRadius : float
+    - attackRange : float
+}
+
+}
+
+' ===================================
+'           BÂTIMENTS
+' ===================================
+
+package building {
+
+abstract class Building {
+    - hp : int
+    - constructionTime : int
+    - isUnderConstruction : boolean
+    - tierLevel : int
+}
+
+class HQ {
+    - productionQueue : ArrayList<String>
+    - defenseDamage : int
+    - defenseRange : int
+}
+
+class UnitProducer {
+    - productionQueue : ArrayList<String>
+    - productionSpeed : float
+}
+
+class DefenseTower {
+    - towerDamage : int
+    - towerRange : int
+}
+
+class PopulationBuilding {
+    - populationProvided : int
+}
+
+class ResearchBuilding {
+    - technologiesUnlocked : List<String>
+}
+
+}
+
+' ===================================
+'          RESSOURCES
+' ===================================
+
+class ResourceDeposit {
+    - amountRemaining : int
+    - currentWorkers : int
+    - maxWorkers : int
+    - type : String
+    - extractionSpeed : float 
+}
+
+' ===================================
+'           JOUEUR
+' ===================================
+
+class Player {
+    - pseudo : String
+    - factionName : String
+    - faithStock : int
+    - ambroisieStock : int
+    - currentPopulation : int
+    - maxPopulation : int
+}
+
+}
+
+}
+' ===================================
+'          RELATIONS
+' ===================================
+
+Map "1" *-- "*" Block 
+
+MobileElement -- "1" Block
+
+MobileElement <|-- Unit
+MobileElement <|-- Building
+MobileElement <|-- ResourceDeposit
+
+Unit <|-- Worker
+Unit <|-- Infantry
+Unit <|-- Cavalry
+Unit <|-- Artillery
+
+Building <|-- HQ
+Building <|-- UnitProducer
+Building <|-- DefenseTower
+Building <|-- PopulationBuilding
+Building <|-- ResearchBuilding
+
+Player "1" *-- "*" Unit
+Player "1" *-- "*" Building
+
+@enduml
