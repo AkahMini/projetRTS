@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -32,12 +33,6 @@ public class MainGUI extends JFrame implements Runnable {
 
 	private final static Dimension preferredSize = new Dimension(GameConfiguration.WINDOW_WIDTH, GameConfiguration.WINDOW_HEIGHT);
 	
-	
-	//chrono part the chrono increment by 1sec per tick (for now, can be changed)
-	
-	private Chronometer chronometer = new Chronometer();
-	
-
 	private MobileInterface manager;
 
 	private GameDisplay dashboard;
@@ -49,7 +44,6 @@ public class MainGUI extends JFrame implements Runnable {
 
 	private void init() {
 		
-		updateChronoValues();
 		
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new BorderLayout());
@@ -67,6 +61,7 @@ public class MainGUI extends JFrame implements Runnable {
 		map = GameBuilder.buildMap();
 		manager = GameBuilder.buildInitMobile(map);
 		dashboard = new GameDisplay(map, manager);
+		
 
 		MouseControls mouseControls = new MouseControls();
 		dashboard.addMouseListener(mouseControls);
@@ -80,16 +75,6 @@ public class MainGUI extends JFrame implements Runnable {
 		setPreferredSize(preferredSize);
 		setResizable(false);
 	}
-
-	
-	private void updateChronoValues() {
-		// This part is for textual time printing.
-		CyclicCounter hour = chronometer.getHour();
-
-		CyclicCounter minute = chronometer.getMinute();
-
-		CyclicCounter second = chronometer.getSecond(); 
-	}
 	
 	
 	@Override
@@ -101,7 +86,6 @@ public class MainGUI extends JFrame implements Runnable {
 				System.out.println(e.getMessage());
 			}
 
-			chronometer.increment();
 			manager.nextRound();
 			dashboard.repaint();
 		}

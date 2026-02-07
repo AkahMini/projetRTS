@@ -1,12 +1,14 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.List;
 
 import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
+import engine.process.chrono.CyclicCounter;
 
 /**
  * 
@@ -45,8 +47,15 @@ public class PaintStrategy {
 				}
 			}
 		}
+
+	}
+	
+	public void paint(CyclicCounter hour, CyclicCounter minute, CyclicCounter second, Graphics graphics) {
+
 		
-		
+		graphics.setColor(Color.BLACK);
+		graphics.setFont(new Font("Arial", Font.BOLD, 24));
+		graphics.drawString(hour.toString()+":"+minute.toString()+":"+second.toString(), 20, 28);
 	}
 
 }
