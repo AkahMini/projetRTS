@@ -22,6 +22,7 @@ public class MobileElementManager implements MobileInterface {
 	
 	private String selectedBuilding = null;
 	private List<Building> buildings = new ArrayList<Building>();
+	private List<Unit> unitsInSelectedArea = new ArrayList<Unit>();
 	
 	
 	private String selectedUnit = null;
@@ -95,9 +96,49 @@ public class MobileElementManager implements MobileInterface {
 	
 	public void unitMoveOrder(Unit displacedUnit,Block destination) {
 		Block position = displacedUnit.getPosition();
-		int xDisplacment = 1;
-		int yDisplacment=1;
-		displacedUnit.setPosition(position);
+		int xDisplacement = 1; //can change later to displacedUnit.speed???
+		int yDisplacement=1; //same
+		
+		int x1=position.getColumn();
+		int x2=destination.getColumn();
+		int y1=position.getLine();
+		int y2=position.getLine();
+		
+		
+		if(x1==x2&&y1==y2) {
+			//if we already arrived, nothing
+		}
+		else {
+			int newLine=y1; int newColomn=x1;
+			if(x1<x2&&y1<y2){//SE
+				newLine+=yDisplacement;newColomn+=xDisplacement;
+			}
+			if(x1==x2&&y1<y2){//E
+				newColomn+=xDisplacement;
+			}
+			if(x1>x2&&y1<y2){//NE
+				newLine-=yDisplacement;newColomn-=xDisplacement;
+			}
+			if(x1<x2&&y1==y2){//S
+				newLine+=yDisplacement;
+			}
+			if(x1>x2&&y1==y2){//N
+				newLine-=yDisplacement;
+			}
+			if(x1<x2&&y1>y2){//SW
+				newLine+=yDisplacement;newColomn-=xDisplacement;
+			}
+			if(x1==x2&&y1>y2){//W
+				newColomn-=xDisplacement;
+			}
+			if(x1<x2&&y1>y2){//NW
+				newLine-=yDisplacement;newColomn-=xDisplacement;
+			}
+			
+			Block newPosition = map.getBlock(newLine, newColomn);
+			displacedUnit.setPosition(newPosition);
+			
+		}
 	}
 	
 	public void initSelectedArea(Block firstBlock) {
@@ -121,6 +162,22 @@ public class MobileElementManager implements MobileInterface {
 		}
 	}
 	
+	public void unitsInSelectedArea() {
+		this.unitsInSelectedArea = new ArrayList<Unit>(); //we reinitialize all selected units
+		
+		if(this.selectedArea!=null){
+			int nbOfBlocksInSelectedArea=this.selectedArea.size();
+			int nbOfUnits= this.units.size();
+			for(int unitIndex=0;unitIndex<nbOfUnits;unitIndex++){ //For each units, we check if it in the selected area
+				Block unitPosition = units.get(unitIndex).getPosition();
+				for(int blockIndex=0; blockIndex<nbOfBlocksInSelectedArea;blockIndex++) { 
+					if(selectedArea.get(blockIndex)==unitPosition) {
+						this.unitsInSelectedArea.add(units.get(unitIndex));
+					}
+				}
+			}
+		}
+	}
 	
 	//Timer part
 	public CyclicCounter getHour() {
@@ -145,6 +202,9 @@ public class MobileElementManager implements MobileInterface {
 	public List<Unit> getUnits() {
         return units;
     }
+	public List<Unit> getUnitsInSelectedArea(){
+		return unitsInSelectedArea;
+	}
 	
 	public Block getMousePosition(int x, int y) {
 		//converts (x,y) coordonates into the corresponding block
