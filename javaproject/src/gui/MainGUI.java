@@ -62,7 +62,7 @@ public class MainGUI extends JFrame implements Runnable {
 
 		javax.swing.JButton testButton = new javax.swing.JButton("Test");
 
-		testButton.addActionListener(new ActionListener() {
+		testButton.addActionListener(new ActionListener() { // bouton temporaire pour test
 		    public void actionPerformed(ActionEvent e) {
 		        manager.selectBuilding("PRODUCER");
 		    }
