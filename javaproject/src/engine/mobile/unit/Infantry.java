@@ -9,7 +9,7 @@ import engine.mobile.MobileElement;
  *
  */
 
-public class Infantry extends MobileElement{
+public class Infantry extends Unit{
 
 	private int shieldValue;
 	

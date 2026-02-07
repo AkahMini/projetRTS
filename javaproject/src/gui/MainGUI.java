@@ -36,6 +36,8 @@ public class MainGUI extends JFrame implements Runnable {
 
 	private final static Dimension preferredSize = new Dimension(GameConfiguration.WINDOW_WIDTH, GameConfiguration.WINDOW_HEIGHT);
 	
+	private String typeSelection;
+	
 	private MobileInterface manager;
 
 	private GameDisplay dashboard;
@@ -67,15 +69,26 @@ public class MainGUI extends JFrame implements Runnable {
 		javax.swing.JPanel RightPanel = new javax.swing.JPanel();
 		RightPanel.setBackground(java.awt.Color.GRAY); 
 
-		javax.swing.JButton testButton = new javax.swing.JButton("Test");
+		javax.swing.JButton testButton = new javax.swing.JButton("Test Bat");
 
 		testButton.addActionListener(new ActionListener() { // bouton temporaire pour test
 		    public void actionPerformed(ActionEvent e) {
 		        manager.selectBuilding("PRODUCER");
+		        typeSelection="build";
 		    }
 		});
 
+		javax.swing.JButton testButton2 = new javax.swing.JButton("Test Unit");
+
+		testButton2.addActionListener(new ActionListener() { // bouton temporaire pour test
+		    public void actionPerformed(ActionEvent e) {
+		        manager.selectUnit("INFANTRY");
+		        typeSelection="unit";
+		    }
+		});
+		
 		RightPanel.add(testButton);
+		RightPanel.add(testButton2);
 		contentPane.add(RightPanel, BorderLayout.EAST);
 
 		
@@ -118,6 +131,7 @@ public class MainGUI extends JFrame implements Runnable {
 
 	private class KeyControls implements KeyListener {
 
+		//this part is for the keybord interaction 
 		@Override
 		public void keyPressed(KeyEvent event) {
 			char keyChar = event.getKeyChar();
@@ -147,9 +161,14 @@ public class MainGUI extends JFrame implements Runnable {
 	        int line = e.getY() / blockSize;
 	        int column = e.getX() / blockSize;
 	        
-	        if (line < GameConfiguration.LINE_COUNT && column < GameConfiguration.COLUMN_COUNT) {
+	        if (line < GameConfiguration.LINE_COUNT-3 && column < GameConfiguration.COLUMN_COUNT-15) {
 	             Block position = map.getBlock(line, column);
-	             manager.buildBuilding(position);
+	             if(typeSelection=="build") {
+	            	 manager.buildBuilding(position);
+	             }
+	             if(typeSelection=="unit") {
+	            	 manager.spawnUnit(position);
+	             }
 	        }
 		}   
 

@@ -10,7 +10,7 @@ import engine.mobile.RessourceDeposit;
  *
  */
 
-public class Worker extends MobileElement{
+public class Worker extends Unit{
 
 	private int currentRessourceLoad;
 	private String ressourceType;

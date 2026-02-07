@@ -9,7 +9,7 @@ import engine.mobile.MobileElement;
  *
  */
 
-public class Cavalry extends MobileElement{
+public class Cavalry extends Unit{
 
 	private boolean throughObstacles;
 	private int chargeBonusDamage;

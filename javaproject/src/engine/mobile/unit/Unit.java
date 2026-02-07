@@ -11,6 +11,7 @@ import engine.mobile.MobileElement;
 
 public abstract class Unit extends MobileElement{
 
+	private String unitName;
 	private String faction;
 	private int hp;
 	private int maxHp;
@@ -28,5 +29,50 @@ public abstract class Unit extends MobileElement{
 	
 	public Unit(Block position) {
 		super(position);
+	}
+	public void setTierLevel(int tier) {
+		this.tierLevel=tier;
+	}
+	public void setHp(int hp) {
+		this.hp=hp;
+	}
+	public void setMaxHp(int maxhp) {
+		this.maxHp=maxhp;
+	}
+	public void setPopCost(int pc) {
+		this.populationCost=pc;
+	}
+	public void setACost(int ac) {
+		this.ambroisieCost=ac;
+	}
+	public void setFCost(int fc) {
+		this.faithCost=fc;
+	}
+	public void setATK(int atk) {
+		this.attackDamage=atk;
+	}
+	public void setATKSpeed(float atks) {
+		this.attackSpeed=atks;
+	}
+	public void setMS(float ms) {
+		this.movementSpeed=ms;
+	}
+	public void setATKRange(int atkr) {
+		this.attackRange=atkr;
+	}
+	public void setVision(int v) {
+		this.visionRange=v;
+	}
+	public void setHpRegen(float hpRegen) {
+		this.hpRegenRate=hpRegen;
+	}
+	public void setTarget(MobileElement tg) {
+		this.target=tg;
+	}
+	public void setUnitName(String name) {
+		this.unitName=name;
+	}
+	public void setUnitFaction(String faction) {
+		this.faction=faction;
 	}
 }

@@ -6,6 +6,7 @@ import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
 import engine.mobile.building.Building;
+import engine.mobile.unit.Unit;
 import engine.process.chrono.Chronometer;
 import engine.process.chrono.CyclicCounter;
 
@@ -18,9 +19,16 @@ import engine.process.chrono.CyclicCounter;
 
 public class MobileElementManager implements MobileInterface {
 	private Map map;
+	
 	private String selectedBuilding = null;
 	
 	private List<Building> buildings = new ArrayList<Building>();
+	
+	
+	private String selectedUnit = null;
+	
+	private List<Unit> units = new ArrayList<Unit>();
+	
 	
 	private Chronometer chronometer = new Chronometer();
 	private CyclicCounter timetweaker = new CyclicCounter(0,100,0);
@@ -38,28 +46,57 @@ public class MobileElementManager implements MobileInterface {
 		}
 		
 	}
+	
+	//Build part
 	public void selectBuilding(String type) {
 		this.selectedBuilding = type;
 		System.out.println("Mode construction : " + type);
 	}
 
-		public void buildBuilding(Block position) {
-		    if (selectedBuilding == null) {
-		        return;
-		    }
+	public void buildBuilding(Block position) {
+		if (selectedBuilding == null) {
+			return;
+		}
 
-		    String faction = "Zeus"; 
-		    int tier = 1;
+		String faction = "Zeus"; 
+		int tier = 1;
 
-		    Building nouveauBatiment = BuildingFactory.createBuilding(selectedBuilding, tier, faction, position);
+		Building nouveauBatiment = BuildingFactory.createBuilding(selectedBuilding, tier, faction, position);
 
-		    if (nouveauBatiment != null) {
-		    	buildings.add(nouveauBatiment);
+		if (nouveauBatiment != null) {
+			buildings.add(nouveauBatiment);
 		        System.out.println("Bâtiment posé en : " + position.getLine() + ", " + position.getColumn());
 		    }
-		    selectedBuilding = null; 
+		selectedBuilding = null; 
 		}
 	
+	
+	//Unit part
+	public void selectUnit(String type) {
+		this.selectedUnit = type;
+		System.out.println("Mode spawn : " + type);
+	}
+	
+	public void spawnUnit(Block position) {
+		if (selectedUnit == null) {
+			return;
+		}
+
+		String faction = "Zeus"; 
+		int tier = 1;
+
+		Unit newUnit = UnitFactory.createUnit(selectedUnit, tier, faction, position);
+
+		if (newUnit != null) {
+			units.add(newUnit);
+		        System.out.println("Unité posé en : " + position.getLine() + ", " + position.getColumn());
+		    }
+		selectedUnit = null; 
+		}
+	
+	
+	
+	//Timer part
 	public CyclicCounter getHour() {
 		return chronometer.getHour();
 	}
@@ -79,4 +116,8 @@ public class MobileElementManager implements MobileInterface {
 	public List<Building> getBuildings() {
         return buildings;
     }
+	public List<Unit> getUnits() {
+        return units;
+    }
+	
 }

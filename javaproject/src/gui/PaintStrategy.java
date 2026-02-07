@@ -10,6 +10,8 @@ import engine.map.Block;
 import engine.map.Map;
 import engine.mobile.building.Building;
 import engine.mobile.building.UnitProducer;
+import engine.mobile.unit.Infantry;
+import engine.mobile.unit.Unit;
 import engine.process.chrono.CyclicCounter;
 
 /**
@@ -56,7 +58,7 @@ public class PaintStrategy {
 
 		graphics.setColor(Color.BLACK);
 		graphics.setFont(new Font("Arial", Font.BOLD, 24));
-		graphics.drawString(hour.toString()+":"+minute.toString()+":"+second.toString(), 20, 28);
+		graphics.drawString("Temps de jeu :"+hour.toString()+":"+minute.toString()+":"+second.toString(), 20, 28);
 	}
 	
 	
@@ -71,10 +73,28 @@ public class PaintStrategy {
         if (building instanceof UnitProducer) {
             graphics.setColor(Color.ORANGE); // Caserne en Orange
         }
+        
         graphics.fillRect(x * blockSize, y * blockSize, blockSize, blockSize);
         
         graphics.setColor(Color.BLACK);
         graphics.drawRect(x * blockSize, y * blockSize, blockSize, blockSize);
     }
 
+	public void paint(Unit unit, Graphics graphics) {
+        Block position = unit.getPosition();
+        int blockSize = GameConfiguration.BLOCK_SIZE;
+
+        int y = position.getLine();
+        int x = position.getColumn();
+
+     
+        if (unit instanceof Infantry) {
+            graphics.setColor(Color.GREEN); // Greeeeeeeeeeen
+        }
+        
+        graphics.fillOval(x * blockSize, y * blockSize, blockSize, blockSize);
+        
+        graphics.setColor(Color.BLACK);
+        graphics.drawOval(x * blockSize, y * blockSize, blockSize, blockSize);
+    }
 }

@@ -9,7 +9,7 @@ import engine.mobile.MobileElement;
  *
  */
 
-public class Artillery extends MobileElement{
+public class Artillery extends Unit{
 
 	private float blastRadius;
 	private float attackRange;
