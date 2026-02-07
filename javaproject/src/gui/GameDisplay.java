@@ -47,6 +47,7 @@ public class GameDisplay extends JPanel {
 		CyclicCounter sinute = manager.getMinute();
 		CyclicCounter second = manager.getSecond();
 		paintStrategy.paint(hour, sinute, second, g);
+		paintStrategy.paint(manager.getSelectedArea(), g);
 		
 
 	}	

@@ -102,8 +102,10 @@ public class PaintStrategy {
 		
 		int blockSize = GameConfiguration.BLOCK_SIZE;
 			graphics.setColor(Color.YELLOW); // Selected area in yellow
-			for(Block block:selectedArea) {
-				graphics.fillRect(block.getLine() * blockSize, block.getColumn() * blockSize, blockSize, blockSize);
+			if(selectedArea!=null) {
+				for(Block block:selectedArea) {
+						graphics.fillRect(block.getLine() * blockSize, block.getColumn() * blockSize, blockSize, blockSize);
+					}
 			}
 	}
 }

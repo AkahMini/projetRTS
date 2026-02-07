@@ -108,7 +108,7 @@ public class MobileElementManager implements MobileInterface {
 		int firstColomn = Math.min(firstBlock.getColumn(),lastBlock.getColumn());
 		int lastLine = Math.max(firstBlock.getLine(), lastBlock.getLine());
 		int lastColomn = Math.max(firstBlock.getColumn(),lastBlock.getColumn());
-		//System.out.println("("+firstLine+";"+firstColomn+")\n("+lastLine+";"+lastColomn+")\n");
+		System.out.println("("+firstLine+";"+firstColomn+")\n("+lastLine+";"+lastColomn+")\n");
 		
 		
 		for(int lineIndex=firstLine;lineIndex<lastLine;lineIndex++) {
@@ -145,8 +145,8 @@ public class MobileElementManager implements MobileInterface {
 	
 	public Block getMousePosition(int x, int y) {
 		//converts (x,y) coordonates into the corresponding block
-		int line = y / GameConfiguration.BLOCK_SIZE;
-		int column = x / GameConfiguration.BLOCK_SIZE;
+		int line = x / GameConfiguration.BLOCK_SIZE;
+		int column = y / GameConfiguration.BLOCK_SIZE;
 		return map.getBlock(line, column);
 	}
 	
