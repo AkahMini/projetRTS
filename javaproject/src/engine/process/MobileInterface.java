@@ -13,7 +13,6 @@ import engine.process.chrono.CyclicCounter;
  */
 
 public interface MobileInterface {
-
 	void nextRound();
 	
 	public void selectBuilding(String type);
@@ -26,6 +25,8 @@ public interface MobileInterface {
 	
 	public void initSelectedArea(Block firstBlock);
 	public void calculateSelectedArea(Block lastBlock);
+	
+	public void unitMoveOrder(Unit displacedUnit,Block destination);
 	
 	public CyclicCounter getHour();
 	

@@ -21,12 +21,10 @@ public class MobileElementManager implements MobileInterface {
 	private Map map;
 	
 	private String selectedBuilding = null;
-	
 	private List<Building> buildings = new ArrayList<Building>();
 	
 	
 	private String selectedUnit = null;
-	
 	private List<Unit> units = new ArrayList<Unit>();
 	
 	private List<Block> selectedArea;
@@ -95,7 +93,12 @@ public class MobileElementManager implements MobileInterface {
 		selectedUnit = null; 
 		}
 	
-	
+	public void unitMoveOrder(Unit displacedUnit,Block destination) {
+		Block position = displacedUnit.getPosition();
+		int xDisplacment = 1;
+		int yDisplacment=1;
+		displacedUnit.setPosition(position);
+	}
 	
 	public void initSelectedArea(Block firstBlock) {
 		this.selectedArea = new ArrayList();
