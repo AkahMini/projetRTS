@@ -11,7 +11,7 @@ import engine.mobile.MobileElement;
  *
  */
 
-public class ResearchBuilding extends MobileElement{
+public class ResearchBuilding extends Building{
 
 	private List<String> technologiesUnlocked;
 	

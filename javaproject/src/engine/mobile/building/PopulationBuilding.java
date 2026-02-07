@@ -9,7 +9,7 @@ import engine.mobile.MobileElement;
  *
  */
 
-public class PopulationBuilding extends MobileElement{
+public class PopulationBuilding extends Building{
 
 	private int populationProvided;
 	

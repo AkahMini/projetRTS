@@ -3,6 +3,8 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -14,6 +16,7 @@ import javax.swing.JTextField;
 import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
+import engine.mobile.building.Building;
 import engine.process.GameBuilder;
 import engine.process.MobileInterface;
 
@@ -53,6 +56,20 @@ public class MainGUI extends JFrame implements Runnable {
 		textField.addKeyListener(keyControls);
 		contentPane.add(textField, BorderLayout.SOUTH);
 		*/
+		
+		javax.swing.JPanel RightPanel = new javax.swing.JPanel();
+		RightPanel.setBackground(java.awt.Color.GRAY); 
+
+		javax.swing.JButton testButton = new javax.swing.JButton("Test");
+
+		testButton.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        manager.selectBuilding("PRODUCER");
+		    }
+		});
+
+		RightPanel.add(testButton);
+		contentPane.add(RightPanel, BorderLayout.EAST);
 
 		map = GameBuilder.buildMap();
 		manager = GameBuilder.buildInitMobile(map);
@@ -80,7 +97,7 @@ public class MainGUI extends JFrame implements Runnable {
 				System.out.println(e.getMessage());
 			}
 
-			manager.nextRound();
+			//manager.nextRound(); mis en commentaire car tick constant=chiant
 			dashboard.repaint();
 		}
 	}
@@ -112,12 +129,15 @@ public class MainGUI extends JFrame implements Runnable {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			int x = e.getX();
-			int y = e.getY();
-
-
-			System.out.println(x + " " + y);
-		}
+			int blockSize = GameConfiguration.BLOCK_SIZE;
+	        int line = e.getY() / blockSize;
+	        int column = e.getX() / blockSize;
+	        
+	        if (line < GameConfiguration.LINE_COUNT && column < GameConfiguration.COLUMN_COUNT) {
+	             Block position = map.getBlock(line, column);
+	             manager.buildBuilding(position);
+	        }
+		}   
 
 		@Override
 		public void mousePressed(MouseEvent e) {

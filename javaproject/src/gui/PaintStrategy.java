@@ -7,6 +7,8 @@ import java.util.List;
 import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
+import engine.mobile.building.Building;
+import engine.mobile.building.UnitProducer;
 
 /**
  * 
@@ -45,5 +47,21 @@ public class PaintStrategy {
 			}
 		}
 	}
+	public void paint(Building building, Graphics graphics) {
+        Block position = building.getPosition();
+        int blockSize = GameConfiguration.BLOCK_SIZE;
+
+        int y = position.getLine();
+        int x = position.getColumn();
+
+     
+        if (building instanceof UnitProducer) {
+            graphics.setColor(Color.ORANGE); // Caserne en Orange
+        }
+        graphics.fillRect(x * blockSize, y * blockSize, blockSize, blockSize);
+        
+        graphics.setColor(Color.BLACK);
+        graphics.drawRect(x * blockSize, y * blockSize, blockSize, blockSize);
+    }
 
 }

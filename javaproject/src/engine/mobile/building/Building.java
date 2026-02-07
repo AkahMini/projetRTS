@@ -19,5 +19,20 @@ public class Building extends MobileElement{
 	
 	public Building(Block position) {
 		super(position);
+		}
+	public void setBuildingName(String name) {
+		this.BuildingName=name;
+	}
+	public void setHp(int hp) {
+		this.hp=hp;
+	}
+	public void setConstructionTime(int time) {
+		this.constructionTime=time;
+	}
+	public void setUnderConstruction(boolean underConstruction) {
+		this.isUnderContruction=true;
+	}
+	public void setTierLevel(int tier) {
+		this.tierLevel=tier;
 	}
 }

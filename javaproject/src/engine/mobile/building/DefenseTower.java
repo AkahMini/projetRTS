@@ -9,7 +9,7 @@ import engine.mobile.MobileElement;
  *
  */
 
-public class DefenseTower extends MobileElement{
+public class DefenseTower extends Building{
 
 	private int towerDamage;
 	private int towerRange;

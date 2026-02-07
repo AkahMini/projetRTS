@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
+import engine.mobile.building.Building;
 import engine.process.MobileInterface;
 
 /**
@@ -33,6 +34,9 @@ public class GameDisplay extends JPanel {
 		super.paintComponent(g);
 
 		paintStrategy.paint(map, g);
+		for (Building building : manager.getBuildings()) {
+            paintStrategy.paint(building, g);
+        }
 
 	}	
 }

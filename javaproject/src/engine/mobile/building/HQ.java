@@ -11,7 +11,7 @@ import engine.mobile.MobileElement;
  *
  */
 
-public class HQ extends MobileElement{
+public class HQ extends Building{
 
 	private ArrayList<String> productionQueue;
 	private int defenseDamage;

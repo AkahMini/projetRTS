@@ -11,12 +11,15 @@ import engine.mobile.MobileElement;
  *
  */
 
-public class UnitProducer extends MobileElement{
+public class UnitProducer extends Building{
 
 	private ArrayList<String> productionQueue;
 	private float productionSpeed;
 	
 	public UnitProducer(Block position) {
 		super(position);
+	}
+	public void setProductionQueue(ArrayList<String> queue) {
+		this.productionQueue=queue;
 	}
 }
