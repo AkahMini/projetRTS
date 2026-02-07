@@ -14,6 +14,7 @@ import engine.map.Map;
  *
  */
 public class PaintStrategy {
+	
 	public void paint(Map map, Graphics graphics) {
 		int blockSize = GameConfiguration.BLOCK_SIZE;
 		Block[][] blocks = map.getBlocks();
@@ -44,6 +45,8 @@ public class PaintStrategy {
 				}
 			}
 		}
+		
+		
 	}
 
 }
