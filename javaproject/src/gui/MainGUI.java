@@ -5,12 +5,14 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import config.GameConfiguration;
@@ -19,6 +21,7 @@ import engine.map.Map;
 import engine.mobile.building.Building;
 import engine.process.GameBuilder;
 import engine.process.MobileInterface;
+import engine.process.chrono.*;
 
 /**
  * 
@@ -32,7 +35,7 @@ public class MainGUI extends JFrame implements Runnable {
 	private Map map;
 
 	private final static Dimension preferredSize = new Dimension(GameConfiguration.WINDOW_WIDTH, GameConfiguration.WINDOW_HEIGHT);
-
+	
 	private MobileInterface manager;
 
 	private GameDisplay dashboard;
@@ -43,7 +46,8 @@ public class MainGUI extends JFrame implements Runnable {
 	}
 
 	private void init() {
-
+		
+		
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new BorderLayout());
 
@@ -74,6 +78,7 @@ public class MainGUI extends JFrame implements Runnable {
 		map = GameBuilder.buildMap();
 		manager = GameBuilder.buildInitMobile(map);
 		dashboard = new GameDisplay(map, manager);
+		
 
 		MouseControls mouseControls = new MouseControls();
 		dashboard.addMouseListener(mouseControls);
@@ -87,7 +92,8 @@ public class MainGUI extends JFrame implements Runnable {
 		setPreferredSize(preferredSize);
 		setResizable(false);
 	}
-
+	
+	
 	@Override
 	public void run() {
 		while (true) {

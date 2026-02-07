@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import engine.map.Block;
 import engine.map.Map;
 import engine.mobile.building.Building;
 import engine.mobile.building.UnitProducer;
+import engine.process.chrono.CyclicCounter;
 
 /**
  * 
@@ -16,6 +18,7 @@ import engine.mobile.building.UnitProducer;
  *
  */
 public class PaintStrategy {
+	
 	public void paint(Map map, Graphics graphics) {
 		int blockSize = GameConfiguration.BLOCK_SIZE;
 		Block[][] blocks = map.getBlocks();
@@ -46,6 +49,15 @@ public class PaintStrategy {
 				}
 			}
 		}
+
+	}
+	
+	public void paint(CyclicCounter hour, CyclicCounter minute, CyclicCounter second, Graphics graphics) {
+
+		
+		graphics.setColor(Color.BLACK);
+		graphics.setFont(new Font("Arial", Font.BOLD, 24));
+		graphics.drawString(hour.toString()+":"+minute.toString()+":"+second.toString(), 20, 28);
 	}
 	public void paint(Building building, Graphics graphics) {
         Block position = building.getPosition();

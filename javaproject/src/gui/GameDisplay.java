@@ -10,6 +10,7 @@ import engine.map.Block;
 import engine.map.Map;
 import engine.mobile.building.Building;
 import engine.process.MobileInterface;
+import engine.process.chrono.CyclicCounter;
 
 /**
  * 
@@ -37,6 +38,12 @@ public class GameDisplay extends JPanel {
 		for (Building building : manager.getBuildings()) {
             paintStrategy.paint(building, g);
         }
+		
+		CyclicCounter hour = manager.getHour();
+		CyclicCounter sinute = manager.getMinute();
+		CyclicCounter second = manager.getSecond();
+		paintStrategy.paint(hour, sinute, second, g);
+		
 
 	}	
 }
