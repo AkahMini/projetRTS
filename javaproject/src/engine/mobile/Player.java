@@ -10,6 +10,7 @@ public class Player {
 
 	private String pseudo;
 	private String factionName;
+	private int currentTier;
 	private int faithStock;
 	private int ambroisieStock;
 	private int currentPopulation;

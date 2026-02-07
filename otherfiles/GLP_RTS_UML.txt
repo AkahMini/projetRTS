@@ -54,7 +54,8 @@ abstract class MobileElement {
 package unit {
 
 abstract class Unit {
-    - faction : string
+    - unitName : String
+    - faction : String
     - hp : int
     - maxHp : int
     - populationCost : int
@@ -100,6 +101,7 @@ class Artillery {
 package building {
 
 abstract class Building {
+    - buildingName : String
     - hp : int
     - constructionTime : int
     - isUnderConstruction : boolean
@@ -151,6 +153,7 @@ class ResourceDeposit {
 class Player {
     - pseudo : String
     - factionName : String
+    - currentTier : int
     - faithStock : int
     - ambroisieStock : int
     - currentPopulation : int

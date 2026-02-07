@@ -11,6 +11,7 @@ import engine.mobile.MobileElement;
 
 public class Building extends MobileElement{
 
+	private String BuildingName;
 	private int hp;
 	private int constructionTime;
 	private boolean isUnderContruction;
