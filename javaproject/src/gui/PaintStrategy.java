@@ -54,11 +54,12 @@ public class PaintStrategy {
 	
 	public void paint(CyclicCounter hour, CyclicCounter minute, CyclicCounter second, Graphics graphics) {
 
-		
 		graphics.setColor(Color.BLACK);
 		graphics.setFont(new Font("Arial", Font.BOLD, 24));
 		graphics.drawString(hour.toString()+":"+minute.toString()+":"+second.toString(), 20, 28);
 	}
+	
+	
 	public void paint(Building building, Graphics graphics) {
         Block position = building.getPosition();
         int blockSize = GameConfiguration.BLOCK_SIZE;

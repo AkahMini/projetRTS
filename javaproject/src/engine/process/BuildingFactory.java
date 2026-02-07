@@ -5,10 +5,10 @@ import engine.mobile.building.Building;
 import engine.mobile.building.UnitProducer;
 
 public class BuildingFactory {
-	// Constantes pour éviter les fautes de frappe
+	// Const
     public static final String PRODUCER_BUILDING = "PRODUCER";
     
-    // Noms des factions (pour éviter d'écrire "Zeus" partout en dur)
+    // Name of the faction
     private static final String ZEUS = "Zeus";
     private static final String HADES = "Hades";
     private static final String POSEIDON = "Poseidon";
@@ -17,15 +17,15 @@ public class BuildingFactory {
         
         switch (type) {
             
-            //Production d'unités
+            //Unit prod
             case PRODUCER_BUILDING:
                 UnitProducer producer = new UnitProducer(position);
                 
-                // Valeurs commune
+                // common value
                 producer.setTierLevel(tier);
-                producer.setUnderConstruction(true); // Le bâtiment commence en construction
+                producer.setUnderConstruction(true); // The building is under construction
                 
-                //TIER 1 (Infanterie de base)
+                //TIER 
                 if (tier == 1) {
                     producer.setHp(1000);
                     producer.setConstructionTime(100);
@@ -39,8 +39,8 @@ public class BuildingFactory {
                     }
                 }
                 else if (tier == 2) {
-                    producer.setHp(1500); // Plus résistant
-                    producer.setConstructionTime(200); // Plus long à construire
+                    producer.setHp(1500); // More resistant
+                    producer.setConstructionTime(200); // Much more construction time
 
                     if (faction.equals(ZEUS)) {
                         producer.setBuildingName("Prytanée");

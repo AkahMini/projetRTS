@@ -23,6 +23,7 @@ public class MobileElementManager implements MobileInterface {
 	private List<Building> buildings = new ArrayList<Building>();
 	
 	private Chronometer chronometer = new Chronometer();
+	private CyclicCounter timetweaker = new CyclicCounter(0,100,0);
 
 	public MobileElementManager(Map map) {
 		this.map = map;
@@ -30,7 +31,12 @@ public class MobileElementManager implements MobileInterface {
 	}
 
 	public void nextRound() {
-		chronometer.increment();
+		timetweaker.increment();
+		if(timetweaker.getValue()==100) {
+			chronometer.increment();
+			timetweaker.increment();
+		}
+		
 	}
 	public void selectBuilding(String type) {
 		this.selectedBuilding = type;

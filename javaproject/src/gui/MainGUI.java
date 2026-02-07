@@ -61,6 +61,9 @@ public class MainGUI extends JFrame implements Runnable {
 		contentPane.add(textField, BorderLayout.SOUTH);
 		*/
 		
+		
+		
+		//THIS PART IS FOR TEST ONLY WILL BE REMOVED
 		javax.swing.JPanel RightPanel = new javax.swing.JPanel();
 		RightPanel.setBackground(java.awt.Color.GRAY); 
 
@@ -75,6 +78,11 @@ public class MainGUI extends JFrame implements Runnable {
 		RightPanel.add(testButton);
 		contentPane.add(RightPanel, BorderLayout.EAST);
 
+		
+		
+		
+		
+		
 		map = GameBuilder.buildMap();
 		manager = GameBuilder.buildInitMobile(map);
 		dashboard = new GameDisplay(map, manager);
@@ -103,7 +111,7 @@ public class MainGUI extends JFrame implements Runnable {
 				System.out.println(e.getMessage());
 			}
 
-			//manager.nextRound(); mis en commentaire car tick constant=chiant
+			manager.nextRound();
 			dashboard.repaint();
 		}
 	}
