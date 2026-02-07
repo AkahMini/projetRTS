@@ -161,9 +161,9 @@ public class MainGUI extends JFrame implements Runnable {
 			int blockSize = GameConfiguration.BLOCK_SIZE;
 	        int line = e.getY() / blockSize;
 	        int column = e.getX() / blockSize;
-	        
+	        Block position = map.getBlock(line, column);
 	        if (line < GameConfiguration.LINE_COUNT-3 && column < GameConfiguration.COLUMN_COUNT-15) {
-	             Block position = map.getBlock(line, column);
+	             
 	             if(typeSelection=="build") {
 	            	 manager.buildBuilding(position);
 	             }
@@ -183,6 +183,8 @@ public class MainGUI extends JFrame implements Runnable {
 		public void mouseReleased(MouseEvent e) {
 			Block lastBlock=manager.getMousePosition(e.getX(), e.getY());
 			manager.calculateSelectedArea(lastBlock);
+			manager.unitsInSelectedArea();
+	        manager.unitMoveOrder(lastBlock);
 		}
 
 		@Override

@@ -94,7 +94,7 @@ public class MobileElementManager implements MobileInterface {
 		selectedUnit = null; 
 		}
 	
-	public void unitMoveOrder(Unit displacedUnit,Block destination) {
+	public void unitMovement(Unit displacedUnit,Block destination) {
 		Block position = displacedUnit.getPosition();
 		int xDisplacement = 1; //can change later to displacedUnit.speed???
 		int yDisplacement=1; //same
@@ -166,6 +166,7 @@ public class MobileElementManager implements MobileInterface {
 		this.unitsInSelectedArea = new ArrayList<Unit>(); //we reinitialize all selected units
 		
 		if(this.selectedArea!=null){
+			System.out.println("Selected area reconnue");
 			int nbOfBlocksInSelectedArea=this.selectedArea.size();
 			int nbOfUnits= this.units.size();
 			for(int unitIndex=0;unitIndex<nbOfUnits;unitIndex++){ //For each units, we check if it in the selected area
@@ -176,6 +177,15 @@ public class MobileElementManager implements MobileInterface {
 					}
 				}
 			}
+		}
+		System.out.println("Number of units in selected Area:"+this.unitsInSelectedArea.size());
+	}
+	
+	public void unitMoveOrder(Block destination){
+		//gives the order to move to each unit in the selected area
+		int nbUnits = this.unitsInSelectedArea.size();
+		for(int unitIndex=0;unitIndex<nbUnits;unitIndex++) {
+			unitMovement(this.unitsInSelectedArea.get(unitIndex),destination);
 		}
 	}
 	
