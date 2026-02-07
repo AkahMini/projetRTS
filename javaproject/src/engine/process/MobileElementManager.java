@@ -29,6 +29,7 @@ public class MobileElementManager implements MobileInterface {
 	
 	private List<Unit> units = new ArrayList<Unit>();
 	
+	private List<Block> selectedArea;
 	
 	private Chronometer chronometer = new Chronometer();
 	private CyclicCounter timetweaker = new CyclicCounter(0,100,0);
@@ -96,6 +97,28 @@ public class MobileElementManager implements MobileInterface {
 	
 	
 	
+	public void initSelectedArea(Block firstBlock) {
+		this.selectedArea = new ArrayList();
+		this.selectedArea.add(firstBlock);
+	}
+	
+	public void calculateSelectedArea(Block lastBlock) {
+		Block firstBlock = this.selectedArea.get(0);
+		int firstLine = Math.min(firstBlock.getLine(), lastBlock.getLine());
+		int firstColomn = Math.min(firstBlock.getColumn(),lastBlock.getColumn());
+		int lastLine = Math.max(firstBlock.getLine(), lastBlock.getLine());
+		int lastColomn = Math.max(firstBlock.getColumn(),lastBlock.getColumn());
+		//System.out.println("("+firstLine+";"+firstColomn+")\n("+lastLine+";"+lastColomn+")\n");
+		
+		
+		for(int lineIndex=firstLine;lineIndex<lastLine;lineIndex++) {
+			for(int colomnIndex=firstColomn;colomnIndex<lastColomn;colomnIndex++) {
+				this.selectedArea.add(map.getBlock(lineIndex, colomnIndex));
+			}
+		}
+	}
+	
+	
 	//Timer part
 	public CyclicCounter getHour() {
 		return chronometer.getHour();
@@ -119,5 +142,18 @@ public class MobileElementManager implements MobileInterface {
 	public List<Unit> getUnits() {
         return units;
     }
+	
+	public Block getMousePosition(int x, int y) {
+		//converts (x,y) coordonates into the corresponding block
+		int line = y / GameConfiguration.BLOCK_SIZE;
+		int column = x / GameConfiguration.BLOCK_SIZE;
+		return map.getBlock(line, column);
+	}
+	
+	public List<Block> getSelectedArea() {
+		return selectedArea;
+	}
+	
+	
 	
 }

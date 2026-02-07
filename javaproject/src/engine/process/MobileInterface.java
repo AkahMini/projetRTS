@@ -24,9 +24,17 @@ public interface MobileInterface {
 	public void spawnUnit(Block position);
 	public List<Unit> getUnits();
 	
+	public void initSelectedArea(Block firstBlock);
+	public void calculateSelectedArea(Block lastBlock);
+	
 	public CyclicCounter getHour();
 	
 	public CyclicCounter getMinute();
 	
 	public CyclicCounter getSecond();
+	
+	public Block getMousePosition(int x, int y);
+	
+	public List<Block>getSelectedArea();
+	
 }

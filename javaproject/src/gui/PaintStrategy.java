@@ -97,4 +97,13 @@ public class PaintStrategy {
         graphics.setColor(Color.BLACK);
         graphics.drawOval(x * blockSize, y * blockSize, blockSize, blockSize);
     }
+	
+	public void paint(List<Block> selectedArea, Graphics graphics) {
+		
+		int blockSize = GameConfiguration.BLOCK_SIZE;
+			graphics.setColor(Color.YELLOW); // Selected area in yellow
+			for(Block block:selectedArea) {
+				graphics.fillRect(block.getLine() * blockSize, block.getColumn() * blockSize, blockSize, blockSize);
+			}
+	}
 }

@@ -29,7 +29,8 @@ import engine.process.chrono.*;
  *
  */
 public class MainGUI extends JFrame implements Runnable {
-
+	
+	
 	private static final long serialVersionUID = 1L;
 
 	private Map map;
@@ -174,12 +175,14 @@ public class MainGUI extends JFrame implements Runnable {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-
+			Block firstBlock=manager.getMousePosition(e.getX(), e.getY());
+			manager.initSelectedArea(firstBlock);
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-
+			Block lastBlock=manager.getMousePosition(e.getX(), e.getY());
+			manager.calculateSelectedArea(lastBlock);
 		}
 
 		@Override
@@ -192,5 +195,8 @@ public class MainGUI extends JFrame implements Runnable {
 
 		}
 	}
+	
+	
+	
 
 }
