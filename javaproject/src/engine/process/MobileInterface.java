@@ -28,6 +28,7 @@ public interface MobileInterface {
 	
 	public void unitsInSelectedArea();
 	public void unitMoveOrder(Block destination);
+	public void moveAllUnits();
 	
 	public CyclicCounter getHour();
 	

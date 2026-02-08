@@ -173,7 +173,9 @@ public class MainGUI extends JFrame implements Runnable {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
+			
 			Block firstBlock=manager.getMousePosition(e.getY(), e.getX());
+			manager.unitMoveOrder(firstBlock);
 			manager.initSelectedArea(firstBlock);
 		}
 
@@ -182,7 +184,8 @@ public class MainGUI extends JFrame implements Runnable {
 			Block lastBlock=manager.getMousePosition(e.getY(), e.getX());
 			manager.calculateSelectedArea(lastBlock);
 			manager.unitsInSelectedArea();
-	        manager.unitMoveOrder(lastBlock);
+			
+	        
 		}
 
 		@Override

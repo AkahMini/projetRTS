@@ -39,12 +39,13 @@ public class MobileElementManager implements MobileInterface {
 	}
 
 	public void nextRound() {
+		
 		timetweaker.increment();
 		if(timetweaker.getValue()==100) {
 			chronometer.increment();
 			timetweaker.increment();
 		}
-		
+		moveAllUnits();
 	}
 	
 	//Build part
@@ -98,50 +99,53 @@ public class MobileElementManager implements MobileInterface {
 	}
 	
 	public void unitMovement(Unit displacedUnit) {
-		Block position = displacedUnit.getPosition();
-		Block destination = displacedUnit.getDestination();
-		int xDisplacement = 1; //can change later to displacedUnit.speed???
-		int yDisplacement=1; //same
-		
-		int x1=position.getColumn();
-		int x2=destination.getColumn();
-		int y1=position.getLine();
-		int y2=position.getLine();
-		
-		
-		if(x1==x2&&y1==y2) {
-			//if we already arrived, nothing
-		}
-		else {
-			int newLine=y1; int newColomn=x1;
-			if(x1<x2&&y1<y2){//SE
-				newLine+=yDisplacement;newColomn+=xDisplacement;
-			}
-			if(x1==x2&&y1<y2){//E
-				newColomn+=xDisplacement;
-			}
-			if(x1>x2&&y1<y2){//NE
-				newLine-=yDisplacement;newColomn-=xDisplacement;
-			}
-			if(x1<x2&&y1==y2){//S
-				newLine+=yDisplacement;
-			}
-			if(x1>x2&&y1==y2){//N
-				newLine-=yDisplacement;
-			}
-			if(x1<x2&&y1>y2){//SW
-				newLine+=yDisplacement;newColomn-=xDisplacement;
-			}
-			if(x1==x2&&y1>y2){//W
-				newColomn-=xDisplacement;
-			}
-			if(x1<x2&&y1>y2){//NW
-				newLine-=yDisplacement;newColomn-=xDisplacement;
-			}
+		if(displacedUnit.getDestination()!=null) {
+			Block position = displacedUnit.getPosition();
+			Block destination = displacedUnit.getDestination();
+			int xDisplacement = 1; //can change later to displacedUnit.speed???
+			int yDisplacement=1; //same
 			
-			Block newPosition = map.getBlock(newLine, newColomn);
-			displacedUnit.setPosition(newPosition);
+			int x1=position.getColumn();
+			int x2=destination.getColumn();
+			int y1=position.getLine();
+			int y2=destination.getLine();
 			
+			
+			if(x1==x2&&y1==y2) {
+				//if we already arrived, nothing
+			}
+			else {
+				int newLine=y1; int newColomn=x1;
+				if(x1<x2&&y1<y2){//SE
+					newLine+=yDisplacement;newColomn+=xDisplacement;
+				}
+				if(x1==x2&&y1<y2){//E
+					newColomn+=xDisplacement;
+				}
+				if(x1>x2&&y1<y2){//NE
+					newLine-=yDisplacement;newColomn-=xDisplacement;
+				}
+				if(x1<x2&&y1==y2){//S
+					newLine+=yDisplacement;
+				}
+				if(x1>x2&&y1==y2){//N
+					newLine-=yDisplacement;
+				}
+				if(x1<x2&&y1>y2){//SW
+					newLine+=yDisplacement;newColomn-=xDisplacement;
+				}
+				if(x1==x2&&y1>y2){//W
+					newColomn-=xDisplacement;
+				}
+				if(x1<x2&&y1>y2){//NW
+					newLine-=yDisplacement;newColomn-=xDisplacement;
+				}
+				if(newLine>3&&newLine<map.getLineCount()-20&&newColomn>0&&newColomn<map.getColumnCount()) {
+					//if the unit is still in bounds
+					Block newPosition = map.getBlock(newLine, newColomn);
+					displacedUnit.setPosition(newPosition);
+				}
+			}
 		}
 	}
 	
@@ -199,9 +203,18 @@ public class MobileElementManager implements MobileInterface {
 		int nbUnits = this.unitsInSelectedArea.size();
 		
 		for(int unitIndex=0;unitIndex<nbUnits;unitIndex++) {
-			unitMovement(this.unitsInSelectedArea.get(unitIndex));
+			Unit unit = this.unitsInSelectedArea.get(unitIndex);
+			unit.setDestination(destination);
 		}
 	}
+	public void moveAllUnits() {
+		int size = this.units.size();
+		for(int i=0; i<size;i++) {
+			unitMovement(this.units.get(i));
+		}
+	}
+		
+	
 	
 	//Timer part
 	public CyclicCounter getHour() {
