@@ -122,7 +122,7 @@ public abstract class Unit extends MobileElement{
 	public void setUnitFaction(String faction) {
 		this.faction=faction;
 	}
-	public Block destination() {
+	public Block getDestination() {
 		return this.destination;
 	}
 	public void setDestination(Block destination) {
