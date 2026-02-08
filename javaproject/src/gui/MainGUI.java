@@ -162,15 +162,12 @@ public class MainGUI extends JFrame implements Runnable {
 	        int line = e.getY() / blockSize;
 	        int column = e.getX() / blockSize;
 	        System.out.println("x :"+e.getX()+" y :"+e.getY()+" - Block line : "+line+" Block column : "+column);
-	        Block position = map.getBlock(line, column);
-	        if (line < GameConfiguration.LINE_COUNT-3 && column < GameConfiguration.COLUMN_COUNT-15) {
-	             
-	             if(typeSelection=="build") {
-	            	 manager.buildBuilding(position);
-	             }
-	             if(typeSelection=="unit") {
-	            	 manager.spawnUnit(position);
-	             }
+	        Block position = map.getBlock(line, column);	             
+	         if(typeSelection=="build") {
+	            manager.buildBuilding(position);
+	         }
+	         if(typeSelection=="unit") {
+	        	 manager.spawnUnit(position);
 	        }
 		}   
 
