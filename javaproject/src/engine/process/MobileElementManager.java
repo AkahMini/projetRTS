@@ -43,6 +43,9 @@ public class MobileElementManager implements MobileInterface {
 		if(timetweaker.getValue()==100) {
 			chronometer.increment();
 			timetweaker.increment();
+			for(Building building : buildings) {
+				reduceConstructionTime(building);
+			}
 		}
 		
 	}
@@ -69,6 +72,17 @@ public class MobileElementManager implements MobileInterface {
 			    }
 			selectedBuilding = null; 
 			}
+	}
+	
+	public void reduceConstructionTime(Building building) {
+	    if (building.getIsUnderConstruction()) {
+	        // reduce remaining building time
+	        building.setConstructionTime(building.getConstructionTime() - 1);
+	        if (building.getConstructionTime()==0) {
+	        	building.setUnderConstruction(false);
+	        	System.out.println(building.getConstructionTime());
+	        }
+	    }
 	}
 	
 	
