@@ -94,8 +94,9 @@ public class MobileElementManager implements MobileInterface {
 		selectedUnit = null; 
 		}
 	
-	public void unitMovement(Unit displacedUnit,Block destination) {
+	public void unitMovement(Unit displacedUnit) {
 		Block position = displacedUnit.getPosition();
+		Block destination = displacedUnit.getDestination();
 		int xDisplacement = 1; //can change later to displacedUnit.speed???
 		int yDisplacement=1; //same
 		
@@ -195,7 +196,7 @@ public class MobileElementManager implements MobileInterface {
 		int nbUnits = this.unitsInSelectedArea.size();
 		
 		for(int unitIndex=0;unitIndex<nbUnits;unitIndex++) {
-			unitMovement(this.unitsInSelectedArea.get(unitIndex),destination);
+			unitMovement(this.unitsInSelectedArea.get(unitIndex));
 		}
 	}
 	
