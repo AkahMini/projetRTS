@@ -165,7 +165,7 @@ public class MobileElementManager implements MobileInterface {
 				else if(x1>x2&&y1>y2){//NW
 					newLine-=yDisplacement;newColomn-=xDisplacement;
 				}
-				if(newLine>3&&newLine<map.getLineCount()-20&&newColomn>0&&newColomn<map.getColumnCount()) {
+				if(newLine>3&&newLine<map.getLineCount()&&newColomn>0&&newColomn<map.getColumnCount()) {
 					//if the unit is still in bounds
 					Block newPosition = map.getBlock(newLine, newColomn);
 					if(isBlockCollider(newPosition)==0) {
