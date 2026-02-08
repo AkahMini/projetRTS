@@ -50,8 +50,6 @@ public class MobileElementManager implements MobileInterface {
 				if(building instanceof UnitProducer) {
 					UnitProducer producer= (UnitProducer) building;
 					removeQueue(producer);
-					System.out.println(producer.getProductionQueue().size());
-					System.out.println(producer.getCurrentProduction());
 
 				}
 			}
@@ -110,17 +108,21 @@ public class MobileElementManager implements MobileInterface {
 	        building.setCurrentProduction(building.getCurrentProduction() - 1);
 	        if (building.getCurrentProduction()==0) {
 	        	queue.removeFirst();
-	        	int line=building.getPosition().getLine();
-	        	int column=building.getPosition().getColumn();
-	        	Block position= new Block(line+1,column+1);
+	        	int line = building.getPosition().getLine();
+                int column = building.getPosition().getColumn() + 1;
+                
+                if(column < map.getColumnCount()) {
+                    Block spawnBlock = map.getBlock(line, column);
 	        	selectedUnit="INFANTRY";
-	        	spawnUnit(position);
+	        	spawnUnit(spawnBlock);
 	        	if(!queue.isEmpty()){
 	        		building.setCurrentProduction(building.getProductionSpeed());
 	        	}
-	        }
+                }
+	         }
 	    }
 	}
+	        
 	
 	
 	//Unit part
