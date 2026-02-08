@@ -69,17 +69,20 @@ public class PaintStrategy {
 
         int y = position.getLine();
         int x = position.getColumn();
-
-     
-        if (building instanceof UnitProducer) {
-            graphics.setColor(Color.ORANGE); // Caserne en Orange
+        if(building.getIsUnderConstruction()) {
+        	graphics.setColor(Color.ORANGE); // Orange for building under Construction
+        }
+        else if (building instanceof UnitProducer) {
+            graphics.setColor(Color.BLUE); // blue for unitProdcing Building
         }
         
         graphics.fillRect(x * blockSize, y * blockSize, blockSize, blockSize);
         
         graphics.setColor(Color.BLACK);
         graphics.drawRect(x * blockSize, y * blockSize, blockSize, blockSize);
-    }
+        
+	}
+            
 
 	public void paint(Unit unit, Graphics graphics) {
         Block position = unit.getPosition();

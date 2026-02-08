@@ -28,7 +28,7 @@ public class BuildingFactory {
                 //TIER 
                 if (tier == 1) {
                     producer.setHp(1000);
-                    producer.setConstructionTime(100);
+                    producer.setConstructionTime(5);
 
                     if (faction.equals(ZEUS)) {
                         producer.setBuildingName("Camp Olympique");

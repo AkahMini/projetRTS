@@ -14,7 +14,7 @@ public class Building extends MobileElement{
 	private String BuildingName;
 	private int hp;
 	private int constructionTime;
-	private boolean isUnderContruction;
+	private boolean isUnderConstruction;
 	private int tierLevel;
 	
 	public Building(Block position) {
@@ -30,9 +30,24 @@ public class Building extends MobileElement{
 		this.constructionTime=time;
 	}
 	public void setUnderConstruction(boolean underConstruction) {
-		this.isUnderContruction=true;
+		this.isUnderConstruction=underConstruction;
 	}
 	public void setTierLevel(int tier) {
 		this.tierLevel=tier;
+	}
+	public String getBuildingName() {
+		return this.BuildingName;
+	}
+	public int getHp() {
+		return this.hp;
+	}
+	public int getConstructionTime() {
+		return this.constructionTime;
+	}
+	public boolean getIsUnderConstruction() {
+		return this.isUnderConstruction;
+	}
+	public int getTierLevel() {
+		return this.tierLevel;
 	}
 }
