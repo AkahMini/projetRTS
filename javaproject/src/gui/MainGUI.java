@@ -161,6 +161,7 @@ public class MainGUI extends JFrame implements Runnable {
 			int blockSize = GameConfiguration.BLOCK_SIZE;
 	        int line = e.getY() / blockSize;
 	        int column = e.getX() / blockSize;
+	        System.out.println("x :"+e.getX()+" y :"+e.getY()+" - Block line : "+line+" Block column : "+column);
 	        Block position = map.getBlock(line, column);
 	        if (line < GameConfiguration.LINE_COUNT-3 && column < GameConfiguration.COLUMN_COUNT-15) {
 	             
@@ -175,13 +176,13 @@ public class MainGUI extends JFrame implements Runnable {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			Block firstBlock=manager.getMousePosition(e.getX(), e.getY());
+			Block firstBlock=manager.getMousePosition(e.getY(), e.getX());
 			manager.initSelectedArea(firstBlock);
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			Block lastBlock=manager.getMousePosition(e.getX(), e.getY());
+			Block lastBlock=manager.getMousePosition(e.getY(), e.getX());
 			manager.calculateSelectedArea(lastBlock);
 			manager.unitsInSelectedArea();
 	        manager.unitMoveOrder(lastBlock);

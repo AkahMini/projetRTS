@@ -148,18 +148,26 @@ public class MobileElementManager implements MobileInterface {
 	
 	public void calculateSelectedArea(Block lastBlock) {
 		Block firstBlock = this.selectedArea.get(0);
-		int firstLine = Math.min(firstBlock.getLine(), lastBlock.getLine());
-		int firstColomn = Math.min(firstBlock.getColumn(),lastBlock.getColumn());
-		int lastLine = Math.max(firstBlock.getLine(), lastBlock.getLine());
-		int lastColomn = Math.max(firstBlock.getColumn(),lastBlock.getColumn());
-		System.out.println("("+firstLine+";"+firstColomn+")\n("+lastLine+";"+lastColomn+")\n");
 		
+		//this is an more clean an efficient version than the previous one but work as same
+		int x1 = firstBlock.getLine();
+		int y1 = firstBlock.getColumn();
+		int x2 = lastBlock.getLine();
+		int y2 = lastBlock.getColumn();
 		
-		for(int lineIndex=firstLine;lineIndex<lastLine;lineIndex++) {
-			for(int colomnIndex=firstColomn;colomnIndex<lastColomn;colomnIndex++) {
-				this.selectedArea.add(map.getBlock(lineIndex, colomnIndex));
+		//swap values if they are not in order (for grid position)
+		if (x1 > x2) { int tmp = x1; x1 = x2; x2 = tmp; }
+		if (y1 > y2) { int tmp = y1; y1 = y2; y2 = tmp; }
+
+		//all the block in the selection will be in this list, the order depends on the block chosen...
+		//refere at the code used in PaintStrategy to find the top-left most and bottom-right most block
+		for (int x = x1; x <= x2; x++) {
+			for (int y = y1; y <= y2; y++) {
+				this.selectedArea.add(map.getBlock(x, y));
 			}
 		}
+		
+		
 	}
 	
 	public void unitsInSelectedArea() {
@@ -169,6 +177,7 @@ public class MobileElementManager implements MobileInterface {
 			System.out.println("Selected area reconnue");
 			int nbOfBlocksInSelectedArea=this.selectedArea.size();
 			int nbOfUnits= this.units.size();
+			
 			for(int unitIndex=0;unitIndex<nbOfUnits;unitIndex++){ //For each units, we check if it in the selected area
 				Block unitPosition = units.get(unitIndex).getPosition();
 				for(int blockIndex=0; blockIndex<nbOfBlocksInSelectedArea;blockIndex++) { 
@@ -184,6 +193,7 @@ public class MobileElementManager implements MobileInterface {
 	public void unitMoveOrder(Block destination){
 		//gives the order to move to each unit in the selected area
 		int nbUnits = this.unitsInSelectedArea.size();
+		
 		for(int unitIndex=0;unitIndex<nbUnits;unitIndex++) {
 			unitMovement(this.unitsInSelectedArea.get(unitIndex),destination);
 		}

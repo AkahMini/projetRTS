@@ -37,6 +37,6 @@ public interface MobileInterface {
 	
 	public Block getMousePosition(int x, int y);
 	
-	public List<Block>getSelectedArea();
+	public List<Block> getSelectedArea();
 	
 }

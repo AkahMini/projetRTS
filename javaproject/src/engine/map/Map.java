@@ -29,7 +29,8 @@ public class Map {
 		this.lineCount = lineCount;	
 		this.columnCount = columnCount;
 
-		blocks = new Block[lineCount][columnCount];
+		blocks = new Block[54][96];
+		//blocks = new Block[lineCount][columnCount];
 		
 	
 	}

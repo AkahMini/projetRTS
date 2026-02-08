@@ -36,6 +36,14 @@ public class GameDisplay extends JPanel {
 		super.paintComponent(g);
 
 		paintStrategy.paint(map, g);
+		
+		CyclicCounter hour = manager.getHour();
+		CyclicCounter sinute = manager.getMinute();
+		CyclicCounter second = manager.getSecond();
+		paintStrategy.paint(hour, sinute, second, g);
+		
+		paintStrategy.paint(manager.getSelectedArea(), g);
+		
 		for (Building building : manager.getBuildings()) {
             paintStrategy.paint(building, g);
         }
@@ -43,11 +51,8 @@ public class GameDisplay extends JPanel {
 			paintStrategy.paint(unit, g);
 		}
 		
-		CyclicCounter hour = manager.getHour();
-		CyclicCounter sinute = manager.getMinute();
-		CyclicCounter second = manager.getSecond();
-		paintStrategy.paint(hour, sinute, second, g);
-		paintStrategy.paint(manager.getSelectedArea(), g);
+		
+		
 		
 
 	}	

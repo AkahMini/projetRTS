@@ -3,6 +3,7 @@ package gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.util.Iterator;
 import java.util.List;
 
 import config.GameConfiguration;
@@ -98,14 +99,41 @@ public class PaintStrategy {
         graphics.drawOval(x * blockSize, y * blockSize, blockSize, blockSize);
     }
 	
+	
+	//draw the selected area
 	public void paint(List<Block> selectedArea, Graphics graphics) {
-		
-		int blockSize = GameConfiguration.BLOCK_SIZE;
-			graphics.setColor(Color.YELLOW); // Selected area in yellow
-			if(selectedArea!=null) {
-				for(Block block:selectedArea) {
-						graphics.fillRect(block.getLine() * blockSize, block.getColumn() * blockSize, blockSize, blockSize);
-					}
+		//check if an area is selected first
+		if(selectedArea!=null && !selectedArea.isEmpty()) {
+			Block startPosition = selectedArea.get(0);
+			int blockSize = GameConfiguration.BLOCK_SIZE;
+			graphics.setColor(Color.BLACK);
+			Iterator<Block> it = selectedArea.iterator();
+			Block endPosition=selectedArea.get(0);
+			Block temp=null;
+			
+			//find the top-left most and the bottom-right most square of the selection, its not always selectedArea.get(0) !!
+			while(it.hasNext()) {
+				temp=it.next();
+				if(endPosition.getLine()<temp.getLine()||endPosition.getColumn()<temp.getColumn()) {
+					endPosition=temp;
+				}else if(startPosition.getLine()>temp.getLine()||startPosition.getColumn()>temp.getColumn()) {
+					startPosition=temp;
+				}
 			}
+			
+			//maybe all of this is not optimal but it work as wanted so its fair enough
+			int firstLine = Math.min(startPosition.getLine(), endPosition.getLine());
+			int lastLine = Math.max(startPosition.getLine(), endPosition.getLine());
+			int firstColumn = Math.min(startPosition.getColumn(), endPosition.getColumn());
+			int lastColumn = Math.max(startPosition.getColumn(), endPosition.getColumn());
+				
+			//get the distance between the start and the end
+			int y=((lastLine-(firstLine))+1)*blockSize;
+			int x=((lastColumn-(firstColumn))+1)*blockSize;
+			// x & y are in pixel unit. this make the 1x1 block selection invisible at screen (mainly because you can only select 1 thing with this)
+			if(x>20 && y>20) {
+				graphics.drawRect(firstColumn*blockSize, firstLine*blockSize, x, y);
+			}
+		}
 	}
 }
