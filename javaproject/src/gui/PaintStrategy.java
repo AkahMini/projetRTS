@@ -176,16 +176,13 @@ public class PaintStrategy {
 			graphics.setColor(Color.BLACK);
 			graphics.drawString(unit.getUnitName()+" hp :", x, y);
 			y+=10;
+			int percent = unit.getPercentHP();
 			
-			
-			int current = unit.getHp();
-			int max = unit.getMaxHp();
-			if(current==max) {
+			//only current hp is in green. The >=98 is for the eventual float to int conevrsion error
+			if(percent>=98) {
 				graphics.setColor(new Color(0,102,0));// dark greeeeeeen
 				graphics.fillRect(x, y, 220, 6);
 			}else {
-				int percent = unit.getPercentHP();
-				
 				graphics.setColor(new Color(0,102,0));// dark greeeeeeen
 				graphics.fillRect(x, y, (int)((percent*220.0/100)), 6);
 				graphics.setColor(Color.RED);
