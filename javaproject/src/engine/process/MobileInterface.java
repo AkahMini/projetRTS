@@ -30,6 +30,8 @@ public interface MobileInterface {
 	public void unitMoveOrder(Block destination);
 	public void moveAllUnits();
 	
+	public int isBlockCollider(Block block);
+	
 	public CyclicCounter getHour();
 	
 	public CyclicCounter getMinute();

@@ -158,7 +158,11 @@ public class MobileElementManager implements MobileInterface {
 				if(newLine>3&&newLine<map.getLineCount()-20&&newColomn>0&&newColomn<map.getColumnCount()) {
 					//if the unit is still in bounds
 					Block newPosition = map.getBlock(newLine, newColomn);
-					displacedUnit.setPosition(newPosition);
+					if(isBlockCollider(newPosition)==0) {
+						//if the block isn't a collider
+						displacedUnit.setPosition(newPosition);
+					}
+					
 				}
 			}
 		}
@@ -228,7 +232,16 @@ public class MobileElementManager implements MobileInterface {
 			unitMovement(this.units.get(i));
 		}
 	}
-		
+	
+	public int isBlockCollider(Block block) {
+		int nbOfUnits=this.units.size();
+		for(int i=0;i<nbOfUnits;i++) {
+			if(this.units.get(i).getPosition()==block){ //If there is an enemy here
+				return 1;
+			}
+		}
+		return 0;
+	}
 	
 	
 	//Timer part
