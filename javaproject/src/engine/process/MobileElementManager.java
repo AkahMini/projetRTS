@@ -127,31 +127,32 @@ public class MobileElementManager implements MobileInterface {
 			
 			if(x1==x2&&y1==y2) {
 				//if we already arrived, nothing
+				//this test avoid doing all the others, for optimisation
 			}
 			else {
 				int newLine=y1; int newColomn=x1;
 				if(x1<x2&&y1<y2){//SE
 					newLine+=yDisplacement;newColomn+=xDisplacement;
 				}
-				if(x1==x2&&y1<y2){//E
+				else if(x1<x2&&y1==y2){//E
 					newColomn+=xDisplacement;
 				}
-				if(x1>x2&&y1<y2){//NE
-					newLine-=yDisplacement;newColomn-=xDisplacement;
+				else if(x1<x2&&y1>y2){//NE
+					newLine-=yDisplacement;newColomn+=xDisplacement;
 				}
-				if(x1<x2&&y1==y2){//S
+				else if(x1==x2&&y1<y2){//S
 					newLine+=yDisplacement;
 				}
-				if(x1>x2&&y1==y2){//N
+				else if(x1==x2&&y1>y2){//N
 					newLine-=yDisplacement;
 				}
-				if(x1<x2&&y1>y2){//SW
+				else if(x1>x2&&y1<y2){//SW
 					newLine+=yDisplacement;newColomn-=xDisplacement;
 				}
-				if(x1==x2&&y1>y2){//W
+				else if(x1>x2&&y1==y2){//W
 					newColomn-=xDisplacement;
 				}
-				if(x1<x2&&y1>y2){//NW
+				else if(x1>x2&&y1>y2){//NW
 					newLine-=yDisplacement;newColomn-=xDisplacement;
 				}
 				if(newLine>3&&newLine<map.getLineCount()-20&&newColomn>0&&newColomn<map.getColumnCount()) {

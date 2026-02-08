@@ -15,6 +15,6 @@ public class GameConfiguration {
 	public static final int LINE_COUNT = WINDOW_HEIGHT / BLOCK_SIZE;
 	public static final int COLUMN_COUNT = WINDOW_WIDTH / BLOCK_SIZE;
 	
-	public static final int GAME_SPEED =10;
+	public static final int GAME_SPEED =10;//Default 10
 
 }
