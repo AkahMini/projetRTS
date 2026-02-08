@@ -130,7 +130,7 @@ public class PaintStrategy {
 			Block startPosition = selectedArea.get(0);
 			int blockSize = GameConfiguration.BLOCK_SIZE;
 			graphics.setColor(Color.BLACK);
-			Iterator<Block> it = selectedArea.iterator();
+			Iterator<Block> it = selectedArea.iterator();//iterator is used here but can be replaced
 			Block endPosition=selectedArea.get(0);
 			Block temp=null;
 			
@@ -157,6 +157,41 @@ public class PaintStrategy {
 			if(x>20 && y>20) {
 				graphics.drawRect(firstColumn*blockSize, firstLine*blockSize, x, y);
 			}
+		}
+	}
+	
+	//display selected Units info
+	public void paintUnitInfo(List<Unit> unitsInSelectedArea, Graphics graphics) {
+		int blockSize = GameConfiguration.BLOCK_SIZE;
+		// These one are choses BECAUSE of the canva size, need to change to relative but good for now
+		int x =1650;
+		int y =100;
+		graphics.setColor(Color.BLACK);
+		graphics.setFont(new Font("Arial", Font.PLAIN, 20));
+		graphics.drawString("Unitées selectionées : "+unitsInSelectedArea.size(), x, y);
+		graphics.setFont(new Font("Arial", Font.PLAIN, 16));
+		y+=24;
+		//this is for each unit in the selected area
+		for(Unit unit : unitsInSelectedArea) {
+			graphics.setColor(Color.BLACK);
+			graphics.drawString(unit.getUnitName()+" hp :", x, y);
+			y+=10;
+			
+			
+			int current = unit.getHp();
+			int max = unit.getMaxHp();
+			if(current==max) {
+				graphics.setColor(new Color(0,102,0));// dark greeeeeeen
+				graphics.fillRect(x, y, 220, 6);
+			}else {
+				int percent = unit.getPercentHP();
+				
+				graphics.setColor(new Color(0,102,0));// dark greeeeeeen
+				graphics.fillRect(x, y, (int)((percent*220.0/100)), 6);
+				graphics.setColor(Color.RED);
+				graphics.fillRect((int)((percent*220.0/100))+x, y, (int)(220-(percent*220.0/100)), 6);
+			}
+			y+=26;
 		}
 	}
 }

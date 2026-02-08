@@ -193,7 +193,7 @@ public class MobileElementManager implements MobileInterface {
 				else if(x1>x2&&y1>y2){//NW
 					newLine-=yDisplacement;newColomn-=xDisplacement;
 				}
-				if(newLine>3&&newLine<map.getLineCount()&&newColomn>0&&newColomn<map.getColumnCount()) {
+				if(newLine>3&&newLine<map.getLineCount()&&newColomn>0&&newColomn<map.getColumnCount()-15) {
 					//if the unit is still in bounds
 					Block newPosition = map.getBlock(newLine, newColomn);
 					if(isBlockCollider(newPosition)==0) {
@@ -239,7 +239,7 @@ public class MobileElementManager implements MobileInterface {
 		this.unitsInSelectedArea = new ArrayList<Unit>(); //we reinitialize all selected units
 		
 		if(this.selectedArea!=null){
-			System.out.println("Selected area reconnue");
+			//System.out.println("Selected area reconnue");
 			int nbOfBlocksInSelectedArea=this.selectedArea.size();
 			int nbOfUnits= this.units.size();
 			
@@ -251,6 +251,8 @@ public class MobileElementManager implements MobileInterface {
 					}
 				}
 			}
+		}else {
+			this.unitsInSelectedArea=null;
 		}
 		System.out.println("Number of units in selected Area:"+this.unitsInSelectedArea.size());
 	}

@@ -14,6 +14,7 @@ public class Building extends MobileElement{
 	private String BuildingName;
 	private String faction;
 	private int hp;
+	private int maxHp;
 	private int constructionTime;
 	private boolean isUnderConstruction;
 	private int tierLevel;
@@ -56,5 +57,16 @@ public class Building extends MobileElement{
 	}
 	public String getFaction() {
 		return this.faction;
+	}
+	public void setMaxHp(int maxHp) {
+		this.maxHp=maxHp;
+	}
+	public int getMaxHp() {
+		return this.maxHp;
+	}
+	
+	//get the remaing health point as a percentage
+	public int getPercentHP() {
+		return (int)(this.hp*100.0/this.maxHp);	
 	}
 }

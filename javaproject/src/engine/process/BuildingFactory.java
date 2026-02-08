@@ -30,10 +30,11 @@ public class BuildingFactory {
                 ArrayList<Unit> queue = new ArrayList<Unit>();
                 producer.setProductionQueue(queue); // currently empty
                 producer.setProductionSpeed(10);
+                producer.setMaxHp(1000);
                 
                 //TIER 
                 if (tier == 1) {
-                    producer.setHp(1000);
+                    producer.setMaxHp(1000);
                     producer.setConstructionTime(5);
                     producer.setFaction(faction);
 
@@ -46,7 +47,7 @@ public class BuildingFactory {
                     }
                 }
                 else if (tier == 2) {
-                    producer.setHp(1500); // More resistant
+                    producer.setMaxHp(1500); // More resistant
                     producer.setConstructionTime(200); // Much more construction time
 
                     if (faction.equals(ZEUS)) {
@@ -58,7 +59,7 @@ public class BuildingFactory {
                     }
                 }
                 else if (tier == 3) {
-                    producer.setHp(2000);
+                    producer.setMaxHp(2000);
                     producer.setConstructionTime(300);
 
                     if (faction.equals(ZEUS)) {

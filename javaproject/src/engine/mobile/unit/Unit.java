@@ -128,4 +128,9 @@ public abstract class Unit extends MobileElement{
 	public void setDestination(Block destination) {
 		this.destination=destination;
 	}
+	
+	//get the remaing health point as a percentage
+	public int getPercentHP() {
+		return (int)(this.hp*100.0/this.maxHp);	
+	}
 }

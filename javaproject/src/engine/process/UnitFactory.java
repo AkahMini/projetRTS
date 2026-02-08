@@ -36,13 +36,13 @@ public class UnitFactory {
                 infantry.setVision(1);
                 infantry.setHpRegen(1);
                 infantry.setTarget(null);
-                
+                infantry.setHp(70);
                 
                 
                 //this is an exemple and would be upgraded
                 //TIER 
                 if (tier == 1) {
-                	infantry.setHp(100);
+                	infantry.setMaxHp(100);
 
                     if (faction.equals(ZEUS)) {
                     	//infantry=null;
@@ -55,7 +55,7 @@ public class UnitFactory {
                     }
                 }
                 else if (tier == 2) {
-                	infantry.setHp(150);  
+                	infantry.setMaxHp(150);  
 
                     if (faction.equals(ZEUS)) {
                     	infantry.setUnitName("Cyclope");
@@ -66,7 +66,7 @@ public class UnitFactory {
                     }
                 }
                 else if (tier == 3) {
-                	infantry.setHp(200);
+                	infantry.setMaxHp(200);
 
                     if (faction.equals(ZEUS)) {
                     	infantry.setUnitName("Hydre");

@@ -164,10 +164,10 @@ public class MainGUI extends JFrame implements Runnable {
 	        int column = e.getX() / blockSize;
 	        System.out.println("x :"+e.getX()+" y :"+e.getY()+" - Block line : "+line+" Block column : "+column);
 	        Block position = map.getBlock(line, column);	             
-	         if(typeSelection.equals("build")) {
+	         if(typeSelection!=null && typeSelection.equals("build")) {
 	            manager.buildBuilding(position);
 	         }
-	         if(typeSelection.equals("unit")) {
+	         if(typeSelection!=null && typeSelection.equals("unit")) {
 	        	 manager.spawnUnit(position);
 	        }else {
 	        	for (Building building : manager.getBuildings()) {
