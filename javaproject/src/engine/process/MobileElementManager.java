@@ -60,15 +60,16 @@ public class MobileElementManager implements MobileInterface {
 
 		String faction = "Zeus"; 
 		int tier = 1;
-
-		Building nouveauBatiment = BuildingFactory.createBuilding(selectedBuilding, tier, faction, position);
-
-		if (nouveauBatiment != null) {
-			buildings.add(nouveauBatiment);
-		        System.out.println("Bâtiment posé en : " + position.getLine() + ", " + position.getColumn());
-		    }
-		selectedBuilding = null; 
-		}
+		if (position.getLine() >= 3 && position.getColumn()>15) {
+			Building nouveauBatiment = BuildingFactory.createBuilding(selectedBuilding, tier, faction, position);
+	
+			if (nouveauBatiment != null) {
+				buildings.add(nouveauBatiment);
+			        System.out.println("Bâtiment posé en : " + position.getLine() + ", " + position.getColumn());
+			    }
+			selectedBuilding = null; 
+			}
+	}
 	
 	
 	//Unit part
@@ -84,15 +85,17 @@ public class MobileElementManager implements MobileInterface {
 
 		String faction = "Zeus"; 
 		int tier = 1;
+		if (position.getLine() >= 3 && position.getColumn()>15) {
 
-		Unit newUnit = UnitFactory.createUnit(selectedUnit, tier, faction, position);
-
-		if (newUnit != null) {
-			units.add(newUnit);
-		        System.out.println("Unité posé en : " + position.getLine() + ", " + position.getColumn());
-		    }
-		selectedUnit = null; 
-		}
+			Unit newUnit = UnitFactory.createUnit(selectedUnit, tier, faction, position);
+	
+			if (newUnit != null) {
+				units.add(newUnit);
+			        System.out.println("Unité posé en : " + position.getLine() + ", " + position.getColumn());
+			    }
+			selectedUnit = null; 
+			}
+	}
 	
 	public void unitMovement(Unit displacedUnit) {
 		Block position = displacedUnit.getPosition();
