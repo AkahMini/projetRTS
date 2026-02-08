@@ -19,6 +19,7 @@ import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
 import engine.mobile.building.Building;
+import engine.mobile.building.UnitProducer;
 import engine.process.GameBuilder;
 import engine.process.MobileInterface;
 import engine.process.chrono.*;
@@ -163,11 +164,19 @@ public class MainGUI extends JFrame implements Runnable {
 	        int column = e.getX() / blockSize;
 	        System.out.println("x :"+e.getX()+" y :"+e.getY()+" - Block line : "+line+" Block column : "+column);
 	        Block position = map.getBlock(line, column);	             
-	         if(typeSelection=="build") {
+	         if(typeSelection.equals("build")) {
 	            manager.buildBuilding(position);
 	         }
-	         if(typeSelection=="unit") {
+	         if(typeSelection.equals("unit")) {
 	        	 manager.spawnUnit(position);
+	        }else {
+	        	for (Building building : manager.getBuildings()) {
+		             if(building.getPosition().getLine()==line && building.getPosition().getColumn()==column) {
+		            	 if(building instanceof UnitProducer && !building.getIsUnderConstruction()) {
+			            	 manager.addQueue(building,building.getPosition());
+		            	 }
+		             }
+		         }
 	        }
 		}   
 

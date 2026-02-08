@@ -39,5 +39,7 @@ public interface MobileInterface {
 	public Block getMousePosition(int x, int y);
 	
 	public List<Block> getSelectedArea();
+
+	void addQueue(Building building, Block position);
 	
 }

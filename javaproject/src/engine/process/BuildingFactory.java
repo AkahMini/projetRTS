@@ -1,8 +1,11 @@
 package engine.process;
 
+import java.util.ArrayList;
+
 import engine.map.Block;
 import engine.mobile.building.Building;
 import engine.mobile.building.UnitProducer;
+import engine.mobile.unit.Unit;
 
 public class BuildingFactory {
 	// Const
@@ -24,11 +27,15 @@ public class BuildingFactory {
                 // common value
                 producer.setTierLevel(tier);
                 producer.setUnderConstruction(true); // The building is under construction
+                ArrayList<Unit> queue = new ArrayList<Unit>();
+                producer.setProductionQueue(queue); // currently empty
+                producer.setProductionSpeed(10);
                 
                 //TIER 
                 if (tier == 1) {
                     producer.setHp(1000);
                     producer.setConstructionTime(5);
+                    producer.setFaction(faction);
 
                     if (faction.equals(ZEUS)) {
                         producer.setBuildingName("Camp Olympique");

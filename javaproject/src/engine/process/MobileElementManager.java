@@ -6,6 +6,7 @@ import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
 import engine.mobile.building.Building;
+import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Unit;
 import engine.process.chrono.Chronometer;
 import engine.process.chrono.CyclicCounter;
@@ -81,9 +82,18 @@ public class MobileElementManager implements MobileInterface {
 	        building.setConstructionTime(building.getConstructionTime() - 1);
 	        if (building.getConstructionTime()==0) {
 	        	building.setUnderConstruction(false);
-	        	System.out.println(building.getConstructionTime());
 	        }
 	    }
+	}
+	public void addQueue(Building building, Block position) {
+		if (((UnitProducer) building).getProductionQueue().size()<3) {
+			if (building.getTierLevel()==1) {
+				if("Zeus".equals(building.getFaction())) {
+					Unit newUnit = UnitFactory.createUnit("INFANTRY", 1, "ZEUS", position);
+					((UnitProducer) building).getProductionQueue().add(newUnit);
+				}
+			}
+		}
 	}
 	
 	

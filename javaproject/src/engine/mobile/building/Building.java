@@ -12,6 +12,7 @@ import engine.mobile.MobileElement;
 public class Building extends MobileElement{
 
 	private String BuildingName;
+	private String faction;
 	private int hp;
 	private int constructionTime;
 	private boolean isUnderConstruction;
@@ -35,6 +36,9 @@ public class Building extends MobileElement{
 	public void setTierLevel(int tier) {
 		this.tierLevel=tier;
 	}
+	public void setFaction(String faction) {
+		this.faction=faction;
+	}
 	public String getBuildingName() {
 		return this.BuildingName;
 	}
@@ -49,5 +53,8 @@ public class Building extends MobileElement{
 	}
 	public int getTierLevel() {
 		return this.tierLevel;
+	}
+	public String getFaction() {
+		return this.faction;
 	}
 }

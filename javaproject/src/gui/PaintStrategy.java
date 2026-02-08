@@ -74,12 +74,32 @@ public class PaintStrategy {
         }
         else if (building instanceof UnitProducer) {
             graphics.setColor(Color.BLUE); // blue for unitProdcing Building
+            
         }
         
         graphics.fillRect(x * blockSize, y * blockSize, blockSize, blockSize);
         
         graphics.setColor(Color.BLACK);
         graphics.drawRect(x * blockSize, y * blockSize, blockSize, blockSize);
+        if (building instanceof UnitProducer && !building.getIsUnderConstruction()) {
+            int queueSize = ((UnitProducer) building).getProductionQueue().size();
+            graphics.setColor(Color.WHITE);
+            int dotSize = blockSize / 5; 
+            int gap = 2;
+
+            for (int i = 0; i < queueSize; i++) { // Loop to draw the queue as a visual cue for the user
+            	int drawX = (x * blockSize) + (i * (dotSize + gap)); 
+
+            	int drawY = (y * blockSize) + (blockSize - dotSize - 2);
+
+            	graphics.setColor(Color.WHITE);
+            	graphics.fillRect(drawX, drawY, dotSize, dotSize);
+
+            	graphics.setColor(Color.BLACK);
+            	graphics.drawRect(drawX, drawY, dotSize, dotSize);
+                graphics.setColor(Color.WHITE);
+            }
+        }
         
 	}
             
