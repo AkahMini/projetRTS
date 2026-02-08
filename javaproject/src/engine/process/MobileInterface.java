@@ -3,6 +3,7 @@ package engine.process;
 import java.util.List;
 import engine.map.Block;
 import engine.mobile.building.Building;
+import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Unit;
 import engine.process.chrono.CyclicCounter;
 
@@ -42,6 +43,6 @@ public interface MobileInterface {
 	
 	public List<Block> getSelectedArea();
 
-	void addQueue(Building building, Block position);
+	void addQueue(UnitProducer building, Block position);
 	
 }

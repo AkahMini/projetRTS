@@ -173,7 +173,7 @@ public class MainGUI extends JFrame implements Runnable {
 	        	for (Building building : manager.getBuildings()) {
 		             if(building.getPosition().getLine()==line && building.getPosition().getColumn()==column) {
 		            	 if(building instanceof UnitProducer && !building.getIsUnderConstruction()) {
-			            	 manager.addQueue(building,building.getPosition());
+			            	 manager.addQueue((UnitProducer) building,building.getPosition());
 		            	 }
 		             }
 		         }

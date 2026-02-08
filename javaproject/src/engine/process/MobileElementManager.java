@@ -47,6 +47,13 @@ public class MobileElementManager implements MobileInterface {
 			timetweaker.increment();
 			for(Building building : buildings) {
 				reduceConstructionTime(building);
+				if(building instanceof UnitProducer) {
+					UnitProducer producer= (UnitProducer) building;
+					removeQueue(producer);
+					System.out.println(producer.getProductionQueue().size());
+					System.out.println(producer.getCurrentProduction());
+
+				}
 			}
 		}
 		moveAllUnits();
@@ -85,8 +92,9 @@ public class MobileElementManager implements MobileInterface {
 	        }
 	    }
 	}
-	public void addQueue(Building building, Block position) {
-		if (((UnitProducer) building).getProductionQueue().size()<3) {
+	public void addQueue(UnitProducer building, Block position) {
+		if (building.getProductionQueue().size()<3) {
+			building.setCurrentProduction(building.getProductionSpeed());
 			if (building.getTierLevel()==1) {
 				if("Zeus".equals(building.getFaction())) {
 					Unit newUnit = UnitFactory.createUnit("INFANTRY", 1, "ZEUS", position);
@@ -94,6 +102,24 @@ public class MobileElementManager implements MobileInterface {
 				}
 			}
 		}
+	}
+	public void removeQueue(UnitProducer building) {
+		ArrayList<Unit> queue=building.getProductionQueue();
+	    if (building.getCurrentProduction() !=0) {
+	        // reduce remaining spawning time
+	        building.setCurrentProduction(building.getCurrentProduction() - 1);
+	        if (building.getCurrentProduction()==0) {
+	        	queue.removeFirst();
+	        	int line=building.getPosition().getLine();
+	        	int column=building.getPosition().getColumn();
+	        	Block position= new Block(line+1,column+1);
+	        	selectedUnit="INFANTRY";
+	        	spawnUnit(position);
+	        	if(!queue.isEmpty()){
+	        		building.setCurrentProduction(building.getProductionSpeed());
+	        	}
+	        }
+	    }
 	}
 	
 	
