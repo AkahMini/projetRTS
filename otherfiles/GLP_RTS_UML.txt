@@ -69,6 +69,7 @@ abstract class Unit {
     - hpRegenRate : float 
     - tierLevel : int 
     - target : MobileElement
+    - isInCombat : boolean
     - destination : Block
     + getPercentHP() : int 
 }
