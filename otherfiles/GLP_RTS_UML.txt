@@ -69,6 +69,7 @@ abstract class Unit {
     - hpRegenRate : float 
     - tierLevel : int 
     - target : MobileElement
+    - isInCombat : boolean
     - destination : Block
     + getPercentHP() : int 
 }
@@ -105,6 +106,7 @@ package building {
 abstract class Building {
     - buildingName : String
     - faction : String
+    - maxHp : int
     - hp : int
     - constructionTime : int
     - isUnderConstruction : boolean
