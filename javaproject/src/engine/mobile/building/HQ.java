@@ -14,6 +14,8 @@ import engine.mobile.MobileElement;
 public class HQ extends Building{
 
 	private ArrayList<String> productionQueue;
+	private float productionSpeed;
+	private int currentProduction;
 	private int defenseDamage;
 	private int defenseRange;
 	
