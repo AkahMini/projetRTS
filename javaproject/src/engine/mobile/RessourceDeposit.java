@@ -20,5 +20,9 @@ public class RessourceDeposit {
 		this.position=position;
 		this.type=type;
 	}
+	
+	public Block getPosition() {
+		return this.position;
+	}
 }
 

@@ -10,6 +10,7 @@ import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
 import engine.mobile.Player;
+import engine.mobile.RessourceDeposit;
 import engine.mobile.building.Building;
 import engine.mobile.building.HQ;
 import engine.mobile.building.UnitProducer;
@@ -86,7 +87,7 @@ public class PaintStrategy {
         	graphics.setColor(Color.ORANGE); // Orange for building under Construction
         }
         if(building instanceof HQ) {
-        	graphics.setColor(Color.CYAN);
+        	graphics.setColor(Color.MAGENTA);
         }
         else if (building instanceof UnitProducer) {
             graphics.setColor(Color.BLUE); // blue for unitProdcing Building
@@ -118,7 +119,15 @@ public class PaintStrategy {
         }
         
 	}
-            
+    
+	public void paint(RessourceDeposit deposit, Graphics graphics) {
+		 Block position = deposit.getPosition();
+	        int blockSize = GameConfiguration.BLOCK_SIZE;
+	        int y = position.getLine();
+	        int x = position.getColumn();
+	        graphics.setColor(Color.ORANGE);
+	        graphics.fillRect(x * blockSize, y * blockSize, blockSize, blockSize);
+	}
 
 	public void paint(Unit unit, Graphics graphics) {
         Block position = unit.getPosition();
@@ -184,6 +193,7 @@ public class PaintStrategy {
 			}
 		}
 	}
+	
 	
 	//display selected Units info
 	public void paintUnitInfo(List<Unit> unitsInSelectedArea, Graphics graphics) {

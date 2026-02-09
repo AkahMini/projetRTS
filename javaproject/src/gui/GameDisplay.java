@@ -9,6 +9,7 @@ import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
 import engine.mobile.Player;
+import engine.mobile.RessourceDeposit;
 import engine.mobile.building.Building;
 import engine.mobile.unit.Unit;
 import engine.process.MobileInterface;
@@ -47,9 +48,13 @@ public class GameDisplay extends JPanel {
 		for (Building building : manager.getBuildings()) {
             paintStrategy.paint(building, g);
         }
-		for(Unit unit : manager.getUnits()) {
+		for (RessourceDeposit deposit: manager.getRessourceDeposit()) {
+			paintStrategy.paint(deposit, g);
+		}
+		for (Unit unit : manager.getUnits()) {
 			paintStrategy.paint(unit, g);
 		}
+		
 		
 		if(manager.getUnitsInSelectedArea()!=null && !manager.getUnitsInSelectedArea().isEmpty()) {
 			paintStrategy.paintUnitInfo(manager.getUnitsInSelectedArea(), g);

@@ -50,6 +50,8 @@ public class MobileElementManager implements MobileInterface {
     	
     	Worker playerWorker = new Worker(playerHQposition);  //TMP player's worker
     	playerWorker.setHp(100000000);//TMP Because he keeps getting slimed
+    	playerWorker.setUnitFaction("Zeus");
+    	playerWorker.setVision(20);
     	
     	Block depositLocation = map.getBlock(30, 20);//TMP
     	RessourceDeposit deposit1 = new RessourceDeposit(depositLocation,"Faith");
@@ -269,6 +271,29 @@ public class MobileElementManager implements MobileInterface {
         }
     }
     
+    public void unitMouvement(Worker displacedWorker) {
+    	unitMovement((Unit)displacedWorker); //Moves like a normal unit
+    	System.out.println(displacedWorker.getRessourceLoad());
+    	if(displacedWorker.getRessourceLoad()>=displacedWorker.getMaxCargoCapacity()) {
+    		//if he has ressources, he comes back
+    		displacedWorker.setDestination(displacedWorker.getCurrentHQ().getPosition());
+    	}
+    	else if(displacedWorker.getCurrentDeposit()==null)  {
+    		for(RessourceDeposit deposit: this.ressourceDeposits) {
+    			if(getDistance(displacedWorker.getPosition(),deposit.getPosition())<displacedWorker.getVision()) {
+    				//if a deposit is in range
+    					displacedWorker.setCurrentDeposit(deposit);
+    			}
+    			
+    			
+    		}
+    	}
+    	else if(getDistance(displacedWorker.getPosition(),displacedWorker.getCurrentDeposit().getPosition())<=displacedWorker.getVision()) {
+    			displacedWorker.setCurrentRessourceLoad(displacedWorker.getRessourceLoad()+1);
+    		}
+    	}
+    
+    
     private double getDistance(Block b1, Block b2) {
         int dx = b1.getColumn() - b2.getColumn();
         int dy = b1.getLine() - b2.getLine();
@@ -411,6 +436,10 @@ public class MobileElementManager implements MobileInterface {
     
     public List<Building> getBuildings() {
         return buildings;
+    }
+    
+    public List<RessourceDeposit> getRessourceDeposit(){
+    	return this.ressourceDeposits;
     }
 
     public List<Unit> getUnits() {

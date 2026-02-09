@@ -3,6 +3,7 @@ package engine.process;
 import java.util.List;
 import engine.map.Block;
 import engine.mobile.Player;
+import engine.mobile.RessourceDeposit;
 import engine.mobile.building.Building;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Unit;
@@ -21,6 +22,7 @@ public interface MobileInterface {
 	public void selectBuilding(String type);
 	public void buildBuilding(Block position);
 	public List<Building> getBuildings();
+	public List<RessourceDeposit>getRessourceDeposit();
 	
 	public void selectUnit(String type);
 	public void spawnUnit(Block position);
