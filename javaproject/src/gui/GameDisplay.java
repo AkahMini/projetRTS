@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
+import engine.mobile.Player;
 import engine.mobile.building.Building;
 import engine.mobile.unit.Unit;
 import engine.process.MobileInterface;
@@ -37,10 +38,9 @@ public class GameDisplay extends JPanel {
 
 		paintStrategy.paint(map, g);
 		
-		CyclicCounter hour = manager.getHour();
-		CyclicCounter sinute = manager.getMinute();
-		CyclicCounter second = manager.getSecond();
-		paintStrategy.paint(hour, sinute, second, g);
+		paintStrategy.paint(manager.getHour(), manager.getMinute(), manager.getSecond(), g);
+		paintStrategy.paint(manager.getPlayer(),g);
+		
 		
 		paintStrategy.paint(manager.getSelectedArea(), g);
 		

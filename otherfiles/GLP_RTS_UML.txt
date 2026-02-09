@@ -64,11 +64,13 @@ abstract class Unit {
     - attackDamage : int
     - attackSpeed : float
     - movementSpeed : float
-    - attackRange : int
+    - attackRange : intS
     - visionRange : int 
     - hpRegenRate : float 
     - tierLevel : int 
     - target : MobileElement
+    - destination : Block
+    + getPercentHP() : int 
 }
 
 class Worker {
@@ -102,21 +104,26 @@ package building {
 
 abstract class Building {
     - buildingName : String
+    - faction : String
     - hp : int
     - constructionTime : int
     - isUnderConstruction : boolean
     - tierLevel : int
+    + getPercentHP() : int
 }
 
 class HQ {
     - productionQueue : ArrayList<String>
     - defenseDamage : int
     - defenseRange : int
+    - productionSpeed : float
+    - currentProduction : int
 }
 
 class UnitProducer {
     - productionQueue : ArrayList<String>
     - productionSpeed : float
+    - currentProduction : int
 }
 
 class DefenseTower {

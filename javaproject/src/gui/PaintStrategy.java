@@ -9,6 +9,7 @@ import java.util.List;
 import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
+import engine.mobile.Player;
 import engine.mobile.building.Building;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Infantry;
@@ -60,6 +61,16 @@ public class PaintStrategy {
 		graphics.setColor(Color.BLACK);
 		graphics.setFont(new Font("Arial", Font.BOLD, 24));
 		graphics.drawString("Temps de jeu :"+hour.toString()+":"+minute.toString()+":"+second.toString(), 20, 28);
+	}
+	
+	public void paint(Player player, Graphics graphics) {
+		graphics.setFont(new Font("Arial", Font.PLAIN, 20));
+		graphics.setColor(new Color(204,102,0));
+		graphics.drawString("Population : "+player.getCurrentPopulation()+"/"+player.getMaxPopulation(), 1670,28);
+		graphics.setColor(new Color(0,204,102));
+		graphics.drawString("Ambroisie : "+player.getAmbroisieStock(), 1370,28);
+		graphics.setColor(new Color(0,0,153));
+		graphics.drawString("Foi : "+player.getFaithStock(), 1070,28);
 	}
 	
 	
@@ -166,7 +177,7 @@ public class PaintStrategy {
 	
 	//display selected Units info
 	public void paintUnitInfo(List<Unit> unitsInSelectedArea, Graphics graphics) {
-		int blockSize = GameConfiguration.BLOCK_SIZE;
+		//int blockSize = GameConfiguration.BLOCK_SIZE;
 		// These one are choses BECAUSE of the canva size, need to change to relative but good for now
 		int x =1650;
 		int y =100;
