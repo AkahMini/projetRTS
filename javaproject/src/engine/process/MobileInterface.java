@@ -46,5 +46,7 @@ public interface MobileInterface {
 	public List<Unit> getUnitsInSelectedArea();
 
 	void addQueue(UnitProducer building, Block position);
+
+	void spawnUnitEnnemy(Block position);
 	
 }

@@ -113,7 +113,11 @@ public class PaintStrategy {
 
      
         if (unit instanceof Infantry) {
-            graphics.setColor(Color.GREEN); // Greeeeeeeeeeen
+        	if(unit.getUnitFaction().equals("Zeus")) {
+                graphics.setColor(Color.GREEN); // Greeeeeeeeeeen
+        	}else {
+                graphics.setColor(Color.RED); // Ennemy=Red
+        	}
         }
         
         graphics.fillOval(x * blockSize, y * blockSize, blockSize, blockSize);

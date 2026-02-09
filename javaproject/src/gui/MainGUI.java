@@ -85,12 +85,22 @@ public class MainGUI extends JFrame implements Runnable {
 		testButton2.addActionListener(new ActionListener() { // bouton temporaire pour test
 		    public void actionPerformed(ActionEvent e) {
 		        manager.selectUnit("INFANTRY");
-		        typeSelection="unit";
+		        typeSelection="unitAllie";
+		    }
+		});
+		
+		javax.swing.JButton testButton3 = new javax.swing.JButton("Test Unit ennemy");
+
+		testButton3.addActionListener(new ActionListener() { // bouton temporaire pour test
+		    public void actionPerformed(ActionEvent e) {
+		        manager.selectUnit("INFANTRY");
+		        typeSelection="unitEnnemy";
 		    }
 		});
 		
 		RightPanel.add(testButton);
 		RightPanel.add(testButton2);
+		RightPanel.add(testButton3);
 		contentPane.add(RightPanel, BorderLayout.EAST);
 
 		
@@ -167,8 +177,10 @@ public class MainGUI extends JFrame implements Runnable {
 	         if(typeSelection!=null && typeSelection.equals("build")) {
 	            manager.buildBuilding(position);
 	         }
-	         if(typeSelection!=null && typeSelection.equals("unit")) {
+	         if(typeSelection!=null && typeSelection.equals("unitAllie")) {
 	        	 manager.spawnUnit(position);
+	         }if(typeSelection!=null && typeSelection.equals("unitEnnemy")) {
+	        	 manager.spawnUnitEnnemy(position);
 	        }else {
 	        	for (Building building : manager.getBuildings()) {
 		             if(building.getPosition().getLine()==line && building.getPosition().getColumn()==column) {

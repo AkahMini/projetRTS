@@ -45,6 +45,38 @@ public class MobileElementManager implements MobileInterface {
 		if(timetweaker.getValue()==100) {
 			chronometer.increment();
 			timetweaker.increment();
+			//Units
+			for (int i = 0; i < units.size(); i++) {	    
+				Unit unit = units.get(i);
+	            if (unit.getHp() <= 0) {
+	            	units.remove(i);
+	                i--;
+	                continue;
+	            }
+
+	            if (unit.getTarget() == null) {
+	                Unit enemy = scanForEnemy(unit);
+	                if (enemy != null) {
+	                    combatSystem(unit, enemy);
+	                }
+	            }
+
+	            if (unit.getTarget() != null && unit.getIsInCombat()) {
+	                Unit target = (Unit) unit.getTarget();
+	                
+	                if (target.getHp() <= 0) {
+	                    unit.setTarget(null);
+	                    unit.setIsInCombat(false);
+	                } else {
+	                    double distance = getDistance(unit.getPosition(), target.getPosition());
+	                    
+	                    if (distance <= unit.getATKRange()) {
+	                        unit.setDestination(null); 
+	                        calculDegats(unit);
+	                    }
+	                }
+	            }
+	        }
 			for(Building building : buildings) {
 				reduceConstructionTime(building);
 				if(building instanceof UnitProducer) {
@@ -149,6 +181,24 @@ public class MobileElementManager implements MobileInterface {
 			selectedUnit = null; 
 			}
 	}
+	public void spawnUnitEnnemy(Block position) {
+		if (selectedUnit == null) {
+			return;
+		}
+
+		String faction = "Hades"; 
+		int tier = 1;
+		if (position.getLine() >= 3 && position.getColumn()>15) {
+
+			Unit newUnit = UnitFactory.createUnit(selectedUnit, tier, faction, position);
+	
+			if (newUnit != null) {
+				units.add(newUnit);
+			        System.out.println("Unité posé en : " + position.getLine() + ", " + position.getColumn());
+			    }
+			selectedUnit = null; 
+			}
+	}
 	
 	public void unitMovement(Unit displacedUnit) {
 		if(displacedUnit.getDestination()!=null) {
@@ -204,6 +254,58 @@ public class MobileElementManager implements MobileInterface {
 				}
 			}
 		}
+	}
+	private double getDistance(Block b1, Block b2) {
+	    int dx = b1.getColumn() - b2.getColumn();
+	    int dy = b1.getLine() - b2.getLine();
+	    return Math.sqrt(dx * dx + dy * dy);
+	}
+	public Unit scanForEnemy(Unit unit) {
+	    Unit nearest = null;
+	    double minDistance = Double.MAX_VALUE;
+	    
+	    for (Unit otherUnit : units) {
+	        if (otherUnit != unit && !otherUnit.getUnitFaction().equals(unit.getUnitFaction())) {
+	            
+	            double dist = getDistance(unit.getPosition(), otherUnit.getPosition());
+	            
+	            if (dist <= unit.getVision() && dist < minDistance) {
+	                minDistance = dist;
+	                nearest = otherUnit;
+	            }
+	        }
+	    }
+	    return nearest;
+	}
+	
+	public void combatSystem(Unit unit1, Unit unit2) {
+		if(unit1.getIsInCombat()==false && unit2.getIsInCombat()==false) {
+			unit1.setIsInCombat(true);
+			unit2.setIsInCombat(true);
+			unit2.setTarget(unit1);
+			unit1.setTarget(unit2);
+		}else if(unit1.getIsInCombat()==false && unit2.getIsInCombat()==true) {
+			unit1.setIsInCombat(true);
+			unit1.setTarget(unit2);
+		}else if(unit2.getIsInCombat()==false && unit1.getIsInCombat()==true) {
+			unit2.setIsInCombat(true);
+			unit2.setTarget(unit1);
+		}
+	}
+	
+	public void calculDegats(Unit unit) {
+	    Unit target = (Unit) unit.getTarget();
+	    
+	    if (target != null) {
+	        int damage = (int) (unit.getATK() * unit.getATKSpeed());
+	        
+	        int newHp = Math.max(0, target.getHp() - damage);
+	        target.setHp(newHp);
+	        if (target.getHp() <= 0) {
+	            unit.setTarget(null);
+	            unit.setIsInCombat(false);
+	        }
+	    }
 	}
 	
 	public void initSelectedArea(Block firstBlock) {

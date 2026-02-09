@@ -26,6 +26,7 @@ public abstract class Unit extends MobileElement{
 	private float hpRegenRate;
 	private int tierLevel;
 	private MobileElement target;
+	private boolean isInCombat;
 	private Block destination;
 	
 	public Unit(Block position) {
@@ -132,5 +133,13 @@ public abstract class Unit extends MobileElement{
 	//get the remaing health point as a percentage
 	public int getPercentHP() {
 		return (int)(this.hp*100.0/this.maxHp);	
+	}
+
+	public boolean getIsInCombat() {
+		return isInCombat;
+	}
+
+	public void setIsInCombat(boolean isInCombat) {
+		this.isInCombat = isInCombat;
 	}
 }
