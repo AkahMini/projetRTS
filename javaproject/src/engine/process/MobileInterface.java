@@ -2,6 +2,7 @@ package engine.process;
 
 import java.util.List;
 import engine.map.Block;
+import engine.mobile.Player;
 import engine.mobile.building.Building;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Unit;
@@ -38,6 +39,8 @@ public interface MobileInterface {
 	public CyclicCounter getMinute();
 	
 	public CyclicCounter getSecond();
+	
+	public Player getPlayer();
 	
 	public Block getMousePosition(int x, int y);
 	

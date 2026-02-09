@@ -5,6 +5,7 @@ import java.util.List;
 import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
+import engine.mobile.Player;
 import engine.mobile.building.Building;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Unit;
@@ -34,9 +35,13 @@ public class MobileElementManager implements MobileInterface {
 	private Chronometer chronometer = new Chronometer();
 	private CyclicCounter timetweaker = new CyclicCounter(0,100,0);
 
+	private Player player;
+	
 	public MobileElementManager(Map map) {
 		this.map = map;
+		this.player= new Player("Jhon Doe","Zeus");
 		chronometer.init();
+		
 	}
 
 	public void nextRound() {
@@ -44,7 +49,6 @@ public class MobileElementManager implements MobileInterface {
 		timetweaker.increment();
 		if(timetweaker.getValue()==100) {
 			chronometer.increment();
-			timetweaker.increment();
 			for(Building building : buildings) {
 				reduceConstructionTime(building);
 				if(building instanceof UnitProducer) {
@@ -301,6 +305,7 @@ public class MobileElementManager implements MobileInterface {
 	private static int getRandomNumber(int min, int max) {
 		return (int) (Math.random() * (max + 1 - min)) + min;
 	}	
+	
 	public List<Building> getBuildings() {
         return buildings;
     }
@@ -322,6 +327,8 @@ public class MobileElementManager implements MobileInterface {
 		return selectedArea;
 	}
 	
-	
+	public Player getPlayer() {
+		return this.player;
+	}
 	
 }
