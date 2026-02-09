@@ -64,7 +64,7 @@ abstract class Unit {
     - attackDamage : int
     - attackSpeed : float
     - movementSpeed : float
-    - attackRange : intS
+    - attackRange : int
     - visionRange : int 
     - hpRegenRate : float 
     - tierLevel : int 
@@ -164,6 +164,7 @@ class Player {
     - factionName : String
     - currentTier : int
     - faithStock : int
+    - isAi : int
     - ambroisieStock : int
     - currentPopulation : int
     - maxPopulation : int
