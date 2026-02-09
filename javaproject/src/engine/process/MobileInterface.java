@@ -15,6 +15,7 @@ import engine.process.chrono.CyclicCounter;
  */
 
 public interface MobileInterface {
+	void firstRound();
 	void nextRound();
 	
 	public void selectBuilding(String type);

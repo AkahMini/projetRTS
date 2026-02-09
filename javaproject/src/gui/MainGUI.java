@@ -68,8 +68,10 @@ public class MainGUI extends JFrame implements Runnable {
 		
 		
 		//THIS PART IS FOR TEST ONLY WILL BE REMOVED
+
 		javax.swing.JPanel RightPanel = new javax.swing.JPanel();
 		RightPanel.setBackground(java.awt.Color.GRAY); 
+		
 
 		javax.swing.JButton testButton = new javax.swing.JButton("Test Bat");
 
@@ -103,9 +105,7 @@ public class MainGUI extends JFrame implements Runnable {
 		RightPanel.add(testButton3);
 		contentPane.add(RightPanel, BorderLayout.EAST);
 
-		
-		
-		
+
 		
 		
 		map = GameBuilder.buildMap();
@@ -129,6 +129,7 @@ public class MainGUI extends JFrame implements Runnable {
 	
 	@Override
 	public void run() {
+		manager.firstRound();
 		while (true) {
 			try {
 				Thread.sleep(GameConfiguration.GAME_SPEED);

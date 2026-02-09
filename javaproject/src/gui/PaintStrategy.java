@@ -11,9 +11,11 @@ import engine.map.Block;
 import engine.map.Map;
 import engine.mobile.Player;
 import engine.mobile.building.Building;
+import engine.mobile.building.HQ;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Infantry;
 import engine.mobile.unit.Unit;
+import engine.mobile.unit.Worker;
 import engine.process.chrono.CyclicCounter;
 
 /**
@@ -83,6 +85,9 @@ public class PaintStrategy {
         if(building.getIsUnderConstruction()) {
         	graphics.setColor(Color.ORANGE); // Orange for building under Construction
         }
+        if(building instanceof HQ) {
+        	graphics.setColor(Color.CYAN);
+        }
         else if (building instanceof UnitProducer) {
             graphics.setColor(Color.BLUE); // blue for unitProdcing Building
             
@@ -126,9 +131,14 @@ public class PaintStrategy {
         if (unit instanceof Infantry) {
         	if(unit.getUnitFaction().equals("Zeus")) {
                 graphics.setColor(Color.GREEN); // Greeeeeeeeeeen
-        	}else {
+        	}
+        	
+        	else {
                 graphics.setColor(Color.RED); // Ennemy=Red
         	}
+        }
+        if(unit instanceof Worker) {
+        	graphics.setColor(Color.YELLOW);
         }
         
         graphics.fillOval(x * blockSize, y * blockSize, blockSize, blockSize);

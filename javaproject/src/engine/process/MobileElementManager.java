@@ -7,8 +7,10 @@ import engine.map.Block;
 import engine.map.Map;
 import engine.mobile.Player;
 import engine.mobile.building.Building;
+import engine.mobile.building.HQ;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Unit;
+import engine.mobile.unit.Worker;
 import engine.process.chrono.Chronometer;
 import engine.process.chrono.CyclicCounter;
 
@@ -39,6 +41,16 @@ public class MobileElementManager implements MobileInterface {
         chronometer.init();
     }
 
+    public void firstRound() {
+    	//We add player's HQ, ressource deposits
+    	Block playerHQposition = map.getBlock(10, 10); //TMP
+    	HQ playerHQ = new HQ(playerHQposition);
+    	Worker playerWorker = new Worker(playerHQposition);
+    	playerWorker.setHp(100000000);//TMP Because he keeps getting slimed
+    	this.buildings.add(playerHQ);
+    	this.units.add(playerWorker);
+    }
+    
     public void nextRound() {
         timetweaker.increment();
         if(timetweaker.getValue() == 100) {
@@ -49,7 +61,9 @@ public class MobileElementManager implements MobileInterface {
             	Unit unit=units.get(i);
             	
             	if(unit.getHp()<=0) {
+            		System.out.println("Unit '"+unit.getUnitName()+"' removed");
             		units.remove(i);
+            		
             		i--;
             		continue;
             	}
