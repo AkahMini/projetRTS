@@ -6,6 +6,7 @@ import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
 import engine.mobile.Player;
+import engine.mobile.RessourceDeposit;
 import engine.mobile.building.Building;
 import engine.mobile.building.HQ;
 import engine.mobile.building.UnitProducer;
@@ -24,6 +25,7 @@ public class MobileElementManager implements MobileInterface {
     private String selectedBuilding = null;
     private List<Building> buildings = new ArrayList<Building>();
     private List<Unit> unitsInSelectedArea = new ArrayList<Unit>();
+    private List<RessourceDeposit> ressourceDeposits = new ArrayList<RessourceDeposit>();
     
     private String selectedUnit = null;
     private List<Unit> units = new ArrayList<Unit>();
@@ -43,12 +45,18 @@ public class MobileElementManager implements MobileInterface {
 
     public void firstRound() {
     	//We add player's HQ, ressource deposits
-    	Block playerHQposition = map.getBlock(10, 10); //TMP
+    	Block playerHQposition = map.getBlock(10, 10); //TMP player's HQ
     	HQ playerHQ = new HQ(playerHQposition);
-    	Worker playerWorker = new Worker(playerHQposition);
+    	
+    	Worker playerWorker = new Worker(playerHQposition);  //TMP player's worker
     	playerWorker.setHp(100000000);//TMP Because he keeps getting slimed
+    	
+    	Block depositLocation = map.getBlock(30, 20);//TMP
+    	RessourceDeposit deposit1 = new RessourceDeposit(depositLocation,"Faith");
+    	
     	this.buildings.add(playerHQ);
     	this.units.add(playerWorker);
+    	this.ressourceDeposits.add(deposit1);
     }
     
     public void nextRound() {
