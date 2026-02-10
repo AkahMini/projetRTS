@@ -103,7 +103,7 @@ public class MainGUI extends JFrame implements Runnable {
 		RightPanel.add(testButton);
 		RightPanel.add(testButton2);
 		RightPanel.add(testButton3);
-		contentPane.add(RightPanel, BorderLayout.EAST);
+		contentPane.add(RightPanel, BorderLayout.SOUTH);
 
 
 		
