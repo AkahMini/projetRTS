@@ -381,8 +381,9 @@ public class MobileElementManager implements MobileInterface {
             for(int unitIndex = 0; unitIndex < nbOfUnits; unitIndex++){
                 Block unitPosition = units.get(unitIndex).getPosition();
                 for(int blockIndex = 0; blockIndex < nbOfBlocksInSelectedArea; blockIndex++) {
-                    if(selectedArea.get(blockIndex) == unitPosition) {
+                    if(selectedArea.get(blockIndex).equals(unitPosition)) {
                         this.unitsInSelectedArea.add(units.get(unitIndex));
+                        break;//in case the same block is present multiple time in the selection
                     }
                 }
             }

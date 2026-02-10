@@ -206,8 +206,7 @@ public class MainGUI extends JFrame implements Runnable {
 			Block lastBlock=manager.getMousePosition(e.getY(), e.getX());
 			manager.calculateSelectedArea(lastBlock);
 			manager.unitsInSelectedArea();
-			
-	        
+			System.out.println(manager.getUnits().size());	        
 		}
 
 		@Override
