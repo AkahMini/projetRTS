@@ -25,6 +25,10 @@ public class Worker extends Unit{
 	public HQ getCurrentHQ() {
 		return this.workerHQ;
 	}
+	public void setCurrentHQ(HQ hq) {
+		this.workerHQ=hq;
+	}
+	
 	public void setCurrentDeposit(RessourceDeposit deposit) {
 		currentDeposit=deposit;
 	}
@@ -32,12 +36,15 @@ public class Worker extends Unit{
 		return currentDeposit;
 	}
 	public void setCurrentRessourceLoad(int addedLoad) {
-		this.currentRessourceLoad+=addedLoad;
+		this.currentRessourceLoad=addedLoad;
 	}
 	public int getRessourceLoad() {
 		return currentRessourceLoad;
 	}
 	public int getMaxCargoCapacity() {
 		return maxCargoCapacity;
+	}
+	public void setMaxCargoCapacity(int max) {
+		this.maxCargoCapacity=max;
 	}
 }

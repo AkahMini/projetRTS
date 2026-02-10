@@ -51,7 +51,9 @@ public class MobileElementManager implements MobileInterface {
     	Worker playerWorker = new Worker(playerHQposition);  //TMP player's worker
     	playerWorker.setHp(100000000);//TMP Because he keeps getting slimed
     	playerWorker.setUnitFaction("Zeus");
-    	playerWorker.setVision(20);
+    	playerWorker.setVision(1);
+    	playerWorker.setCurrentHQ(playerHQ);
+    	playerWorker.setMaxCargoCapacity(100);
     	
     	Block depositLocation = map.getBlock(30, 20);//TMP
     	RessourceDeposit deposit1 = new RessourceDeposit(depositLocation,"Faith");
@@ -263,6 +265,7 @@ public class MobileElementManager implements MobileInterface {
                 
                 if(newLine > 3 && newLine < map.getLineCount() && newColomn > 0 && newColomn < map.getColumnCount() - 15) {
                     Block newPosition = map.getBlock(newLine, newColomn);
+                    System.out.println("Moving to ("+newLine+"," +newColomn+")");
                     if(isBlockCollider(newPosition) == 0) {
                         displacedUnit.setPosition(newPosition);
                     }
@@ -271,14 +274,9 @@ public class MobileElementManager implements MobileInterface {
         }
     }
     
-    public void unitMouvement(Worker displacedWorker) {
+    public void workerMouvement(Worker displacedWorker) {
     	unitMovement((Unit)displacedWorker); //Moves like a normal unit
-    	System.out.println(displacedWorker.getRessourceLoad());
-    	if(displacedWorker.getRessourceLoad()>=displacedWorker.getMaxCargoCapacity()) {
-    		//if he has ressources, he comes back
-    		displacedWorker.setDestination(displacedWorker.getCurrentHQ().getPosition());
-    	}
-    	else if(displacedWorker.getCurrentDeposit()==null)  {
+    	if(displacedWorker.getCurrentDeposit()==null)  {
     		for(RessourceDeposit deposit: this.ressourceDeposits) {
     			if(getDistance(displacedWorker.getPosition(),deposit.getPosition())<displacedWorker.getVision()) {
     				//if a deposit is in range
@@ -289,9 +287,26 @@ public class MobileElementManager implements MobileInterface {
     		}
     	}
     	else if(getDistance(displacedWorker.getPosition(),displacedWorker.getCurrentDeposit().getPosition())<=displacedWorker.getVision()) {
-    			displacedWorker.setCurrentRessourceLoad(displacedWorker.getRessourceLoad()+1);
+    		//if a deposit is in worker's range	
+    		displacedWorker.setCurrentRessourceLoad(displacedWorker.getRessourceLoad()+1);
+    		}
+    	
+    	if(displacedWorker.getRessourceLoad()>=displacedWorker.getMaxCargoCapacity()) {
+    		System.out.println(displacedWorker.getRessourceLoad());
+    		//if he has ressources, he comes back
+    		displacedWorker.setDestination(displacedWorker.getCurrentHQ().getPosition());
+    	}
+    	
+    	
+    	if(getDistance(displacedWorker.getPosition(),displacedWorker.getCurrentHQ().getPosition())<=displacedWorker.getVision()) {
+    		player.setFaithStock(player.getFaithStock()+displacedWorker.getRessourceLoad());
+    		displacedWorker.setCurrentRessourceLoad(0);
+    		if(displacedWorker.getCurrentDeposit()!=null) {
+    			displacedWorker.setDestination(displacedWorker.getCurrentDeposit().getPosition());
     		}
     	}
+    	}
+    
     
     
     private double getDistance(Block b1, Block b2) {
@@ -404,7 +419,11 @@ public class MobileElementManager implements MobileInterface {
     public void moveAllUnits() {
         int size = this.units.size();
         for(int i = 0; i < size; i++) {
-            unitMovement(this.units.get(i));
+            Unit unit = this.units.get(i);
+        	if(unit instanceof Worker) {
+        		workerMouvement((Worker) unit); //We cast the type Worker for using the correct method
+        	}
+        	unitMovement(this.units.get(i));
         }
     }
     
