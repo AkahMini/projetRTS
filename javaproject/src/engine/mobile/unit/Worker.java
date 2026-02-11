@@ -47,4 +47,10 @@ public class Worker extends Unit{
 	public void setMaxCargoCapacity(int max) {
 		this.maxCargoCapacity=max;
 	}
+	public String getRessourceType() {
+		return this.ressourceType;
+	}
+	public void setRessourceType(String type) {
+		this.ressourceType=type;
+	}
 }

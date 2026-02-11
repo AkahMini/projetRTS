@@ -49,18 +49,24 @@ public class MobileElementManager implements MobileInterface {
     	HQ playerHQ = new HQ(playerHQposition);
     	
     	Worker playerWorker = new Worker(playerHQposition);  //TMP player's worker
-    	playerWorker.setHp(100000000);//TMP Because he keeps getting slimed
+    	playerWorker.setUnitName("Initial worker");
+    	playerWorker.setHp(1);//TMP Because he keeps getting slimed
     	playerWorker.setUnitFaction("Zeus");
     	playerWorker.setVision(1);
     	playerWorker.setCurrentHQ(playerHQ);
     	playerWorker.setMaxCargoCapacity(100);
+    	playerWorker.setDestination(playerWorker.getPosition());
     	
-    	Block depositLocation = map.getBlock(30, 20);//TMP
-    	RessourceDeposit deposit1 = new RessourceDeposit(depositLocation,"Faith");
+    	Block faithDepositLocation = map.getBlock(30, 20);//TMP
+    	RessourceDeposit deposit1 = new RessourceDeposit(faithDepositLocation,RessourceDeposit.FAITH);
+    	
+    	Block ambroiseDepositLocation = map.getBlock(10, 35);
+    	RessourceDeposit deposit2= new RessourceDeposit(ambroiseDepositLocation,RessourceDeposit.AMBROISE);
     	
     	this.buildings.add(playerHQ);
     	this.units.add(playerWorker);
     	this.ressourceDeposits.add(deposit1);
+    	this.ressourceDeposits.add(deposit2);
     }
     
     public void nextRound() {
@@ -265,7 +271,6 @@ public class MobileElementManager implements MobileInterface {
                 
                 if(newLine > 3 && newLine < map.getLineCount() && newColomn > 0 && newColomn < map.getColumnCount() - 15) {
                     Block newPosition = map.getBlock(newLine, newColomn);
-                    System.out.println("Moving to ("+newLine+"," +newColomn+")");
                     if(isBlockCollider(newPosition) == 0) {
                         displacedUnit.setPosition(newPosition);
                     }
@@ -281,31 +286,54 @@ public class MobileElementManager implements MobileInterface {
     			if(getDistance(displacedWorker.getPosition(),deposit.getPosition())<displacedWorker.getVision()) {
     				//if a deposit is in range
     					displacedWorker.setCurrentDeposit(deposit);
+    					displacedWorker.setRessourceType(deposit.getType());
     			}
     			
     			
     		}
     	}
+    	
     	else if(getDistance(displacedWorker.getPosition(),displacedWorker.getCurrentDeposit().getPosition())<=displacedWorker.getVision()) {
     		//if a deposit is in worker's range	
     		displacedWorker.setCurrentRessourceLoad(displacedWorker.getRessourceLoad()+1);
     		}
     	
     	if(displacedWorker.getRessourceLoad()>=displacedWorker.getMaxCargoCapacity()) {
-    		System.out.println(displacedWorker.getRessourceLoad());
     		//if he has ressources, he comes back
     		displacedWorker.setDestination(displacedWorker.getCurrentHQ().getPosition());
     	}
-    	
-    	
-    	if(getDistance(displacedWorker.getPosition(),displacedWorker.getCurrentHQ().getPosition())<=displacedWorker.getVision()) {
-    		player.setFaithStock(player.getFaithStock()+displacedWorker.getRessourceLoad());
-    		displacedWorker.setCurrentRessourceLoad(0);
-    		if(displacedWorker.getCurrentDeposit()!=null) {
-    			displacedWorker.setDestination(displacedWorker.getCurrentDeposit().getPosition());
+
+    	if(displacedWorker.getDestination().equals(displacedWorker.getPosition())) {
+    		//if the worker is stationnary, we can check for new deposit
+    		for(RessourceDeposit deposit: this.ressourceDeposits) {
+    			if(getDistance(displacedWorker.getPosition(),deposit.getPosition())<displacedWorker.getVision()) {
+    				//if a deposit is in range
+    					displacedWorker.setCurrentDeposit(deposit);
+    					displacedWorker.setRessourceType(deposit.getType());
+    			}
+    			
+    			
     		}
     	}
+    	
+    	workerRessourceDeposit(displacedWorker);
+    }
+    
+    public void workerRessourceDeposit(Worker worker){
+    	if(getDistance(worker.getPosition(),worker.getCurrentHQ().getPosition())<=worker.getVision()) {
+    		//if he is the HQ's range
+    		if(worker.getRessourceType()==RessourceDeposit.FAITH) {
+    			player.setFaithStock(player.getFaithStock()+worker.getRessourceLoad());
+    		}
+    		if(worker.getRessourceType()==RessourceDeposit.AMBROISE) {
+    			player.setAmbroisieStock(player.getAmbroisieStock()+worker.getRessourceLoad());
+    		}
+    		worker.setCurrentRessourceLoad(0);
+    		if(worker.getCurrentDeposit()!=null) {
+    			worker.setDestination(worker.getCurrentDeposit().getPosition());
+    		}
     	}
+    }
     
     
     
