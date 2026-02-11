@@ -1,5 +1,6 @@
 package engine.process;
 
+import java.util.ArrayList;
 import java.util.List;
 import engine.map.Block;
 import engine.map.Map;
@@ -25,6 +26,28 @@ public interface MobileInterface {
 	void calculateSelectedArea(Block lastBlock);
 	int isBlockCollider(Block block);
 	
-	void addInBuildings(Building n);
-	 Map getMap();
+    void addInBuildings(Building n);
+    void addInUnits(Unit newUnit);
+    
+    Map getMap();
+    Player getPlayer();
+    ArrayList<RessourceDeposit> getRessourceDeposit();
+    ArrayList<Unit> getUnits();
+    ArrayList<Building> getBuildings();
+    ArrayList<Block> getSelectedArea();
+    ArrayList<Unit> getUnitsInSelectedArea();
+	CyclicCounter getHour();
+	CyclicCounter getMinute();
+	CyclicCounter getSecond();
+	Block getMousePosition(int y, int x);
+
+	
+	void selectBuilding(String string);
+	void buildBuilding(Block position);
+	void addQueue(UnitProducer building, Block position);
+	
+	void spawnUnit(Block spawnBlock);
+	void spawnUnitEnnemy(Block position);
+	void selectUnit(String string);
+	void unitMoveOrder(Block firstBlock);
 }

@@ -3,6 +3,7 @@ package engine.process;
 import java.util.ArrayList;
 
 import engine.map.Block;
+import engine.mobile.Player;
 import engine.mobile.RessourceDeposit;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
@@ -10,6 +11,12 @@ import engine.mobile.unit.Worker;
 public class UnitsManager implements UnitsInterface{
 	
     private String selectedUnit = null;
+    private MobileInterface manager;
+	
+   	public UnitsManager(MobileInterface manager) {
+   		this.manager = manager;
+   	}
+   	
 	
     public void selectUnit(String type) {
         this.selectedUnit = type;
@@ -27,7 +34,7 @@ public class UnitsManager implements UnitsInterface{
             Unit newUnit = UnitFactory.createUnit(selectedUnit, tier, faction, position);
     
             if (newUnit != null) {
-                units.add(newUnit);
+            	manager.addInUnits(newUnit);
                 System.out.println("Unité posée en : " + position.getLine() + ", " + position.getColumn());
             }
             selectedUnit = null;
@@ -47,7 +54,7 @@ public class UnitsManager implements UnitsInterface{
             Unit newUnit = UnitFactory.createUnit(selectedUnit, tier, faction, position);
     
             if (newUnit != null) {
-                units.add(newUnit);
+            	manager.addInUnits(newUnit);
                 System.out.println("Unité ennemie posée en : " + position.getLine() + ", " + position.getColumn());
             }
             selectedUnit = null;
@@ -90,9 +97,9 @@ public class UnitsManager implements UnitsInterface{
                     newLine -= yDisplacement; newColomn -= xDisplacement;
                 }
                 
-                if(newLine > 6 && newLine < map.getLineCount() && newColomn > 0 && newColomn < map.getColumnCount() - 30) {
-                    Block newPosition = map.getBlock(newLine, newColomn);
-                    if(isBlockCollider(newPosition) == 0) {
+                if(newLine > 6 && newLine < manager.getMap().getLineCount() && newColomn > 0 && newColomn < manager.getMap().getColumnCount() - 30) {
+                    Block newPosition = manager.getMap().getBlock(newLine, newColomn);
+                    if(manager.isBlockCollider(newPosition) == 0) {
                         displacedUnit.setPosition(newPosition);
                     }
                 }
@@ -100,19 +107,14 @@ public class UnitsManager implements UnitsInterface{
         }
     }
     public static void unitTime(Unit unit) {
-    	if(unit.getMoveCounter()<Unit.MOVE_TIME + unit.getMovementSpeed()) {
-    		unit.setMoveCounter(unit.getMoveCounter()+unit.getMovementSpeed());
-    	}else {
-    		unit.setMoveCounter((unit.getMoveCounter()+unit.getMovementSpeed())-Unit.MOVE_TIME);
-
-    	}
+    	unit.setMoveCounter(unit.getMoveCounter()+unit.getMovementSpeed());
 	}
     
     public void workerMouvement(Worker displacedWorker) {
     	unitMovement((Unit)displacedWorker); //Moves like a normal unit
     	if(displacedWorker.getCurrentDeposit()==null)  {
-    		for(RessourceDeposit deposit: this.ressourceDeposits) {
-    			if(getDistance(displacedWorker.getPosition(),deposit.getPosition())<displacedWorker.getVision()) {
+    		for(RessourceDeposit deposit: manager.getRessourceDeposit()) {
+    			if(manager.getDistance(displacedWorker.getPosition(),deposit.getPosition())<displacedWorker.getVision()) {
     				//if a deposit is in range
     					displacedWorker.setCurrentDeposit(deposit);
     					displacedWorker.setRessourceType(deposit.getType());
@@ -122,7 +124,7 @@ public class UnitsManager implements UnitsInterface{
     		}
     	}
     	
-    	else if(getDistance(displacedWorker.getPosition(),displacedWorker.getCurrentDeposit().getPosition())<=displacedWorker.getVision()) {
+    	else if(manager.getDistance(displacedWorker.getPosition(),displacedWorker.getCurrentDeposit().getPosition())<=displacedWorker.getVision()) {
     		//if a deposit is in worker's range	
     		displacedWorker.setCurrentRessourceLoad(displacedWorker.getRessourceLoad()+1);
     		}
@@ -134,8 +136,8 @@ public class UnitsManager implements UnitsInterface{
 
     	if(displacedWorker.getDestination().equals(displacedWorker.getPosition())) {
     		//if the worker is stationnary, we can check for new deposit
-    		for(RessourceDeposit deposit: this.ressourceDeposits) {
-    			if(getDistance(displacedWorker.getPosition(),deposit.getPosition())<displacedWorker.getVision()) {
+    		for(RessourceDeposit deposit: manager.getRessourceDeposit()) {
+    			if(manager.getDistance(displacedWorker.getPosition(),deposit.getPosition())<displacedWorker.getVision()) {
     				//if a deposit is in range
     					displacedWorker.setCurrentDeposit(deposit);
     					displacedWorker.setRessourceType(deposit.getType());
@@ -149,7 +151,8 @@ public class UnitsManager implements UnitsInterface{
     }
     
     public void workerRessourceDeposit(Worker worker){
-    	if(getDistance(worker.getPosition(),worker.getCurrentHQ().getPosition())<=worker.getVision()) {
+    	Player player=manager.getPlayer();
+    	if(manager.getDistance(worker.getPosition(),worker.getCurrentHQ().getPosition())<=worker.getVision()) {
     		//if he is the HQ's range
     		if(worker.getRessourceType()==RessourceDeposit.FAITH) {
     			player.setFaithStock(player.getFaithStock()+worker.getRessourceLoad());
@@ -168,9 +171,9 @@ public class UnitsManager implements UnitsInterface{
         Unit nearest = null;
         double minDistance = Double.MAX_VALUE;
         
-        for (Unit otherUnit : units) {
+        for (Unit otherUnit : manager.getUnits()) {
             if (otherUnit != unit && !otherUnit.getUnitFaction().equals(unit.getUnitFaction())) {
-                double dist = getDistance(unit.getPosition(), otherUnit.getPosition());
+                double dist = manager.getDistance(unit.getPosition(), otherUnit.getPosition());
                 
                 if (dist <= unit.getVision() && dist < minDistance) {
                     minDistance = dist;
@@ -214,46 +217,51 @@ public class UnitsManager implements UnitsInterface{
     }
     
     public void unitsInSelectedArea() {
-        this.unitsInSelectedArea = new ArrayList<Unit>();
-        
-        if(this.selectedArea != null){
-            int nbOfBlocksInSelectedArea = this.selectedArea.size();
-            int nbOfUnits = this.units.size();
+    	ArrayList<Block> selectedArea = manager.getSelectedArea();
+        ArrayList<Unit> units = manager.getUnits();  
+        ArrayList<Unit> unitsInSelectedArea = manager.getUnitsInSelectedArea(); 
+        if(unitsInSelectedArea != null) {
+            unitsInSelectedArea.clear();// empty the list so that we don't select the same units multiple times
+        }
+        if(selectedArea != null){
+            int nbOfBlocksInSelectedArea = selectedArea.size();
+            int nbOfUnits = units.size();
             
             for(int unitIndex = 0; unitIndex < nbOfUnits; unitIndex++){
                 Block unitPosition = units.get(unitIndex).getPosition();
                 for(int blockIndex = 0; blockIndex < nbOfBlocksInSelectedArea; blockIndex++) {
                     if(selectedArea.get(blockIndex).equals(unitPosition)) {
-                        this.unitsInSelectedArea.add(units.get(unitIndex));
+                        unitsInSelectedArea.add(units.get(unitIndex));
                         break;//in case the same block is present multiple time in the selection
                     }
                 }
             }
         } else {
-            this.unitsInSelectedArea = null;
+        	unitsInSelectedArea=null;
         }
-        System.out.println("Number of units in selected Area:" + this.unitsInSelectedArea.size());
+        System.out.println("Number of units in selected Area:" + manager.getUnitsInSelectedArea().size());
     }
     
     public void unitMoveOrder(Block destination){
-        int nbUnits = this.unitsInSelectedArea.size();
+        int nbUnits = manager.getUnitsInSelectedArea().size();
         for(int unitIndex = 0; unitIndex < nbUnits; unitIndex++) {
-            Unit unit = this.unitsInSelectedArea.get(unitIndex);
+            Unit unit = manager.getUnitsInSelectedArea().get(unitIndex);
             unit.setDestination(destination);
         }
     }
 
     public void moveAllUnits() {
-        int size = this.units.size();
+        int size = manager.getUnits().size();
         for(int i = 0; i < size; i++) {
-            Unit unit = this.units.get(i);
+            Unit unit = manager.getUnits().get(i);
             unitTime(unit);
-        	if(unit.getMoveCounter()>=Unit.MOVE_TIME) {
+        	if(unit.getMoveCounter()>=Unit.getMoveTime()) {
         		if(unit instanceof Worker) {
         			workerMouvement((Worker)unit);
         		}else {
                 	unitMovement(unit);
         		}
+        		unit.setMoveCounter(unit.getMoveCounter() - Unit.getMoveTime());
         	}        
         }
     }

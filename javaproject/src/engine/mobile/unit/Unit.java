@@ -11,7 +11,7 @@ import engine.mobile.MobileElement;
 
 public abstract class Unit extends MobileElement{
 
-	public static final int MOVE_TIME = 100;
+	private static final int MOVE_TIME = 100;
 	private int moveCounter;
 	
 	private String unitName;
@@ -152,5 +152,9 @@ public abstract class Unit extends MobileElement{
 
 	public void setMoveCounter(int moveCounter) {
 		this.moveCounter = moveCounter;
+	}
+
+	public static int getMoveTime() {
+		return MOVE_TIME;
 	}
 }

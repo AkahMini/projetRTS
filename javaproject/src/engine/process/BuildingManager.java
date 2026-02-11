@@ -11,10 +11,10 @@ import engine.map.Map;
 public class BuildingManager implements BuildingInterface{
 
 	private String selectedBuilding = null;
-    private static MobileInterface manager;
+    private MobileInterface manager;
 	
 	public BuildingManager(MobileInterface manager) {
-		BuildingManager.manager=manager;
+		this.manager=manager;
 	}
 	
 	
@@ -35,7 +35,7 @@ public class BuildingManager implements BuildingInterface{
             Building nouveauBatiment = BuildingFactory.createBuilding(selectedBuilding, tier, faction, position);
     
             if (nouveauBatiment != null) {
-                BuildingManager.manager.addInBuildings(nouveauBatiment);
+                manager.addInBuildings(nouveauBatiment);
                 System.out.println("Bâtiment posé en : " + position.getLine() + ", " + position.getColumn());
             }
             selectedBuilding = null;
@@ -74,10 +74,10 @@ public class BuildingManager implements BuildingInterface{
                 int line = building.getPosition().getLine();
                 int column = building.getPosition().getColumn() + 1;
                 
-                if(column < BuildingManager.manager.getMap().getColumnCount()) {
-                    Block spawnBlock = BuildingManager.manager.getMap().getBlock(line, column);
-                    selectedUnit = "INFANTRY";
-                    spawnUnit(spawnBlock);
+                if(column < manager.getMap().getColumnCount()) {
+                    Block spawnBlock = manager.getMap().getBlock(line, column);
+                    Unit newUnit = UnitFactory.createUnit("INFANTRY", 1, "Zeus", spawnBlock);
+                    manager.addInUnits(newUnit);
                     if(!queue.isEmpty()){
                         building.setCurrentProduction(building.getProductionSpeed());
                     }

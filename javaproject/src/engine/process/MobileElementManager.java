@@ -23,13 +23,13 @@ import engine.process.chrono.CyclicCounter;
 public class MobileElementManager implements MobileInterface {
     private Map map;
     
-    private List<Building> buildings = new ArrayList<Building>();
-    private List<Unit> unitsInSelectedArea = new ArrayList<Unit>();
-    private List<RessourceDeposit> ressourceDeposits = new ArrayList<RessourceDeposit>();
+    private ArrayList<Building> buildings = new ArrayList<Building>();
+    private ArrayList<Unit> unitsInSelectedArea = new ArrayList<Unit>();
+    private ArrayList<RessourceDeposit> ressourceDeposits = new ArrayList<RessourceDeposit>();
     
-    private List<Unit> units = new ArrayList<Unit>();
+    private ArrayList<Unit> units = new ArrayList<Unit>();
     
-    private List<Block> selectedArea;
+    private ArrayList<Block> selectedArea;
     
     private Chronometer chronometer = new Chronometer();
     private CyclicCounter timetweaker = new CyclicCounter(0,100,0);
@@ -44,6 +44,7 @@ public class MobileElementManager implements MobileInterface {
         this.player = new Player("Jhon Doe", "Zeus");
         chronometer.init();
         this.buildingManager = new BuildingManager(this);
+        this.unitManager = new UnitsManager(this);
     }
 
     public void firstRound() {
@@ -86,9 +87,9 @@ public class MobileElementManager implements MobileInterface {
             	}
                 // Ennemy scan
                 if (unit.getTarget() == null) {
-                    Unit enemy = scanForEnemy(unit);
+                    Unit enemy = unitManager.scanForEnemy(unit);
                     if (enemy != null) {
-                        combatSystem(unit, enemy);
+                    	unitManager.combatSystem(unit, enemy);
                     }
                 }
 
@@ -104,7 +105,7 @@ public class MobileElementManager implements MobileInterface {
                         
                         if (distance <= unit.getATKRange()) {
                             unit.setDestination(null);
-                            calculDegats(unit);
+                            unitManager.calculDegats(unit);
                         }
                     }
                 }
@@ -115,11 +116,11 @@ public class MobileElementManager implements MobileInterface {
                 buildingManager.reduceConstructionTime(building);
                 if(building instanceof UnitProducer) {
                     UnitProducer producer = (UnitProducer) building;
-                    removeQueue(producer);
+                    buildingManager.removeQueue(producer);
                 }
             }
         }
-        moveAllUnits();
+        unitManager.moveAllUnits();
     }
     
      
@@ -152,6 +153,7 @@ public class MobileElementManager implements MobileInterface {
                 this.selectedArea.add(map.getBlock(x, y));
             }
         }
+        unitManager.unitsInSelectedArea();
     }
     
 
@@ -177,12 +179,63 @@ public class MobileElementManager implements MobileInterface {
     public void addInBuildings(Building n) {
     	this.buildings.add(n);
     }
+    public void addInUnits(Unit u) {
+    	this.units.add(u);
+    }
     
     public Map getMap() {
     	return this.map;
     }
+    public ArrayList<Building> getBuildings() {
+        return buildings;
+    }
     
+    public ArrayList<RessourceDeposit> getRessourceDeposit(){
+    	return this.ressourceDeposits;
+    }
+
+    public ArrayList<Unit> getUnits() {
+        return units;
+    }
+
+    public ArrayList<Unit> getUnitsInSelectedArea(){
+        return unitsInSelectedArea;
+    }
     
+    @Override
+    public void selectUnit(String type) {
+        unitManager.selectUnit(type);
+    }
+
+    @Override
+    public void selectBuilding(String type) {
+        buildingManager.selectBuilding(type);
+    }
+
+    @Override
+    public void spawnUnit(Block spawnBlock) {
+        unitManager.spawnUnit(spawnBlock);
+    }
+    
+    @Override
+    public void spawnUnitEnnemy(Block position) {
+        unitManager.spawnUnitEnnemy(position);
+    }
+
+    @Override
+    public void buildBuilding(Block position) {
+        buildingManager.buildBuilding(position);
+    }
+
+    @Override
+    public void unitMoveOrder(Block destination) {
+        unitManager.unitMoveOrder(destination);
+    }
+
+    @Override
+    public void addQueue(UnitProducer building, Block position) {
+        buildingManager.addQueue(building, position);
+    }
     
     // --- Timer part ---
     public CyclicCounter getHour() {
@@ -197,21 +250,6 @@ public class MobileElementManager implements MobileInterface {
         return chronometer.getSecond();
     }
     
-    public List<Building> getBuildings() {
-        return buildings;
-    }
-    
-    public List<RessourceDeposit> getRessourceDeposit(){
-    	return this.ressourceDeposits;
-    }
-
-    public List<Unit> getUnits() {
-        return units;
-    }
-
-    public List<Unit> getUnitsInSelectedArea(){
-        return unitsInSelectedArea;
-    }
     
     public Block getMousePosition(int x, int y) {
         int line = x / GameConfiguration.BLOCK_SIZE;
@@ -219,7 +257,7 @@ public class MobileElementManager implements MobileInterface {
         return map.getBlock(line, column);
     }
     
-    public List<Block> getSelectedArea() {
+    public ArrayList<Block> getSelectedArea() {
         return selectedArea;
     }
     

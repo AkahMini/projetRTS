@@ -88,6 +88,7 @@ public class UnitFactory {
                 worker.setTierLevel(tier);
                 worker.setUnitFaction(faction);
                 worker.setMoveCounter(0);
+                worker.setCurrentRessourceLoad(0);
 
                 
                 
