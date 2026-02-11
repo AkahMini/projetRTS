@@ -25,6 +25,9 @@ public class RessourceDeposit {
 		this.position=position;
 		this.type=type;
 	}
+	public void RessourceDeposit(int blockLine,int blockColomn) {
+		
+	}
 	
 	public Block getPosition() {
 		return this.position;
