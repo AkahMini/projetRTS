@@ -11,6 +11,9 @@ import engine.mobile.MobileElement;
 
 public abstract class Unit extends MobileElement{
 
+	public static final int MOVE_TIME = 100;
+	private int moveCounter;
+	
 	private String unitName;
 	private String faction;
 	private int hp;
@@ -20,7 +23,7 @@ public abstract class Unit extends MobileElement{
 	private int faithCost;
 	private int attackDamage;
 	private float attackSpeed;
-	private float movementSpeed;
+	private int movementSpeed;
 	private int attackRange;
 	private int visionRange;
 	private float hpRegenRate;
@@ -81,11 +84,11 @@ public abstract class Unit extends MobileElement{
 	public void setATKSpeed(float atks) {
 		this.attackSpeed=atks;
 	}
-	public float getMS() {
+	public int getMovementSpeed() {
 		return this.movementSpeed;
 	}
-	public void setMS(float ms) {
-		this.movementSpeed=ms;
+	public void setMovementSpeed(int movementSpeed) {
+		this.movementSpeed=movementSpeed;
 	}
 	public int getATKRange() {
 		return this.attackRange;
@@ -141,5 +144,13 @@ public abstract class Unit extends MobileElement{
 
 	public void setIsInCombat(boolean isInCombat) {
 		this.isInCombat = isInCombat;
+	}
+
+	public int getMoveCounter() {
+		return moveCounter;
+	}
+
+	public void setMoveCounter(int moveCounter) {
+		this.moveCounter = moveCounter;
 	}
 }

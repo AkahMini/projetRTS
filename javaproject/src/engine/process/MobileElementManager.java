@@ -48,13 +48,8 @@ public class MobileElementManager implements MobileInterface {
     	Block playerHQposition = map.getBlock(10, 10); //TMP player's HQ
     	HQ playerHQ = new HQ(playerHQposition);
     	
-    	Worker playerWorker = new Worker(playerHQposition);  //TMP player's worker
-    	playerWorker.setUnitName("Initial worker");
-    	playerWorker.setHp(1);//TMP Because he keeps getting slimed
-    	playerWorker.setUnitFaction("Zeus");
-    	playerWorker.setVision(1);
+    	Worker playerWorker = (Worker) UnitFactory.createUnit("WORKER", 1, player.getFactionName(), playerHQ.getPosition());//TMP player's worker
     	playerWorker.setCurrentHQ(playerHQ);
-    	playerWorker.setMaxCargoCapacity(100);
     	playerWorker.setDestination(playerWorker.getPosition());
     	
     	Block faithDepositLocation = map.getBlock(30, 20);//TMP
@@ -278,6 +273,14 @@ public class MobileElementManager implements MobileInterface {
             }
         }
     }
+    public static void unitTime(Unit unit) {
+    	if(unit.getMoveCounter()<Unit.MOVE_TIME + unit.getMovementSpeed()) {
+    		unit.setMoveCounter(unit.getMoveCounter()+unit.getMovementSpeed());
+    	}else {
+    		unit.setMoveCounter((unit.getMoveCounter()+unit.getMovementSpeed())-Unit.MOVE_TIME);
+
+    	}
+	}
     
     public void workerMouvement(Worker displacedWorker) {
     	unitMovement((Unit)displacedWorker); //Moves like a normal unit
@@ -448,10 +451,14 @@ public class MobileElementManager implements MobileInterface {
         int size = this.units.size();
         for(int i = 0; i < size; i++) {
             Unit unit = this.units.get(i);
-        	if(unit instanceof Worker) {
-        		workerMouvement((Worker) unit); //We cast the type Worker for using the correct method
-        	}
-        	unitMovement(this.units.get(i));
+            unitTime(unit);
+        	if(unit.getMoveCounter()>=Unit.MOVE_TIME) {
+        		if(unit instanceof Worker) {
+        			workerMouvement((Worker)unit);
+        		}else {
+                	unitMovement(unit);
+        		}
+        	}        
         }
     }
     

@@ -86,7 +86,7 @@ public class PaintStrategy {
         if(building.getIsUnderConstruction()) {
         	graphics.setColor(Color.ORANGE); // Orange for building under Construction
         }
-        if(building instanceof HQ) {
+        else if(building instanceof HQ) {
         	graphics.setColor(Color.MAGENTA);
         }
         else if (building instanceof UnitProducer) {
@@ -125,7 +125,7 @@ public class PaintStrategy {
 	        int blockSize = GameConfiguration.BLOCK_SIZE;
 	        int y = position.getLine();
 	        int x = position.getColumn();
-	        graphics.setColor(Color.ORANGE);
+	        graphics.setColor(new Color(218, 165, 32));
 	        graphics.fillRect(x * blockSize, y * blockSize, blockSize, blockSize);
 	}
 
