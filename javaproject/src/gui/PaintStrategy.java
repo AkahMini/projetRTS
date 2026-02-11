@@ -109,9 +109,9 @@ public class PaintStrategy {
             int gap = 2;
 
             for (int i = 0; i < queueSize; i++) { // Loop to draw the queue as a visual cue for the user
-            	int drawX = (x * buildingSize) + (i * (dotSize + gap)); 
+            	int drawX = (x * blockSize) + (i * (dotSize + gap)); 
 
-            	int drawY = (y * buildingSize) + (buildingSize - dotSize - 2);
+            	int drawY = (y * blockSize) + (buildingSize - dotSize - 2);
 
             	graphics.setColor(Color.WHITE);
             	graphics.fillRect(drawX, drawY, dotSize, dotSize);

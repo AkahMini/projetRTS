@@ -184,7 +184,7 @@ public class MainGUI extends JFrame implements Runnable {
 	        	 manager.spawnUnitEnnemy(position);
 	        }else {
 	        	for (Building building : manager.getBuildings()) {
-		             if(building.getPosition().getLine()==line && building.getPosition().getColumn()==column) {
+		             if((building.getPosition().getLine()==line) && (building.getPosition().getColumn()==column)) {
 		            	 if(building instanceof UnitProducer && !building.getIsUnderConstruction()) {
 			            	 manager.addQueue((UnitProducer) building,building.getPosition());
 		            	 }
