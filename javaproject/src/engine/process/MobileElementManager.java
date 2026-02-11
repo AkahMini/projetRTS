@@ -124,6 +124,8 @@ public class MobileElementManager implements MobileInterface {
     }
     
     // --- Build part ---
+    
+    //temporaty method for testing
     public void selectBuilding(String type) {
         this.selectedBuilding = type;
         System.out.println("Mode construction : " + type);
@@ -136,7 +138,7 @@ public class MobileElementManager implements MobileInterface {
 
         String faction = "Zeus";
         int tier = 1;
-        if (position.getLine() >= 3 && position.getColumn() > 15) {
+        if (position.getLine() >= 6 && position.getColumn() > 30) {
             Building nouveauBatiment = BuildingFactory.createBuilding(selectedBuilding, tier, faction, position);
     
             if (nouveauBatiment != null) {
@@ -190,6 +192,8 @@ public class MobileElementManager implements MobileInterface {
              }
         }
     }
+    
+    
         
     // --- Unit part ---
     public void selectUnit(String type) {
@@ -222,7 +226,7 @@ public class MobileElementManager implements MobileInterface {
 
         String faction = "Hades";
         int tier = 1;
-        if (position.getLine() >= 3 && position.getColumn() > 15) {
+        if (position.getLine() >= 6 && position.getColumn() > 30) {
             Unit newUnit = UnitFactory.createUnit(selectedUnit, tier, faction, position);
     
             if (newUnit != null) {
@@ -269,7 +273,7 @@ public class MobileElementManager implements MobileInterface {
                     newLine -= yDisplacement; newColomn -= xDisplacement;
                 }
                 
-                if(newLine > 3 && newLine < map.getLineCount() && newColomn > 0 && newColomn < map.getColumnCount() - 15) {
+                if(newLine > 6 && newLine < map.getLineCount() && newColomn > 0 && newColomn < map.getColumnCount() - 30) {
                     Block newPosition = map.getBlock(newLine, newColomn);
                     if(isBlockCollider(newPosition) == 0) {
                         displacedUnit.setPosition(newPosition);

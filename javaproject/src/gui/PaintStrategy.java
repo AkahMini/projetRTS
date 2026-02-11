@@ -38,19 +38,22 @@ public class PaintStrategy {
 			for (int columnIndex = 0; columnIndex < map.getColumnCount(); columnIndex++) {
 				Block block = blocks[lineIndex][columnIndex];
 				
-				if(lineIndex==3) {
+				if(lineIndex==6) {
 					graphics.setColor(Color.BLACK);
 					graphics.fillRect(block.getColumn() * blockSize, block.getLine() * blockSize, blockSize, blockSize);
 				}
 				
-				else if(lineIndex>3 && columnIndex<GameConfiguration.COLUMN_COUNT-15) {
+				else if(lineIndex>6 && columnIndex<GameConfiguration.COLUMN_COUNT-30) {
 					if ((lineIndex + columnIndex) % 2 == 0) {
 						graphics.setColor(Color.GRAY);
+						graphics.fillRect(block.getColumn() * blockSize, block.getLine() * blockSize, blockSize, blockSize);
+					}else {
+						graphics.setColor(new Color(192,192,192));// darker gray
 						graphics.fillRect(block.getColumn() * blockSize, block.getLine() * blockSize, blockSize, blockSize);
 					}
 				}
 				
-				else if(lineIndex>3 && columnIndex==GameConfiguration.COLUMN_COUNT-15) {
+				else if(lineIndex>6 && columnIndex==GameConfiguration.COLUMN_COUNT-30) {
 					graphics.setColor(Color.BLACK);
 					graphics.fillRect(block.getColumn() * blockSize, block.getLine() * blockSize, blockSize, blockSize);
 				}
@@ -80,6 +83,7 @@ public class PaintStrategy {
 	public void paint(Building building, Graphics graphics) {
         Block position = building.getPosition();
         int blockSize = GameConfiguration.BLOCK_SIZE;
+        int buildingSize = blockSize *2;
 
         int y = position.getLine();
         int x = position.getColumn();
@@ -94,20 +98,20 @@ public class PaintStrategy {
             
         }
         
-        graphics.fillRect(x * blockSize, y * blockSize, blockSize, blockSize);
+        graphics.fillRect(x * blockSize, y * blockSize, buildingSize, buildingSize);
         
         graphics.setColor(Color.BLACK);
-        graphics.drawRect(x * blockSize, y * blockSize, blockSize, blockSize);
+        graphics.drawRect(x * blockSize, y * blockSize, buildingSize, buildingSize);
         if (building instanceof UnitProducer && !building.getIsUnderConstruction()) {
             int queueSize = ((UnitProducer) building).getProductionQueue().size();
             graphics.setColor(Color.WHITE);
-            int dotSize = blockSize / 5; 
+            int dotSize = buildingSize / 5; 
             int gap = 2;
 
             for (int i = 0; i < queueSize; i++) { // Loop to draw the queue as a visual cue for the user
-            	int drawX = (x * blockSize) + (i * (dotSize + gap)); 
+            	int drawX = (x * buildingSize) + (i * (dotSize + gap)); 
 
-            	int drawY = (y * blockSize) + (blockSize - dotSize - 2);
+            	int drawY = (y * buildingSize) + (buildingSize - dotSize - 2);
 
             	graphics.setColor(Color.WHITE);
             	graphics.fillRect(drawX, drawY, dotSize, dotSize);
@@ -123,10 +127,11 @@ public class PaintStrategy {
 	public void paint(RessourceDeposit deposit, Graphics graphics) {
 		 Block position = deposit.getPosition();
 	        int blockSize = GameConfiguration.BLOCK_SIZE;
+	        int buildingSize = blockSize *2;
 	        int y = position.getLine();
 	        int x = position.getColumn();
 	        graphics.setColor(Color.ORANGE);
-	        graphics.fillRect(x * blockSize, y * blockSize, blockSize, blockSize);
+	        graphics.fillRect(x * blockSize, y * blockSize, buildingSize, buildingSize);
 	}
 
 	public void paint(Unit unit, Graphics graphics) {
@@ -188,7 +193,7 @@ public class PaintStrategy {
 			int y=((lastLine-(firstLine))+1)*blockSize;
 			int x=((lastColumn-(firstColumn))+1)*blockSize;
 			// x & y are in pixel unit. this make the 1x1 block selection invisible at screen (mainly because you can only select 1 thing with this)
-			if(x>20 && y>20) {
+			if(x>10 && y>10) {
 				graphics.drawRect(firstColumn*blockSize, firstLine*blockSize, x, y);
 			}
 		}
@@ -197,7 +202,7 @@ public class PaintStrategy {
 	
 	//display selected Units info
 	public void paintUnitInfo(List<Unit> unitsInSelectedArea, Graphics graphics) {
-		//int blockSize = GameConfiguration.BLOCK_SIZE;
+
 		// These one are choses BECAUSE of the canva size, need to change to relative but good for now
 		int x =1650;
 		int y =100;
