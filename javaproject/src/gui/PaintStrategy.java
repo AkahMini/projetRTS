@@ -21,7 +21,12 @@ import engine.process.chrono.CyclicCounter;
 
 /**
  * 
+ * Class that contains all the method used to paint element on the game window.
+ * 
  * @author LE RAY Yann
+ * @author ATCHAOUI Ilias
+ * @author POSE Romain
+ * @version 1.0
  *
  */
 public class PaintStrategy {

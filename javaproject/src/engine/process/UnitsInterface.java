@@ -9,7 +9,12 @@ import engine.mobile.unit.Worker;
 
 /**
  * 
+ * Interface used for the UnitManager Class.
+ * 
  * @author LE RAY Yann
+ * @author ATCHAOUI Ilias
+ * @author POSE Romain
+ * @version 1.0
  *
  */
 

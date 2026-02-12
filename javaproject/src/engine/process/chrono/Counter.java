@@ -5,6 +5,11 @@ package engine.process.chrono;
  * 
  * We can only increment or decrement the value by 1 each time.
  * 
+ * @author LE RAY Yann
+ * @author ATCHAOUI Ilias
+ * @author POSE Romain
+ * @version 1.0
+ * 
  **/
 public class Counter {
 	private int value;

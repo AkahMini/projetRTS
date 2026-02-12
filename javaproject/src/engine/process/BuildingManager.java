@@ -8,6 +8,18 @@ import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Unit;
 import engine.map.Map;
 
+/*
+ * Manager pattern class. Used to manage building object.
+ * 
+ * @author LE RAY Yann
+ * @author ATCHAOUI Ilias
+ * @author POSE Romain
+ * @version 1.0
+ * 
+ */
+
+
+
 public class BuildingManager implements BuildingInterface{
 
 	private String selectedBuilding = null;

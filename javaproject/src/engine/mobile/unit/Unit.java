@@ -4,8 +4,15 @@ import engine.map.Block;
 import engine.mobile.MobileElement;
 
 /**
+ * Data class of an Unit, it will be extended by all the specific type of units.
+ * It contain many fields for all the attributes a Unit can have.
+ * They are all initialized in the UnitFactory class
+ * 
  * 
  * @author LE RAY Yann
+ * @author ATCHAOUI Ilias
+ * @author POSE Romain
+ * @version 1.0
  *
  */
 

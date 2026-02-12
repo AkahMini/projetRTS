@@ -13,8 +13,12 @@ import engine.process.chrono.CyclicCounter;
 
 /**
  * 
+ * Interface used for the MobileElementManager class.
+ * 
  * @author LE RAY Yann
- *
+ * @author ATCHAOUI Ilias
+ * @author POSE Romain
+ * @version 1.0
  */
 
 public interface MobileInterface {

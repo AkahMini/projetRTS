@@ -5,6 +5,11 @@ package engine.process.chrono;
  * 
  * We can set freely these two values when creating the bounded counter.
  * 
+ * @author LE RAY Yann
+ * @author ATCHAOUI Ilias
+ * @author POSE Romain
+ * @version 1.0
+ * 
  **/
 public class BoundedCounter extends Counter {
 	private int max;

@@ -3,8 +3,12 @@ package test;
 import gui.MainGUI;
 
 /**
+ * Test class used to initialize the game engine and and graphical component.
  * 
  * @author LE RAY Yann
+ * @author ATCHAOUI Ilias
+ * @author POSE Romain
+ * @version 1.0
  *
  */
 public class TestGame {

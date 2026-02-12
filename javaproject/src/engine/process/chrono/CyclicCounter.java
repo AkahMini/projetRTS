@@ -3,6 +3,12 @@ package engine.process.chrono;
 /**
  * The cyclic counter is a bounded counter with cyclic value change.
  * 
+ * 
+ * @author LE RAY Yann
+ * @author ATCHAOUI Ilias
+ * @author POSE Romain
+ * @version 1.0
+ * 
  **/
 public class CyclicCounter extends BoundedCounter {
 

@@ -16,8 +16,13 @@ import engine.process.chrono.Chronometer;
 import engine.process.chrono.CyclicCounter;
 
 /**
- *
- *@author LE RAY Yann
+ * 
+ * Manager pattern class. This is the main manager that manage the whole engine.
+ * 
+ * @author LE RAY Yann
+ * @author ATCHAOUI Ilias
+ * @author POSE Romain
+ * @version 1.0
  *
  */
 public class MobileElementManager implements MobileInterface {
@@ -36,6 +41,7 @@ public class MobileElementManager implements MobileInterface {
 
     private Player player;
     
+    //this is for the two other manager, maked separatly for easier manipulation
     private BuildingInterface buildingManager;
     private UnitsInterface unitManager;
     
@@ -49,7 +55,7 @@ public class MobileElementManager implements MobileInterface {
 
     public void firstRound() {
     	
-    	//We add player's HQ, ressource deposits
+    	//We add player's HQ, & ressource deposits
     	Block playerHQposition = map.getBlock(10, 10); //TMP player's HQ
     	HQ playerHQ = new HQ(playerHQposition);
     	
@@ -250,7 +256,7 @@ public class MobileElementManager implements MobileInterface {
         return chronometer.getSecond();
     }
     
-    
+    //other method
     public Block getMousePosition(int x, int y) {
         int line = x / GameConfiguration.BLOCK_SIZE;
         int column = y / GameConfiguration.BLOCK_SIZE;

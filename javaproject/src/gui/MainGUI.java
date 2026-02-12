@@ -26,7 +26,12 @@ import engine.process.chrono.*;
 
 /**
  * 
+ * Main graphic class that create the game window and manage the different user input.
+ * 
  * @author LE RAY Yann
+ * @author ATCHAOUI Ilias
+ * @author POSE Romain
+ * @version 1.0
  *
  */
 public class MainGUI extends JFrame implements Runnable {

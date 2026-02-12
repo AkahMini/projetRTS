@@ -4,6 +4,11 @@ package engine.process.chrono;
  * The chronometer class is composed of the three cyclic counters. We can count until 59 hours 59 minutes and 59
  * seconds.
  * 
+ * @author LE RAY Yann
+ * @author ATCHAOUI Ilias
+ * @author POSE Romain
+ * @version 1.0
+ * 
  **/
 public class Chronometer {
 	private CyclicCounter hour = new CyclicCounter(0, 59, 0);

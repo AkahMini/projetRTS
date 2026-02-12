@@ -8,6 +8,17 @@ import engine.mobile.RessourceDeposit;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
 
+
+/**
+ * 
+ * Manager Pattern class. Used to manage the different units in the engine.
+ * 
+ * @author LE RAY Yann
+ * @author ATCHAOUI Ilias
+ * @author POSE Romain
+ * @version 1.0
+ */
+
 public class UnitsManager implements UnitsInterface{
 	
     private String selectedUnit = null;

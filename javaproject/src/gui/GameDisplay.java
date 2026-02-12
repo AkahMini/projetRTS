@@ -17,7 +17,12 @@ import engine.process.chrono.CyclicCounter;
 
 /**
  * 
+ * Builder-like pattern class. Used to assemble the painting method from PaintStrategy for the MainGui.
+ * 
  * @author LE RAY Yann
+ * @author ATCHAOUI Ilias
+ * @author POSE Romain
+ * @version 1.0
  *
  */
 public class GameDisplay extends JPanel {

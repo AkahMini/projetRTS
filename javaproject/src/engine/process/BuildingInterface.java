@@ -4,6 +4,20 @@ import engine.map.Block;
 import engine.mobile.building.Building;
 import engine.mobile.building.UnitProducer;
 
+
+/**
+ * Interface used for the BuildingManager class.
+ *
+ *
+ * @author LE RAY Yann
+ * @author ATCHAOUI Ilias
+ * @author POSE Romain
+ * @version 1.0
+ * 
+ * 
+ */
+
+
 public interface BuildingInterface {
 	 void selectBuilding(String type);
 	 

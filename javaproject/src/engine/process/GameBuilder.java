@@ -7,7 +7,12 @@ import engine.map.Map;
 
 /**
  * 
+ * Builder pattern class. Use to launch the game by building the object map and initialize the main manager. 
+ * 
  * @author LE RAY Yann
+ * @author ATCHAOUI Ilias
+ * @author POSE Romain
+ * @version 1.0
  *
  */
 public class GameBuilder {

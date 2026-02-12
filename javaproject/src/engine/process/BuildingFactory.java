@@ -7,6 +7,19 @@ import engine.mobile.building.Building;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Unit;
 
+/**
+ * 
+ * Factory pattern class. Used to initialize building in the engine.
+ * 
+ * 
+ * @author LE RAY Yann
+ * @author ATCHAOUI Ilias
+ * @author POSE Romain
+ * @version 1.0
+ * 
+ * 
+*/
+
 public class BuildingFactory {
 	// Const
     public static final String PRODUCER_BUILDING = "PRODUCER";

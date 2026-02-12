@@ -7,7 +7,14 @@ import engine.mobile.building.HQ;
 
 /**
  * 
+ * Class representing a worker unit. For the version 1.0 worker cannot attack but they
+ * are initialized in the same class as other unit, UnitFactory. 
+ * May be changed in the future
+ * 
  * @author LE RAY Yann
+ * @author ATCHAOUI Ilias
+ * @author POSE Romain
+ * @version 1.0
  *
  */
 

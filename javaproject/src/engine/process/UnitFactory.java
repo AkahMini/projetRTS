@@ -5,6 +5,16 @@ import engine.mobile.unit.Unit;
 import engine.mobile.unit.Infantry;
 import engine.mobile.unit.Worker;
 
+/**
+ * 
+ * Factory pattern class. Used for initialize Unit.
+ * 
+ * @author LE RAY Yann
+ * @author ATCHAOUI Ilias
+ * @author POSE Romain
+ * @version 1.0
+ * 
+ */
 
 public class UnitFactory {
 

@@ -4,8 +4,12 @@ import engine.map.Block;
 import engine.mobile.MobileElement;
 
 /**
+ * Class representing an infantry Unit
  * 
  * @author LE RAY Yann
+ * @author ATCHAOUI Ilias
+ * @author POSE Romain
+ * @version 1.0
  *
  */
 
