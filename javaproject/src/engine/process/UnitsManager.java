@@ -157,7 +157,7 @@ public class UnitsManager implements UnitsInterface{
     		if(worker.getRessourceType()==RessourceDeposit.FAITH) {
     			player.setFaithStock(player.getFaithStock()+worker.getRessourceLoad());
     		}
-    		if(worker.getRessourceType()==RessourceDeposit.AMBROISE) {
+    		if(worker.getRessourceType()==RessourceDeposit.AMBROSIA) {
     			player.setAmbroisieStock(player.getAmbroisieStock()+worker.getRessourceLoad());
     		}
     		worker.setCurrentRessourceLoad(0);

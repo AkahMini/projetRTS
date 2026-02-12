@@ -61,7 +61,7 @@ public class MobileElementManager implements MobileInterface {
     	RessourceDeposit deposit1 = new RessourceDeposit(faithDepositLocation,RessourceDeposit.FAITH);
     	
     	Block ambroiseDepositLocation = map.getBlock(10, 35);
-    	RessourceDeposit deposit2= new RessourceDeposit(ambroiseDepositLocation,RessourceDeposit.AMBROISE);
+    	RessourceDeposit deposit2= new RessourceDeposit(ambroiseDepositLocation,RessourceDeposit.AMBROSIA);
     	
     	this.buildings.add(playerHQ);
     	this.units.add(playerWorker);

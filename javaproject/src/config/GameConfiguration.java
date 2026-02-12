@@ -1,9 +1,13 @@
 package config;
 
 /**
+ * Class containing the constant relevant to the game configuration like the game speed or the number of line
+ * and column of the grid
  * 
  * @author LE RAY Yann
- *
+ * @author ATCHAOUI Ilias
+ * @author POSE Romain
+ * @version 1.0
  */
 
 public class GameConfiguration {
