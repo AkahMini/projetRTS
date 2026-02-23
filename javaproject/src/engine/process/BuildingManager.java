@@ -82,7 +82,7 @@ public class BuildingManager implements BuildingInterface{
             // reduce remaining spawning time
             building.setCurrentProduction(building.getCurrentProduction() - 1);
             if (building.getCurrentProduction() == 0) {
-                queue.removeFirst();
+                queue.remove(0);
                 int line = building.getPosition().getLine();
                 int column = building.getPosition().getColumn() + 1;
                 
