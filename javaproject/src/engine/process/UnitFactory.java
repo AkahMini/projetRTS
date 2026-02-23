@@ -1,5 +1,6 @@
 package engine.process;
 
+import config.DefaultGameSettings;
 import engine.map.Block;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Infantry;
@@ -20,10 +21,6 @@ public class UnitFactory {
 
     public static final String INFANTRY_UNIT = "INFANTRY";//TEMP other types NEED to be added
     public static final String WORKER_UNIT = "WORKER";//TEMP other types NEED to be added
-    
-    private static final String ZEUS = "Zeus";
-    private static final String HADES = "Hades";
-    private static final String POSEIDON = "Poseidon";
 
     public static Unit createUnit(String type, int tier, String faction, Block position) {
         switch (type) {
@@ -58,35 +55,35 @@ public class UnitFactory {
                 if (tier == 1) {
                 	infantry.setMaxHp(100);
 
-                    if (faction.equals(ZEUS)) {
+                    if (faction.equals(DefaultGameSettings.ZEUS)) {
                     	//infantry=null;
                     	//temp for the test part
                     	infantry.setUnitName("Temp");
-                    } else if (faction.equals(HADES)) {
+                    } else if (faction.equals(DefaultGameSettings.HADES)) {
                     	infantry.setUnitName("Hoplite");
-                    } else if (faction.equals(POSEIDON)) {
+                    } else if (faction.equals(DefaultGameSettings.POSEIDON)) {
                     	infantry.setUnitName("Rétiaire");
                     }
                 }
                 else if (tier == 2) {
                 	infantry.setMaxHp(150);  
 
-                    if (faction.equals(ZEUS)) {
+                    if (faction.equals(DefaultGameSettings.ZEUS)) {
                     	infantry.setUnitName("Cyclope");
-                    } else if (faction.equals(HADES)) {
+                    } else if (faction.equals(DefaultGameSettings.HADES)) {
                     	infantry=null;
-                    } else if (faction.equals(POSEIDON)) {
+                    } else if (faction.equals(DefaultGameSettings.POSEIDON)) {
                     	infantry=null;
                     }
                 }
                 else if (tier == 3) {
                 	infantry.setMaxHp(200);
 
-                    if (faction.equals(ZEUS)) {
+                    if (faction.equals(DefaultGameSettings.ZEUS)) {
                     	infantry.setUnitName("Hydre");
-                    } else if (faction.equals(HADES)) {
+                    } else if (faction.equals(DefaultGameSettings.HADES)) {
                     	infantry=null;
-                    } else if (faction.equals(POSEIDON)) {
+                    } else if (faction.equals(DefaultGameSettings.POSEIDON)) {
                     	infantry.setUnitName("Kraken fantôme");
                     }
                 }
@@ -116,11 +113,11 @@ public class UnitFactory {
                 worker.setHp(50);
                 
             	worker.setMaxCargoCapacity(100);
-                	if (faction.equals(ZEUS)) {
+                	if (faction.equals(DefaultGameSettings.ZEUS)) {
                     	worker.setUnitName("Athéniens");
-                    } else if (faction.equals(HADES)) {
+                    } else if (faction.equals(DefaultGameSettings.HADES)) {
                     	worker.setUnitName("Spartiates");
-                    } else if (faction.equals(POSEIDON)) {
+                    } else if (faction.equals(DefaultGameSettings.POSEIDON)) {
                     	worker.setUnitName("Atlan ");
                     }
                 return worker;

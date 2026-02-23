@@ -1,5 +1,6 @@
 package engine.process;
 
+import config.DefaultGameSettings;
 import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
@@ -21,8 +22,8 @@ public class GameBuilder {
 		return new Map(GameConfiguration.LINE_COUNT, GameConfiguration.COLUMN_COUNT);
 	}
 
-	public static MobileInterface buildInitMobile(Map map) {
-		MobileInterface manager = new MobileElementManager(map);
+	public static MobileInterface buildInitMobile(Map map, DefaultGameSettings gameSettings) {
+		MobileInterface manager = new MobileElementManager(map, gameSettings);
 				
 		return manager;
 	}

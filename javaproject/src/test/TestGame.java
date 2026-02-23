@@ -1,5 +1,6 @@
 package test;
 
+import config.DefaultGameSettings;
 import gui.MainGUI;
 
 /**
@@ -15,6 +16,7 @@ public class TestGame {
 	public static void main(String[] args) {
 
 		MainGUI gameMainGUI = new MainGUI("RTS game");
+		DefaultGameSettings gameSettings= new DefaultGameSettings();
 
 		Thread gameThread = new Thread(gameMainGUI);
 		gameThread.start();

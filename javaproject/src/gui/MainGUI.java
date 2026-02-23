@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import config.DefaultGameSettings;
 import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
@@ -36,10 +37,13 @@ import engine.process.chrono.*;
  */
 public class MainGUI extends JFrame implements Runnable {
 	
+	public DefaultGameSettings gameSettings = new DefaultGameSettings();
 	
 	private static final long serialVersionUID = 1L;
 
 	private Map map;
+	
+	
 
 	private final static Dimension preferredSize = new Dimension(GameConfiguration.WINDOW_WIDTH, GameConfiguration.WINDOW_HEIGHT);
 	
@@ -114,7 +118,7 @@ public class MainGUI extends JFrame implements Runnable {
 		
 		
 		map = GameBuilder.buildMap();
-		manager = GameBuilder.buildInitMobile(map);
+		manager = GameBuilder.buildInitMobile(map,this.gameSettings);
 		dashboard = new GameDisplay(map, manager);
 		
 
@@ -131,7 +135,7 @@ public class MainGUI extends JFrame implements Runnable {
 		setResizable(false);
 	}
 	
-	
+
 	@Override
 	public void run() {
 		manager.firstRound();

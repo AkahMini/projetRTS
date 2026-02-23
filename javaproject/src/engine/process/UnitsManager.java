@@ -2,11 +2,13 @@ package engine.process;
 
 import java.util.ArrayList;
 
+import config.DefaultGameSettings;
 import engine.map.Block;
 import engine.mobile.Player;
 import engine.mobile.RessourceDeposit;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
+import gui.MainGUI;
 
 
 /**
@@ -23,9 +25,11 @@ public class UnitsManager implements UnitsInterface{
 	
     private String selectedUnit = null;
     private MobileInterface manager;
+    private DefaultGameSettings gameSettings;
 	
-   	public UnitsManager(MobileInterface manager) {
+   	public UnitsManager(MobileInterface manager, DefaultGameSettings gameSettings) {
    		this.manager = manager;
+   		this.gameSettings=gameSettings;
    	}
    	
 	
@@ -257,7 +261,9 @@ public class UnitsManager implements UnitsInterface{
         int nbUnits = manager.getUnitsInSelectedArea().size();
         for(int unitIndex = 0; unitIndex < nbUnits; unitIndex++) {
             Unit unit = manager.getUnitsInSelectedArea().get(unitIndex);
-            unit.setDestination(destination);
+            if(unit.getUnitFaction().equals(this.gameSettings.getPlayerFaction())) {
+            	unit.setDestination(destination);
+            }
         }
     }
 

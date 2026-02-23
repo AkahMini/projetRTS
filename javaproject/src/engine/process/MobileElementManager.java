@@ -2,6 +2,8 @@ package engine.process;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import config.DefaultGameSettings;
 import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
@@ -26,7 +28,9 @@ import engine.process.chrono.CyclicCounter;
  *
  */
 public class MobileElementManager implements MobileInterface {
-    private Map map;
+    private DefaultGameSettings gameSettings;
+	
+	private Map map;
     
     private ArrayList<Building> buildings = new ArrayList<Building>();
     private ArrayList<Unit> unitsInSelectedArea = new ArrayList<Unit>();
@@ -45,12 +49,13 @@ public class MobileElementManager implements MobileInterface {
     private BuildingInterface buildingManager;
     private UnitsInterface unitManager;
     
-    public MobileElementManager(Map map) {
-        this.map = map;
+    public MobileElementManager(Map map, DefaultGameSettings gameSettings) {
+        this.gameSettings=gameSettings;
+    	this.map = map;
         this.player = new Player("Jhon Doe", "Zeus");
         chronometer.init();
         this.buildingManager = new BuildingManager(this);
-        this.unitManager = new UnitsManager(this);
+        this.unitManager = new UnitsManager(this,this.gameSettings);
     }
 
     public void firstRound() {

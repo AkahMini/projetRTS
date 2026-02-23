@@ -1,5 +1,6 @@
 package config;
 
+
 /**
  * Class containing the constant relevant to the game configuration like the game speed or the number of line
  * and column of the grid
@@ -20,5 +21,6 @@ public class GameConfiguration {
 	public static final int COLUMN_COUNT = WINDOW_WIDTH / BLOCK_SIZE;
 	
 	public static final int GAME_SPEED =10;//Default 10
+	
 
 }
