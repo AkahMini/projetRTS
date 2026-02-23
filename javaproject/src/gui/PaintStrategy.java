@@ -30,6 +30,9 @@ import engine.process.chrono.CyclicCounter;
  *
  */
 public class PaintStrategy {
+	private final int windowWidth = GameConfiguration.WINDOW_WIDTH;
+	private final int windowHeight = GameConfiguration.WINDOW_HEIGHT; 
+	
 	
 	public void paint(Map map, Graphics graphics) {
 		int blockSize = GameConfiguration.BLOCK_SIZE;
@@ -71,17 +74,17 @@ public class PaintStrategy {
 
 		graphics.setColor(Color.BLACK);
 		graphics.setFont(new Font("Arial", Font.BOLD, 24));
-		graphics.drawString("Temps de jeu :"+hour.toString()+":"+minute.toString()+":"+second.toString(), 20, 28);
+		graphics.drawString("Temps de jeu :"+hour.toString()+":"+minute.toString()+":"+second.toString(), windowWidth/80,windowHeight/20);
 	}
 	
 	public void paint(Player player, Graphics graphics) {
 		graphics.setFont(new Font("Arial", Font.PLAIN, 20));
 		graphics.setColor(new Color(204,102,0));
-		graphics.drawString("Population : "+player.getCurrentPopulation()+"/"+player.getMaxPopulation(), 1670,28);
+		graphics.drawString("Population : "+player.getCurrentPopulation()+"/"+player.getMaxPopulation(), windowWidth/3,windowHeight/20);
 		graphics.setColor(new Color(0,204,102));
-		graphics.drawString("Ambroisie : "+player.getAmbroisieStock(), 1370,28);
+		graphics.drawString("Ambroisie : "+player.getAmbroisieStock(), windowWidth/2,windowHeight/20);
 		graphics.setColor(new Color(0,0,153));
-		graphics.drawString("Foi : "+player.getFaithStock(), 1070,28);
+		graphics.drawString("Foi : "+player.getFaithStock(), 2*windowWidth/3,windowHeight/20);
 	}
 	
 	
@@ -208,9 +211,10 @@ public class PaintStrategy {
 	//display selected Units info
 	public void paintUnitInfo(List<Unit> unitsInSelectedArea, Graphics graphics) {
 
-		// These one are choses BECAUSE of the canva size, need to change to relative but good for now
-		int x =1650;
-		int y =100;
+		int x =windowWidth-windowWidth/5;
+		int y =windowHeight/6;
+		
+
 		graphics.setColor(Color.BLACK);
 		graphics.setFont(new Font("Arial", Font.PLAIN, 20));
 		graphics.drawString("Unitées selectionées : "+unitsInSelectedArea.size(), x, y);

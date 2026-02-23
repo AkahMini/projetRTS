@@ -12,8 +12,8 @@ package config;
  */
 
 public class GameConfiguration {
-	public static final int WINDOW_WIDTH = 1920;
-	public static final int WINDOW_HEIGHT = 1080;
+	public static final int WINDOW_WIDTH = 1280;
+	public static final int WINDOW_HEIGHT = 720;
 
 	public static final int BLOCK_SIZE = 10;//Default 10
 
