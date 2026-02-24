@@ -2,8 +2,6 @@ package engine.process;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import config.DefaultGameSettings;
 import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
@@ -28,9 +26,7 @@ import engine.process.chrono.CyclicCounter;
  *
  */
 public class MobileElementManager implements MobileInterface {
-    private DefaultGameSettings gameSettings;
-	
-	private Map map;
+    private Map map;
     
     private ArrayList<Building> buildings = new ArrayList<Building>();
     private ArrayList<Unit> unitsInSelectedArea = new ArrayList<Unit>();
@@ -49,13 +45,12 @@ public class MobileElementManager implements MobileInterface {
     private BuildingInterface buildingManager;
     private UnitsInterface unitManager;
     
-    public MobileElementManager(Map map, DefaultGameSettings gameSettings) {
-        this.gameSettings=gameSettings;
-    	this.map = map;
+    public MobileElementManager(Map map) {
+        this.map = map;
         this.player = new Player("Jhon Doe", "Zeus");
         chronometer.init();
         this.buildingManager = new BuildingManager(this);
-        this.unitManager = new UnitsManager(this,this.gameSettings);
+        this.unitManager = new UnitsManager(this);
     }
 
     public void firstRound() {
@@ -103,6 +98,23 @@ public class MobileElementManager implements MobileInterface {
                     	unitManager.combatSystem(unit, enemy);
                     }
                 }
+
+                // 3. Combat
+                if (unit.getTarget() != null && unit.getIsInCombat()) {
+                    Unit target = (Unit) unit.getTarget();
+                    
+                    if (target.getHp() <= 0) {
+                        unit.setTarget(null);
+                        unit.setIsInCombat(false);
+                    } else {
+                        double distance = getDistance(unit.getPosition(), target.getPosition());
+                        
+                        if (distance <= unit.getATKRange()) {
+                            unit.setDestination(null);
+                            unitManager.calculDegats(unit);
+                        }
+                    }
+                }
             }
             
             // Buildings management
@@ -114,39 +126,15 @@ public class MobileElementManager implements MobileInterface {
                 }
             }
         }
-        for(int i=0;i<units.size();i++) {
-        	Unit unit=units.get(i);
-        	// 3. Combat
-            if (unit.getTarget() != null && unit.getIsInCombat()) {
-                Unit target = (Unit) unit.getTarget();
-                
-                if (target.getHp() <= 0) {
-                    unit.setTarget(null);
-                    unit.setIsInCombat(false);
-                } else {
-                    double distance = getDistance(unit.getPosition(), target.getPosition());
-                    
-                    if (distance <= unit.getATKRange()) {
-                        unit.setDestination(null);
-                        unitManager.calculDegats(unit);
-                    }else {
-                    	// if not in range, we pursue
-                        unit.setDestination(target.getPosition());
-                    }
-                }
-            }
-        	
-        }
         unitManager.moveAllUnits();
     }
     
      
     
     public double getDistance(Block b1, Block b2) {
-        // Chebyshev distance to avoid issue with diagonal calculation
-        int dx = Math.abs(b1.getColumn() - b2.getColumn());
-        int dy = Math.abs(b1.getLine() - b2.getLine());
-        return Math.max(dx, dy);
+        int dx = b1.getColumn() - b2.getColumn();
+        int dy = b1.getLine() - b2.getLine();
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     

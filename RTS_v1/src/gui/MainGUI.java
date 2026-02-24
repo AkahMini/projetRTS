@@ -15,7 +15,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import config.DefaultGameSettings;
 import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
@@ -37,13 +36,10 @@ import engine.process.chrono.*;
  */
 public class MainGUI extends JFrame implements Runnable {
 	
-	public DefaultGameSettings gameSettings = new DefaultGameSettings();
 	
 	private static final long serialVersionUID = 1L;
 
 	private Map map;
-	
-	
 
 	private final static Dimension preferredSize = new Dimension(GameConfiguration.WINDOW_WIDTH, GameConfiguration.WINDOW_HEIGHT);
 	
@@ -109,25 +105,16 @@ public class MainGUI extends JFrame implements Runnable {
 		    }
 		});
 		
-		javax.swing.JButton testButton4 = new javax.swing.JButton("Test ranged Unit and attackspeed *2");
-
-		testButton4.addActionListener(new ActionListener() { // bouton temporaire pour test
-		    public void actionPerformed(ActionEvent e) {
-		        manager.selectUnit("ARCHER");
-		        typeSelection="unitEnnemy";
-		    }
-		});
-		
 		RightPanel.add(testButton);
 		RightPanel.add(testButton2);
 		RightPanel.add(testButton3);
-		RightPanel.add(testButton4);
 		contentPane.add(RightPanel, BorderLayout.SOUTH);
+
 
 		
 		
 		map = GameBuilder.buildMap();
-		manager = GameBuilder.buildInitMobile(map,this.gameSettings);
+		manager = GameBuilder.buildInitMobile(map);
 		dashboard = new GameDisplay(map, manager);
 		
 
@@ -144,7 +131,7 @@ public class MainGUI extends JFrame implements Runnable {
 		setResizable(false);
 	}
 	
-
+	
 	@Override
 	public void run() {
 		manager.firstRound();

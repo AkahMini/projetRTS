@@ -19,9 +19,7 @@ import engine.mobile.MobileElement;
 public abstract class Unit extends MobileElement{
 
 	private static final int MOVE_TIME = 100;
-	private static final int ATTACK_TIME = 100;
 	private int moveCounter;
-	private double attackCounter;
 	
 	private String unitName;
 	private String faction;
@@ -165,17 +163,5 @@ public abstract class Unit extends MobileElement{
 
 	public static int getMoveTime() {
 		return MOVE_TIME;
-	}
-
-	public static int getAttackTime() {
-		return ATTACK_TIME;
-	}
-
-	public double getAttackCounter() {
-		return attackCounter;
-	}
-
-	public void setAttackCounter(double d) {
-		this.attackCounter = d;
 	}
 }

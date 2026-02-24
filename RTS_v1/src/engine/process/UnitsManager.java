@@ -2,13 +2,11 @@ package engine.process;
 
 import java.util.ArrayList;
 
-import config.DefaultGameSettings;
 import engine.map.Block;
 import engine.mobile.Player;
 import engine.mobile.RessourceDeposit;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
-import gui.MainGUI;
 
 
 /**
@@ -25,11 +23,9 @@ public class UnitsManager implements UnitsInterface{
 	
     private String selectedUnit = null;
     private MobileInterface manager;
-    private DefaultGameSettings gameSettings;
 	
-   	public UnitsManager(MobileInterface manager, DefaultGameSettings gameSettings) {
+   	public UnitsManager(MobileInterface manager) {
    		this.manager = manager;
-   		this.gameSettings=gameSettings;
    	}
    	
 	
@@ -219,18 +215,15 @@ public class UnitsManager implements UnitsInterface{
         Unit target = (Unit) unit.getTarget();
         
         if (target != null) {
-        	double attack=unit.getAttackCounter();
-        	unit.setAttackCounter(attack +unit.getATKSpeed());
-        	double dist = manager.getDistance(unit.getPosition(), target.getPosition());
-        	if(attack>=Unit.getAttackTime() && dist<=unit.getATKRange() ) {
-        		int newHp = Math.max(0, target.getHp() - unit.getATK());
-                target.setHp(newHp);
-        		unit.setAttackCounter(unit.getAttackCounter() - Unit.getAttackTime());
-                if (target.getHp() <= 0) {
-                    unit.setTarget(null);
-                    unit.setIsInCombat(false);
-                }
-        	}
+            int damage = (int) (unit.getATK() * unit.getATKSpeed());
+            
+            int newHp = Math.max(0, target.getHp() - damage);
+            target.setHp(newHp);
+            
+            if (target.getHp() <= 0) {
+                unit.setTarget(null);
+                unit.setIsInCombat(false);
+            }
         }
     }
     
@@ -264,11 +257,7 @@ public class UnitsManager implements UnitsInterface{
         int nbUnits = manager.getUnitsInSelectedArea().size();
         for(int unitIndex = 0; unitIndex < nbUnits; unitIndex++) {
             Unit unit = manager.getUnitsInSelectedArea().get(unitIndex);
-            if(unit.getUnitFaction().equals(this.gameSettings.getPlayerFaction())) {
-            	unit.setDestination(destination);
-            	unit.setTarget(null);
-                unit.setIsInCombat(false);
-            }
+            unit.setDestination(destination);
         }
     }
 
