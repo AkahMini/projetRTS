@@ -54,6 +54,29 @@ public class BuildingManager implements BuildingInterface{
         }
     }
     
+    public void buildingsInSelectedArea() {
+    	ArrayList<Block> selectedArea = manager.getSelectedArea();
+        ArrayList<Building> buildings = manager.getBuildings();
+        ArrayList<Building> buildingsInSelectedArea = manager.getBuildingsInSelectedArea();
+        if(buildingsInSelectedArea != null) {
+        	buildingsInSelectedArea.clear();//empty the list for the new selection
+        }
+        if(selectedArea !=null) {
+        	int nbOfBlocksInSelectedArea = selectedArea.size();
+            int nbOfBuildings = buildings.size();
+            
+            for(int buildingIndex=0; buildingIndex<nbOfBuildings; buildingIndex++) {
+            	Block buildingPosition = buildings.get(buildingIndex).getPosition();
+            	for(int blockIndex = 0; blockIndex<nbOfBlocksInSelectedArea;blockIndex++) {
+            		if(selectedArea.get(blockIndex).equals(buildingPosition)) {
+            			buildingsInSelectedArea.add(buildings.get(buildingIndex));
+            			break;//if 2 buildings are in the same position (not possible but in case of + it run faster :p)
+            		}
+            	}
+            }
+        }
+    }
+    
     public void reduceConstructionTime(Building building) {
         if (building.getIsUnderConstruction()) {
             // reduce remaining building time

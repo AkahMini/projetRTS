@@ -34,6 +34,7 @@ public class MobileElementManager implements MobileInterface {
     
     private ArrayList<Building> buildings = new ArrayList<Building>();
     private ArrayList<Unit> unitsInSelectedArea = new ArrayList<Unit>();
+    private ArrayList<Building> buildingsInSelectedArea = new ArrayList<Building>();
     private ArrayList<RessourceDeposit> ressourceDeposits = new ArrayList<RessourceDeposit>();
     
     private ArrayList<Unit> units = new ArrayList<Unit>();
@@ -172,6 +173,7 @@ public class MobileElementManager implements MobileInterface {
             }
         }
         unitManager.unitsInSelectedArea();
+        buildingManager.buildingsInSelectedArea();
     }
     
 
@@ -218,6 +220,10 @@ public class MobileElementManager implements MobileInterface {
 
     public ArrayList<Unit> getUnitsInSelectedArea(){
         return unitsInSelectedArea;
+    }
+    
+    public ArrayList<Building> getBuildingsInSelectedArea(){
+    	return buildingsInSelectedArea;
     }
     
     @Override

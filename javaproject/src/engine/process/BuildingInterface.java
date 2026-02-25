@@ -23,6 +23,8 @@ public interface BuildingInterface {
 	 
 	 void buildBuilding(Block position);
 	 
+	 void buildingsInSelectedArea();
+	 
 	 void reduceConstructionTime(Building building);
 	 
 	 void addQueue(UnitProducer building, Block position);
