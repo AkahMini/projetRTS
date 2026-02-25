@@ -129,7 +129,7 @@ public class UnitsManager implements UnitsInterface{
     	unitMovement((Unit)displacedWorker); //Moves like a normal unit
     	if(displacedWorker.getCurrentDeposit()==null)  {
     		for(RessourceDeposit deposit: manager.getRessourceDeposit()) {
-    			if(manager.getDistance(displacedWorker.getPosition(),deposit.getPosition())<displacedWorker.getVision()) {
+    			if(manager.getDistance(displacedWorker.getPosition(),deposit.getPosition())<=displacedWorker.getVision()) {
     				//if a deposit is in range
     					displacedWorker.setCurrentDeposit(deposit);
     					displacedWorker.setRessourceType(deposit.getType());

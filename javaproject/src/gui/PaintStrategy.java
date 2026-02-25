@@ -15,6 +15,7 @@ import engine.mobile.RessourceDeposit;
 import engine.mobile.building.Building;
 import engine.mobile.building.HQ;
 import engine.mobile.building.UnitProducer;
+import engine.mobile.unit.Artillery;
 import engine.mobile.unit.Infantry;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
@@ -168,6 +169,9 @@ public class PaintStrategy {
         }
         if(unit instanceof Worker) {
         	graphics.setColor(Color.YELLOW);
+        }
+        if(unit instanceof Artillery) {
+        	graphics.setColor(Color.RED.darker());
         }
         
         graphics.fillOval(x * blockSize, y * blockSize, blockSize, blockSize);

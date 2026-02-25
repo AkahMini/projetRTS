@@ -4,6 +4,7 @@ import config.DefaultGameSettings;
 import engine.map.Block;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Infantry;
+import engine.mobile.unit.Artillery;
 import engine.mobile.unit.Worker;
 
 /**
@@ -20,75 +21,75 @@ import engine.mobile.unit.Worker;
 public class UnitFactory {
 
     public static final String INFANTRY_UNIT = "INFANTRY";//TEMP other types NEED to be added
-    public static final String ARCHER_UNIT = "ARCHER";//TEMP other types NEED to be added
+    public static final String ARTILLERY_UNIT = "ARTILLERY";//TEMP other types NEED to be added
     public static final String WORKER_UNIT = "WORKER";//TEMP other types NEED to be added
 
     public static Unit createUnit(String type, int tier, String faction, Block position) {
         switch (type) {
       //Unit prod
-        case ARCHER_UNIT:
-            Infantry archer = new Infantry(position);
+        case ARTILLERY_UNIT:
+             Artillery artillery = new Artillery(position);
             
             // common value
-            archer.setTierLevel(tier);
-            archer.setUnitFaction(faction);
-            archer.setMoveCounter(0);
-            archer.setAttackCounter(0);
+            artillery.setTierLevel(tier);
+            artillery.setUnitFaction(faction);
+            artillery.setMoveCounter(0);
+            artillery.setAttackCounter(0);
 
             
             
             //default setter for now :
-            archer.setPopCost(1);
-            archer.setACost(1);
-            archer.setFCost(1);
-            archer.setATK(1);
-            archer.setATKSpeed(2);
-            archer.setMovementSpeed(9);
-            archer.setATKRange(2);
-            archer.setVision(4);
-            archer.setHpRegen(1);
-            archer.setTarget(null);
-            archer.setHp(70);
+            artillery.setPopCost(1);
+            artillery.setACost(1);
+            artillery.setFCost(1);
+            artillery.setATK(1);
+            artillery.setATKSpeed(2);
+            artillery.setMovementSpeed(9);
+            artillery.setATKRange(2);
+            artillery.setVision(4);
+            artillery.setHpRegen(1);
+            artillery.setTarget(null);
+            artillery.setHp(70);
             
             
             //this is an exemple and would be upgraded
             //TIER 
             if (tier == 1) {
-            	archer.setMaxHp(100);
+            	artillery.setMaxHp(100);
 
                 if (faction.equals(DefaultGameSettings.ZEUS)) {
                 	//infantry=null;
                 	//temp for the test part
-                	archer.setUnitName("Temp");
+                	artillery.setUnitName("Temp");
                 } else if (faction.equals(DefaultGameSettings.HADES)) {
-                	archer.setUnitName("Hoplite");
+                	artillery.setUnitName("Hoplite");
                 } else if (faction.equals(DefaultGameSettings.POSEIDON)) {
-                	archer.setUnitName("Rétiaire");
+                	artillery.setUnitName("Rétiaire");
                 }
             }
             else if (tier == 2) {
-            	archer.setMaxHp(150);  
+            	artillery.setMaxHp(150);  
 
                 if (faction.equals(DefaultGameSettings.ZEUS)) {
-                	archer.setUnitName("Cyclope");
+                	artillery.setUnitName("Cyclope");
                 } else if (faction.equals(DefaultGameSettings.HADES)) {
-                	archer=null;
+                	artillery=null;
                 } else if (faction.equals(DefaultGameSettings.POSEIDON)) {
-                	archer=null;
+                	artillery=null;
                 }
             }
             else if (tier == 3) {
-            	archer.setMaxHp(200);
+            	artillery.setMaxHp(200);
 
                 if (faction.equals(DefaultGameSettings.ZEUS)) {
-                	archer.setUnitName("Hydre");
+                	artillery.setUnitName("Hydre");
                 } else if (faction.equals(DefaultGameSettings.HADES)) {
-                	archer=null;
+                	artillery=null;
                 } else if (faction.equals(DefaultGameSettings.POSEIDON)) {
-                	archer.setUnitName("Kraken fantôme");
+                	artillery.setUnitName("Kraken fantôme");
                 }
             }
-            return archer;
+            return artillery;
             //Unit prod
             case INFANTRY_UNIT:
                 Infantry infantry = new Infantry(position);

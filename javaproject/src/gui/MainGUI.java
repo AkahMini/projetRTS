@@ -113,7 +113,7 @@ public class MainGUI extends JFrame implements Runnable {
 
 		testButton4.addActionListener(new ActionListener() { // bouton temporaire pour test
 		    public void actionPerformed(ActionEvent e) {
-		        manager.selectUnit("ARCHER");
+		        manager.selectUnit("ARTILLERY");
 		        typeSelection="unitEnnemy";
 		    }
 		});
@@ -202,7 +202,9 @@ public class MainGUI extends JFrame implements Runnable {
 	        	 manager.spawnUnitEnnemy(position);
 	        }else {
 	        	for (Building building : manager.getBuildings()) {
-		             if((building.getPosition().getLine()==line) && (building.getPosition().getColumn()==column)) {
+	        		int lineBuilding=building.getPosition().getLine();
+	        		int columnBuilding=building.getPosition().getColumn();
+		             if((line==lineBuilding || line==lineBuilding+1) && (column==columnBuilding || column==columnBuilding+1)) {
 		            	 if(building instanceof UnitProducer && !building.getIsUnderConstruction()) {
 			            	 manager.addQueue((UnitProducer) building,building.getPosition());
 		            	 }
