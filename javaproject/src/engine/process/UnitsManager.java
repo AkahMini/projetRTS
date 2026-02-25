@@ -45,7 +45,7 @@ public class UnitsManager implements UnitsInterface{
 
         String faction = "Zeus";
         int tier = 1;
-        if (position.getLine() >= 3 && position.getColumn() > 15) {
+        if (position.getLine() >= 3 && position.getColumn() > 28) {
             Unit newUnit = UnitFactory.createUnit(selectedUnit, tier, faction, position);
     
             if (newUnit != null) {
@@ -65,7 +65,7 @@ public class UnitsManager implements UnitsInterface{
 
         String faction = "Hades";
         int tier = 1;
-        if (position.getLine() >= 6 && position.getColumn() > 30) {
+        if (position.getLine() >= 6 && position.getColumn() > 28) {
             Unit newUnit = UnitFactory.createUnit(selectedUnit, tier, faction, position);
     
             if (newUnit != null) {
@@ -112,7 +112,7 @@ public class UnitsManager implements UnitsInterface{
                     newLine -= yDisplacement; newColomn -= xDisplacement;
                 }
                 
-                if(newLine > 6 && newLine < manager.getMap().getLineCount() && newColomn > 0 && newColomn < manager.getMap().getColumnCount() - 30) {
+                if(newLine > 6 && newLine < manager.getMap().getLineCount() && newColomn > 0 && newColomn < manager.getMap().getColumnCount() - 28) {
                     Block newPosition = manager.getMap().getBlock(newLine, newColomn);
                     if(manager.isBlockCollider(newPosition) == 0) {
                         displacedUnit.setPosition(newPosition);

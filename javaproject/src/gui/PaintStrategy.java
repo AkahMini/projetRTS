@@ -9,6 +9,7 @@ import java.util.List;
 import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
+import engine.mobile.MobileElement;
 import engine.mobile.Player;
 import engine.mobile.RessourceDeposit;
 import engine.mobile.building.Building;
@@ -51,7 +52,7 @@ public class PaintStrategy {
 					graphics.fillRect(block.getColumn() * blockSize, block.getLine() * blockSize, blockSize, blockSize);
 				}
 				
-				else if(lineIndex>6 && columnIndex<GameConfiguration.COLUMN_COUNT-30) {
+				else if(lineIndex>6 && columnIndex<GameConfiguration.COLUMN_COUNT-28) {
 					if ((lineIndex + columnIndex) % 2 == 0) {
 						graphics.setColor(Color.GRAY);
 						graphics.fillRect(block.getColumn() * blockSize, block.getLine() * blockSize, blockSize, blockSize);
@@ -61,7 +62,7 @@ public class PaintStrategy {
 					}
 				}
 				
-				else if(lineIndex>6 && columnIndex==GameConfiguration.COLUMN_COUNT-30) {
+				else if(lineIndex>6 && columnIndex==GameConfiguration.COLUMN_COUNT-28) {
 					graphics.setColor(Color.BLACK);
 					graphics.fillRect(block.getColumn() * blockSize, block.getLine() * blockSize, blockSize, blockSize);
 				}
@@ -80,7 +81,7 @@ public class PaintStrategy {
 	public void paint(Player player, Graphics graphics) {
 		graphics.setFont(new Font("Arial", Font.PLAIN, 20));
 		graphics.setColor(new Color(204,102,0));
-		graphics.drawString("Population : "+player.getCurrentPopulation()+"/"+player.getMaxPopulation(), windowWidth/3,windowHeight/20);
+		graphics.drawString("Population : "+player.getCurrentPopulation()+"/"+player.getMaxPopulation(), 5*windowWidth/6,windowHeight/20);
 		graphics.setColor(new Color(0,204,102));
 		graphics.drawString("Ambroisie : "+player.getAmbroisieStock(), windowWidth/2,windowHeight/20);
 		graphics.setColor(new Color(0,0,153));
@@ -239,5 +240,12 @@ public class PaintStrategy {
 			}
 			y+=26;
 		}
+	}
+	
+	public void paintAttack(Unit unit, Graphics graphics) {
+		MobileElement enemy = unit.getTarget();
+		int blockSize = GameConfiguration.BLOCK_SIZE;
+		graphics.setColor(Color.YELLOW);
+		graphics.drawLine(unit.getPosition().getColumn()*blockSize+5,unit.getPosition().getLine()*blockSize+5,enemy.getPosition().getColumn()*blockSize+5,enemy.getPosition().getLine()*blockSize+5);
 	}
 }

@@ -58,6 +58,10 @@ public class GameDisplay extends JPanel {
 		}
 		for (Unit unit : manager.getUnits()) {
 			paintStrategy.paint(unit, g);
+			//similar if of the calculDegats method in UnitManager
+			if (unit.getIsInCombat() && unit.getAttackCounter()>=(Unit.getAttackTime())-10) {
+				paintStrategy.paintAttack(unit, g);
+			}
 		}
 		
 		
