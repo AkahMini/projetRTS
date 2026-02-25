@@ -5,15 +5,12 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 import config.DefaultGameSettings;
 import config.GameConfiguration;
@@ -23,8 +20,6 @@ import engine.mobile.building.Building;
 import engine.mobile.building.UnitProducer;
 import engine.process.GameBuilder;
 import engine.process.MobileInterface;
-import engine.process.chrono.*;
-
 /**
  * 
  * Main graphic class that create the game window and manage the different user input.

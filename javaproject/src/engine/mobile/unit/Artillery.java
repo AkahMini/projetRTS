@@ -1,8 +1,6 @@
 package engine.mobile.unit;
 
 import engine.map.Block;
-import engine.mobile.MobileElement;
-
 /**
  * Class representing an artillery Unit
  * 
@@ -20,5 +18,21 @@ public class Artillery extends Unit{
 	
 	public Artillery(Block position) {
 		super(position);
+	}
+
+	public float getAttackRange() {
+		return attackRange;
+	}
+
+	public void setAttackRange(float attackRange) {
+		this.attackRange = attackRange;
+	}
+
+	public float getBlastRadius() {
+		return blastRadius;
+	}
+
+	public void setBlastRadius(float blastRadius) {
+		this.blastRadius = blastRadius;
 	}
 }

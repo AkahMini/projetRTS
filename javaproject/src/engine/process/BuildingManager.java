@@ -6,8 +6,6 @@ import engine.map.Block;
 import engine.mobile.building.Building;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Unit;
-import engine.map.Map;
-
 /*
  * Manager pattern class. Used to manage building object.
  * 

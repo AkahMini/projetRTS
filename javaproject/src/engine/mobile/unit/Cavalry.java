@@ -1,8 +1,6 @@
 package engine.mobile.unit;
 
 import engine.map.Block;
-import engine.mobile.MobileElement;
-
 /**
  * Class representing an cavalry Unit
  * 
@@ -19,5 +17,21 @@ public class Cavalry extends Unit{
 	
 	public Cavalry(Block position) {
 		super(position);
+	}
+
+	public boolean isThroughObstacles() {
+		return throughObstacles;
+	}
+
+	public void setThroughObstacles(boolean throughObstacles) {
+		this.throughObstacles = throughObstacles;
+	}
+
+	public int getChargeBonusDamage() {
+		return chargeBonusDamage;
+	}
+
+	public void setChargeBonusDamage(int chargeBonusDamage) {
+		this.chargeBonusDamage = chargeBonusDamage;
 	}
 }

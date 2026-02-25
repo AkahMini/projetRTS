@@ -1,8 +1,6 @@
 package engine.mobile.unit;
 
 import engine.map.Block;
-import engine.mobile.MobileElement;
-
 /**
  * Class representing an infantry Unit
  * 
@@ -19,5 +17,13 @@ public class Infantry extends Unit{
 	
 	public Infantry(Block position) {
 		super(position);
+	}
+
+	public int getShieldValue() {
+		return shieldValue;
+	}
+
+	public void setShieldValue(int shieldValue) {
+		this.shieldValue = shieldValue;
 	}
 }

@@ -1,10 +1,10 @@
 package engine.process;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import config.DefaultGameSettings;
 import config.GameConfiguration;
+
 import engine.map.Block;
 import engine.map.Map;
 import engine.mobile.Player;

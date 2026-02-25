@@ -1,7 +1,6 @@
 package engine.mobile.unit;
 
 import engine.map.Block;
-import engine.mobile.MobileElement;
 import engine.mobile.RessourceDeposit;
 import engine.mobile.building.HQ;
 

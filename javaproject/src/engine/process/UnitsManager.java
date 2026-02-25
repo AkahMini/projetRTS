@@ -3,13 +3,12 @@ package engine.process;
 import java.util.ArrayList;
 
 import config.DefaultGameSettings;
+
 import engine.map.Block;
 import engine.mobile.Player;
 import engine.mobile.RessourceDeposit;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
-import gui.MainGUI;
-
 
 /**
  * 

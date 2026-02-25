@@ -2,7 +2,6 @@ package engine.process;
 
 import config.DefaultGameSettings;
 import config.GameConfiguration;
-import engine.map.Block;
 import engine.map.Map;
 
 

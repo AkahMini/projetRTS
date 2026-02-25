@@ -1,7 +1,4 @@
 package config;
-
-import engine.process.UnitFactory;
-
 public class DefaultGameSettings {
 	/*
 	 *Constants and variables related to the current game, not the program itself 
