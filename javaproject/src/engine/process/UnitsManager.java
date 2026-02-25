@@ -257,7 +257,7 @@ public class UnitsManager implements UnitsInterface{
         } else {
         	unitsInSelectedArea=null;
         }
-        System.out.println("Number of units in selected Area:" + manager.getUnitsInSelectedArea().size());
+        //System.out.println("Number of units in selected Area:" + manager.getUnitsInSelectedArea().size());
     }
     
     public void unitMoveOrder(Block destination){

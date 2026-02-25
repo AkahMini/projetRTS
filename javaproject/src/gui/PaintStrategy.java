@@ -42,7 +42,7 @@ public class PaintStrategy {
 		
 		
 		
-		//used for drawing the game grid
+		//used for drawing the game grid HARD IMPLEMENTED, NOT RELATIVE
 		for (int lineIndex = 0; lineIndex < map.getLineCount(); lineIndex++) {
 			for (int columnIndex = 0; columnIndex < map.getColumnCount(); columnIndex++) {
 				Block block = blocks[lineIndex][columnIndex];
@@ -67,6 +67,12 @@ public class PaintStrategy {
 					graphics.fillRect(block.getColumn() * blockSize, block.getLine() * blockSize, blockSize, blockSize);
 				}
 			}
+			graphics.setColor(Color.BLACK);
+			graphics.fillRect(100*blockSize, 27*blockSize, GameConfiguration.COLUMN_COUNT*blockSize, blockSize);
+			graphics.fillRect(100*blockSize, 48*blockSize, GameConfiguration.COLUMN_COUNT*blockSize, blockSize);
+			//this is temporary foh suh
+			graphics.setFont(new Font("Arial", Font.PLAIN, 24));
+			graphics.drawString("Inserez diagramme ici", 1020, 380);
 		}
 
 	}
@@ -213,19 +219,20 @@ public class PaintStrategy {
 	public void paintUnitInfo(List<Unit> unitsInSelectedArea, Graphics graphics) {
 
 		int x =windowWidth-windowWidth/5;
-		int y =windowHeight/6;
-		
+		int y =windowHeight/8;
+		final int maxUnitDisplayed =5;
 
 		graphics.setColor(Color.BLACK);
-		graphics.setFont(new Font("Arial", Font.PLAIN, 20));
+		graphics.setFont(new Font("Arial", Font.PLAIN, 18));
 		graphics.drawString("Unitées selectionées : "+unitsInSelectedArea.size(), x, y);
-		graphics.setFont(new Font("Arial", Font.PLAIN, 16));
-		y+=24;
+		graphics.setFont(new Font("Arial", Font.PLAIN, 14));
+		y+=18;
 		//this is for each unit in the selected area
+		int i=0; //counter
 		for(Unit unit : unitsInSelectedArea) {
 			graphics.setColor(Color.BLACK);
 			graphics.drawString(unit.getUnitName()+" hp :", x, y);
-			y+=10;
+			y+=8;
 			int percent = unit.getPercentHP();
 			
 			//only current hp is in green. The >=98 is for the eventual float to int conevrsion error
@@ -238,8 +245,52 @@ public class PaintStrategy {
 				graphics.setColor(Color.RED);
 				graphics.fillRect((int)((percent*220.0/100))+x, y, (int)(220-(percent*220.0/100)), 6);
 			}
-			y+=26;
+			y+=22;
+			i++;
+			if(i==maxUnitDisplayed) break;
 		}
+		// this is for the +nbOfunitNotDisplayed at the end
+		if(unitsInSelectedArea.size()>maxUnitDisplayed) {
+			y+=4;//tweak because of the weird way drawString works
+			graphics.setFont(new Font("Arial", Font.PLAIN, 18));
+			graphics.setColor(Color.BLACK);
+			int unitNotDisplayed=unitsInSelectedArea.size()-maxUnitDisplayed;
+			graphics.drawString("+"+unitNotDisplayed, x, y);
+		}
+	}
+	
+	//only the info+button of the first selected building is displayed
+	public void paintBuildingInfo(List<Building> buildingInSelectedArea, Graphics graphics) {
+		int x =windowWidth-windowWidth/5;
+		int y =510;//~13*windowHeight/18 but meh
+		Building build=buildingInSelectedArea.get(0);//the building we work with
+		
+		graphics.setColor(Color.BLACK);
+		graphics.setFont(new Font("Arial", Font.PLAIN, 18));
+		graphics.drawString(build.getBuildingName()+" Info :", x, y);
+		graphics.setFont(new Font("Arial", Font.PLAIN, 14));
+		y+=18;
+		graphics.drawString("hp :", x, y);
+		y+=8;
+		int percent = build.getPercentHP();
+		
+		//only current hp is in green. The >=98 is for the eventual float to int conevrsion error
+		if(percent>=98) {
+			graphics.setColor(new Color(0,102,0));// dark greeeeeeen
+			graphics.fillRect(x, y, 220, 6);
+		}else {
+			graphics.setColor(new Color(0,102,0));// dark greeeeeeen
+			graphics.fillRect(x, y, (int)((percent*220.0/100)), 6);
+			graphics.setColor(Color.RED);
+			graphics.fillRect((int)((percent*220.0/100))+x, y, (int)(220-(percent*220.0/100)), 6);
+		}
+		y+=22;
+		graphics.setColor(Color.BLACK);
+		graphics.setFont(new Font("Arial", Font.PLAIN, 14));
+		graphics.drawString("Draw img pour les boutons ici", x, y+20);
+		//Draw img max 6 or 9 for the different button related to the building 
+		//-> one image per building per button (capacity/research/unit)
+		
 	}
 	
 	public void paintAttack(Unit unit, Graphics graphics) {

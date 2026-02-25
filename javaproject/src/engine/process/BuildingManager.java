@@ -74,7 +74,10 @@ public class BuildingManager implements BuildingInterface{
             		}
             	}
             }
+        } else {
+        	buildingsInSelectedArea=null;
         }
+        //System.out.println("Number of builds in selected Area:" + manager.getBuildingsInSelectedArea().size());
     }
     
     public void reduceConstructionTime(Building building) {

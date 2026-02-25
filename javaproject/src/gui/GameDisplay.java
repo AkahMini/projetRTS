@@ -68,7 +68,9 @@ public class GameDisplay extends JPanel {
 		if(manager.getUnitsInSelectedArea()!=null && !manager.getUnitsInSelectedArea().isEmpty()) {
 			paintStrategy.paintUnitInfo(manager.getUnitsInSelectedArea(), g);
 		}
-		
+		if(manager.getBuildingsInSelectedArea()!=null && !manager.getBuildingsInSelectedArea().isEmpty()) {
+			paintStrategy.paintBuildingInfo(manager.getBuildingsInSelectedArea(), g);
+		}
 		
 		
 
