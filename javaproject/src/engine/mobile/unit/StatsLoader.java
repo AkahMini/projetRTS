@@ -102,8 +102,8 @@ public class StatsLoader {
 	public static void printUnitsValues(HashMap<String,float[]> map) {
 		for (String name: map.keySet()) {
 		    String key = name.toString();
-		    String value = map.get(name).length.(toString());
-		    System.out.println("Key: "+ key + " Value: " + value);
+		    //String value = map.get(name).length.(toString());
+		    //System.out.println("Key: "+ key + " Value: " + value);
 		}
 	}
 }
