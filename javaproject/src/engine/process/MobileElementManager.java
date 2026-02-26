@@ -1,6 +1,7 @@
 package engine.process;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import config.DefaultGameSettings;
 import config.GameConfiguration;
@@ -12,6 +13,7 @@ import engine.mobile.RessourceDeposit;
 import engine.mobile.building.Building;
 import engine.mobile.building.HQ;
 import engine.mobile.building.UnitProducer;
+import engine.mobile.unit.StatsLoader;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
 import engine.process.chrono.Chronometer;
@@ -32,6 +34,7 @@ public class MobileElementManager implements MobileInterface {
 	
 	private Map map;
     
+	private HashMap<String,float[]> unitStats = StatsLoader.loadUnitStats();
     private ArrayList<Building> buildings = new ArrayList<Building>();
     private ArrayList<Unit> unitsInSelectedArea = new ArrayList<Unit>();
     private ArrayList<Building> buildingsInSelectedArea = new ArrayList<Building>();
@@ -60,7 +63,11 @@ public class MobileElementManager implements MobileInterface {
     }
 
     public void firstRound() {
+    	System.out.println("Affichage des statistiques des unités:");
+    	StatsLoader.printUnitsValues(unitStats);
     	
+    	
+   
     	//We add player's HQ, & ressource deposits
     	Block playerHQposition = map.getBlock(10, 10); //TMP player's HQ
     	HQ playerHQ = new HQ(playerHQposition);
@@ -288,5 +295,8 @@ public class MobileElementManager implements MobileInterface {
     
     public Player getPlayer() {
         return this.player;
+    }
+    public HashMap<String,float[]> getUnitStats(){
+    	return this.unitStats;
     }
 }

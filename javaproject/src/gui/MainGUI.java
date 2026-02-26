@@ -135,7 +135,6 @@ public class MainGUI extends JFrame implements Runnable {
 		map = GameBuilder.buildMap();
 		manager = GameBuilder.buildInitMobile(map,this.gameSettings);
 		dashboard = new GameDisplay(map, manager);
-		StatsLoader.loadUnitStats();
 
 		MouseControls mouseControls = new MouseControls();
 		dashboard.addMouseListener(mouseControls);
