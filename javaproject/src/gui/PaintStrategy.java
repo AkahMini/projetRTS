@@ -16,6 +16,7 @@ import engine.mobile.building.Building;
 import engine.mobile.building.HQ;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Artillery;
+import engine.mobile.unit.Cavalry;
 import engine.mobile.unit.Infantry;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
@@ -172,6 +173,14 @@ public class PaintStrategy {
         }
         if(unit instanceof Artillery) {
         	graphics.setColor(Color.RED.darker());
+        }
+        if(unit instanceof Cavalry) {
+            Cavalry cav = (Cavalry) unit;
+            if (cav.getChargeDistanceValue() > 0) {
+                graphics.setColor(Color.CYAN);
+            } else {
+                graphics.setColor(Color.BLUE.darker());
+            }
         }
         
         graphics.fillOval(x * blockSize, y * blockSize, blockSize, blockSize);

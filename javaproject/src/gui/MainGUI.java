@@ -114,10 +114,20 @@ public class MainGUI extends JFrame implements Runnable {
 		    }
 		});
 		
+		javax.swing.JButton testButton5 = new javax.swing.JButton("Test cavalry");
+
+		testButton5.addActionListener(new ActionListener() { // bouton temporaire pour test
+		    public void actionPerformed(ActionEvent e) {
+		        manager.selectUnit("CAVALRY");
+		        typeSelection="unitAllie";
+		    }
+		});
+		
 		RightPanel.add(testButton);
 		RightPanel.add(testButton2);
 		RightPanel.add(testButton3);
 		RightPanel.add(testButton4);
+		RightPanel.add(testButton5);
 		contentPane.add(RightPanel, BorderLayout.SOUTH);
 
 		

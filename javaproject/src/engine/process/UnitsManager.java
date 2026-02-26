@@ -7,6 +7,7 @@ import config.DefaultGameSettings;
 import engine.map.Block;
 import engine.mobile.Player;
 import engine.mobile.RessourceDeposit;
+import engine.mobile.unit.Cavalry;
 import engine.mobile.unit.Infantry;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
@@ -205,6 +206,16 @@ public class UnitsManager implements UnitsInterface{
             unit2.setIsInCombat(true);
             unit2.setTarget(unit1);
             unit1.setTarget(unit2);
+            if(unit1 instanceof Cavalry) {
+                Cavalry cavalry = (Cavalry) unit1;
+                cavalry.setMovementSpeed(cavalry.getChargeSpeed());
+                cavalry.setChargeDistanceValue(cavalry.getChargeDistanceMax());
+            }
+            if(unit2 instanceof Cavalry) {
+                Cavalry cavalry = (Cavalry) unit2;
+                cavalry.setMovementSpeed(cavalry.getChargeSpeed());
+                cavalry.setChargeDistanceValue(cavalry.getChargeDistanceMax());
+            }
         } else if(unit1.getIsInCombat() == false && unit2.getIsInCombat() == true) {
             unit1.setIsInCombat(true);
             unit1.setTarget(unit2);
@@ -298,7 +309,16 @@ public class UnitsManager implements UnitsInterface{
         		if(unit instanceof Worker) {
         			workerMouvement((Worker)unit);
         		}else {
-                	unitMovement(unit);
+        			if(unit instanceof Cavalry) {
+        				Cavalry cavalry=(Cavalry) unit;
+        				if(cavalry.getChargeDistanceValue()>0) {
+        					cavalry.setChargeDistanceValue(Math.max(0, cavalry.getChargeDistanceValue()-cavalry.getChargeSpeed()));
+        					if(cavalry.getChargeDistanceValue()==0) {
+        						cavalry.setMovementSpeed((int) (cavalry.getMovementSpeed()/1.5));
+        					}
+        				}
+        			}
+        			unitMovement(unit);
         		}
         		unit.setMoveCounter(unit.getMoveCounter() - Unit.getMoveTime());
         	}        

@@ -14,6 +14,9 @@ public class Cavalry extends Unit{
 
 	private boolean throughObstacles;
 	private int chargeBonusDamage;
+	private int chargeDistanceMax;
+	private int chargeDistanceValue;
+	private int chargeSpeed;
 	
 	public Cavalry(Block position) {
 		super(position);
@@ -33,5 +36,29 @@ public class Cavalry extends Unit{
 
 	public void setChargeBonusDamage(int chargeBonusDamage) {
 		this.chargeBonusDamage = chargeBonusDamage;
+	}
+
+	public int getChargeDistanceMax() {
+		return chargeDistanceMax;
+	}
+
+	public void setChargeDistanceMax(int chargeDistanceMax) {
+		this.chargeDistanceMax = chargeDistanceMax;
+	}
+
+	public int getChargeDistanceValue() {
+		return chargeDistanceValue;
+	}
+
+	public void setChargeDistanceValue(int chargeDistanceValue) {
+		this.chargeDistanceValue = chargeDistanceValue;
+	}
+
+	public int getChargeSpeed() {
+		return chargeSpeed;
+	}
+
+	public void setChargeSpeed(int chargeSpeed) {
+		this.chargeSpeed = chargeSpeed;
 	}
 }
