@@ -249,6 +249,15 @@ public class PaintStrategy {
 				graphics.setColor(Color.RED);
 				graphics.fillRect((int)((percent*220.0/100))+x, y, (int)(220-(percent*220.0/100)), 6);
 			}
+			if (unit instanceof Infantry) {
+			    int percentShield = ((Infantry) unit).getPercentShield();
+			    
+			    if (percentShield > 0) {
+			        int shieldWidth = (int)((percentShield *50) / 100.0);
+			        graphics.setColor(Color.BLUE);
+			        graphics.fillRect(x + (int)((percent*220.0/100)), y, shieldWidth, 6);
+			    }
+			}
 			y+=22;
 			i++;
 			if(i==maxUnitDisplayed) break;

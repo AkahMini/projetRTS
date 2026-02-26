@@ -113,7 +113,10 @@ public class UnitFactory {
                 infantry.setVision(1);
                 infantry.setHpRegen(1);
                 infantry.setTarget(null);
-                infantry.setHp(70);
+                infantry.setHp(100);
+                
+                infantry.setShieldValue(30);
+                infantry.setMaxShield(60);
                 
                 
                 //this is an exemple and would be upgraded

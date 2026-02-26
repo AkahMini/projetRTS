@@ -7,6 +7,7 @@ import config.DefaultGameSettings;
 import engine.map.Block;
 import engine.mobile.Player;
 import engine.mobile.RessourceDeposit;
+import engine.mobile.unit.Infantry;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
 
@@ -216,20 +217,37 @@ public class UnitsManager implements UnitsInterface{
     
     public void calculDegats(Unit unit) {
         Unit target = (Unit) unit.getTarget();
-        
         if (target != null) {
-        	double attack=unit.getAttackCounter();
-        	unit.setAttackCounter(attack +unit.getATKSpeed());
-        	double dist = manager.getDistance(unit.getPosition(), target.getPosition());
-        	if(attack>=Unit.getAttackTime() && dist<=unit.getATKRange() ) {
-        		int newHp = Math.max(0, target.getHp() - unit.getATK());
-                target.setHp(newHp);
-        		unit.setAttackCounter(unit.getAttackCounter() - Unit.getAttackTime());
+            double attackCounter = unit.getAttackCounter();
+            int attack = unit.getATK();
+            unit.setAttackCounter(attackCounter + unit.getATKSpeed());
+            double dist = manager.getDistance(unit.getPosition(), target.getPosition());
+            if (attackCounter >= Unit.getAttackTime() && dist <= unit.getATKRange()) {
+                int remainingDamage = attack;
+                if (target instanceof Infantry) {
+                    Infantry infantryTarget = (Infantry) target;
+                    int shield = infantryTarget.getShieldValue();
+                    if (shield > 0) {
+                        if (shield >= attack) {
+                            infantryTarget.setShieldValue(shield - attack);
+                            remainingDamage = 0;
+                        } else {
+                            infantryTarget.setShieldValue(0);
+                            remainingDamage = attack - shield;
+                        }
+                    }
+                }
+                if (remainingDamage > 0) {
+                    int newHp = Math.max(0, target.getHp() - remainingDamage);
+                    target.setHp(newHp);
+                }
+                unit.setAttackCounter(unit.getAttackCounter() - Unit.getAttackTime());
+                
                 if (target.getHp() <= 0) {
                     unit.setTarget(null);
                     unit.setIsInCombat(false);
                 }
-        	}
+            }
         }
     }
     
