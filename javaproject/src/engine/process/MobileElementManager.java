@@ -79,6 +79,7 @@ public class MobileElementManager implements MobileInterface {
     	this.units.add(playerWorker);
     	this.ressourceDeposits.add(deposit1);
     	this.ressourceDeposits.add(deposit2);
+    	
     }
     
     public void nextRound() {

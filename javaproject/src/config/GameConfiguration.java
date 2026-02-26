@@ -22,5 +22,7 @@ public class GameConfiguration {
 	
 	public static final int GAME_SPEED =10;//Default 10
 	
+	public static final String UNITS_STATS = "gameData/units_Stats.csv";
+	
 
 }

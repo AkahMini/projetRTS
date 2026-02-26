@@ -18,6 +18,7 @@ import engine.map.Block;
 import engine.map.Map;
 import engine.mobile.building.Building;
 import engine.mobile.building.UnitProducer;
+import engine.mobile.unit.StatsLoader;
 import engine.process.GameBuilder;
 import engine.process.MobileInterface;
 /**
@@ -124,7 +125,7 @@ public class MainGUI extends JFrame implements Runnable {
 		map = GameBuilder.buildMap();
 		manager = GameBuilder.buildInitMobile(map,this.gameSettings);
 		dashboard = new GameDisplay(map, manager);
-		
+		StatsLoader.loadUnitStats();
 
 		MouseControls mouseControls = new MouseControls();
 		dashboard.addMouseListener(mouseControls);
