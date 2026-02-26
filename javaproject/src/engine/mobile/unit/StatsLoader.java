@@ -15,14 +15,13 @@ public class StatsLoader {
 			"GHOST_KRAKEN"};
 	
 	
-	public static HashMap<String,float[]> loadUnitStats(){
+	public static HashMap<String,ArrayList<Float>> loadUnitStats(){
 		/*
 		 * Loads the HashMap containing the units stats
 		 * unitType: 0=Worker, 1=Infantry, 2=Cavalry, 3=Artillery
 		 * faction: 1=Zeus, 2=Hades, 3=Poseidon
 		 */
-		float[] Individualstats = {0};
-		HashMap<String,float[]> globalStats = new HashMap<>();
+		HashMap<String,ArrayList<Float>> globalStats = new HashMap<>();
 		try {
 		
 			File f = new File(GameConfiguration.UNITS_STATS);
@@ -49,7 +48,6 @@ public class StatsLoader {
 					
 					if(localKey.equals("")) {
 						localKey=localString;
-						System.out.println("LocalKey: "+localKey);
 						localString="";//reinitialize localString
 					}
 					else if(c!='\n') {
@@ -64,7 +62,7 @@ public class StatsLoader {
 							
 							unitData.add((float) 1);
 						}
-						else if(localString.equals("CAVALRY")|localString.equals("HADES")) {
+						else if(localString.equals("CAVALRY")||localString.equals("HADES")) {
 							unitData.add((float) 2);
 						}
 						else if(localString.equals("ARTILLERY")||localString.equals("POSEIDON")) {
@@ -76,20 +74,16 @@ public class StatsLoader {
 						localString="";
 					}
 					else {
-						globalStats.put(localKey, Individualstats);
-						unitData.clear();
+						globalStats.put(localKey, unitData);
+						unitData= new ArrayList<Float>();;
 						localString="";
 						localKey="";
 					}
 						
-						
 					}
-					
-					
 					
 					//localString="";//reinitialize the text for the next values
 				}
-			System.out.println("Fin de traitement");
 			fileReader.close();
 			}
 		
@@ -99,11 +93,11 @@ public class StatsLoader {
 		
 		return globalStats;
 	}
-	public static void printUnitsValues(HashMap<String,float[]> map) {
+	public static void printUnitsValues(HashMap<String,ArrayList<Float>> map) {
 		for (String name: map.keySet()) {
 		    String key = name.toString();
-		    //String value = map.get(name).length.(toString());
-		    //System.out.println("Key: "+ key + " Value: " + value);
+		    ArrayList<Float> value = map.get(name);
+		    System.out.println("Key: "+ key + " Value: " + value);
 		}
 	}
 }

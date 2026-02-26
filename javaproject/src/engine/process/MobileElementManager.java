@@ -34,7 +34,7 @@ public class MobileElementManager implements MobileInterface {
 	
 	private Map map;
     
-	private HashMap<String,float[]> unitStats = StatsLoader.loadUnitStats();
+	private HashMap<String,ArrayList<Float>> unitStats = StatsLoader.loadUnitStats();
     private ArrayList<Building> buildings = new ArrayList<Building>();
     private ArrayList<Unit> unitsInSelectedArea = new ArrayList<Unit>();
     private ArrayList<Building> buildingsInSelectedArea = new ArrayList<Building>();
@@ -296,7 +296,7 @@ public class MobileElementManager implements MobileInterface {
     public Player getPlayer() {
         return this.player;
     }
-    public HashMap<String,float[]> getUnitStats(){
+    public HashMap<String,ArrayList<Float>> getUnitStats(){
     	return this.unitStats;
     }
 }
