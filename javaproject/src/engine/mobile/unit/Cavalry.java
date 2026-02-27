@@ -61,4 +61,7 @@ public class Cavalry extends Unit{
 	public void setChargeSpeed(double d) {
 		this.chargeSpeed = d;
 	}
+	public String toString() {
+		return super.toString() + " type: Cavalry";
+	}
 }

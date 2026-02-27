@@ -7,7 +7,6 @@ import config.DefaultGameSettings;
 import engine.map.Block;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Infantry;
-import engine.mobile.unit.StatsLoader;
 import engine.mobile.unit.Artillery;
 import engine.mobile.unit.Cavalry;
 import engine.mobile.unit.Worker;
@@ -32,59 +31,94 @@ public class UnitFactory {
     
     
     
-    public static Unit createUnit(String unit_ID,Block position, HashMap<String,ArrayList<Float>> stats) {
+    public static Unit createUnit(String unit_ID,Block position, HashMap<String,ArrayList<Float>> stats){
     	Infantry unknownUnit = new Infantry(position);
-    	
     	ArrayList<Float> unitData = stats.get(unit_ID);
+    	
     	if(unitData==null) {
-    		System.out.println("Erreur,Unité inconnue");
-    		return new Infantry(position);
+    		throw new IllegalArgumentException("Clé inexistante : " + unit_ID);
+ 
     	}
+    	
     	int unitType=unitData.get(1).intValue();
     	switch(unitType) {
     	case(0)://Worker
     		Worker worker = new Worker(position);
-    		worker.setUnitFaction(decodeFaction(unitData.get(2).intValue()));
-    		worker.setTierLevel(unitData.get(3).intValue());;
-    		worker.setMaxHp(unitData.get(4).intValue());
-    		worker.setPopCost(unitData.get(5).intValue());
-    		worker.setACost(unitData.get(6).intValue());
-    		worker.setFCost(unitData.get(7).intValue());
-    		worker.setATK(unitData.get(8).intValue());
-    		worker.setATKSpeed(unitData.get(9));
-    		worker.setMovementSpeed(unitData.get(10));
-    		worker.setATKRange(unitData.get(11));
-    		worker.setVision(unitData.get(12));
-    		worker.setHpRegen(unitData.get(13).intValue());
+    		worker.setUnitFaction(decodeFaction(unitData.get(1).intValue()));
+    		worker.setTierLevel(unitData.get(2).intValue());;
+    		worker.setMaxHp(unitData.get(3).intValue());
+    		worker.setPopCost(unitData.get(4).intValue());
+    		worker.setACost(unitData.get(5).intValue());
+    		worker.setFCost(unitData.get(6).intValue());
+    		worker.setATK(unitData.get(7).intValue());
+    		worker.setATKSpeed(unitData.get(8));
+    		worker.setMovementSpeed(unitData.get(9));
+    		worker.setATKRange(unitData.get(10));
+    		worker.setVision(unitData.get(11));
+    		worker.setHpRegen(unitData.get(12).intValue());
     		
     		worker.setPosition(position);
+    		worker.setHp(worker.getMaxHp());
 			return worker;
     		
     	case(1)://Infantry
     		Infantry infantry= new Infantry(position);
-			infantry.setUnitFaction(decodeFaction(unitData.get(2).intValue()));
-			infantry.setTierLevel(unitData.get(3).intValue());;
-			infantry.setMaxHp(unitData.get(4).intValue());
-			infantry.setPopCost(unitData.get(5).intValue());
-			infantry.setACost(unitData.get(6).intValue());
-			infantry.setFCost(unitData.get(7).intValue());
-			infantry.setATK(unitData.get(8).intValue());
-			infantry.setATKSpeed(unitData.get(9));
-			infantry.setMovementSpeed(unitData.get(10));
-			infantry.setATKRange(unitData.get(11));
-			infantry.setVision(unitData.get(12));
-			infantry.setHpRegen(unitData.get(13).intValue());
+    		infantry.setUnitName(unit_ID);
+			infantry.setUnitFaction(decodeFaction(unitData.get(1).intValue()));
+			infantry.setTierLevel(unitData.get(2).intValue());;
+			infantry.setMaxHp(unitData.get(3).intValue());
+			infantry.setPopCost(unitData.get(4).intValue());
+			infantry.setACost(unitData.get(5).intValue());
+			infantry.setFCost(unitData.get(6).intValue());
+			infantry.setATK(unitData.get(7).intValue());
+			infantry.setATKSpeed(unitData.get(8));
+			infantry.setMovementSpeed(unitData.get(9));
+			infantry.setATKRange(unitData.get(10));
+			infantry.setVision(unitData.get(11));
+			infantry.setHpRegen(unitData.get(12).intValue());
 			
 			infantry.setPosition(position);
 			infantry.setHp(infantry.getMaxHp());
-			;
 		return infantry;
     		
     	case(2)://Cavalry
-    	
+    		Cavalry cavalry = new Cavalry(position);
+    		cavalry.setUnitName(unit_ID);
+    		cavalry.setUnitFaction(decodeFaction(unitData.get(1).intValue()));
+			cavalry.setTierLevel(unitData.get(2).intValue());;
+			cavalry.setMaxHp(unitData.get(3).intValue());
+			cavalry.setPopCost(unitData.get(4).intValue());
+			cavalry.setACost(unitData.get(5).intValue());
+			cavalry.setFCost(unitData.get(6).intValue());
+			cavalry.setATK(unitData.get(7).intValue());
+			cavalry.setATKSpeed(unitData.get(8));
+			cavalry.setMovementSpeed(unitData.get(9));
+			cavalry.setATKRange(unitData.get(10));
+			cavalry.setVision(unitData.get(11));
+			cavalry.setHpRegen(unitData.get(12).intValue());
+			
+			cavalry.setPosition(position);
+			cavalry.setHp(cavalry.getMaxHp());
+    		return unknownUnit;
     	
     	case(3)://Artillery
-    	
+    		Artillery artillery = new Artillery(position);
+	    	artillery.setUnitName(unit_ID);
+	    	artillery.setUnitFaction(decodeFaction(unitData.get(1).intValue()));
+	    	artillery.setTierLevel(unitData.get(2).intValue());;
+	    	artillery.setMaxHp(unitData.get(3).intValue());
+	    	artillery.setPopCost(unitData.get(4).intValue());
+	    	artillery.setACost(unitData.get(5).intValue());
+	    	artillery.setFCost(unitData.get(6).intValue());
+	    	artillery.setATK(unitData.get(7).intValue());
+	    	artillery.setATKSpeed(unitData.get(8));
+	    	artillery.setMovementSpeed(unitData.get(9));
+	    	artillery.setATKRange(unitData.get(10));
+	    	artillery.setVision(unitData.get(11));
+			artillery.setHpRegen(unitData.get(12).intValue());
+			
+			artillery.setPosition(position);
+			artillery.setHp(artillery.getMaxHp());
     	default:
     		return unknownUnit;
     	}

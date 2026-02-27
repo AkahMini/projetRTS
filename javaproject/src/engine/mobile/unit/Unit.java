@@ -178,4 +178,7 @@ public abstract class Unit extends MobileElement{
 	public void setAttackCounter(double d) {
 		this.attackCounter = d;
 	}
+	public String toString() {
+		return "Unit name: "+this.unitName+", faction: "+this.faction+ " tiers:"+this.tierLevel;
+	}
 }

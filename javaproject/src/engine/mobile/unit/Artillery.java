@@ -35,4 +35,8 @@ public class Artillery extends Unit{
 	public void setBlastRadius(float blastRadius) {
 		this.blastRadius = blastRadius;
 	}
+	
+	public String toString() {
+		return super.toString() + " type: Artillery";
+	}
 }

@@ -36,7 +36,6 @@ public class StatsLoader {
 			String localString="";//The string that creates the data corresponding to the text
 			String localKey = "";
 			ArrayList<Float> unitData= new ArrayList<Float>(); //The list
-			System.out.println("Début de traitement");
 			while((c=(char)fileReader.read())!=(char)-1) { //-1: end of the text
 				//While there are still characters
 				if(c!=','&&c!='\n') {

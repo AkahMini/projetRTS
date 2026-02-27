@@ -38,4 +38,7 @@ public class Infantry extends Unit{
 	public void setMaxShield(int maxShield) {
 		this.maxShield = maxShield;
 	}
+	public String toString() {
+		return super.toString() + " type: Infantry";
+	}
 }

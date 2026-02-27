@@ -65,9 +65,10 @@ public class MobileElementManager implements MobileInterface {
     }
 
     public void firstRound() {
+    	/*
     	System.out.println("Affichage des statistiques des unités:");
     	StatsLoader.printUnitsValues(this.unitStats);
-    	
+    	*/
     	
    
     	//We add player's HQ, & ressource deposits
@@ -75,9 +76,9 @@ public class MobileElementManager implements MobileInterface {
     	HQ playerHQ = new HQ(playerHQposition);
     	
     	Worker playerWorker = (Worker) UnitFactory.createUnit("WORKER", 1, player.getFactionName(), playerHQ.getPosition());//TMP player's worker
-    	Infantry infantry = (Infantry) UnitFactory.createUnit("CAUCASIAN_EAGLE", playerHQposition, unitStats);
-    	//infantry.setHp(100000);
+    	Infantry infantry = (Infantry) UnitFactory.createUnit("DISKTHROWER", playerHQposition, unitStats);
     	infantry.setDestination(playerHQposition);
+    	System.out.println(infantry);
     	
     	playerWorker.setCurrentHQ(playerHQ);
     	playerWorker.setDestination(playerWorker.getPosition());
