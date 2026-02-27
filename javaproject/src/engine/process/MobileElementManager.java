@@ -106,7 +106,7 @@ public class MobileElementManager implements MobileInterface {
             		continue;
             	}
                 // Ennemy scan
-                if (unit.getTarget() == null) {
+                if (unit.getTarget() == null && unit.getDestination() == null ) {
                     Unit enemy = unitManager.scanForEnemy(unit);
                     if (enemy != null) {
                     	unitManager.combatSystem(unit, enemy);

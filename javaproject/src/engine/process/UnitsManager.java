@@ -91,6 +91,7 @@ public class UnitsManager implements UnitsInterface{
             
             if(x1 == x2 && y1 == y2) {
                 // Arrived
+            	displacedUnit.setDestination(null);
             } else {
                 int newLine = y1; 
                 int newColomn = x1;
@@ -150,7 +151,7 @@ public class UnitsManager implements UnitsInterface{
     		displacedWorker.setDestination(displacedWorker.getCurrentHQ().getPosition());
     	}
 
-    	if(displacedWorker.getDestination().equals(displacedWorker.getPosition())) {
+    	if(displacedWorker.getDestination() == null || displacedWorker.getDestination().equals(displacedWorker.getPosition())) {
     		//if the worker is stationnary, we can check for new deposit
     		for(RessourceDeposit deposit: manager.getRessourceDeposit()) {
     			if(manager.getDistance(displacedWorker.getPosition(),deposit.getPosition())<displacedWorker.getVision()) {
