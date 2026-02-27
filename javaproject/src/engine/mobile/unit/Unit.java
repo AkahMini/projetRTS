@@ -32,10 +32,10 @@ public abstract class Unit extends MobileElement{
 	private int faithCost;
 	private int attackDamage;
 	private float attackSpeed;
-	private int movementSpeed;
-	private int attackRange;
-	private int visionRange;
-	private float hpRegenRate;
+	private float movementSpeed;
+	private float attackRange;
+	private float visionRange;
+	private int hpRegenRate;
 	private int tierLevel;
 	private MobileElement target;
 	private boolean isInCombat;
@@ -48,8 +48,8 @@ public abstract class Unit extends MobileElement{
 	public int getTierLevel() {
 		return this.tierLevel;
 	}
-	public void setTierLevel(int tier) {
-		this.tierLevel=tier;
+	public void setTierLevel(int tiersLevel) {
+		this.tierLevel=tiersLevel;
 	}
 	public int getHp() {
 		return this.hp;
@@ -93,28 +93,28 @@ public abstract class Unit extends MobileElement{
 	public void setATKSpeed(float atks) {
 		this.attackSpeed=atks;
 	}
-	public int getMovementSpeed() {
+	public float getMovementSpeed() {
 		return this.movementSpeed;
 	}
-	public void setMovementSpeed(int movementSpeed) {
+	public void setMovementSpeed(float movementSpeed) {
 		this.movementSpeed=movementSpeed;
 	}
-	public int getATKRange() {
+	public float getATKRange() {
 		return this.attackRange;
 	}
-	public void setATKRange(int atkr) {
+	public void setATKRange(float atkr) {
 		this.attackRange=atkr;
 	}
-	public int getVision() {
+	public float getVision() {
 		return this.visionRange;
 	}
-	public void setVision(int v) {
+	public void setVision(float v) {
 		this.visionRange=v;
 	}
 	public float getHpRegen(){
 		return this.hpRegenRate;
 	}
-	public void setHpRegen(float hpRegen) {
+	public void setHpRegen(int hpRegen) {
 		this.hpRegenRate=hpRegen;
 	}
 	public MobileElement getTarget() {

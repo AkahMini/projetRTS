@@ -13,6 +13,7 @@ import engine.mobile.RessourceDeposit;
 import engine.mobile.building.Building;
 import engine.mobile.building.HQ;
 import engine.mobile.building.UnitProducer;
+import engine.mobile.unit.Infantry;
 import engine.mobile.unit.StatsLoader;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
@@ -31,10 +32,11 @@ import engine.process.chrono.CyclicCounter;
  */
 public class MobileElementManager implements MobileInterface {
     private DefaultGameSettings gameSettings;
-	
+    private HashMap<String,ArrayList<Float>> unitStats = StatsLoader.loadUnitStats();
+    
 	private Map map;
     
-	private HashMap<String,ArrayList<Float>> unitStats = StatsLoader.loadUnitStats();
+	
     private ArrayList<Building> buildings = new ArrayList<Building>();
     private ArrayList<Unit> unitsInSelectedArea = new ArrayList<Unit>();
     private ArrayList<Building> buildingsInSelectedArea = new ArrayList<Building>();
@@ -64,7 +66,7 @@ public class MobileElementManager implements MobileInterface {
 
     public void firstRound() {
     	System.out.println("Affichage des statistiques des unités:");
-    	StatsLoader.printUnitsValues(unitStats);
+    	StatsLoader.printUnitsValues(this.unitStats);
     	
     	
    
@@ -73,6 +75,10 @@ public class MobileElementManager implements MobileInterface {
     	HQ playerHQ = new HQ(playerHQposition);
     	
     	Worker playerWorker = (Worker) UnitFactory.createUnit("WORKER", 1, player.getFactionName(), playerHQ.getPosition());//TMP player's worker
+    	Infantry infantry = (Infantry) UnitFactory.createUnit("CAUCASIAN_EAGLE", playerHQposition, unitStats);
+    	//infantry.setHp(100000);
+    	infantry.setDestination(playerHQposition);
+    	
     	playerWorker.setCurrentHQ(playerHQ);
     	playerWorker.setDestination(playerWorker.getPosition());
     	
@@ -84,6 +90,7 @@ public class MobileElementManager implements MobileInterface {
     	
     	this.buildings.add(playerHQ);
     	this.units.add(playerWorker);
+    	this.units.add(infantry);
     	this.ressourceDeposits.add(deposit1);
     	this.ressourceDeposits.add(deposit2);
     	

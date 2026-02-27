@@ -123,7 +123,7 @@ public class UnitsManager implements UnitsInterface{
         }
     }
     public static void unitTime(Unit unit) {
-    	unit.setMoveCounter(unit.getMoveCounter()+unit.getMovementSpeed());
+    	unit.setMoveCounter((int)(unit.getMoveCounter()+unit.getMovementSpeed()));
 	}
     
     public void workerMouvement(Worker displacedWorker) {

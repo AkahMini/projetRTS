@@ -1,9 +1,13 @@
 package engine.process;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import config.DefaultGameSettings;
 import engine.map.Block;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Infantry;
+import engine.mobile.unit.StatsLoader;
 import engine.mobile.unit.Artillery;
 import engine.mobile.unit.Cavalry;
 import engine.mobile.unit.Worker;
@@ -25,6 +29,67 @@ public class UnitFactory {
     public static final String ARTILLERY_UNIT = "ARTILLERY";//TEMP other types NEED to be added
     public static final String WORKER_UNIT = "WORKER";//TEMP other types NEED to be added
     public static final String CAVALRY_UNIT = "CAVALRY";//TEMP other types NEED to be added
+    
+    
+    
+    public static Unit createUnit(String unit_ID,Block position, HashMap<String,ArrayList<Float>> stats) {
+    	Infantry unknownUnit = new Infantry(position);
+    	
+    	ArrayList<Float> unitData = stats.get(unit_ID);
+    	if(unitData==null) {
+    		System.out.println("Erreur,Unité inconnue");
+    		return new Infantry(position);
+    	}
+    	int unitType=unitData.get(1).intValue();
+    	switch(unitType) {
+    	case(0)://Worker
+    		Worker worker = new Worker(position);
+    		worker.setUnitFaction(decodeFaction(unitData.get(2).intValue()));
+    		worker.setTierLevel(unitData.get(3).intValue());;
+    		worker.setMaxHp(unitData.get(4).intValue());
+    		worker.setPopCost(unitData.get(5).intValue());
+    		worker.setACost(unitData.get(6).intValue());
+    		worker.setFCost(unitData.get(7).intValue());
+    		worker.setATK(unitData.get(8).intValue());
+    		worker.setATKSpeed(unitData.get(9));
+    		worker.setMovementSpeed(unitData.get(10));
+    		worker.setATKRange(unitData.get(11));
+    		worker.setVision(unitData.get(12));
+    		worker.setHpRegen(unitData.get(13).intValue());
+    		
+    		worker.setPosition(position);
+			return worker;
+    		
+    	case(1)://Infantry
+    		Infantry infantry= new Infantry(position);
+			infantry.setUnitFaction(decodeFaction(unitData.get(2).intValue()));
+			infantry.setTierLevel(unitData.get(3).intValue());;
+			infantry.setMaxHp(unitData.get(4).intValue());
+			infantry.setPopCost(unitData.get(5).intValue());
+			infantry.setACost(unitData.get(6).intValue());
+			infantry.setFCost(unitData.get(7).intValue());
+			infantry.setATK(unitData.get(8).intValue());
+			infantry.setATKSpeed(unitData.get(9));
+			infantry.setMovementSpeed(unitData.get(10));
+			infantry.setATKRange(unitData.get(11));
+			infantry.setVision(unitData.get(12));
+			infantry.setHpRegen(unitData.get(13).intValue());
+			
+			infantry.setPosition(position);
+			infantry.setHp(infantry.getMaxHp());
+			;
+		return infantry;
+    		
+    	case(2)://Cavalry
+    	
+    	
+    	case(3)://Artillery
+    	
+    	default:
+    		return unknownUnit;
+    	}
+    	
+    }
     
     public static Unit createUnit(String type, int tier, String faction, Block position) {
         switch (type) {
@@ -263,4 +328,30 @@ public class UnitFactory {
 			throw new IllegalArgumentException("Unknown operation type : " + type);
 			}
 		}
+    private static String decodeFaction(int n) {
+    	/*
+    	 * Converts the encoded value of the unit's faction into the corresponding faction
+    	 */
+    	switch(n) {
+    	case(1): return DefaultGameSettings.ZEUS;
+    	case(2): return DefaultGameSettings.HADES;
+    	case(3): return DefaultGameSettings.POSEIDON;
+    	default: return "UNKNWON_FACTION";
+    	}
+    }
+    private static Unit setDataUnit(Unit u, ArrayList<Float> unitData) {
+    	u.setUnitFaction(decodeFaction(unitData.get(2).intValue()));
+		u.setTierLevel(unitData.get(3).intValue());;
+		u.setMaxHp(unitData.get(4).intValue());
+		u.setPopCost(unitData.get(5).intValue());
+		u.setACost(unitData.get(6).intValue());
+		u.setFCost(unitData.get(7).intValue());
+		u.setATK(unitData.get(8).intValue());
+		u.setATKSpeed(unitData.get(9));
+		u.setMovementSpeed(unitData.get(10));
+		u.setATKRange(unitData.get(11));
+		u.setVision(unitData.get(12));
+		u.setHpRegen(unitData.get(13).intValue());
+    	return u;
+    }
 	}
