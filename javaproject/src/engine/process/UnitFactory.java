@@ -242,7 +242,7 @@ public class UnitFactory {
                 infantry.setFCost(1);
                 infantry.setATK(15);
                 infantry.setATKSpeed(1);
-                infantry.setMovementSpeed(9);
+                infantry.setMovementSpeed(8);
                 infantry.setATKRange(1);
                 infantry.setVision(4);
                 infantry.setHpRegen(1);
