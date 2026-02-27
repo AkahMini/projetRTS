@@ -209,7 +209,7 @@ public class UnitsManager implements UnitsInterface{
             unit1.setTarget(unit2);
             if(unit1 instanceof Cavalry) {
                 Cavalry cavalry = (Cavalry) unit1;
-                cavalry.setMovementSpeed(cavalry.getChargeSpeed());
+                cavalry.setMovementSpeed(cavalry.getMovementSpeed()*cavalry.getChargeSpeed());
                 cavalry.setChargeDistanceValue(cavalry.getChargeDistanceMax());
             }
             if(unit2 instanceof Cavalry) {
@@ -231,14 +231,23 @@ public class UnitsManager implements UnitsInterface{
         Unit target = (Unit) unit.getTarget();
         if (target != null) {
             double attackCounter = unit.getAttackCounter();
-            int attack = unit.getATK();
+            double attack = unit.getATK();
             unit.setAttackCounter(attackCounter + unit.getATKSpeed());
             double dist = manager.getDistance(unit.getPosition(), target.getPosition());
             if (attackCounter >= Unit.getAttackTime() && dist <= unit.getATKRange()) {
-                int remainingDamage = attack;
+                if (unit instanceof Cavalry) {
+                    Cavalry cavalry = (Cavalry) unit;
+                    if (cavalry.getChargeDistanceValue() > 0) {
+                        attack = (float) (attack * cavalry.getChargeBonusDamage());
+                        System.out.println("degats charge : " + attack);
+                        cavalry.setChargeDistanceValue(0);
+                        cavalry.setMovementSpeed((int) (cavalry.getMovementSpeed() / cavalry.getChargeSpeed()));
+                    }
+                }
+                double remainingDamage = attack;
                 if (target instanceof Infantry) {
                     Infantry infantryTarget = (Infantry) target;
-                    int shield = infantryTarget.getShieldValue();
+                    double shield = infantryTarget.getShieldValue();
                     if (shield > 0) {
                         if (shield >= attack) {
                             infantryTarget.setShieldValue(shield - attack);
@@ -250,7 +259,7 @@ public class UnitsManager implements UnitsInterface{
                     }
                 }
                 if (remainingDamage > 0) {
-                    int newHp = Math.max(0, target.getHp() - remainingDamage);
+                    int newHp = (int) Math.max(0, target.getHp() - remainingDamage);
                     target.setHp(newHp);
                 }
                 unit.setAttackCounter(unit.getAttackCounter() - Unit.getAttackTime());
@@ -312,10 +321,10 @@ public class UnitsManager implements UnitsInterface{
         		}else {
         			if(unit instanceof Cavalry) {
         				Cavalry cavalry=(Cavalry) unit;
-        				if(cavalry.getChargeDistanceValue()>0) {
-        					cavalry.setChargeDistanceValue(Math.max(0, cavalry.getChargeDistanceValue()-cavalry.getChargeSpeed()));
+        				if(cavalry.getChargeDistanceValue()>0 && cavalry.getDestination() != null) {
+        					cavalry.setChargeDistanceValue((int) Math.max(0, cavalry.getChargeDistanceValue()-cavalry.getMovementSpeed()));
         					if(cavalry.getChargeDistanceValue()==0) {
-        						cavalry.setMovementSpeed((int) (cavalry.getMovementSpeed()/1.5));
+        						cavalry.setMovementSpeed((int) (cavalry.getMovementSpeed()/cavalry.getChargeSpeed()));
         					}
         				}
         			}

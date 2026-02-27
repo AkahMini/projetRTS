@@ -118,9 +118,10 @@ public class UnitFactory {
            cavalry.setTarget(null);
            cavalry.setHp(70);
            
-           cavalry.setChargeDistanceMax(140);
+           cavalry.setChargeDistanceMax(200);
            cavalry.setChargeDistanceValue(0);
-           cavalry.setChargeSpeed(28);
+           cavalry.setChargeSpeed(1.5);
+           cavalry.setChargeBonusDamage(1.5);
            
            
            //this is an exemple and would be upgraded
@@ -131,7 +132,7 @@ public class UnitFactory {
                if (faction.equals(DefaultGameSettings.ZEUS)) {
                	//infantry=null;
                	//temp for the test part
-            	   cavalry.setUnitName("Temp");
+            	   cavalry.setUnitName("cavalier1");
                } else if (faction.equals(DefaultGameSettings.HADES)) {
             	   cavalry.setUnitName("Hoplite");
                } else if (faction.equals(DefaultGameSettings.POSEIDON)) {

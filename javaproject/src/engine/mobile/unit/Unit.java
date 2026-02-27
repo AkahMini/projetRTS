@@ -30,9 +30,9 @@ public abstract class Unit extends MobileElement{
 	private int populationCost;
 	private int ambroisieCost;
 	private int faithCost;
-	private int attackDamage;
+	private double attackDamage;
 	private float attackSpeed;
-	private float movementSpeed;
+	private double movementSpeed;
 	private float attackRange;
 	private float visionRange;
 	private int hpRegenRate;
@@ -81,11 +81,11 @@ public abstract class Unit extends MobileElement{
 	public void setFCost(int fc) {
 		this.faithCost=fc;
 	}
-	public int getATK() {
+	public double getATK() {
 		return this.attackDamage;
 	}
-	public void setATK(int atk) {
-		this.attackDamage=atk;
+	public void setATK(double d) {
+		this.attackDamage=d;
 	}
 	public float getATKSpeed() {
 		return this.attackSpeed;
@@ -93,11 +93,11 @@ public abstract class Unit extends MobileElement{
 	public void setATKSpeed(float atks) {
 		this.attackSpeed=atks;
 	}
-	public float getMovementSpeed() {
+	public double getMovementSpeed() {
 		return this.movementSpeed;
 	}
-	public void setMovementSpeed(float movementSpeed) {
-		this.movementSpeed=movementSpeed;
+	public void setMovementSpeed(double d) {
+		this.movementSpeed=d;
 	}
 	public float getATKRange() {
 		return this.attackRange;

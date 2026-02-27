@@ -13,10 +13,10 @@ import engine.map.Block;
 public class Cavalry extends Unit{
 
 	private boolean throughObstacles;
-	private int chargeBonusDamage;
+	private double chargeBonusDamage;
 	private int chargeDistanceMax;
 	private int chargeDistanceValue;
-	private int chargeSpeed;
+	private double chargeSpeed;
 	
 	public Cavalry(Block position) {
 		super(position);
@@ -30,12 +30,12 @@ public class Cavalry extends Unit{
 		this.throughObstacles = throughObstacles;
 	}
 
-	public int getChargeBonusDamage() {
+	public double getChargeBonusDamage() {
 		return chargeBonusDamage;
 	}
 
-	public void setChargeBonusDamage(int chargeBonusDamage) {
-		this.chargeBonusDamage = chargeBonusDamage;
+	public void setChargeBonusDamage(double d) {
+		this.chargeBonusDamage = d;
 	}
 
 	public int getChargeDistanceMax() {
@@ -54,11 +54,11 @@ public class Cavalry extends Unit{
 		this.chargeDistanceValue = chargeDistanceValue;
 	}
 
-	public int getChargeSpeed() {
+	public double getChargeSpeed() {
 		return chargeSpeed;
 	}
 
-	public void setChargeSpeed(int chargeSpeed) {
-		this.chargeSpeed = chargeSpeed;
+	public void setChargeSpeed(double d) {
+		this.chargeSpeed = d;
 	}
 }

@@ -13,25 +13,25 @@ import engine.map.Block;
 
 public class Infantry extends Unit{
 
-	private int shieldValue;
-	private int maxShield;
+	private double shieldValue;
+	private float maxShield;
 	
 	public Infantry(Block position) {
 		super(position);
 	}
 
-	public int getShieldValue() {
+	public double getShieldValue() {
 		return shieldValue;
 	}
 	public int getPercentShield() {
 		return (int)(this.shieldValue*100.0/this.maxShield);	
 	}
 
-	public void setShieldValue(int shieldValue) {
-		this.shieldValue = shieldValue;
+	public void setShieldValue(double d) {
+		this.shieldValue = d;
 	}
 
-	public int getMaxShield() {
+	public float getMaxShield() {
 		return maxShield;
 	}
 
