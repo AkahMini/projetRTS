@@ -13,6 +13,8 @@ import engine.mobile.RessourceDeposit;
 import engine.mobile.building.Building;
 import engine.mobile.building.HQ;
 import engine.mobile.building.UnitProducer;
+import engine.mobile.unit.Artillery;
+import engine.mobile.unit.Cavalry;
 import engine.mobile.unit.Infantry;
 import engine.mobile.unit.StatsLoader;
 import engine.mobile.unit.Unit;
@@ -65,10 +67,9 @@ public class MobileElementManager implements MobileInterface {
     }
 
     public void firstRound() {
-    	/*
     	System.out.println("Affichage des statistiques des unités:");
     	StatsLoader.printUnitsValues(this.unitStats);
-    	*/
+    	
     	
    
     	//We add player's HQ, & ressource deposits
@@ -76,9 +77,6 @@ public class MobileElementManager implements MobileInterface {
     	HQ playerHQ = new HQ(playerHQposition);
     	
     	Worker playerWorker = (Worker) UnitFactory.createUnit("WORKER", 1, player.getFactionName(), playerHQ.getPosition());//TMP player's worker
-    	Infantry infantry = (Infantry) UnitFactory.createUnit("DISKTHROWER", playerHQposition, unitStats);
-    	infantry.setDestination(playerHQposition);
-    	System.out.println(infantry);
     	
     	playerWorker.setCurrentHQ(playerHQ);
     	playerWorker.setDestination(playerWorker.getPosition());
@@ -91,7 +89,6 @@ public class MobileElementManager implements MobileInterface {
     	
     	this.buildings.add(playerHQ);
     	this.units.add(playerWorker);
-    	this.units.add(infantry);
     	this.ressourceDeposits.add(deposit1);
     	this.ressourceDeposits.add(deposit2);
     	

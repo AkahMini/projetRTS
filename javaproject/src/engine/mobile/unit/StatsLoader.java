@@ -83,6 +83,7 @@ public class StatsLoader {
 					
 					//localString="";//reinitialize the text for the next values
 				}
+			globalStats.put(localKey, unitData);//the last line of the csv file
 			fileReader.close();
 			}
 		
