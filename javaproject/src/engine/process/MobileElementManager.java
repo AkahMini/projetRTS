@@ -74,12 +74,7 @@ public class MobileElementManager implements MobileInterface {
    
     	//We add player's HQ, & ressource deposits
     	Block playerHQposition = map.getBlock(10, 10); //TMP player's HQ
-    	HQ playerHQ = new HQ(playerHQposition);
-    	
-    	Worker playerWorker = (Worker) UnitFactory.createUnit("WORKER", 1, player.getFactionName(), playerHQ.getPosition());//TMP player's worker
-    	
-    	playerWorker.setCurrentHQ(playerHQ);
-    	playerWorker.setDestination(playerWorker.getPosition());
+    	Building playerHQ = BuildingFactory.createBuilding("HQ", 1, "Zeus", playerHQposition);   	
     	
     	Block faithDepositLocation = map.getBlock(30, 20);//TMP
     	RessourceDeposit deposit1 = new RessourceDeposit(faithDepositLocation,RessourceDeposit.FAITH);
@@ -88,7 +83,6 @@ public class MobileElementManager implements MobileInterface {
     	RessourceDeposit deposit2= new RessourceDeposit(ambroiseDepositLocation,RessourceDeposit.AMBROSIA);
     	
     	this.buildings.add(playerHQ);
-    	this.units.add(playerWorker);
     	this.ressourceDeposits.add(deposit1);
     	this.ressourceDeposits.add(deposit2);
     	
@@ -125,8 +119,10 @@ public class MobileElementManager implements MobileInterface {
                 if(building instanceof UnitProducer) {
                     UnitProducer producer = (UnitProducer) building;
                     buildingManager.removeQueue(producer);
+                }else if (building instanceof HQ) {
+                	HQ hQ = (HQ) building;
+                	buildingManager.removeQueue(hQ.getWorkerProducer());
                 }
-            }
         }
         for(int i=0;i<units.size();i++) {
         	Unit unit=units.get(i);
@@ -149,7 +145,7 @@ public class MobileElementManager implements MobileInterface {
                     }
                 }
             }
-        	
+        	}
         }
         unitManager.moveAllUnits();
     }
@@ -270,8 +266,8 @@ public class MobileElementManager implements MobileInterface {
     }
 
     @Override
-    public void addQueue(UnitProducer building, Block position) {
-        buildingManager.addQueue(building, position);
+    public void addQueue(UnitProducer building, Block position, String unitType) {
+        buildingManager.addQueue(building, position, unitType);
     }
     
     // --- Timer part ---

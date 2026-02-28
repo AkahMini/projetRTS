@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import engine.map.Block;
 import engine.mobile.building.Building;
+import engine.mobile.building.HQ;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Unit;
 
@@ -23,6 +24,7 @@ import engine.mobile.unit.Unit;
 public class BuildingFactory {
 	// Const
     public static final String PRODUCER_BUILDING = "PRODUCER";
+    public static final String HQ_BUILDING = "HQ";
     
     // Name of the faction
     private static final String ZEUS = "Zeus";
@@ -85,6 +87,60 @@ public class BuildingFactory {
                 }
                 
                 return producer;
+            case HQ_BUILDING:
+                HQ HQ = new HQ(position);
+                
+                // common value
+                HQ.setTierLevel(tier);
+                HQ.setWorkerProducer(new UnitProducer(position));
+                HQ.setUnderConstruction(true); // The building is under construction
+                ArrayList<Unit> WorkerQueue = new ArrayList<Unit>();
+                HQ.getWorkerProducer().setProductionQueue(WorkerQueue);
+                HQ.getWorkerProducer().setProductionSpeed(4);
+                HQ.setMaxHp(1000);
+                HQ.getWorkerProducer().setTierLevel(tier);
+                
+                //TIER 
+                if (tier == 1) {
+                	HQ.setMaxHp(1000);
+                	HQ.setConstructionTime(5);
+                	HQ.setFaction(faction);
+                    HQ.getWorkerProducer().setFaction(faction);
+
+                    if (faction.equals(ZEUS)) {
+                    	HQ.setBuildingName("Camp Olympique");
+                    } else if (faction.equals(HADES)) {
+                    	HQ.setBuildingName("Camp Spartiate");
+                    } else if (faction.equals(POSEIDON)) {
+                    	HQ.setBuildingName("Colisée d'Atlantide");
+                    }
+                }
+                else if (tier == 2) {
+                	HQ.setMaxHp(1500); // More resistant
+                	HQ.setConstructionTime(200); // Much more construction time
+
+                    if (faction.equals(ZEUS)) {
+                    	HQ.setBuildingName("Prytanée");
+                    } else if (faction.equals(HADES)) {
+                    	HQ.setBuildingName("Puits d'invocation");
+                    } else if (faction.equals(POSEIDON)) {
+                    	HQ.setBuildingName("Cascade");
+                    }
+                }
+                else if (tier == 3) {
+                	HQ.setMaxHp(2000);
+                	HQ.setConstructionTime(300);
+
+                    if (faction.equals(ZEUS)) {
+                    	HQ.setBuildingName("Autel de la sagesse");
+                    } else if (faction.equals(HADES)) {
+                    	HQ.setBuildingName("Portail vers les Champs Élysées");
+                    } else if (faction.equals(POSEIDON)) {
+                    	HQ.setBuildingName("Fosse sous-marine");
+                    }
+                }
+                
+                return HQ;
 		default:
 			throw new IllegalArgumentException("Unknown operation type : " + type);
 			}

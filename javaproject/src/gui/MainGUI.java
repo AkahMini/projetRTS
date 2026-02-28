@@ -17,6 +17,7 @@ import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
 import engine.mobile.building.Building;
+import engine.mobile.building.HQ;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.StatsLoader;
 import engine.process.GameBuilder;
@@ -200,19 +201,26 @@ public class MainGUI extends JFrame implements Runnable {
 	        Block position = map.getBlock(line, column);	             
 	         if(typeSelection!=null && typeSelection.equals("build")) {
 	            manager.buildBuilding(position);
+	            typeSelection=null;
 	         }
-	         if(typeSelection!=null && typeSelection.equals("unitAllie")) {
+	         else if(typeSelection!=null && typeSelection.equals("unitAllie")) {
 	        	 manager.spawnUnit(position);
-	         }if(typeSelection!=null && typeSelection.equals("unitEnnemy")) {
+		         typeSelection=null;
+
+	         }else if(typeSelection!=null && typeSelection.equals("unitEnnemy")) {
 	        	 manager.spawnUnitEnnemy(position);
+		         typeSelection=null;
 	        }else {
 	        	for (Building building : manager.getBuildings()) {
 	        		int lineBuilding=building.getPosition().getLine();
 	        		int columnBuilding=building.getPosition().getColumn();
 		             if((line==lineBuilding || line==lineBuilding+1) && (column==columnBuilding || column==columnBuilding+1)) {
-		            	 if(building instanceof UnitProducer && !building.getIsUnderConstruction()) {
-			            	 manager.addQueue((UnitProducer) building,building.getPosition());
-		            	 }
+		            	 if(building instanceof HQ && !building.getIsUnderConstruction()) {
+		            		 UnitProducer hqWorkerProducer = (UnitProducer) ((HQ) building).getWorkerProducer();
+		            		 manager.addQueue(hqWorkerProducer, building.getPosition(), "WORKER"); 
+		            	}else if(building instanceof UnitProducer && !building.getIsUnderConstruction()) {
+		            		manager.addQueue((UnitProducer) building, building.getPosition(), "INFANTRY");
+		            	}
 		             }
 		         }
 	        }

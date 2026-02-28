@@ -27,7 +27,7 @@ public interface BuildingInterface {
 	 
 	 void reduceConstructionTime(Building building);
 	 
-	 void addQueue(UnitProducer building, Block position);
+	 void addQueue(UnitProducer building, Block position, String unitType);
 	 
 	 void removeQueue(UnitProducer building);
 }

@@ -3,6 +3,7 @@ package engine.mobile.building;
 import java.util.ArrayList;
 
 import engine.map.Block;
+import engine.mobile.unit.Unit;
 
 /**
  * Class representing the Headquarters (HQ) of a player.
@@ -15,38 +16,12 @@ import engine.map.Block;
 
 public class HQ extends Building{
 
-	private ArrayList<String> productionQueue;
-	private float productionSpeed;
-	private int currentProduction;
+	private UnitProducer workerProducer;
 	private int defenseDamage;
 	private int defenseRange;
 	
 	public HQ(Block position) {
 		super(position);
-	}
-
-	public ArrayList<String> getProductionQueue() {
-		return productionQueue;
-	}
-
-	public void setProductionQueue(ArrayList<String> productionQueue) {
-		this.productionQueue = productionQueue;
-	}
-
-	public float getProductionSpeed() {
-		return productionSpeed;
-	}
-
-	public void setProductionSpeed(float productionSpeed) {
-		this.productionSpeed = productionSpeed;
-	}
-
-	public int getCurrentProduction() {
-		return currentProduction;
-	}
-
-	public void setCurrentProduction(int currentProduction) {
-		this.currentProduction = currentProduction;
 	}
 
 	public int getDefenseDamage() {
@@ -63,5 +38,13 @@ public class HQ extends Building{
 
 	public void setDefenseRange(int defenseRange) {
 		this.defenseRange = defenseRange;
+	}
+
+	public UnitProducer getWorkerProducer() {
+		return workerProducer;
+	}
+
+	public void setWorkerProducer(UnitProducer workerProducer) {
+		this.workerProducer = workerProducer;
 	}
 }

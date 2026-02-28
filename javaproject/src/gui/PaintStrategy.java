@@ -139,6 +139,26 @@ public class PaintStrategy {
             }
         }
         
+        if (building instanceof HQ && !building.getIsUnderConstruction()) {
+            int queueSize = ((HQ) building).getWorkerProducer().getProductionQueue().size();
+            graphics.setColor(Color.WHITE);
+            int dotSize = buildingSize / 5; 
+            int gap = 2;
+
+            for (int i = 0; i < queueSize; i++) { // Loop to draw the queue as a visual cue for the user
+            	int drawX = (x * blockSize) + (i * (dotSize + gap)); 
+
+            	int drawY = (y * blockSize) + (buildingSize - dotSize - 2);
+
+            	graphics.setColor(Color.WHITE);
+            	graphics.fillRect(drawX, drawY, dotSize, dotSize);
+
+            	graphics.setColor(Color.BLACK);
+            	graphics.drawRect(drawX, drawY, dotSize, dotSize);
+                graphics.setColor(Color.WHITE);
+            }
+        }
+        
 	}
     
 	public void paint(RessourceDeposit deposit, Graphics graphics) {

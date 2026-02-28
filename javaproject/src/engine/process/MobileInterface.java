@@ -49,7 +49,7 @@ public interface MobileInterface {
 	
 	void selectBuilding(String string);
 	void buildBuilding(Block position);
-	void addQueue(UnitProducer building, Block position);
+	void addQueue(UnitProducer building, Block position,String unitType);
 	
 	void spawnUnit(Block spawnBlock);
 	void spawnUnitEnnemy(Block position);

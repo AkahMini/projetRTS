@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import engine.map.Block;
 import engine.mobile.building.Building;
+import engine.mobile.building.HQ;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Unit;
+import engine.mobile.unit.Worker;
 /*
  * Manager pattern class. Used to manage building object.
  * 
@@ -88,13 +90,23 @@ public class BuildingManager implements BuildingInterface{
         }
     }
 
-    public void addQueue(UnitProducer building, Block position) {
+    public void addQueue(UnitProducer building, Block position,String unitType) {
         if (building.getProductionQueue().size() < 3) {
-            building.setCurrentProduction(building.getProductionSpeed());
+        	if(building.getProductionQueue().isEmpty()) {
+                building.setCurrentProduction(building.getProductionSpeed());
+        	}
             if (building.getTierLevel() == 1) {
                 if("Zeus".equals(building.getFaction())) {
-                    Unit newUnit = UnitFactory.createUnit("INFANTRY", 1, "ZEUS", position);
+                    Unit newUnit = UnitFactory.createUnit(unitType, 1, "Zeus", position);
                     ((UnitProducer) building).getProductionQueue().add(newUnit);
+                    if (newUnit instanceof Worker) {
+                        for (Building b : manager.getBuildings()) {
+                            if (b instanceof HQ && b.getPosition()==newUnit.getPosition()) {
+                                ((Worker) newUnit).setCurrentHQ((HQ) b);
+                                break; 
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -106,14 +118,14 @@ public class BuildingManager implements BuildingInterface{
             // reduce remaining spawning time
             building.setCurrentProduction(building.getCurrentProduction() - 1);
             if (building.getCurrentProduction() == 0) {
-                queue.remove(0);
-                int line = building.getPosition().getLine();
+                Unit unit=queue.remove(0);
+                int line = building.getPosition().getLine()-1;
                 int column = building.getPosition().getColumn() + 1;
                 
                 if(column < manager.getMap().getColumnCount()) {
                     Block spawnBlock = manager.getMap().getBlock(line, column);
-                    Unit newUnit = UnitFactory.createUnit("INFANTRY", 1, "Zeus", spawnBlock);
-                    manager.addInUnits(newUnit);
+                    unit.setPosition(spawnBlock);
+                    manager.addInUnits(unit);
                     if(!queue.isEmpty()){
                         building.setCurrentProduction(building.getProductionSpeed());
                     }
