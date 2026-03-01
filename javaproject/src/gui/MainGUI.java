@@ -198,6 +198,14 @@ public class MainGUI extends JFrame implements Runnable {
 	        int line = e.getY() / blockSize;
 	        int column = e.getX() / blockSize;
 	        System.out.println("x :"+e.getX()+" y :"+e.getY()+" - Block line : "+line+" Block column : "+column);
+	        
+	        //we check if the player clicked in the button zone for x and y
+	        boolean xZone = (e.getX()>=1020 && e.getX()<=1240);
+	        boolean yZone = (e.getY()>=560 && e.getY()<=700);
+	        if(xZone && yZone) {
+	        	manager.areaButtonPressed(e.getX(),e.getY());
+	        }
+	        
 	        Block position = map.getBlock(line, column);	             
 	         if(typeSelection!=null && typeSelection.equals("build")) {
 	            manager.buildBuilding(position);
@@ -210,7 +218,12 @@ public class MainGUI extends JFrame implements Runnable {
 	         }else if(typeSelection!=null && typeSelection.equals("unitEnnemy")) {
 	        	 manager.spawnUnitEnnemy(position);
 		         typeSelection=null;
-	        }else {
+	        }
+			}
+		
+		/*
+	        	
+	        //button need to replace
 	        	for (Building building : manager.getBuildings()) {
 	        		int lineBuilding=building.getPosition().getLine();
 	        		int columnBuilding=building.getPosition().getColumn();
@@ -224,7 +237,7 @@ public class MainGUI extends JFrame implements Runnable {
 		             }
 		         }
 	        }
-		}   
+	        */   
 
 		@Override
 		public void mousePressed(MouseEvent e) {

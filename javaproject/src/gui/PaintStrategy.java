@@ -303,10 +303,9 @@ public class PaintStrategy {
 	}
 	
 	//only the info+button of the first selected building is displayed
-	public void paintBuildingInfo(List<Building> buildingInSelectedArea, Graphics graphics) {
+	public void paintBuildingInfo(Building build, Graphics graphics) {
 		int x =windowWidth-windowWidth/5;
 		int y =510;//~13*windowHeight/18 but meh
-		Building build=buildingInSelectedArea.get(0);//the building we work with
 		
 		graphics.setColor(Color.BLACK);
 		graphics.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -328,6 +327,8 @@ public class PaintStrategy {
 			graphics.fillRect((int)((percent*220.0/100))+x, y, (int)(220-(percent*220.0/100)), 6);
 		}
 		
+		
+		//button to be defined
 		if(build.getBuildingName().equals("Camp Olympique")) {
 			graphics.drawImage(GameUtility.readImage("gameData/images/miner.png"),1020,560,60,60,null);
 		}

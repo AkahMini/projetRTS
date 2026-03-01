@@ -44,6 +44,8 @@ public class MobileElementManager implements MobileInterface {
     private ArrayList<Building> buildingsInSelectedArea = new ArrayList<Building>();
     private ArrayList<RessourceDeposit> ressourceDeposits = new ArrayList<RessourceDeposit>();
     
+    private Building selectedBuild =null;
+    
     private ArrayList<Unit> units = new ArrayList<Unit>();
     
     private ArrayList<Block> selectedArea;
@@ -203,6 +205,35 @@ public class MobileElementManager implements MobileInterface {
         return 0;
     }
     
+    //Gui call this to tell the manager that the player clicked in the selection button area
+    //2 line 3 column
+    //we indicate if its in the first or second line then for the col
+    // do nothing if in the white space
+    public void areaButtonPressed(int x, int y) {
+    	if(selectedBuild!=null) {
+    		if(y<=620) {
+    			if(x<=1080) {
+    				buildingManager.action("button1");
+    				
+    			} else if (x>=1100 && x<=1160) {
+    				buildingManager.action("button2");
+    			} else if (x>=1180) {
+    				buildingManager.action("button3");
+    			}
+    		} else if (y>=640) {
+    			if(x<=1080) {
+    				buildingManager.action("button4");
+    			} else if (x>=1100 && x<=1160) {
+    				buildingManager.action("button5");
+    			} else if (x>=1180) {
+    				buildingManager.action("button6");
+    			}
+    		}
+    	}
+    }
+    
+    
+    
     //method for the communation between this class and BuildingManager
     
     public void addInBuildings(Building n) {
@@ -300,4 +331,14 @@ public class MobileElementManager implements MobileInterface {
     public HashMap<String,ArrayList<Float>> getUnitStats(){
     	return this.unitStats;
     }
+
+    
+    //used for graphic interface
+	public Building getSelectedBuild() {
+		return selectedBuild;
+	}
+
+	public void setSelectedBuild(Building selectedBuild) {
+		this.selectedBuild = selectedBuild;
+	}
 }

@@ -70,6 +70,9 @@ public class BuildingManager implements BuildingInterface{
             	for(int blockIndex = 0; blockIndex<nbOfBlocksInSelectedArea;blockIndex++) {
             		if(selectedArea.get(blockIndex).equals(buildingPosition)) {
             			buildingsInSelectedArea.add(buildings.get(buildingIndex));
+            			if(buildingIndex==0) {
+            				manager.setSelectedBuild(buildings.get(buildingIndex));
+            			}
             			break;//if 2 buildings are in the same position (not possible but in case of + it run faster :p)
             		}
             	}
@@ -132,5 +135,31 @@ public class BuildingManager implements BuildingInterface{
                 }
              }
         }
+    }
+    
+    //put here in each case the action wanted for your building
+    public void action(String button) {
+    	switch (button) {
+    	case "button1":
+    		if (manager.getSelectedBuild().getBuildingName().equals("Camp Olympique")) {
+    			if(!manager.getSelectedBuild().getIsUnderConstruction()) {
+    				UnitProducer hq = (UnitProducer) ((HQ) manager.getSelectedBuild()).getWorkerProducer();// forced cast not optimal
+    				manager.addQueue(hq, manager.getSelectedBuild().getPosition(), "WORKER");
+    			}
+    		}
+    		
+    		
+    		break;
+    	case "button2":
+    		break;
+    	case "button3":
+    		break;
+    	case "button4":
+    		break;
+    	case "button5":
+    		break;
+    	case "button6":
+    		break;
+    	}
     }
 }

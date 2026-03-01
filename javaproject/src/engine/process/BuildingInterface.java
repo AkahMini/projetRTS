@@ -30,4 +30,6 @@ public interface BuildingInterface {
 	 void addQueue(UnitProducer building, Block position, String unitType);
 	 
 	 void removeQueue(UnitProducer building);
+	 
+	 void action(String button);
 }

@@ -45,7 +45,11 @@ public interface MobileInterface {
 	CyclicCounter getMinute();
 	CyclicCounter getSecond();
 	Block getMousePosition(int y, int x);
-
+	
+	void areaButtonPressed(int x, int y);
+	
+	Building getSelectedBuild();
+	void setSelectedBuild(Building selectedBuild);
 	
 	void selectBuilding(String string);
 	void buildBuilding(Block position);
