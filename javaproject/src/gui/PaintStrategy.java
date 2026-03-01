@@ -21,6 +21,7 @@ import engine.mobile.unit.Infantry;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
 import engine.process.chrono.CyclicCounter;
+import engine.process.GameUtility;
 
 /**
  * 
@@ -326,10 +327,12 @@ public class PaintStrategy {
 			graphics.setColor(Color.RED);
 			graphics.fillRect((int)((percent*220.0/100))+x, y, (int)(220-(percent*220.0/100)), 6);
 		}
-		y+=22;
-		graphics.setColor(Color.BLACK);
-		graphics.setFont(new Font("Arial", Font.PLAIN, 14));
-		graphics.drawString("Draw img pour les boutons ici", x, y+20);
+		
+		if(build.getBuildingName().equals("Camp Olympique")) {
+			graphics.drawImage(GameUtility.readImage("gameData/images/miner.png"),1020,560,60,60,null);
+		}
+		//template for visual use only
+		//graphics.drawRect(1020, 560, 240, 140);
 		//Draw img max 6 or 9 for the different button related to the building 
 		//-> one image per building per button (capacity/research/unit)
 		
