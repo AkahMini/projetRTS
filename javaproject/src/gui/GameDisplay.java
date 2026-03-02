@@ -32,6 +32,8 @@ public class GameDisplay extends JPanel {
 		this.map = map;
 		this.manager = manager;
 	}
+	
+	
 
 	@Override
 	public void paintComponent(Graphics g) {

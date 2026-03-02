@@ -36,6 +36,7 @@ import engine.process.GameUtility;
 public class PaintStrategy {
 	private final int windowWidth = GameConfiguration.WINDOW_WIDTH;
 	private final int windowHeight = GameConfiguration.WINDOW_HEIGHT; 
+	private TextureInterface textureManager=new TextureManager();
 	
 	
 	public void paint(Map map, Graphics graphics) {
@@ -56,13 +57,15 @@ public class PaintStrategy {
 				}
 				
 				else if(lineIndex>6 && columnIndex<GameConfiguration.COLUMN_COUNT-28) {
-					if ((lineIndex + columnIndex) % 2 == 0) {
-						graphics.setColor(Color.GRAY);
-						graphics.fillRect(block.getColumn() * blockSize, block.getLine() * blockSize, blockSize, blockSize);
-					}else {
-						graphics.setColor(new Color(192,192,192));// darker gray
-						graphics.fillRect(block.getColumn() * blockSize, block.getLine() * blockSize, blockSize, blockSize);
-					}
+					textureManager.setCurrent("GrassTexture");
+					Color[] palette=textureManager.getPalette();
+					int[][] grid=textureManager.getPattern();
+					for (int row = 0; row < grid.length; row++) {
+			            for (int col = 0; col < grid[row].length; col++) {
+			                graphics.setColor(palette[grid[row][col]]);
+			                graphics.fillRect(columnIndex* blockSize + col,lineIndex* blockSize + row,1,1);
+			            }
+			        }
 				}
 				
 				else if(lineIndex>6 && columnIndex==GameConfiguration.COLUMN_COUNT-28) {
