@@ -56,6 +56,12 @@ public class PaintStrategy {
 					graphics.fillRect(block.getColumn() * blockSize, block.getLine() * blockSize, blockSize, blockSize);
 				}
 				
+				else if(lineIndex==7 && columnIndex==0) {
+					graphics.drawImage(GameUtility.readImage("gameData/images/grassTiled.png"),0,7*blockSize,1000,650,null);
+				}
+				
+				//this part is too laggy but keep it if this strategy have to be used
+				/*
 				else if(lineIndex>6 && columnIndex<GameConfiguration.COLUMN_COUNT-28) {
 					textureManager.setCurrent("GrassTexture");
 					Color[] palette=textureManager.getPalette();
@@ -67,7 +73,7 @@ public class PaintStrategy {
 			            }
 			        }
 				}
-				
+				*/
 				else if(lineIndex>6 && columnIndex==GameConfiguration.COLUMN_COUNT-28) {
 					graphics.setColor(Color.BLACK);
 					graphics.fillRect(block.getColumn() * blockSize, block.getLine() * blockSize, blockSize, blockSize);
