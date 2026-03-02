@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import config.GameConfiguration;
 import engine.map.Block;
 import engine.mobile.building.Building;
+import engine.mobile.building.DefenseTower;
 import engine.mobile.building.HQ;
 import engine.mobile.building.UnitProducer;
+import engine.mobile.unit.Infantry;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
 /*
@@ -163,4 +165,67 @@ public class BuildingManager implements BuildingInterface{
     		break;
     	}
     }
+
+public Unit closestEnnemy(DefenseTower tower) {
+    Unit nearest = null;
+    double minDistance = Double.MAX_VALUE;
+    
+    for (Unit unit : manager.getUnits()) {
+
+            double dist = manager.getDistance(unit.getPosition(), unit.getPosition());
+            
+            if (dist <= unit.getVision() && dist < minDistance) {
+                minDistance = dist;
+                nearest = unit;
+            }
+        }
+    return nearest;
+	}
+
+public void attackTarget(DefenseTower tower) {
+	Unit target = closestEnnemy(tower);
+	if(tower.getAttackCounter()!=0) {
+		tower.setAttackCounter(tower.getAttackCounter()-1);
+	}
+	else {
+		tower.resetAttackCounter();
+		
+		if(manager.getDistance(tower.getPosition(),target.getPosition())<tower.getTowerRange()) {
+			//if the closestEnnemy is in range
+			double attack=tower.getTowerDamage();
+			
+			if (target instanceof Infantry) {
+	            Infantry infantryTarget = (Infantry) target;
+	            double shield = infantryTarget.getShieldValue();
+	            if (shield > 0) {
+	                if (shield >= attack) {
+	                    infantryTarget.setShieldValue(shield - attack);
+	                    attack = 0;
+	                } else {
+	                    infantryTarget.setShieldValue(0);
+	                    attack -= shield;
+	                }
+	            }
+	        }
+	        if (attack > 0) {
+	            int newHp = (int) Math.max(0, target.getHp() - attack);
+	            target.setHp(newHp);
+	        }
+	        
+	        if (target.getHp() <= 0) {
+	            tower.setTarget(null);
+	        }
+			
+		}
+	}
+}
+	
+public void allBuildingsAttack(ArrayList<Building> buildings) {
+	for(Building building:buildings) {
+		if(building instanceof DefenseTower) {
+			attackTarget((DefenseTower) building);
+		}
+	}
+}
+
 }
