@@ -2,6 +2,7 @@ package engine.process;
 
 import java.util.ArrayList;
 
+import config.GameConfiguration;
 import engine.map.Block;
 import engine.mobile.building.Building;
 import engine.mobile.building.HQ;
@@ -43,7 +44,7 @@ public class BuildingManager implements BuildingInterface{
 
         String faction = "Zeus";
         int tier = 1;
-        if (position.getLine() >= 6 && position.getColumn() > 30) {
+        if (position.getLine() >= 7 && position.getColumn() < GameConfiguration.COLUMN_COUNT - 28) {
             Building nouveauBatiment = BuildingFactory.createBuilding(selectedBuilding, tier, faction, position);
     
             if (nouveauBatiment != null) {

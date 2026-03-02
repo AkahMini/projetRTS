@@ -3,7 +3,7 @@ package engine.process;
 import java.util.ArrayList;
 
 import config.DefaultGameSettings;
-
+import config.GameConfiguration;
 import engine.map.Block;
 import engine.mobile.Player;
 import engine.mobile.RessourceDeposit;
@@ -46,7 +46,7 @@ public class UnitsManager implements UnitsInterface{
 
         String faction = "Zeus";
         int tier = 1;
-        if (position.getLine() >= 3 && position.getColumn() > 28) {
+        if (position.getLine() >=7 && position.getColumn() < GameConfiguration.COLUMN_COUNT-28) {
             Unit newUnit = UnitFactory.createUnit(selectedUnit, tier, faction, position);
     
             if (newUnit != null) {
@@ -66,7 +66,7 @@ public class UnitsManager implements UnitsInterface{
 
         String faction = "Hades";
         int tier = 1;
-        if (position.getLine() >= 6 && position.getColumn() > 28) {
+        if (position.getLine() >=7 && position.getColumn() < GameConfiguration.COLUMN_COUNT-28) {
             Unit newUnit = UnitFactory.createUnit(selectedUnit, tier, faction, position);
     
             if (newUnit != null) {
