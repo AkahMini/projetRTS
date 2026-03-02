@@ -1,6 +1,8 @@
 package test;
 
 import config.DefaultGameSettings;
+import config.GameConfiguration;
+import engine.mobile.building.BuildingStatsLoader;
 import gui.MainGUI;
 
 /**
@@ -17,7 +19,7 @@ public class TestGame {
 
 		MainGUI gameMainGUI = new MainGUI("RTS game");
 		DefaultGameSettings gameSettings= new DefaultGameSettings();
-
+		BuildingStatsLoader statLoader=new BuildingStatsLoader(GameConfiguration.BUILDINGS_STATS);
 		Thread gameThread = new Thread(gameMainGUI);
 		gameThread.start();
 	}

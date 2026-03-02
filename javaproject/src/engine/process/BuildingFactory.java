@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import engine.map.Block;
 import engine.mobile.building.Building;
+import engine.mobile.building.BuildingStats;
 import engine.mobile.building.HQ;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Unit;
@@ -19,26 +20,60 @@ import engine.mobile.unit.Unit;
  * @version 1.0
  * 
  * 
-*/
+ */
 
 public class BuildingFactory {
-	// Const
-    public static final String PRODUCER_BUILDING = "PRODUCER";
-    public static final String HQ_BUILDING = "HQ";
-    
-    // Name of the faction
-    private static final String ZEUS = "Zeus";
-    private static final String HADES = "Hades";
-    private static final String POSEIDON = "Poseidon";
 
-    public static Building createBuilding(String type, int tier, String faction, Block position) {
-        
-        switch (type) {
+	public static final String PRODUCER_BUILDING = "Producer";
+	public static final String HQ_BUILDING = "HQ";
+	public static final String DEFENSE_BUILDING = "DefenseTower";
+	public static final String POPULATION_BUILDING = "PopulationBuilding";
+	public static final String RESEARCH_BUILDING = "ResearchBuilding";
+
+	public static Building createBuilding(String type, int tier, String faction, Block position) {
+		String key = type.toUpperCase() + "_" + faction.toUpperCase() + "_" + tier;
+		BuildingStats stats = BuildingRepository.getInstance().getStats(key);
+		Building building = null;
+		
+		switch (type) {
+		case PRODUCER_BUILDING :
+			UnitProducer producer = new UnitProducer(position);
+            producer.setProductionQueue(new ArrayList<Unit>());
+            producer.setProductionSpeed(stats.getProductionSpeed());
+            building = producer;
+            break;
+		case HQ_BUILDING:
+            HQ hq = new HQ(position);
+            hq.setWorkerProducer(new UnitProducer(position));
+            hq.getWorkerProducer().setProductionQueue(new ArrayList<Unit>());
+            hq.getWorkerProducer().setProductionSpeed(stats.getProductionSpeed());
+            hq.getWorkerProducer().setTierLevel(tier);
+            hq.getWorkerProducer().setFaction(faction);
             
+            hq.setDefenseDamage(stats.getTowerDamage());
+            hq.setDefenseRange(stats.getTowerRange());
+            building = hq;
+            break;
+		default:
+			throw new IllegalArgumentException("Unknown operation type : " + type);
+		}
+		building.setBuildingName(stats.getId()); 
+        building.setFaction(faction);
+        building.setTierLevel(tier);
+        building.setMaxHp(stats.getMaxHp());
+        building.setHp(stats.getMaxHp()); 
+        building.setConstructionTime(stats.getConstructionTime());
+        building.setUnderConstruction(true);
+		
+		return building;
+	}
+	/*
+        switch (type) {
+
             //Unit prod
             case PRODUCER_BUILDING:
                 UnitProducer producer = new UnitProducer(position);
-                
+
                 // common value
                 producer.setTierLevel(tier);
                 producer.setUnderConstruction(true); // The building is under construction
@@ -46,7 +81,7 @@ public class BuildingFactory {
                 producer.setProductionQueue(queue); // currently empty
                 producer.setProductionSpeed(10);
                 producer.setMaxHp(1000);
-                
+
                 //TIER 
                 if (tier == 1) {
                     producer.setMaxHp(1000);
@@ -85,11 +120,11 @@ public class BuildingFactory {
                         producer.setBuildingName("Fosse sous-marine");
                     }
                 }
-                
+
                 return producer;
             case HQ_BUILDING:
                 HQ HQ = new HQ(position);
-                
+
                 // common value
                 HQ.setTierLevel(tier);
                 HQ.setWorkerProducer(new UnitProducer(position));
@@ -99,7 +134,7 @@ public class BuildingFactory {
                 HQ.getWorkerProducer().setProductionSpeed(4);
                 HQ.setMaxHp(1000);
                 HQ.getWorkerProducer().setTierLevel(tier);
-                
+
                 //TIER 
                 if (tier == 1) {
                 	HQ.setMaxHp(1000);
@@ -139,10 +174,10 @@ public class BuildingFactory {
                     	HQ.setBuildingName("Fosse sous-marine");
                     }
                 }
-                
+
                 return HQ;
 		default:
 			throw new IllegalArgumentException("Unknown operation type : " + type);
 			}
-		}
-	}
+	 */
+}

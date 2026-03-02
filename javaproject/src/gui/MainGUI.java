@@ -83,7 +83,7 @@ public class MainGUI extends JFrame implements Runnable {
 
 		testButton.addActionListener(new ActionListener() { // bouton temporaire pour test
 		    public void actionPerformed(ActionEvent e) {
-		        manager.selectBuilding("PRODUCER");
+		        manager.selectBuilding("Producer");
 		        typeSelection="build";
 		    }
 		});
