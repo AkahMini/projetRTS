@@ -117,36 +117,36 @@ public class MobileElementManager implements MobileInterface {
             
             // Buildings management
             for(Building building : buildings) {
-                buildingManager.reduceConstructionTime(building);
-                if(building instanceof UnitProducer) {
-                    UnitProducer producer = (UnitProducer) building;
-                    buildingManager.removeQueue(producer);
-                }else if (building instanceof HQ) {
-                	HQ hQ = (HQ) building;
-                	buildingManager.removeQueue(hQ.getWorkerProducer());
-                }
+            	buildingManager.reduceConstructionTime(building);
+            	if(building instanceof UnitProducer) {
+            		UnitProducer producer = (UnitProducer) building;
+            		buildingManager.removeQueue(producer);
+            	}else if (building instanceof HQ) {
+            		HQ hQ = (HQ) building;
+            		buildingManager.removeQueue(hQ.getWorkerProducer());
+            	}
+            }
         }
         for(int i=0;i<units.size();i++) {
         	Unit unit=units.get(i);
         	// 3. Combat
-            if (unit.getTarget() != null && unit.getIsInCombat()) {
-                Unit target = (Unit) unit.getTarget();
-                
-                if (target.getHp() <= 0) {
-                    unit.setTarget(null);
-                    unit.setIsInCombat(false);
-                } else {
-                    double distance = getDistance(unit.getPosition(), target.getPosition());
-                    
-                    if (distance <= unit.getATKRange()) {
-                        unit.setDestination(null);
-                        unitManager.calculDegats(unit);
-                    }else {
-                    	// if not in range, we pursue
-                        unit.setDestination(target.getPosition());
-                    }
-                }
-            }
+        	if (unit.getTarget() != null && unit.getIsInCombat()) {
+        		Unit target = (Unit) unit.getTarget();
+
+        		if (target.getHp() <= 0) {
+        			unit.setTarget(null);
+        			unit.setIsInCombat(false);
+        		} else {
+        			double distance = getDistance(unit.getPosition(), target.getPosition());
+
+        			if (distance <= unit.getATKRange()) {
+        				unit.setDestination(null);
+        				unitManager.calculDegats(unit);
+        			}else {
+        				// if not in range, we pursue
+        				unit.setDestination(target.getPosition());
+        			}
+        		}
         	}
         }
         unitManager.moveAllUnits();
