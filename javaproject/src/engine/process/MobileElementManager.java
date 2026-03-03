@@ -69,14 +69,17 @@ public class MobileElementManager implements MobileInterface {
     }
 
     public void firstRound() {
+    	/*
     	System.out.println("Affichage des statistiques des unités:");
     	StatsLoader.printUnitsValues(this.unitStats);
-    	
+    	*/
     	
    
     	//We add player's HQ, & ressource deposits
     	Block playerHQposition = map.getBlock(10, 10); //TMP player's HQ
-    	Building playerHQ = BuildingFactory.createBuilding("HQ", 1, "Zeus", playerHQposition);   	
+    	Block playerTowerPosition = map.getBlock(20, 30);//TMP
+    	Building playerHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, "Zeus", playerHQposition);   	
+    	Building playerTower = BuildingFactory.createBuilding(BuildingFactory.DEFENSE_BUILDING, 2, "Poseidon", playerTowerPosition);
     	
     	Block faithDepositLocation = map.getBlock(30, 20);//TMP
     	RessourceDeposit deposit1 = new RessourceDeposit(faithDepositLocation,RessourceDeposit.FAITH);
@@ -85,6 +88,7 @@ public class MobileElementManager implements MobileInterface {
     	RessourceDeposit deposit2= new RessourceDeposit(ambroiseDepositLocation,RessourceDeposit.AMBROSIA);
     	
     	this.buildings.add(playerHQ);
+    	this.buildings.add(playerTower);
     	this.ressourceDeposits.add(deposit1);
     	this.ressourceDeposits.add(deposit2);
     	
@@ -150,6 +154,7 @@ public class MobileElementManager implements MobileInterface {
         	}
         }
         unitManager.moveAllUnits();
+        buildingManager.allBuildingsAttack(buildings);
     }
     
      

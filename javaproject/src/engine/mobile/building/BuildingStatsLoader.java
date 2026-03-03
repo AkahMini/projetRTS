@@ -37,7 +37,9 @@ public class BuildingStatsLoader {
                 String key = buildingType.toUpperCase() + "_" + faction.toUpperCase() + "_" + tierLevel;
                 
                 buildingRepository.register(key, stats);
+                System.out.println("Added building key: "+key);
             }
+			
             br.close();
 		} catch (IOException e) {
 			e.printStackTrace();

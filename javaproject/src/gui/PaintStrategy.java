@@ -13,6 +13,7 @@ import engine.mobile.MobileElement;
 import engine.mobile.Player;
 import engine.mobile.RessourceDeposit;
 import engine.mobile.building.Building;
+import engine.mobile.building.DefenseTower;
 import engine.mobile.building.HQ;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Artillery;
@@ -123,6 +124,9 @@ public class PaintStrategy {
         else if (building instanceof UnitProducer) {
             graphics.setColor(Color.BLUE); // blue for unitProdcing Building
             
+        }
+        else if (building instanceof DefenseTower) {
+        	graphics.setColor(Color.GRAY); // blue for unitProdcing Building
         }
         
         graphics.fillRect(x * blockSize, y * blockSize, buildingSize, buildingSize);

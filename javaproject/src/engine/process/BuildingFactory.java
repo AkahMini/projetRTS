@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import engine.map.Block;
 import engine.mobile.building.Building;
 import engine.mobile.building.BuildingStats;
+import engine.mobile.building.DefenseTower;
 import engine.mobile.building.HQ;
+import engine.mobile.building.PopulationBuilding;
+import engine.mobile.building.ResearchBuilding;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Unit;
 
@@ -34,7 +37,9 @@ public class BuildingFactory {
 		String key = type.toUpperCase() + "_" + faction.toUpperCase() + "_" + tier;
 		BuildingStats stats = BuildingRepository.getInstance().getStats(key);
 		Building building = null;
-		
+		if(stats==null) {
+			throw new IllegalArgumentException("Unknown key: " + key);
+		}
 		switch (type) {
 		case PRODUCER_BUILDING :
 			UnitProducer producer = new UnitProducer(position);
@@ -54,6 +59,19 @@ public class BuildingFactory {
             hq.setDefenseRange(stats.getTowerRange());
             building = hq;
             break;
+		case DEFENSE_BUILDING:
+			DefenseTower tower = new DefenseTower(position);
+			building=tower;
+			break;
+		case POPULATION_BUILDING:
+			PopulationBuilding popBuilding = new PopulationBuilding(position);
+			building = popBuilding;
+			break;
+		case RESEARCH_BUILDING:
+			ResearchBuilding researchBuilding = new ResearchBuilding(position);
+			building = researchBuilding;
+			break;
+			
 		default:
 			throw new IllegalArgumentException("Unknown operation type : " + type);
 		}

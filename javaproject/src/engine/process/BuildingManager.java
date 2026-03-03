@@ -187,12 +187,13 @@ public void attackTarget(DefenseTower tower) {
 	if(tower.getAttackCounter()!=0) {
 		tower.setAttackCounter(tower.getAttackCounter()-1);
 	}
-	else {
+	else if (target!=null) {
+		System.out.println(target);
 		tower.resetAttackCounter();
-		
 		if(manager.getDistance(tower.getPosition(),target.getPosition())<tower.getTowerRange()) {
 			//if the closestEnnemy is in range
 			double attack=tower.getTowerDamage();
+			System.out.println("Tower attack "+ target.getUnitName());
 			
 			if (target instanceof Infantry) {
 	            Infantry infantryTarget = (Infantry) target;
