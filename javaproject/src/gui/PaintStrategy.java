@@ -338,7 +338,7 @@ public class PaintStrategy {
 		
 		
 		//button to be defined
-		if(build.getBuildingName().equals("Camp Olympique")) {
+		if(build.getBuildingName().equals("Temple de Zeus")) {
 			graphics.drawImage(GameUtility.readImage("gameData/images/miner.png"),1020,560,60,60,null);
 		}
 		//template for visual use only

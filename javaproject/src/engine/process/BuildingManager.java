@@ -144,7 +144,7 @@ public class BuildingManager implements BuildingInterface{
     public void action(String button) {
     	switch (button) {
     	case "button1":
-    		if (manager.getSelectedBuild().getBuildingName().equals("Camp Olympique")) {
+    		if (manager.getSelectedBuild().getBuildingName().equals("Temple de Zeus")) {
     			if(!manager.getSelectedBuild().getIsUnderConstruction()) {
     				UnitProducer hq = (UnitProducer) ((HQ) manager.getSelectedBuild()).getWorkerProducer();// forced cast not optimal
     				manager.addQueue(hq, manager.getSelectedBuild().getPosition(), "WORKER");
