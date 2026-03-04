@@ -128,34 +128,16 @@ public class PaintStrategy {
 		}
 		else if (building instanceof UnitProducer) {
 			graphics.setColor(Color.BLUE); // blue for unitProdcing Building
-		}else if(building instanceof HQ) {
-        	graphics.setColor(Color.MAGENTA);
-        }
-        else if (building instanceof UnitProducer) {
-            graphics.setColor(Color.BLUE); // blue for unitProdcing Building
-            
-        }
-        else if (building instanceof DefenseTower) {
-        	graphics.setColor(Color.GRAY); // blue for unitProdcing Building
-        }
-        
-        graphics.fillRect(x * blockSize, y * blockSize, buildingSize, buildingSize);
-        
-        graphics.setColor(Color.BLACK);
-        graphics.drawRect(x * blockSize, y * blockSize, buildingSize, buildingSize);
-        if (building instanceof UnitProducer && !building.getIsUnderConstruction()) {
-            int queueSize = ((UnitProducer) building).getProductionQueue().size();
-            graphics.setColor(Color.WHITE);
-            int dotSize = buildingSize / 5; 
-            int gap = 2;
-
-		}else if (building instanceof DefenseTower) {
+		}
+		else if (building instanceof DefenseTower) {
 			graphics.setColor(Color.MAGENTA.darker()); // Dark magenta for DefenseTower
 			buildingSize= buildingSize/2;   
-		}else if (building instanceof PopulationBuilding) {
+		}
+		else if (building instanceof PopulationBuilding) {
 			graphics.setColor(Color.YELLOW.darker()); // Dark yellow for PopulationBuilding
 			buildingSize= buildingSize/2;   
-		}else if (building instanceof ResearchBuilding) {
+		}
+		else if (building instanceof ResearchBuilding) {
 			graphics.setColor(Color.GRAY); //  for DefenseTower
 		}
 
