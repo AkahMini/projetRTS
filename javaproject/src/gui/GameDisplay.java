@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import engine.map.Map;
 import engine.mobile.RessourceDeposit;
 import engine.mobile.building.Building;
+import engine.mobile.building.DefenseTower;
 import engine.mobile.unit.Unit;
 import engine.process.MobileInterface;
 
@@ -49,6 +50,9 @@ public class GameDisplay extends JPanel {
 		
 		for (Building building : manager.getBuildings()) {
             paintStrategy.paint(building, g);
+            if(building instanceof DefenseTower) {
+            	paintStrategy.paintAttack((DefenseTower)building, g);
+            }
         }
 		for (RessourceDeposit deposit: manager.getRessourceDeposit()) {
 			paintStrategy.paint(deposit, g);
