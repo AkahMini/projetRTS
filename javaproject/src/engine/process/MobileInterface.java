@@ -52,7 +52,7 @@ public interface MobileInterface {
 	void setSelectedBuild(Building selectedBuild);
 	
 	void selectBuilding(String string);
-	void buildBuilding(Block position);
+	void buildBuilding(Block position,int tier,String faction);
 	void addQueue(UnitProducer building, Block position,String unitType);
 	
 	void spawnUnit(Block spawnBlock);

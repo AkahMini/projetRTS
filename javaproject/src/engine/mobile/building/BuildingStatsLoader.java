@@ -29,13 +29,14 @@ public class BuildingStatsLoader {
                 int constructionTime = Integer.valueOf(data[7].trim());
                 int productionSpeed = Integer.valueOf(data[8].trim());
                 int towerDamage = Integer.valueOf(data[9].trim());
-                int towerRange = Integer.valueOf(data[10].trim());
-                int populationProvided = Integer.valueOf(data[11].trim());
-                BuildingStats stats = new BuildingStats(id, buildingType, faction, tierLevel, maxHp, ambroisieCost, faithCost, constructionTime, productionSpeed, towerDamage, towerRange, populationProvided);
+                int towerAttackSpeed = Integer.valueOf(data[10].trim());
+                int towerRange = Integer.valueOf(data[11].trim());
+                int populationProvided = Integer.valueOf(data[12].trim());
+                String technologies=data[13].trim();
+                BuildingStats stats = new BuildingStats(id, buildingType, faction, tierLevel, maxHp, ambroisieCost, faithCost, constructionTime, productionSpeed, towerDamage,towerAttackSpeed, towerRange, populationProvided,technologies);
                 
                 //the key is this and not the name cause we use these three arguments in the factory so it make more sense
                 String key = buildingType.toUpperCase() + "_" + faction.toUpperCase() + "_" + tierLevel;
-                
                 buildingRepository.register(key, stats);
             }
             br.close();

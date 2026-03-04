@@ -13,12 +13,8 @@ import engine.mobile.RessourceDeposit;
 import engine.mobile.building.Building;
 import engine.mobile.building.HQ;
 import engine.mobile.building.UnitProducer;
-import engine.mobile.unit.Artillery;
-import engine.mobile.unit.Cavalry;
-import engine.mobile.unit.Infantry;
 import engine.mobile.unit.StatsLoader;
 import engine.mobile.unit.Unit;
-import engine.mobile.unit.Worker;
 import engine.process.chrono.Chronometer;
 import engine.process.chrono.CyclicCounter;
 
@@ -141,7 +137,7 @@ public class MobileElementManager implements MobileInterface {
 
         			if (distance <= unit.getATKRange()) {
         				unit.setDestination(null);
-        				unitManager.calculDegats(unit);
+        				unitManager.damageCalculation(unit);
         			}else {
         				// if not in range, we pursue
         				unit.setDestination(target.getPosition());
@@ -287,8 +283,8 @@ public class MobileElementManager implements MobileInterface {
     }
 
     @Override
-    public void buildBuilding(Block position) {
-        buildingManager.buildBuilding(position);
+    public void buildBuilding(Block position,int tier,String faction) {
+        buildingManager.buildBuilding(position, tier, faction);
     }
 
     @Override

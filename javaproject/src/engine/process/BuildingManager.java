@@ -36,22 +36,17 @@ public class BuildingManager implements BuildingInterface{
     //temporaty method for testing
     public void selectBuilding(String type) {
         this.selectedBuilding = type;
-        System.out.println("Mode construction : " + type);
     }
 
-    public void buildBuilding(Block position) {
+    public void buildBuilding(Block position,int tier,String faction) {
         if (selectedBuilding == null) {
             return;
         }
-
-        String faction = "Zeus";
-        int tier = 1;
         if (position.getLine() >= 7 && position.getColumn() < GameConfiguration.COLUMN_COUNT - 28) {
             Building nouveauBatiment = BuildingFactory.createBuilding(selectedBuilding, tier, faction, position);
     
             if (nouveauBatiment != null) {
                 manager.addInBuildings(nouveauBatiment);
-                System.out.println("Bâtiment posé en : " + position.getLine() + ", " + position.getColumn());
             }
             selectedBuilding = null;
         }

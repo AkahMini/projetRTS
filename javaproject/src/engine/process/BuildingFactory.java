@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import engine.map.Block;
 import engine.mobile.building.Building;
 import engine.mobile.building.BuildingStats;
+import engine.mobile.building.DefenseTower;
 import engine.mobile.building.HQ;
+import engine.mobile.building.PopulationBuilding;
+import engine.mobile.building.ResearchBuilding;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Unit;
 
@@ -33,6 +36,7 @@ public class BuildingFactory {
 	public static Building createBuilding(String type, int tier, String faction, Block position) {
 		String key = type.toUpperCase() + "_" + faction.toUpperCase() + "_" + tier;
 		BuildingStats stats = BuildingRepository.getInstance().getStats(key);
+		System.out.println("CLÉ RECHERCHÉE : [" + key + "]"); // <-- AJOUTE CECI
 		Building building = null;
 		
 		switch (type) {
@@ -52,7 +56,25 @@ public class BuildingFactory {
             
             hq.setDefenseDamage(stats.getTowerDamage());
             hq.setDefenseRange(stats.getTowerRange());
+            hq.setDefenseAttackSpeed(stats.getTowerAttackSpeed());
             building = hq;
+            break;
+		case DEFENSE_BUILDING :
+			DefenseTower defense= new DefenseTower(position);
+			defense.setTowerDamage(stats.getTowerDamage());
+			defense.setTowerAttackSpeed(stats.getTowerAttackSpeed());
+			defense.setTowerRange(stats.getTowerRange());
+			building = defense;
+            break;
+		case POPULATION_BUILDING :
+			PopulationBuilding population= new PopulationBuilding(position);
+			population.setPopulationProvided(stats.getPopulationProvided());
+			building = population;
+            break;
+		case RESEARCH_BUILDING :
+			ResearchBuilding research= new ResearchBuilding(position);
+			research.setTechnologiesUnlocked(stats.getTechnologieUnlocked());
+			building = research;
             break;
 		default:
 			throw new IllegalArgumentException("Unknown operation type : " + type);
@@ -61,7 +83,9 @@ public class BuildingFactory {
         building.setFaction(faction);
         building.setTierLevel(tier);
         building.setMaxHp(stats.getMaxHp());
-        building.setHp(stats.getMaxHp()); 
+        building.setHp(stats.getMaxHp());
+        building.setAmbroisieCost(stats.getAmbroisieCost());
+        building.setFaithCost(stats.getFaithCost());
         building.setConstructionTime(stats.getConstructionTime());
         building.setUnderConstruction(true);
 		

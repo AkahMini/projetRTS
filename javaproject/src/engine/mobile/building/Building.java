@@ -22,6 +22,8 @@ public class Building extends MobileElement{
 	private int constructionTime;
 	private boolean isUnderConstruction;
 	private int tierLevel;
+	private int faithCost;
+	private int AmbroisieCost;
 	
 	/**
 	 * Constructor for the Building.
@@ -136,5 +138,17 @@ public class Building extends MobileElement{
 	 */
 	public int getPercentHP() {
 		return (int)(this.hp*100.0/this.maxHp);	
+	}
+	public int getFaithCost() {
+		return faithCost;
+	}
+	public void setFaithCost(int faithCost) {
+		this.faithCost = faithCost;
+	}
+	public int getAmbroisieCost() {
+		return AmbroisieCost;
+	}
+	public void setAmbroisieCost(int ambroisieCost) {
+		AmbroisieCost = ambroisieCost;
 	}
 }

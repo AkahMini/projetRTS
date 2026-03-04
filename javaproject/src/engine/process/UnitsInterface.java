@@ -32,7 +32,7 @@ public interface UnitsInterface {
 	Unit scanForEnemy(Unit unit);
 	
 	void combatSystem(Unit unit1, Unit unit2);
-	void calculDegats(Unit unit);
+	void damageCalculation(Unit unit);
 	
 	void unitsInSelectedArea();
 	void unitMoveOrder(Block destination);

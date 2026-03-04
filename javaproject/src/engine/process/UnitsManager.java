@@ -227,7 +227,7 @@ public class UnitsManager implements UnitsInterface{
     }
     
     
-    public void calculDegats(Unit unit) {
+    public void damageCalculation(Unit unit) {
         Unit target = (Unit) unit.getTarget();
         if (target != null) {
             double attackCounter = unit.getAttackCounter();

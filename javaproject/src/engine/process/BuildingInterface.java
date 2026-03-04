@@ -21,7 +21,7 @@ import engine.mobile.building.UnitProducer;
 public interface BuildingInterface {
 	 void selectBuilding(String type);
 	 
-	 void buildBuilding(Block position);
+	 void buildBuilding(Block position,int tier,String faction);
 	 
 	 void buildingsInSelectedArea();
 	 

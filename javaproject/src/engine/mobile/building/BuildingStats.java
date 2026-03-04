@@ -1,5 +1,8 @@
 package engine.mobile.building;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Data class representing the stats of a building loaded from the CSV.
  */
@@ -14,10 +17,12 @@ public class BuildingStats {
     private int constructionTime;
     private int productionSpeed;
     private int towerDamage;
+    private int towerAttackSpeed;
     private int towerRange;
     private int populationProvided;
+    private ArrayList<String> technologieUnlocked = new ArrayList<>();
 
-    public BuildingStats(String id, String buildingType, String faction, int tierLevel, int maxHp, int ambroisieCost, int faithCost, int constructionTime, int productionSpeed, int towerDamage, int towerRange, int populationProvided) {
+    public BuildingStats(String id, String buildingType, String faction, int tierLevel, int maxHp, int ambroisieCost, int faithCost, int constructionTime, int productionSpeed, int towerDamage, int towerAttackSpeed, int towerRange, int populationProvided,String technologie) {
         this.setId(id);
         this.setBuildingType(buildingType);
         this.setFaction(faction);
@@ -28,8 +33,10 @@ public class BuildingStats {
         this.setConstructionTime(constructionTime);
         this.setProductionSpeed(productionSpeed);
         this.setTowerDamage(towerDamage);
+        this.setTowerAttackSpeed(towerAttackSpeed);
         this.setTowerRange(towerRange);
         this.setPopulationProvided(populationProvided);
+        this.addTechnologieUnlocked(technologie);
     }
 
 	public int getPopulationProvided() {
@@ -126,5 +133,20 @@ public class BuildingStats {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public int getTowerAttackSpeed() {
+		return towerAttackSpeed;
+	}
+
+	public void setTowerAttackSpeed(int towerAttackSpeed) {
+		this.towerAttackSpeed = towerAttackSpeed;
+	}
+	public ArrayList<String> getTechnologieUnlocked() {
+		return technologieUnlocked;
+	}
+
+	public void addTechnologieUnlocked(String technologieUnlocked) {
+		this.technologieUnlocked.add(technologieUnlocked);
 	}
 }

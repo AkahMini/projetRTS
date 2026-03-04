@@ -18,6 +18,7 @@ public class HQ extends Building{
 
 	private UnitProducer workerProducer;
 	private int defenseDamage;
+	private int defenseAttackSpeed;
 	private int defenseRange;
 	
 	public HQ(Block position) {
@@ -46,5 +47,13 @@ public class HQ extends Building{
 
 	public void setWorkerProducer(UnitProducer workerProducer) {
 		this.workerProducer = workerProducer;
+	}
+
+	public int getDefenseAttackSpeed() {
+		return defenseAttackSpeed;
+	}
+
+	public void setDefenseAttackSpeed(int defenseAttackSpeed) {
+		this.defenseAttackSpeed = defenseAttackSpeed;
 	}
 }

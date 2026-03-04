@@ -33,19 +33,19 @@ import engine.process.MobileInterface;
  *
  */
 public class MainGUI extends JFrame implements Runnable {
-	
+
 	public DefaultGameSettings gameSettings = new DefaultGameSettings();
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private Map map;
-	
-	
+
+
 
 	private final static Dimension preferredSize = new Dimension(GameConfiguration.WINDOW_WIDTH, GameConfiguration.WINDOW_HEIGHT);
-	
+
 	private String typeSelection;
-	
+
 	private MobileInterface manager;
 
 	private GameDisplay dashboard;
@@ -56,83 +56,111 @@ public class MainGUI extends JFrame implements Runnable {
 	}
 
 	private void init() {
-		
-		
+
+
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new BorderLayout());
 
 		KeyControls keyControls = new KeyControls();
-		
+
 		//This part is used to see text input if wanted
-		
+
 		/*
 		JTextField textField = new JTextField();
 		textField.addKeyListener(keyControls);
 		contentPane.add(textField, BorderLayout.SOUTH);
-		*/
-		
-		
-		
+		 */
+
+
+
 		//THIS PART IS FOR TEST ONLY WILL BE REMOVED
 
 		javax.swing.JPanel RightPanel = new javax.swing.JPanel();
 		RightPanel.setBackground(java.awt.Color.GRAY); 
-		
 
-		javax.swing.JButton testButton = new javax.swing.JButton("Test Bat");
 
-		testButton.addActionListener(new ActionListener() { // bouton temporaire pour test
-		    public void actionPerformed(ActionEvent e) {
-		        manager.selectBuilding("Producer");
-		        typeSelection="build";
-		    }
+		javax.swing.JButton testButton = new javax.swing.JButton("Test Unit Producer");
+
+		testButton.addActionListener(new ActionListener() { //Temporary button to test some features
+			public void actionPerformed(ActionEvent e) {
+				manager.selectBuilding("Producer");
+				typeSelection="build";
+			}
+		});
+		javax.swing.JButton testButton2 = new javax.swing.JButton("Test Tower Defense");
+
+		testButton2.addActionListener(new ActionListener() { //Temporary button to test some features
+			public void actionPerformed(ActionEvent e) {
+				manager.selectBuilding("DefenseTower");
+				typeSelection="build";
+			}
 		});
 
-		javax.swing.JButton testButton2 = new javax.swing.JButton("Test Unit");
+		javax.swing.JButton testButton3 = new javax.swing.JButton("Test Population Building ");
 
-		testButton2.addActionListener(new ActionListener() { // bouton temporaire pour test
-		    public void actionPerformed(ActionEvent e) {
-		        manager.selectUnit("INFANTRY");
-		        typeSelection="unitAllie";
-		    }
+		testButton3.addActionListener(new ActionListener() { //Temporary button to test some features
+			public void actionPerformed(ActionEvent e) {
+				manager.selectBuilding("PopulationBuilding");
+				typeSelection="PopulationBuilding";
+			}
 		});
-		
-		javax.swing.JButton testButton3 = new javax.swing.JButton("Test Unit ennemy");
+		javax.swing.JButton testButton4 = new javax.swing.JButton("Test Research Building ");
 
-		testButton3.addActionListener(new ActionListener() { // bouton temporaire pour test
-		    public void actionPerformed(ActionEvent e) {
-		        manager.selectUnit("INFANTRY");
-		        typeSelection="unitEnnemy";
-		    }
+		testButton4.addActionListener(new ActionListener() { //Temporary button to test some features
+			public void actionPerformed(ActionEvent e) {
+				manager.selectBuilding("ResearchBuilding");
+				typeSelection="build";
+			}
 		});
-		
-		javax.swing.JButton testButton4 = new javax.swing.JButton("Test ranged Unit and attackspeed *2");
 
-		testButton4.addActionListener(new ActionListener() { // bouton temporaire pour test
-		    public void actionPerformed(ActionEvent e) {
-		        manager.selectUnit("ARTILLERY");
-		        typeSelection="unitEnnemy";
-		    }
-		});
-		
-		javax.swing.JButton testButton5 = new javax.swing.JButton("Test cavalry");
+		javax.swing.JButton testButton5 = new javax.swing.JButton(" Test Infantry");
 
-		testButton5.addActionListener(new ActionListener() { // bouton temporaire pour test
-		    public void actionPerformed(ActionEvent e) {
-		        manager.selectUnit("CAVALRY");
-		        typeSelection="unitAllie";
-		    }
+		testButton5.addActionListener(new ActionListener() { //Temporary button to test some features
+			public void actionPerformed(ActionEvent e) {
+				manager.selectUnit("INFANTRY");
+				typeSelection="unitAllie";
+			}
 		});
-		
+
+		javax.swing.JButton testButton6 = new javax.swing.JButton("Test Unit ennemy");
+
+		testButton6.addActionListener(new ActionListener() { //Temporary button to test some features
+			public void actionPerformed(ActionEvent e) {
+				manager.selectUnit("INFANTRY");
+				typeSelection="unitEnnemy";
+			}
+		});
+
+		javax.swing.JButton testButton7 = new javax.swing.JButton("Test ranged Unit and attackspeed *2");
+
+		testButton7.addActionListener(new ActionListener() { //Temporary button to test some features
+			public void actionPerformed(ActionEvent e) {
+				manager.selectUnit("ARTILLERY");
+				typeSelection="unitEnnemy";
+			}
+		});
+
+		javax.swing.JButton testButton8 = new javax.swing.JButton("Test cavalry");
+
+		testButton8.addActionListener(new ActionListener() { //Temporary button to test some features
+			public void actionPerformed(ActionEvent e) {
+				manager.selectUnit("CAVALRY");
+				typeSelection="unitAllie";
+			}
+		});
+
 		RightPanel.add(testButton);
 		RightPanel.add(testButton2);
 		RightPanel.add(testButton3);
 		RightPanel.add(testButton4);
 		RightPanel.add(testButton5);
+		RightPanel.add(testButton6);
+		RightPanel.add(testButton7);
+		RightPanel.add(testButton8);
 		contentPane.add(RightPanel, BorderLayout.SOUTH);
 
-		
-		
+
+
 		map = GameBuilder.buildMap();
 		manager = GameBuilder.buildInitMobile(map,this.gameSettings);
 		dashboard = new GameDisplay(map, manager);
@@ -148,9 +176,9 @@ public class MainGUI extends JFrame implements Runnable {
 		setVisible(true);
 		setPreferredSize(preferredSize);
 		setResizable(false);
-		
+
 	}
-	
+
 
 	@Override
 	public void run() {
@@ -196,34 +224,37 @@ public class MainGUI extends JFrame implements Runnable {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			int blockSize = GameConfiguration.BLOCK_SIZE;
-	        int line = e.getY() / blockSize;
-	        int column = e.getX() / blockSize;
-	        System.out.println("x :"+e.getX()+" y :"+e.getY()+" - Block line : "+line+" Block column : "+column);
-	        
-	        //we check if the player clicked in the button zone for x and y
-	        boolean xZone = (e.getX()>=1020 && e.getX()<=1240);
-	        boolean yZone = (e.getY()>=560 && e.getY()<=700);
-	        if(xZone && yZone) {
-	        	manager.areaButtonPressed(e.getX(),e.getY());
-	        }
-	        
-	        Block position = map.getBlock(line, column);	             
-	         if(typeSelection!=null && typeSelection.equals("build")) {
-	            manager.buildBuilding(position);
-	            typeSelection=null;
-	         }
-	         else if(typeSelection!=null && typeSelection.equals("unitAllie")) {
-	        	 manager.spawnUnit(position);
-		         typeSelection=null;
+			int line = e.getY() / blockSize;
+			int column = e.getX() / blockSize;
+			System.out.println("x :"+e.getX()+" y :"+e.getY()+" - Block line : "+line+" Block column : "+column);
 
-	         }else if(typeSelection!=null && typeSelection.equals("unitEnnemy")) {
-	        	 manager.spawnUnitEnnemy(position);
-		         typeSelection=null;
-	        }
+			//we check if the player clicked in the button zone for x and y
+			boolean xZone = (e.getX()>=1020 && e.getX()<=1240);
+			boolean yZone = (e.getY()>=560 && e.getY()<=700);
+			if(xZone && yZone) {
+				manager.areaButtonPressed(e.getX(),e.getY());
 			}
-		
+
+			Block position = map.getBlock(line, column);	             
+			if(typeSelection!=null && typeSelection.equals("build")) {
+				manager.buildBuilding(position,2,"Zeus");
+				typeSelection=null;
+			}else if(typeSelection!=null && typeSelection.equals("PopulationBuilding")) {
+				manager.buildBuilding(position,1,"Zeus");
+				typeSelection=null;
+			}
+			else if(typeSelection!=null && typeSelection.equals("unitAllie")) {
+				manager.spawnUnit(position);
+				typeSelection=null;
+
+			}else if(typeSelection!=null && typeSelection.equals("unitEnnemy")) {
+				manager.spawnUnitEnnemy(position);
+				typeSelection=null;
+			}
+		}
+
 		/*
-	        	
+
 	        //button need to replace
 	        	for (Building building : manager.getBuildings()) {
 	        		int lineBuilding=building.getPosition().getLine();
@@ -238,11 +269,11 @@ public class MainGUI extends JFrame implements Runnable {
 		             }
 		         }
 	        }
-	        */   
+		 */   
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			
+
 			Block firstBlock=manager.getMousePosition(e.getY(), e.getX());
 			manager.unitMoveOrder(firstBlock);
 			manager.initSelectedArea(firstBlock);
@@ -267,8 +298,8 @@ public class MainGUI extends JFrame implements Runnable {
 
 		}
 	}
-	
-	
-	
+
+
+
 
 }

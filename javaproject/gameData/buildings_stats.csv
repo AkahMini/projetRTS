@@ -1,13 +1,22 @@
-id,buildingType,faction,tierLevel,maxHp,ambroisieCost,faithCost,constructionTime,productionSpeed,towerDamage,towerRange,populationProvided
-Temple de Zeus,HQ,Zeus,1,1000,500,500,20,10,0,0,0
-Gouffre du Tartare,HQ,Hades,1,1000,500,500,20,10,10,0,0
-Forum aquatique,HQ,Poseidon,1,1000,500,500,20,10,0,0,0
-Camp Olympique,Producer,Zeus,1,500,125,125,6,10,0,0,0
-prytanée,Producer,Zeus,2,625,200,200,12,10,0,0,0
-Autel de la sagesse,Producer,Zeus,3,750,250,250,18,10,0,0,0
-Camp Spartiate,Producer,Hades,1,500,125,125,6,10,0,0,0
-Puit d’invocation,Producer,Hades,2,625,200,200,12,10,0,0,0
-Portail vers les champ Élysées,Producer,Hades,3,750,250,250,18,10,0,0,0
-Colisée d’Atlantide,Producer,Poseidon,1,500,125,125,6,10,0,0,0
-Cascade,Producer,Poseidon,2,625,200,200,12,10,0,0,0
-Fosse sous marine,Producer,Poseidon,3,750,250,250,18,10,0,0,0
+id,buildingType,faction,tierLevel,maxHp,ambroisieCost,faithCost,constructionTime,productionSpeed,towerDamage,towerAttackSpeed,towerRange,populationProvided,technologiesUnlocked
+Temple de Zeus,HQ,Zeus,1,1000,500,500,20,10,0,0,0,0,0
+Gouffre du Tartare,HQ,Hades,1,1000,500,500,20,10,10,1,8,0,0
+Forum aquatique,HQ,Poseidon,1,1000,500,500,20,10,0,0,0,0,0
+Camp Olympique,Producer,Zeus,1,500,125,125,6,10,0,0,0,0,0
+prytanée,Producer,Zeus,2,625,200,200,12,10,0,0,0,0,0
+Autel de la sagesse,Producer,Zeus,3,750,250,250,18,10,0,0,0,0,0
+Camp Spartiate,Producer,Hades,1,500,125,125,6,10,0,0,0,0,0
+Puit d’invocation,Producer,Hades,2,625,200,200,12,10,0,0,0,0,0
+Portail vers les champ Élysées,Producer,Hades,3,750,250,250,18,10,0,0,0,0,0
+Colisée d’Atlantide,Producer,Poseidon,1,500,125,125,6,10,0,0,0,0,0
+Cascade,Producer,Poseidon,2,625,200,200,12,10,0,0,0,0,0
+Baliste,DefenseTower,Zeus,2,400,250,250,10,0,15,1,8,0,0
+Canon à braise,DefenseTower,Hades,2,400,250,250,10,0,15,1,8,0,0
+Flûte a pluie,DefenseTower,Poseidon,2,400,250,250,10,0,15,1,8,0,0
+Fosse sous marine,Producer,Poseidon,3,750,250,250,18,10,0,0,0,0,0
+École des Pythagoricien,ResearchBuilding,Zeus,2,500,300,300,10,0,0,0,0,0,productionSpeed_2|attackDamage_1.25
+Bibliothèque d’Alexandrie,ResearchBuilding,Hades,2,500,300,300,10,0,0,0,0,0,productionSpeed_2|attackDamage_1.25
+Centre d’étude Atlan,ResearchBuilding,Poseidon,2,500,300,300,10,0,0,0,0,0,productionSpeed_2|attackDamage_1.25
+Amphithéâtre,PopulationBuilding,Zeus,1,300,0,100,4,0,0,0,0,10,0
+Baraque,PopulationBuilding,Hades,1,300,0,100,4,0,0,0,0,10,0
+Thermes,PopulationBuilding,Poseidon,1,300,0,100,4,0,0,0,0,10,0
