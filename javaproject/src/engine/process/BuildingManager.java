@@ -165,21 +165,22 @@ public class BuildingManager implements BuildingInterface{
     	}
     }
 
-    public Unit closestEnnemy(DefenseTower tower) {
-        Unit nearest = null;
-        double minDistance = Double.MAX_VALUE;
-        
-        for (Unit unit : manager.getUnits()) {
-        		
-                double dist = manager.getDistance(tower.getPosition(), unit.getPosition());
-                if (dist < minDistance&&unit.getUnitFaction()!=tower.getFaction()) {
-                	
-                    minDistance = dist;
-                    nearest = unit;
-                }
-            }
-        return nearest;
-    	}
+	public Unit closestEnnemy(DefenseTower tower) {
+	    Unit nearest = null;
+	    double minDistance = Double.MAX_VALUE;
+	    
+	    for (Unit unit : manager.getUnits()) {
+	
+	            double dist = manager.getDistance(unit.getPosition(), unit.getPosition());
+	            
+	            if (dist <= unit.getVision() && dist < minDistance) {
+	                minDistance = dist;
+	                nearest = unit;
+	            }
+	        }
+	    return nearest;
+		}
+	
 
 	public void attackTarget(DefenseTower tower) {
 		Unit target = closestEnnemy(tower);
