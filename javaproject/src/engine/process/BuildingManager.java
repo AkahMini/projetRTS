@@ -165,35 +165,40 @@ public class BuildingManager implements BuildingInterface{
     	}
     }
 
-	public Unit closestEnnemy(DefenseTower tower) {
-	    Unit nearest = null;
-	    double minDistance = Double.MAX_VALUE;
-	    
-	    for (Unit unit : manager.getUnits()) {
-	
-	            double dist = manager.getDistance(unit.getPosition(), unit.getPosition());
-	            
-	            if (dist <= unit.getVision() && dist < minDistance) {
-	                minDistance = dist;
-	                nearest = unit;
-	            }
-	        }
-	    return nearest;
-		}
+    public Unit closestEnnemy(DefenseTower tower) {
+        Unit nearest = null;
+        double minDistance = Double.MAX_VALUE;
+
+        for (Unit unit : manager.getUnits()) {
+        	double dist = manager.getDistance(tower.getPosition(), unit.getPosition());
+        
+        	if (dist < minDistance&&unit.getUnitFaction()!=tower.getFaction()) {
+        	
+            minDistance = dist;
+            nearest = unit;
+        	}
+        }
+        return nearest;
+    }
 	
 
-	public void attackTarget(DefenseTower tower) {
+
+public void attackTarget(DefenseTower tower) {
+	/**
+	 * Seek for a potential target and attacks if possible
+	 */
+	if(tower.getIsUnderConstruction()==false) {
 		Unit target = closestEnnemy(tower);
+		tower.setTarget(target);
 		if(tower.getAttackCounter()!=0) {
 			tower.setAttackCounter(tower.getAttackCounter()-1);
 		}
 		else if (target!=null) {
-			System.out.println(target);
+
 			tower.resetAttackCounter();
 			if(manager.getDistance(tower.getPosition(),target.getPosition())<tower.getTowerRange()) {
 				//if the closestEnnemy is in range
 				double attack=tower.getTowerDamage();
-				System.out.println("Tower attack "+ target.getUnitName());
 				
 				if (target instanceof Infantry) {
 		            Infantry infantryTarget = (Infantry) target;
@@ -218,8 +223,10 @@ public class BuildingManager implements BuildingInterface{
 		        }
 				
 			}
+
 		}
 	}
+}
 		
 	public void allBuildingsAttack(ArrayList<Building> buildings) {
 		for(Building building:buildings) {
