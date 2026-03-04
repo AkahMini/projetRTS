@@ -166,9 +166,9 @@ public Unit closestEnnemy(DefenseTower tower) {
     double minDistance = Double.MAX_VALUE;
     
     for (Unit unit : manager.getUnits()) {
-
+    		
             double dist = manager.getDistance(tower.getPosition(), unit.getPosition());
-            if (dist < minDistance) {
+            if (dist < minDistance&&unit.getUnitFaction()!=tower.getFaction()) {
             	
                 minDistance = dist;
                 nearest = unit;
