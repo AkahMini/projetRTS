@@ -77,6 +77,9 @@ public class MobileElementManager implements MobileInterface {
     	Building playerHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, "Zeus", playerHQposition);   	
     	Building playerTower = BuildingFactory.createBuilding(BuildingFactory.DEFENSE_BUILDING, 2, "Poseidon", playerTowerPosition);
     	
+    	Block playerLaboPos = map.getBlock(15, 10);//tmp too
+    	Building playerLabo = BuildingFactory.createBuilding(BuildingFactory.RESEARCH_BUILDING,2,"Zeus",playerLaboPos);
+    	
     	Block faithDepositLocation = map.getBlock(30, 20);//TMP
     	RessourceDeposit deposit1 = new RessourceDeposit(faithDepositLocation,RessourceDeposit.FAITH);
     	
@@ -85,6 +88,7 @@ public class MobileElementManager implements MobileInterface {
     	
     	this.buildings.add(playerHQ);
     	this.buildings.add(playerTower);
+    	this.buildings.add(playerLabo);
     	this.ressourceDeposits.add(deposit1);
     	this.ressourceDeposits.add(deposit2);
     	

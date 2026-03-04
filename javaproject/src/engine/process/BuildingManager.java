@@ -56,24 +56,30 @@ public class BuildingManager implements BuildingInterface{
     	ArrayList<Block> selectedArea = manager.getSelectedArea();
         ArrayList<Building> buildings = manager.getBuildings();
         ArrayList<Building> buildingsInSelectedArea = manager.getBuildingsInSelectedArea();
+        
+
+        
         if(buildingsInSelectedArea != null) {
         	buildingsInSelectedArea.clear();//empty the list for the new selection
         }
         if(selectedArea !=null) {
         	int nbOfBlocksInSelectedArea = selectedArea.size();
             int nbOfBuildings = buildings.size();
+            System.out.println("nb build : "+nbOfBuildings);
             
             for(int buildingIndex=0; buildingIndex<nbOfBuildings; buildingIndex++) {
             	Block buildingPosition = buildings.get(buildingIndex).getPosition();
             	for(int blockIndex = 0; blockIndex<nbOfBlocksInSelectedArea;blockIndex++) {
             		if(selectedArea.get(blockIndex).equals(buildingPosition)) {
             			buildingsInSelectedArea.add(buildings.get(buildingIndex));
-            			if(buildingIndex==0) {
-            				manager.setSelectedBuild(buildings.get(buildingIndex));
-            			}
-            			break;//if 2 buildings are in the same position (not possible but in case of + it run faster :p)
+            			System.out.println(buildings.get(buildingIndex).getBuildingName());
+            			break;
             		}
             	}
+            }
+            
+            if (!buildingsInSelectedArea.isEmpty()) {
+                manager.setSelectedBuild(buildingsInSelectedArea.get(0));
             }
         } else {
         	buildingsInSelectedArea=null;
@@ -145,8 +151,6 @@ public class BuildingManager implements BuildingInterface{
     				manager.addQueue(hq, manager.getSelectedBuild().getPosition(), "WORKER");
     			}
     		}
-    		
-    		
     		break;
     	case "button2":
     		break;
@@ -161,67 +165,67 @@ public class BuildingManager implements BuildingInterface{
     	}
     }
 
-public Unit closestEnnemy(DefenseTower tower) {
-    Unit nearest = null;
-    double minDistance = Double.MAX_VALUE;
-    
-    for (Unit unit : manager.getUnits()) {
-
-            double dist = manager.getDistance(unit.getPosition(), unit.getPosition());
-            
-            if (dist <= unit.getVision() && dist < minDistance) {
-                minDistance = dist;
-                nearest = unit;
-            }
-        }
-    return nearest;
-	}
-
-public void attackTarget(DefenseTower tower) {
-	Unit target = closestEnnemy(tower);
-	if(tower.getAttackCounter()!=0) {
-		tower.setAttackCounter(tower.getAttackCounter()-1);
-	}
-	else if (target!=null) {
-		System.out.println(target);
-		tower.resetAttackCounter();
-		if(manager.getDistance(tower.getPosition(),target.getPosition())<tower.getTowerRange()) {
-			//if the closestEnnemy is in range
-			double attack=tower.getTowerDamage();
-			System.out.println("Tower attack "+ target.getUnitName());
-			
-			if (target instanceof Infantry) {
-	            Infantry infantryTarget = (Infantry) target;
-	            double shield = infantryTarget.getShieldValue();
-	            if (shield > 0) {
-	                if (shield >= attack) {
-	                    infantryTarget.setShieldValue(shield - attack);
-	                    attack = 0;
-	                } else {
-	                    infantryTarget.setShieldValue(0);
-	                    attack -= shield;
-	                }
+	public Unit closestEnnemy(DefenseTower tower) {
+	    Unit nearest = null;
+	    double minDistance = Double.MAX_VALUE;
+	    
+	    for (Unit unit : manager.getUnits()) {
+	
+	            double dist = manager.getDistance(unit.getPosition(), unit.getPosition());
+	            
+	            if (dist <= unit.getVision() && dist < minDistance) {
+	                minDistance = dist;
+	                nearest = unit;
 	            }
 	        }
-	        if (attack > 0) {
-	            int newHp = (int) Math.max(0, target.getHp() - attack);
-	            target.setHp(newHp);
-	        }
-	        
-	        if (target.getHp() <= 0) {
-	            tower.setTarget(null);
-	        }
-			
+	    return nearest;
 		}
-	}
-}
 	
-public void allBuildingsAttack(ArrayList<Building> buildings) {
-	for(Building building:buildings) {
-		if(building instanceof DefenseTower) {
-			attackTarget((DefenseTower) building);
+	public void attackTarget(DefenseTower tower) {
+		Unit target = closestEnnemy(tower);
+		if(tower.getAttackCounter()!=0) {
+			tower.setAttackCounter(tower.getAttackCounter()-1);
+		}
+		else if (target!=null) {
+			System.out.println(target);
+			tower.resetAttackCounter();
+			if(manager.getDistance(tower.getPosition(),target.getPosition())<tower.getTowerRange()) {
+				//if the closestEnnemy is in range
+				double attack=tower.getTowerDamage();
+				System.out.println("Tower attack "+ target.getUnitName());
+				
+				if (target instanceof Infantry) {
+		            Infantry infantryTarget = (Infantry) target;
+		            double shield = infantryTarget.getShieldValue();
+		            if (shield > 0) {
+		                if (shield >= attack) {
+		                    infantryTarget.setShieldValue(shield - attack);
+		                    attack = 0;
+		                } else {
+		                    infantryTarget.setShieldValue(0);
+		                    attack -= shield;
+		                }
+		            }
+		        }
+		        if (attack > 0) {
+		            int newHp = (int) Math.max(0, target.getHp() - attack);
+		            target.setHp(newHp);
+		        }
+		        
+		        if (target.getHp() <= 0) {
+		            tower.setTarget(null);
+		        }
+				
+			}
 		}
 	}
-}
+		
+	public void allBuildingsAttack(ArrayList<Building> buildings) {
+		for(Building building:buildings) {
+			if(building instanceof DefenseTower) {
+				attackTarget((DefenseTower) building);
+			}
+		}
+	}
 
 }
