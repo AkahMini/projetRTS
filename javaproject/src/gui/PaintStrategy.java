@@ -381,10 +381,17 @@ public class PaintStrategy {
 	
 	public void paintAttack(DefenseTower tower, Graphics graphics) {
 		MobileElement target = tower.getTarget();
-		if(target!=null&&tower.getAttackCounter()==0){
-			int blockSize = GameConfiguration.BLOCK_SIZE;
-			graphics.setColor(Color.RED);
-			drawBoldLine(5,tower.getPosition().getColumn()*blockSize+5,tower.getPosition().getLine()*blockSize+5,target.getPosition().getColumn()*blockSize+5,target.getPosition().getLine()*blockSize+5,graphics);
+		
+
+		if(target!=null&&tower.getAttackCounter()==0&&tower.getIsUnderConstruction()==false){
+			int dx = Math.abs(tower.getPosition().getColumn() - target.getPosition().getColumn());
+	        int dy = Math.abs(tower.getPosition().getLine() - target.getPosition().getLine());
+	        int dist = Math.max(dx, dy);
+			if(dist<tower.getTowerRange()) {
+	        	int blockSize = GameConfiguration.BLOCK_SIZE;
+				graphics.setColor(Color.RED);
+				drawBoldLine(8,tower.getPosition().getColumn()*blockSize+5,tower.getPosition().getLine()*blockSize+5,target.getPosition().getColumn()*blockSize+5,target.getPosition().getLine()*blockSize+5,graphics);
+			}
 		}
 	}
 	
