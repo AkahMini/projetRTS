@@ -38,7 +38,9 @@ public class BuildingStatsLoader {
                 //the key is this and not the name cause we use these three arguments in the factory so it make more sense
                 String key = buildingType.toUpperCase() + "_" + faction.toUpperCase() + "_" + tierLevel;
                 buildingRepository.register(key, stats);
+                System.out.println("Added building key: "+key);
             }
+			
             br.close();
 		} catch (IOException e) {
 			e.printStackTrace();

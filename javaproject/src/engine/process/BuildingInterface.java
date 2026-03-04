@@ -1,5 +1,7 @@
 package engine.process;
 
+import java.util.ArrayList;
+
 import engine.map.Block;
 import engine.mobile.building.Building;
 import engine.mobile.building.UnitProducer;
@@ -32,4 +34,6 @@ public interface BuildingInterface {
 	 void removeQueue(UnitProducer building);
 	 
 	 void action(String button);
+
+	 void allBuildingsAttack(ArrayList<Building> buildings);
 }

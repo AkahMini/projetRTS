@@ -38,7 +38,9 @@ public class BuildingFactory {
 		BuildingStats stats = BuildingRepository.getInstance().getStats(key);
 		System.out.println("CLÉ RECHERCHÉE : [" + key + "]"); // <-- AJOUTE CECI
 		Building building = null;
-		
+		if(stats==null) {
+			throw new IllegalArgumentException("Unknown key: " + key);
+		}
 		switch (type) {
 		case PRODUCER_BUILDING :
 			UnitProducer producer = new UnitProducer(position);
