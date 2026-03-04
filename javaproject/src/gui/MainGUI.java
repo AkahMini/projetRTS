@@ -297,6 +297,8 @@ public class MainGUI extends JFrame implements Runnable {
 		public void mouseExited(MouseEvent e) {
 
 		}
+		
+		
 	}
 
 

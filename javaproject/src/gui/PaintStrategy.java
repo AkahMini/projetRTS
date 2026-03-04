@@ -40,7 +40,15 @@ public class PaintStrategy {
 	private final int windowWidth = GameConfiguration.WINDOW_WIDTH;
 	private final int windowHeight = GameConfiguration.WINDOW_HEIGHT; 
 	private TextureInterface textureManager=new TextureManager();
-
+	
+	private void drawBoldLine(int boldness,int x1, int y1, int x2, int y2, Graphics g) {
+		/*
+		 *Draw lines next to each other to create a thick line
+		 */
+		for (int i = 0; i < boldness; i++) {
+		    g.drawLine(x1, y1 + i, x2, y2 + i);
+		}
+	}
 
 	public void paint(Map map, Graphics graphics) {
 		int blockSize = GameConfiguration.BLOCK_SIZE;
@@ -370,4 +378,15 @@ public class PaintStrategy {
 		graphics.setColor(Color.YELLOW);
 		graphics.drawLine(unit.getPosition().getColumn()*blockSize+5,unit.getPosition().getLine()*blockSize+5,enemy.getPosition().getColumn()*blockSize+5,enemy.getPosition().getLine()*blockSize+5);
 	}
+	
+	public void paintAttack(DefenseTower tower, Graphics graphics) {
+		MobileElement target = tower.getTarget();
+		if(target!=null&&tower.getAttackCounter()==0){
+			int blockSize = GameConfiguration.BLOCK_SIZE;
+			graphics.setColor(Color.RED);
+			drawBoldLine(5,tower.getPosition().getColumn()*blockSize+5,tower.getPosition().getLine()*blockSize+5,target.getPosition().getColumn()*blockSize+5,target.getPosition().getLine()*blockSize+5,graphics);
+		}
+	}
+	
+	
 }
