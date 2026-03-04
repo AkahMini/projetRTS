@@ -3,6 +3,7 @@ package engine.process;
 import java.util.ArrayList;
 
 import engine.map.Block;
+import engine.mobile.Player;
 import engine.mobile.building.Building;
 import engine.mobile.building.UnitProducer;
 
@@ -29,11 +30,11 @@ public interface BuildingInterface {
 	 
 	 void reduceConstructionTime(Building building);
 	 
-	 void addQueue(UnitProducer building, Block position, String unitType);
+	 void addQueue(UnitProducer building, Block position,String unitType,Player p);
 	 
 	 void removeQueue(UnitProducer building);
 	 
-	 void action(String button);
+	 void action(String button, Player p);
 
 	 void allBuildingsAttack(ArrayList<Building> buildings);
 }

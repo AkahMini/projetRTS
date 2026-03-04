@@ -29,7 +29,7 @@ import engine.process.chrono.CyclicCounter;
  *
  */
 public class MobileElementManager implements MobileInterface {
-    private DefaultGameSettings gameSettings;
+	private DefaultGameSettings gameSettings;
     private HashMap<String,ArrayList<Float>> unitStats = StatsLoader.loadUnitStats();
     
 	private Map map;
@@ -218,20 +218,20 @@ public class MobileElementManager implements MobileInterface {
     	if(selectedBuild!=null) {
     		if(y<=620) {
     			if(x<=1080) {
-    				buildingManager.action("button1");
+    				buildingManager.action("button1",player);
     				
     			} else if (x>=1100 && x<=1160) {
-    				buildingManager.action("button2");
+    				buildingManager.action("button2",player);
     			} else if (x>=1180) {
-    				buildingManager.action("button3");
+    				buildingManager.action("button3",player);
     			}
     		} else if (y>=640) {
     			if(x<=1080) {
-    				buildingManager.action("button4");
+    				buildingManager.action("button4",player);
     			} else if (x>=1100 && x<=1160) {
-    				buildingManager.action("button5");
+    				buildingManager.action("button5",player);
     			} else if (x>=1180) {
-    				buildingManager.action("button6");
+    				buildingManager.action("button6",player);
     			}
     		}
     	}
@@ -302,8 +302,8 @@ public class MobileElementManager implements MobileInterface {
     }
 
     @Override
-    public void addQueue(UnitProducer building, Block position, String unitType) {
-        buildingManager.addQueue(building, position, unitType);
+    public void addQueue(UnitProducer building, Block position, String unitType, Player p) {
+        buildingManager.addQueue(building, position, unitType,p);
     }
     
     // --- Timer part ---
@@ -346,4 +346,5 @@ public class MobileElementManager implements MobileInterface {
 	public void setSelectedBuild(Building selectedBuild) {
 		this.selectedBuild = selectedBuild;
 	}
+
 }

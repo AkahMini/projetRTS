@@ -334,4 +334,9 @@ public class UnitsManager implements UnitsInterface{
         	}        
         }
     }
+    public void killUnit(Unit unit, ArrayList<Unit> units) {
+    	if(unit.getHp()<=0) {
+    		units.remove(units);
+    	}
+    }
 }

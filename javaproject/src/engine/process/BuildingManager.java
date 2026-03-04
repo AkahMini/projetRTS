@@ -2,8 +2,10 @@ package engine.process;
 
 import java.util.ArrayList;
 
+import config.DefaultGameSettings;
 import config.GameConfiguration;
 import engine.map.Block;
+import engine.mobile.Player;
 import engine.mobile.building.Building;
 import engine.mobile.building.DefenseTower;
 import engine.mobile.building.HQ;
@@ -97,7 +99,7 @@ public class BuildingManager implements BuildingInterface{
         }
     }
 
-    public void addQueue(UnitProducer building, Block position,String unitType) {
+    public void addQueue(UnitProducer building, Block position,String unitType,Player p) {
         if (building.getProductionQueue().size() < 3) {
         	if(building.getProductionQueue().isEmpty()) {
                 building.setCurrentProduction(building.getProductionSpeed());
@@ -105,6 +107,9 @@ public class BuildingManager implements BuildingInterface{
             if (building.getTierLevel() == 1) {
                 if("Zeus".equals(building.getFaction())) {
                     Unit newUnit = UnitFactory.createUnit(unitType, 1, "Zeus", position);
+                    if(p.getFactionName().equals(DefaultGameSettings.ZEUS)) {
+                    	p.setCurrentPopulation(p.getCurrentPopulation()+newUnit.getPopCost());
+                    }
                     ((UnitProducer) building).getProductionQueue().add(newUnit);
                     if (newUnit instanceof Worker) {
                         for (Building b : manager.getBuildings()) {
@@ -142,13 +147,13 @@ public class BuildingManager implements BuildingInterface{
     }
     
     //put here in each case the action wanted for your building
-    public void action(String button) {
+    public void action(String button, Player p) {
     	switch (button) {
     	case "button1":
     		if (manager.getSelectedBuild().getBuildingName().equals("Temple de Zeus")) {
     			if(!manager.getSelectedBuild().getIsUnderConstruction()) {
     				UnitProducer hq = (UnitProducer) ((HQ) manager.getSelectedBuild()).getWorkerProducer();// forced cast not optimal
-    				manager.addQueue(hq, manager.getSelectedBuild().getPosition(), "WORKER");
+    				manager.addQueue(hq, manager.getSelectedBuild().getPosition(), "WORKER",p);
     			}
     		}
     		break;
