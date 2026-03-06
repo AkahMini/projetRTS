@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import config.DefaultGameSettings;
 import config.GameConfiguration;
 import engine.map.Block;
+import engine.mobile.MobileElement;
 import engine.mobile.Player;
 import engine.mobile.RessourceDeposit;
+import engine.mobile.building.Building;
 import engine.mobile.unit.Cavalry;
 import engine.mobile.unit.Infantry;
 import engine.mobile.unit.Unit;
@@ -184,8 +186,8 @@ public class UnitsManager implements UnitsInterface{
     	}
     }
     
-    public Unit scanForEnemy(Unit unit) {
-        Unit nearest = null;
+    public MobileElement scanForEnemy(Unit unit) {
+        MobileElement nearest = null;
         double minDistance = Double.MAX_VALUE;
         
         for (Unit otherUnit : manager.getUnits()) {
@@ -197,38 +199,53 @@ public class UnitsManager implements UnitsInterface{
                     nearest = otherUnit;
                 }
             }
+            for (Building b : manager.getBuildings()) {
+                if (!b.getFaction().equals(unit.getUnitFaction())) {
+                    double dist = manager.getDistance(unit.getPosition(), b.getPosition());
+                    
+                    if (dist <= unit.getVision() && dist < minDistance) {
+                        minDistance = dist;
+                        nearest = b;
+                    }
+                }
+            }
         }
         return nearest;
     }
     
-    public void combatSystem(Unit unit1, Unit unit2) {
-        if(unit1.getIsInCombat() == false && unit2.getIsInCombat() == false) {
-            unit1.setIsInCombat(true);
-            unit2.setIsInCombat(true);
-            unit2.setTarget(unit1);
-            unit1.setTarget(unit2);
-            if(unit1 instanceof Cavalry) {
-                Cavalry cavalry = (Cavalry) unit1;
-                cavalry.setMovementSpeed(cavalry.getMovementSpeed()*cavalry.getChargeSpeed());
-                cavalry.setChargeDistanceValue(cavalry.getChargeDistanceMax());
+    public void combatSystem(Unit unit1, MobileElement target) {
+    	if (target instanceof Unit) {
+    		Unit unit2 = (Unit) target;
+    		if(unit1.getIsInCombat() == false && unit2.getIsInCombat() == false) {
+                unit1.setIsInCombat(true);
+                unit2.setIsInCombat(true);
+                unit2.setTarget(unit1);
+                unit1.setTarget(unit2);
+                if(unit1 instanceof Cavalry) {
+                    Cavalry cavalry = (Cavalry) unit1;
+                    cavalry.setMovementSpeed(cavalry.getMovementSpeed()*cavalry.getChargeSpeed());
+                    cavalry.setChargeDistanceValue(cavalry.getChargeDistanceMax());
+                }
+                if(unit2 instanceof Cavalry) {
+                    Cavalry cavalry = (Cavalry) unit2;
+                    cavalry.setMovementSpeed(cavalry.getChargeSpeed());
+                    cavalry.setChargeDistanceValue(cavalry.getChargeDistanceMax());
+                }
+            } else if(unit1.getIsInCombat() == false && unit2.getIsInCombat() == true) {
+                unit1.setIsInCombat(true);
+                unit1.setTarget(unit2);
+            } else if(unit2.getIsInCombat() == false && unit1.getIsInCombat() == true) {
+                unit2.setIsInCombat(true);
+                unit2.setTarget(unit1);
             }
-            if(unit2 instanceof Cavalry) {
-                Cavalry cavalry = (Cavalry) unit2;
-                cavalry.setMovementSpeed(cavalry.getChargeSpeed());
-                cavalry.setChargeDistanceValue(cavalry.getChargeDistanceMax());
-            }
-        } else if(unit1.getIsInCombat() == false && unit2.getIsInCombat() == true) {
-            unit1.setIsInCombat(true);
-            unit1.setTarget(unit2);
-        } else if(unit2.getIsInCombat() == false && unit1.getIsInCombat() == true) {
-            unit2.setIsInCombat(true);
-            unit2.setTarget(unit1);
-        }
+    	}else if(target instanceof Building && unit1.getIsInCombat() == false) {
+    		unit1.setTarget(target);
+    		unit1.setIsInCombat(true);
+    	} 
     }
     
-    
     public void damageCalculation(Unit unit) {
-        Unit target = (Unit) unit.getTarget();
+    	MobileElement target = unit.getTarget();
         if (target != null) {
             double attackCounter = unit.getAttackCounter();
             double attack = unit.getATK();

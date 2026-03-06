@@ -149,4 +149,14 @@ public class BuildingStats {
 	public void addTechnologieUnlocked(String technologieUnlocked) {
 		this.technologieUnlocked.add(technologieUnlocked);
 	}
+	public String toString() {
+        return "BuildingStats :" + "id='" + id +", buildingType='" + buildingType  + ", faction='" + faction +", tierLevel=" + tierLevel 
+        		+", maxHp=" + maxHp +", ambroisieCost=" + ambroisieCost +", faithCost=" + faithCost + ", constructionTime=" + constructionTime +
+                ", productionSpeed=" + productionSpeed +
+                ", towerDamage=" + towerDamage +
+                ", towerAttackSpeed=" + towerAttackSpeed +
+                ", towerRange=" + towerRange +
+                ", populationProvided=" + populationProvided +
+                ", technologieUnlocked=" + technologieUnlocked ;
+    }
 }

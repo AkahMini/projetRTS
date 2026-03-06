@@ -17,7 +17,6 @@ public class Building extends MobileElement{
 
 	private String BuildingName;
 	private String faction;
-	private int hp;
 	private int maxHp;
 	private int constructionTime;
 	private boolean isUnderConstruction;
@@ -38,12 +37,6 @@ public class Building extends MobileElement{
 	 */
 	public void setBuildingName(String name) {
 		this.BuildingName=name;
-	}
-	/**
-	 * @param hp The new current health points.
-	 */
-	public void setHp(int hp) {
-		this.hp=hp;
 	}
 	
 	/**
@@ -81,13 +74,6 @@ public class Building extends MobileElement{
 	 */
 	public String getBuildingName() {
 		return this.BuildingName;
-	}
-	
-	/**
-	 * @return The current health points of the building.
-	 */
-	public int getHp() {
-		return this.hp;
 	}
 	
 	/**
@@ -137,7 +123,7 @@ public class Building extends MobileElement{
 	 * @return An integer between 0 and 100 representing the health percentage.
 	 */
 	public int getPercentHP() {
-		return (int)(this.hp*100.0/this.maxHp);	
+		return (int)(this.getHp()*100.0/this.maxHp);	
 	}
 	public int getFaithCost() {
 		return faithCost;

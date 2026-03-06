@@ -1,6 +1,7 @@
 package engine.process;
 
 import engine.map.Block;
+import engine.mobile.MobileElement;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
 
@@ -29,9 +30,9 @@ public interface UnitsInterface {
 
 	void workerRessourceDeposit(Worker worker);
 	
-	Unit scanForEnemy(Unit unit);
+	MobileElement scanForEnemy(Unit unit);
 	
-	void combatSystem(Unit unit1, Unit unit2);
+	void combatSystem(Unit unit1, MobileElement target);
 	void damageCalculation(Unit unit);
 	
 	void unitsInSelectedArea();
