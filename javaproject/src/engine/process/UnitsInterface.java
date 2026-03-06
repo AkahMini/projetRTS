@@ -1,11 +1,8 @@
 package engine.process;
 
 import engine.map.Block;
-<<<<<<< HEAD
 import engine.mobile.Player;
-=======
 import engine.mobile.MobileElement;
->>>>>>> 8c15c020996e37655fdafc20c352c6f10328c56c
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
 
