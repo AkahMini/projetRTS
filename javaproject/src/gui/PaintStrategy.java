@@ -118,6 +118,7 @@ public class PaintStrategy {
 	}
 
 
+	//Need to upgrade
 	public void paint(Building building, Graphics graphics) {
 		Block position = building.getPosition();
 		int blockSize = GameConfiguration.BLOCK_SIZE;
@@ -132,7 +133,7 @@ public class PaintStrategy {
 			}
 		}
 		else if(building instanceof HQ) {
-			graphics.setColor(Color.MAGENTA);
+			graphics.setColor(Color.MAGENTA);//magenta for HQ
 		}
 		else if (building instanceof UnitProducer) {
 			graphics.setColor(Color.BLUE); // blue for unitProdcing Building
