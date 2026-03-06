@@ -25,7 +25,6 @@ public abstract class Unit extends MobileElement{
 	
 	private String unitName;
 	private String faction;
-	private int hp;
 	private int maxHp;
 	private int populationCost;
 	private int ambroisieCost;
@@ -50,12 +49,6 @@ public abstract class Unit extends MobileElement{
 	}
 	public void setTierLevel(int tiersLevel) {
 		this.tierLevel=tiersLevel;
-	}
-	public int getHp() {
-		return this.hp;
-	}
-	public void setHp(int hp) {
-		this.hp=hp;
 	}
 	public int getMaxHp() {
 		return this.maxHp;
@@ -144,7 +137,7 @@ public abstract class Unit extends MobileElement{
 	
 	//get the remaing health point as a percentage
 	public int getPercentHP() {
-		return (int)(this.hp*100.0/this.maxHp);	
+		return (int)(this.getHp()*100.0/this.maxHp);	
 	}
 
 	public boolean getIsInCombat() {

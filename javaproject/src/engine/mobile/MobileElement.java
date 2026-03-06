@@ -14,6 +14,7 @@ import engine.map.Block;
 public abstract class MobileElement {
 
 	private Block position;
+	private int hp;
 	/**
      * Constructor for MobileElement.
      * @param position   The block where the mobileElement is at the moment of instantiation.
@@ -32,6 +33,12 @@ public abstract class MobileElement {
      */
 	public void setPosition(Block position) {
 		this.position = position;
+	}
+	public int getHp() {
+		return this.hp;
+	}
+	public void setHp(int hp) {
+		this.hp=hp;
 	}
 
 }

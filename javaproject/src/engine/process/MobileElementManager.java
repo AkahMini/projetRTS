@@ -8,6 +8,7 @@ import config.GameConfiguration;
 
 import engine.map.Block;
 import engine.map.Map;
+import engine.mobile.MobileElement;
 import engine.mobile.Player;
 import engine.mobile.RessourceDeposit;
 import engine.mobile.building.Building;
@@ -113,9 +114,9 @@ public class MobileElementManager implements MobileInterface {
             	}
                 // Ennemy scan
                 if (unit.getTarget() == null && unit.getDestination() == null ) {
-                    Unit enemy = unitManager.scanForEnemy(unit);
-                    if (enemy != null) {
-                    	unitManager.combatSystem(unit, enemy);
+                    MobileElement target = unitManager.scanForEnemy(unit);
+                    if (target != null) {
+                    	unitManager.combatSystem(unit, target);
                     }
                 }
             }
@@ -136,7 +137,7 @@ public class MobileElementManager implements MobileInterface {
         	Unit unit=units.get(i);
         	// 3. Combat
         	if (unit.getTarget() != null && unit.getIsInCombat()) {
-        		Unit target = (Unit) unit.getTarget();
+        		MobileElement target = unit.getTarget();
 
         		if (target.getHp() <= 0) {
         			unit.setTarget(null);
