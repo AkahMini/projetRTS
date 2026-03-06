@@ -23,6 +23,7 @@ import engine.mobile.unit.Cavalry;
 import engine.mobile.unit.Infantry;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
+import engine.process.MobileInterface;
 import engine.process.chrono.CyclicCounter;
 import engine.process.GameUtility;
 
@@ -337,40 +338,70 @@ public class PaintStrategy {
 	}
 
 	//only the info+button of the first selected building is displayed
-	public void paintBuildingInfo(Building build, Graphics graphics) {
+	public void paintSelectedInfo(MobileInterface manager, Graphics graphics) {
 		int x =windowWidth-windowWidth/5;
 		int y =510;//~13*windowHeight/18 but meh
-
 		graphics.setColor(Color.BLACK);
 		graphics.setFont(new Font("Arial", Font.PLAIN, 18));
-		graphics.drawString(build.getBuildingName()+" Info :", x, y);
-		graphics.setFont(new Font("Arial", Font.PLAIN, 14));
-		y+=18;
-		graphics.drawString("hp :", x, y);
-		y+=8;
-		int percent = build.getPercentHP();
-
-		//only current hp is in green. The >=98 is for the eventual float to int conevrsion error
-		if(percent>=98) {
-			graphics.setColor(new Color(0,102,0));// dark greeeeeeen
-			graphics.fillRect(x, y, 220, 6);
-		}else {
-			graphics.setColor(new Color(0,102,0));// dark greeeeeeen
-			graphics.fillRect(x, y, (int)((percent*220.0/100)), 6);
-			graphics.setColor(Color.RED);
-			graphics.fillRect((int)((percent*220.0/100))+x, y, (int)(220-(percent*220.0/100)), 6);
+		
+		//if a worker is selected then if a build is selected
+		//(same things for each element, with button graphical changes)
+		if (manager.getSelectedWorker()!=null) {
+			Worker worker =manager.getSelectedWorker();
+			graphics.drawString(worker.getUnitName()+" :", x, y);
+			graphics.setFont(new Font("Arial", Font.PLAIN, 14));
+			y+=18;
+			graphics.drawString("hp :", x, y);
+			y+=8;
+			int percent = worker.getPercentHP();
+			
+			//only current hp is in green. The >=98 is for the eventual float to int conevrsion error
+			if(percent>=98) {
+				graphics.setColor(new Color(0,102,0));// dark greeeeeeen
+				graphics.fillRect(x, y, 220, 6);
+			}else {
+				graphics.setColor(new Color(0,102,0));// dark greeeeeeen
+				graphics.fillRect(x, y, (int)((percent*220.0/100)), 6);
+				graphics.setColor(Color.RED);
+				graphics.fillRect((int)((percent*220.0/100))+x, y, (int)(220-(percent*220.0/100)), 6);
+			}
+			
+			//button to be defined, go see just under
+			//tier 1,2,3 button
+			graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1020,560,60,60,null);
+			graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1100,560,60,60,null);
+			graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1180,560,60,60,null);
+			
+		}else if (manager.getSelectedBuild()!=null){
+			Building build =manager.getSelectedBuild();
+			graphics.drawString(build.getBuildingName()+" :", x, y);
+			graphics.setFont(new Font("Arial", Font.PLAIN, 14));
+			y+=18;
+			graphics.drawString("hp :", x, y);
+			y+=8;
+			int percent = build.getPercentHP();
+	
+			if(percent>=98) {
+				graphics.setColor(new Color(0,102,0));// dark greeeeeeen
+				graphics.fillRect(x, y, 220, 6);
+			}else {
+				graphics.setColor(new Color(0,102,0));// dark greeeeeeen
+				graphics.fillRect(x, y, (int)((percent*220.0/100)), 6);
+				graphics.setColor(Color.RED);
+				graphics.fillRect((int)((percent*220.0/100))+x, y, (int)(220-(percent*220.0/100)), 6);
+			}
+	
+	
+			//button to be defined
+			if(build.getBuildingName().equals("Temple de Zeus")) {
+				graphics.drawImage(GameUtility.readImage("gameData/images/miner.png"),1020,560,60,60,null);
+			}
+			//template for visual use only
+			//graphics.drawRect(1020, 560, 240, 140);
+			//Draw img max 6 from the entry point
+			//img are 60x60 and 20 pixels between each
+			//-> one image per building per button (capacity/research/unit)
 		}
-
-
-		//button to be defined
-		if(build.getBuildingName().equals("Temple de Zeus")) {
-			graphics.drawImage(GameUtility.readImage("gameData/images/miner.png"),1020,560,60,60,null);
-		}
-		//template for visual use only
-		//graphics.drawRect(1020, 560, 240, 140);
-		//Draw img max 6 or 9 for the different button related to the building 
-		//-> one image per building per button (capacity/research/unit)
-
 	}
 
 	public void paintAttack(Unit unit, Graphics graphics) {

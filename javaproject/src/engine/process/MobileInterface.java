@@ -9,6 +9,7 @@ import engine.mobile.RessourceDeposit;
 import engine.mobile.building.Building;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Unit;
+import engine.mobile.unit.Worker;
 import engine.process.chrono.CyclicCounter;
 
 /**
@@ -48,9 +49,10 @@ public interface MobileInterface {
 	
 	void areaButtonPressed(int x, int y);
 	
+	Worker getSelectedWorker();
+	void setSelectedWorker(Worker selectedWorker);
 	Building getSelectedBuild();
 	void setSelectedBuild(Building selectedBuild);
-	
 	void selectBuilding(String string);
 	void buildBuilding(Block position,int tier,String faction);
 	void addQueue(UnitProducer building, Block position, String unitType, Player p);

@@ -285,7 +285,7 @@ public class MainGUI extends JFrame implements Runnable {
 			manager.calculateSelectedArea(lastBlock);
 			manager.getUnitsInSelectedArea();
 			manager.getBuildingsInSelectedArea();
-			System.out.println(manager.getUnits().size());	        
+			//System.out.println(manager.getUnits().size());	        
 		}
 
 		@Override

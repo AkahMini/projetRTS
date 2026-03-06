@@ -15,6 +15,7 @@ import engine.mobile.building.HQ;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.StatsLoader;
 import engine.mobile.unit.Unit;
+import engine.mobile.unit.Worker;
 import engine.process.chrono.Chronometer;
 import engine.process.chrono.CyclicCounter;
 
@@ -41,6 +42,7 @@ public class MobileElementManager implements MobileInterface {
     private ArrayList<RessourceDeposit> ressourceDeposits = new ArrayList<RessourceDeposit>();
     
     private Building selectedBuild =null;
+    private Worker selectedWorker =null;
     
     private ArrayList<Unit> units = new ArrayList<Unit>();
     
@@ -98,7 +100,6 @@ public class MobileElementManager implements MobileInterface {
         timetweaker.increment();
         if(timetweaker.getValue() == 100) {
             chronometer.increment();
-            timetweaker.increment();
             //Units manager
             for(int i=0;i<units.size();i++) {
             	Unit unit=units.get(i);
@@ -215,11 +216,28 @@ public class MobileElementManager implements MobileInterface {
     //we indicate if its in the first or second line then for the col
     // do nothing if in the white space
     public void areaButtonPressed(int x, int y) {
-    	if(selectedBuild!=null) {
+    	if(selectedWorker!=null){
+    		if(y<=620) {
+    			if(x<=1080) {
+    				unitManager.workerConstructionction("button1",player,selectedWorker);
+    			} else if (x>=1100 && x<=1160) {
+    				unitManager.workerConstructionction("button2",player,selectedWorker);
+    			} else if (x>=1180) {
+    				unitManager.workerConstructionction("button3",player,selectedWorker);
+    			}
+    		} else if (y>=640) {
+    			if(x<=1080) {
+    				unitManager.workerConstructionction("button4",player,selectedWorker);
+    			} else if (x>=1100 && x<=1160) {
+    				unitManager.workerConstructionction("button5",player,selectedWorker);
+    			} else if (x>=1180) {
+    				unitManager.workerConstructionction("button6",player,selectedWorker);
+    			}
+    		}
+    	}else if(selectedBuild!=null) {
     		if(y<=620) {
     			if(x<=1080) {
     				buildingManager.action("button1",player);
-    				
     			} else if (x>=1100 && x<=1160) {
     				buildingManager.action("button2",player);
     			} else if (x>=1180) {
@@ -346,5 +364,12 @@ public class MobileElementManager implements MobileInterface {
 	public void setSelectedBuild(Building selectedBuild) {
 		this.selectedBuild = selectedBuild;
 	}
+	
+	public Worker getSelectedWorker() {
+		return selectedWorker;
+	}
 
+	public void setSelectedWorker(Worker selectedWorker) {
+		this.selectedWorker=selectedWorker;
+	}
 }

@@ -7,6 +7,8 @@ import config.GameConfiguration;
 import engine.map.Block;
 import engine.mobile.Player;
 import engine.mobile.RessourceDeposit;
+import engine.mobile.building.HQ;
+import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Cavalry;
 import engine.mobile.unit.Infantry;
 import engine.mobile.unit.Unit;
@@ -276,6 +278,8 @@ public class UnitsManager implements UnitsInterface{
     	ArrayList<Block> selectedArea = manager.getSelectedArea();
         ArrayList<Unit> units = manager.getUnits();  
         ArrayList<Unit> unitsInSelectedArea = manager.getUnitsInSelectedArea(); 
+        manager.setSelectedWorker(null);
+        
         if(unitsInSelectedArea != null) {
             unitsInSelectedArea.clear();// empty the list so that we don't select the same units multiple times
         }
@@ -288,6 +292,11 @@ public class UnitsManager implements UnitsInterface{
                 for(int blockIndex = 0; blockIndex < nbOfBlocksInSelectedArea; blockIndex++) {
                     if(selectedArea.get(blockIndex).equals(unitPosition)) {
                         unitsInSelectedArea.add(units.get(unitIndex));
+                        //used to set selected worker once
+                        if (manager.getSelectedWorker()==null && units.get(unitIndex) instanceof Worker){
+                        	Worker worker =(Worker) units.get(unitIndex);
+                        	manager.setSelectedWorker(worker);
+                        }
                         break;//in case the same block is present multiple time in the selection
                     }
                 }
@@ -336,7 +345,25 @@ public class UnitsManager implements UnitsInterface{
     }
     public void killUnit(Unit unit, ArrayList<Unit> units) {
     	if(unit.getHp()<=0) {
-    		units.remove(units);
+    		units.remove(unit);
+    	}
+    }
+    
+    public void workerConstructionction(String button, Player p, Worker worker) {
+    	switch (button) {
+    	case "button1":
+    		System.out.println("i");
+    		break;
+    	case "button2":
+    		break;
+    	case "button3":
+    		break;
+    	case "button4":
+    		break;
+    	case "button5":
+    		break;
+    	case "button6":
+    		break;
     	}
     }
 }

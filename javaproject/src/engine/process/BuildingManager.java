@@ -67,14 +67,14 @@ public class BuildingManager implements BuildingInterface{
         if(selectedArea !=null) {
         	int nbOfBlocksInSelectedArea = selectedArea.size();
             int nbOfBuildings = buildings.size();
-            System.out.println("nb build : "+nbOfBuildings);
+            //System.out.println("nb build : "+nbOfBuildings);
             
             for(int buildingIndex=0; buildingIndex<nbOfBuildings; buildingIndex++) {
             	Block buildingPosition = buildings.get(buildingIndex).getPosition();
             	for(int blockIndex = 0; blockIndex<nbOfBlocksInSelectedArea;blockIndex++) {
             		if(selectedArea.get(blockIndex).equals(buildingPosition)) {
             			buildingsInSelectedArea.add(buildings.get(buildingIndex));
-            			System.out.println(buildings.get(buildingIndex).getBuildingName());
+            			//System.out.println(buildings.get(buildingIndex).getBuildingName());
             			break;
             		}
             	}
