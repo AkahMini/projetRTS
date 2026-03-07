@@ -189,7 +189,10 @@ public class UnitsManager implements UnitsInterface{
     }
     
     public MobileElement scanForEnemy(Unit unit) {
-        MobileElement nearest = null;
+        /*
+         * Returns the nearest ennemy of the unit
+         */
+    	MobileElement nearest = null;
         double minDistance = Double.MAX_VALUE;
         
         for (Unit otherUnit : manager.getUnits()) {
@@ -215,7 +218,10 @@ public class UnitsManager implements UnitsInterface{
         return nearest;
     }
     
-    public void combatSystem(Unit unit1, MobileElement target) {
+    public void setCombatState(Unit unit1, MobileElement target) {
+    	/*
+    	 * Tells the unit and the target they are fighting
+    	 */
     	if (target instanceof Unit) {
     		Unit unit2 = (Unit) target;
     		if(unit1.getIsInCombat() == false && unit2.getIsInCombat() == false) {
@@ -290,6 +296,8 @@ public class UnitsManager implements UnitsInterface{
             }
         }
     }
+    
+    
     
     public void unitsInSelectedArea() {
     	ArrayList<Block> selectedArea = manager.getSelectedArea();

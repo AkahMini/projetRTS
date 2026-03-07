@@ -33,7 +33,7 @@ public interface UnitsInterface {
 	
 	MobileElement scanForEnemy(Unit unit);
 	
-	void combatSystem(Unit unit1, MobileElement target);
+	void setCombatState(Unit unit1, MobileElement target);
 	void damageCalculation(Unit unit);
 	
 	void unitsInSelectedArea();

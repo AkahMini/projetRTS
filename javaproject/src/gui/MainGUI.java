@@ -226,6 +226,7 @@ public class MainGUI extends JFrame implements Runnable {
 			int blockSize = GameConfiguration.BLOCK_SIZE;
 			int line = e.getY() / blockSize;
 			int column = e.getX() / blockSize;
+			
 			System.out.println("x :"+e.getX()+" y :"+e.getY()+" - Block line : "+line+" Block column : "+column);
 
 			//we check if the player clicked in the button zone for x and y
@@ -287,7 +288,8 @@ public class MainGUI extends JFrame implements Runnable {
 			manager.calculateSelectedArea(lastBlock);
 			manager.getUnitsInSelectedArea();
 			manager.getBuildingsInSelectedArea();
-			//System.out.println(manager.getUnits().size());	        
+			//System.out.println(manager.getUnits().size());
+			
 		}
 
 		@Override

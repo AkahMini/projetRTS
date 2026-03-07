@@ -67,44 +67,31 @@ public class MobileElementManager implements MobileInterface {
         this.unitManager = new UnitsManager(this,this.gameSettings);
     }
 
-    public void firstRound() {
-    	/*
-    	System.out.println("Affichage des statistiques des unités:");
-    	StatsLoader.printUnitsValues(this.unitStats);
-    	*/
-    	
-   
-    	//We add player's HQ, & ressource deposits
-    	Block playerHQposition = map.getBlock(10, 10); //TMP player's HQ
-    	Block playerTowerPosition = map.getBlock(20, 30);//TMP
-    	Building playerHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, "Zeus", playerHQposition);   	
-    	Building playerTower = BuildingFactory.createBuilding(BuildingFactory.DEFENSE_BUILDING, 2, "Poseidon", playerTowerPosition);
-    	
-    	Block playerLaboPos = map.getBlock(15, 10);//tmp too
-    	Building playerLabo = BuildingFactory.createBuilding(BuildingFactory.RESEARCH_BUILDING,2,"Zeus",playerLaboPos);
-    	
-    	Block faithDepositLocation = map.getBlock(30, 20);//TMP
-    	RessourceDeposit deposit1 = new RessourceDeposit(faithDepositLocation,RessourceDeposit.FAITH);
-    	
-    	Block ambroiseDepositLocation = map.getBlock(10, 35);
-    	RessourceDeposit deposit2= new RessourceDeposit(ambroiseDepositLocation,RessourceDeposit.AMBROSIA);
-    	
-    	this.buildings.add(playerHQ);
-    	this.buildings.add(playerTower);
-    	this.buildings.add(playerLabo);
-    	this.ressourceDeposits.add(deposit1);
-    	this.ressourceDeposits.add(deposit2);
-    	
+    public void firstRound() {    	
+    	initMap();
     }
-    
+
+	
     public void nextRound() {
         timetweaker.increment();
-        if(timetweaker.getValue() == 100) {
+        processBySeconds();
+        combatSystem();
+        unitManager.moveAllUnits();
+        buildingManager.allBuildingsAttack(buildings);
+    }
+
+	
+
+	private void processBySeconds() {
+		/*
+		 * Every slow process that don't need to be check every tick, for performance purpose
+		 */
+		//chronometer update
+		if(timetweaker.getValue() == 100) {
             chronometer.increment();
             //Units manager
             for(int i=0;i<units.size();i++) {
             	Unit unit=units.get(i);
-            	
             	if(unit.getHp()<=0) {
             		System.out.println("Unit '"+unit.getUnitName()+"' removed");
             		units.remove(i);
@@ -112,11 +99,12 @@ public class MobileElementManager implements MobileInterface {
             		i--;
             		continue;
             	}
-                // Ennemy scan
+                
+            	// Ennemy scan
                 if (unit.getTarget() == null && unit.getDestination() == null ) {
                     MobileElement target = unitManager.scanForEnemy(unit);
                     if (target != null) {
-                    	unitManager.combatSystem(unit, target);
+                    	unitManager.setCombatState(unit, target);
                     }
                 }
             }
@@ -133,7 +121,10 @@ public class MobileElementManager implements MobileInterface {
             	}
             }
         }
-        for(int i=0;i<units.size();i++) {
+	}
+    
+	private void combatSystem() {
+		for(int i=0;i<units.size();i++) {
         	Unit unit=units.get(i);
         	// 3. Combat
         	if (unit.getTarget() != null && unit.getIsInCombat()) {
@@ -155,11 +146,7 @@ public class MobileElementManager implements MobileInterface {
         		}
         	}
         }
-        unitManager.moveAllUnits();
-        buildingManager.allBuildingsAttack(buildings);
-    }
-    
-     
+	}
     
     public double getDistance(Block b1, Block b2) {
         // Chebyshev distance to avoid issue with diagonal calculation
@@ -255,7 +242,28 @@ public class MobileElementManager implements MobileInterface {
     		}
     	}
     }
-    
+    private void initMap() {
+		//We add player's HQ, & ressource deposits
+    	Block playerHQposition = map.getBlock(10, 10); //TMP player's HQ
+    	Block playerTowerPosition = map.getBlock(20, 30);//TMP
+    	Building playerHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, "Zeus", playerHQposition);   	
+    	Building playerTower = BuildingFactory.createBuilding(BuildingFactory.DEFENSE_BUILDING, 2, "Poseidon", playerTowerPosition);
+    	
+    	Block playerLaboPos = map.getBlock(15, 10);//tmp too
+    	Building playerLabo = BuildingFactory.createBuilding(BuildingFactory.RESEARCH_BUILDING,2,"Zeus",playerLaboPos);
+    	
+    	Block faithDepositLocation = map.getBlock(30, 20);//TMP
+    	RessourceDeposit deposit1 = new RessourceDeposit(faithDepositLocation,RessourceDeposit.FAITH);
+    	
+    	Block ambroiseDepositLocation = map.getBlock(10, 35);
+    	RessourceDeposit deposit2= new RessourceDeposit(ambroiseDepositLocation,RessourceDeposit.AMBROSIA);
+    	
+    	this.buildings.add(playerHQ);
+    	this.buildings.add(playerTower);
+    	this.buildings.add(playerLabo);
+    	this.ressourceDeposits.add(deposit1);
+    	this.ressourceDeposits.add(deposit2);
+	}
     
     public boolean ifBlockInGamePanel(Block block) {
     	if(block.getColumn()<=100 && block.getLine()>=7) {
@@ -348,6 +356,14 @@ public class MobileElementManager implements MobileInterface {
     public Block getMousePosition(int x, int y) {
         int line = x / GameConfiguration.BLOCK_SIZE;
         int column = y / GameConfiguration.BLOCK_SIZE;
+        if(column>map.getColumnCount())
+        	column=map.getColumnCount()-1;
+        if(column<0)
+        	column=0;
+        if(line>map.getLineCount())
+        	line=map.getLineCount()-1;
+        if(line<0)
+        	line=0;
         return map.getBlock(line, column);
     }
     
