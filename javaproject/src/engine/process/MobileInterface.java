@@ -48,7 +48,7 @@ public interface MobileInterface {
 	Block getMousePosition(int y, int x);
 	
 	void areaButtonPressed(int x, int y);
-	
+	boolean ifBlockInGamePanel(Block block);
 	Worker getSelectedWorker();
 	void setSelectedWorker(Worker selectedWorker);
 	Building getSelectedBuild();

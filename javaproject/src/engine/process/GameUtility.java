@@ -14,6 +14,8 @@ import javax.imageio.ImageIO;
  */
 
 //Some very general function can be added here
+//Used for I/O uses likes read Images
+//Otehr I/O method can be put here
 public class GameUtility {
 
 	/**

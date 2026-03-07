@@ -257,7 +257,13 @@ public class MobileElementManager implements MobileInterface {
     }
     
     
-    
+    public boolean ifBlockInGamePanel(Block block) {
+    	if(block.getColumn()<=100 && block.getLine()>=7) {
+    		return true;
+    	}else {
+    		return false;
+    	}
+    }
     //method for the communation between this class and BuildingManager
     
     public void addInBuildings(Building n) {

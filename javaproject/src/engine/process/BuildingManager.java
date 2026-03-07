@@ -79,9 +79,10 @@ public class BuildingManager implements BuildingInterface{
             		}
             	}
             }
-            
+           
             if (!buildingsInSelectedArea.isEmpty()) {
                 manager.setSelectedBuild(buildingsInSelectedArea.get(0));
+                manager.setSelectedWorker(null);
             }
         } else {
         	buildingsInSelectedArea=null;

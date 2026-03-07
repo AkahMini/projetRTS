@@ -275,7 +275,9 @@ public class MainGUI extends JFrame implements Runnable {
 		public void mousePressed(MouseEvent e) {
 
 			Block firstBlock=manager.getMousePosition(e.getY(), e.getX());
-			manager.unitMoveOrder(firstBlock);
+			if(manager.ifBlockInGamePanel(firstBlock)) {
+				manager.unitMoveOrder(firstBlock);
+			}
 			manager.initSelectedArea(firstBlock);
 		}
 

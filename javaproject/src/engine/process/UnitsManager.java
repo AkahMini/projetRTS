@@ -295,7 +295,7 @@ public class UnitsManager implements UnitsInterface{
     	ArrayList<Block> selectedArea = manager.getSelectedArea();
         ArrayList<Unit> units = manager.getUnits();  
         ArrayList<Unit> unitsInSelectedArea = manager.getUnitsInSelectedArea(); 
-        manager.setSelectedWorker(null);
+        Worker foundWorker = null;
         
         if(unitsInSelectedArea != null) {
             unitsInSelectedArea.clear();// empty the list so that we don't select the same units multiple times
@@ -310,13 +310,17 @@ public class UnitsManager implements UnitsInterface{
                     if(selectedArea.get(blockIndex).equals(unitPosition)) {
                         unitsInSelectedArea.add(units.get(unitIndex));
                         //used to set selected worker once
-                        if (manager.getSelectedWorker()==null && units.get(unitIndex) instanceof Worker){
-                        	Worker worker =(Worker) units.get(unitIndex);
-                        	manager.setSelectedWorker(worker);
+                        if (foundWorker==null && units.get(unitIndex) instanceof Worker){
+                        	foundWorker=(Worker) units.get(unitIndex);
+                        	
                         }
                         break;//in case the same block is present multiple time in the selection
                     }
                 }
+            }
+            if(foundWorker!=null) {
+            	manager.setSelectedWorker(foundWorker);
+            	manager.setSelectedBuild(null);
             }
         } else {
         	unitsInSelectedArea=null;
