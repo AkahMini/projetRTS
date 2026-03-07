@@ -244,7 +244,15 @@ public class PaintStrategy {
 		graphics.setColor(Color.BLACK);
 		graphics.drawOval(x * blockSize, y * blockSize, blockSize, blockSize);
 	}
-
+	public void paintSelectedUnit(Unit selectedUnit, Graphics graphics) {
+		Block position = selectedUnit.getPosition();
+		int blockSize = GameConfiguration.BLOCK_SIZE;
+		int y = position.getLine();
+		int x = position.getColumn();
+		graphics.setColor(Color.YELLOW);
+		graphics.drawOval(x * blockSize, y * blockSize, blockSize, blockSize);
+		
+	}
 
 	//draw the selected area
 	public void paint(List<Block> selectedArea, Graphics graphics) {

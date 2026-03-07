@@ -75,7 +75,7 @@ public class MobileElementManager implements MobileInterface {
     public void nextRound() {
         timetweaker.increment();
         processBySeconds();
-        combatSystem();
+        unitCombatSystem();
         unitManager.moveAllUnits();
         buildingManager.allBuildingsAttack(buildings);
     }
@@ -123,10 +123,9 @@ public class MobileElementManager implements MobileInterface {
         }
 	}
     
-	private void combatSystem() {
+	private void unitCombatSystem() {
 		for(int i=0;i<units.size();i++) {
         	Unit unit=units.get(i);
-        	// 3. Combat
         	if (unit.getTarget() != null && unit.getIsInCombat()) {
         		MobileElement target = unit.getTarget();
 
@@ -380,6 +379,9 @@ public class MobileElementManager implements MobileInterface {
 
     
     //used for graphic interface
+    public ArrayList<Unit> getUnitInSelectedArea(){
+    	return this.unitsInSelectedArea;
+    }
 	public Building getSelectedBuild() {
 		return selectedBuild;
 	}

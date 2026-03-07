@@ -252,6 +252,10 @@ public class MainGUI extends JFrame implements Runnable {
 				manager.spawnUnitEnnemy(position);
 				typeSelection=null;
 			}
+			
+			if(manager.ifBlockInGamePanel(position)) {
+				manager.unitMoveOrder(position);
+			}
 		}
 
 		/*
