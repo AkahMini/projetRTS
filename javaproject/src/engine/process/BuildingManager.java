@@ -45,10 +45,10 @@ public class BuildingManager implements BuildingInterface{
             return;
         }
         if (position.getLine() >= 7 && position.getColumn() < GameConfiguration.COLUMN_COUNT - 28) {
-            Building nouveauBatiment = BuildingFactory.createBuilding(selectedBuilding, tier, faction, position);
+            Building newBuilding = BuildingFactory.createBuilding(selectedBuilding, tier, faction, position);
     
-            if (nouveauBatiment != null) {
-                manager.addInBuildings(nouveauBatiment);
+            if (newBuilding != null) {
+                manager.addInBuildings(newBuilding);
             }
             selectedBuilding = null;
         }
@@ -108,7 +108,7 @@ public class BuildingManager implements BuildingInterface{
             if (building.getTierLevel() == 1) {
                 if("Zeus".equals(building.getFaction())) {
                     Unit newUnit = UnitFactory.createUnit(unitType, 1, "Zeus", position);
-                    if(p.getFactionName().equals(DefaultGameSettings.ZEUS)) {
+                    if(p.getFactionName().equals(DefaultGameSettings.defaultPlayerFaction)) {
                     	p.setCurrentPopulation(p.getCurrentPopulation()+newUnit.getPopCost());
                     }
                     ((UnitProducer) building).getProductionQueue().add(newUnit);
@@ -171,6 +171,7 @@ public class BuildingManager implements BuildingInterface{
     	}
     }
 
+    /*
     public Unit closestEnnemy(DefenseTower tower) {
         Unit nearest = null;
         double minDistance = Double.MAX_VALUE;
@@ -186,60 +187,83 @@ public class BuildingManager implements BuildingInterface{
         }
         return nearest;
     }
-	
+	*/
+    public void setTowerTarget(DefenseTower tower) {
+    	if(tower.getIsUnderConstruction()==false) {
+    		Unit target = null;
+            double minDistance = Double.MAX_VALUE;
 
-
-public void attackTarget(DefenseTower tower) {
-	/**
-	 * Seek for a potential target and attacks if possible
-	 */
-	if(tower.getIsUnderConstruction()==false) {
-		Unit target = closestEnnemy(tower);
-		tower.setTarget(target);
-		if(tower.getAttackCounter()!=0) {
-			tower.setAttackCounter(tower.getAttackCounter()-1);
-		}
-		else if (target!=null) {
-
-			tower.resetAttackCounter();
-			if(manager.getDistance(tower.getPosition(),target.getPosition())<tower.getTowerRange()) {
-				//if the closestEnnemy is in range
-				double attack=tower.getTowerDamage();
-				
-				if (target instanceof Infantry) {
-		            Infantry infantryTarget = (Infantry) target;
-		            double shield = infantryTarget.getShieldValue();
-		            if (shield > 0) {
-		                if (shield >= attack) {
-		                    infantryTarget.setShieldValue(shield - attack);
-		                    attack = 0;
-		                } else {
-		                    infantryTarget.setShieldValue(0);
-		                    attack -= shield;
-		                }
-		            }
-		        }
-		        if (attack > 0) {
-		            int newHp = (int) Math.max(0, target.getHp() - attack);
-		            target.setHp(newHp);
-		        }
-		        
-		        if (target.getHp() <= 0) {
-		            tower.setTarget(null);
-		        }
-				
+            for (Unit unit : manager.getUnits()) {
+            	double dist = manager.getDistance(tower.getPosition(), unit.getPosition());
+            
+            	if (dist < minDistance&&unit.getUnitFaction()!=tower.getFaction()) {
+            	
+                minDistance = dist;
+                target = unit;
+            	}
+            }
+			tower.setTarget(target);
+			if(tower.getAttackCounter()!=0) {
+				tower.setAttackCounter(tower.getAttackCounter()-1);
 			}
+    	}
+    }
 
-		}
-	}
-}
+	public void singleTowerAttackSystem(DefenseTower tower) {
+		/**
+		 * Seek for a potential target and attacks if possible
+		 */
 		
-	public void allBuildingsAttack(ArrayList<Building> buildings) {
+		/*
+		if(tower.getIsUnderConstruction()==false) {
+			Unit target = closestEnnemy(tower);
+			tower.setTarget(target);
+			if(tower.getAttackCounter()!=0) {
+				tower.setAttackCounter(tower.getAttackCounter()-1);
+			}
+		*/
+		Unit target = tower.getTarget();
+			if (target!=null) {
+				tower.resetAttackCounter();
+				if(manager.getDistance(tower.getPosition(),target.getPosition())<tower.getTowerRange()) {
+					//if the closestEnnemy is in range
+					double attack=tower.getTowerDamage();
+					
+					if (target instanceof Infantry) {
+			            Infantry infantryTarget = (Infantry) target;
+			            double shield = infantryTarget.getShieldValue();
+			            if (shield > 0) {
+			                if (shield >= attack) {
+			                    infantryTarget.setShieldValue(shield - attack);
+			                    attack = 0;
+			                } else {
+			                    infantryTarget.setShieldValue(0);
+			                    attack -= shield;
+			                }
+			            }
+			        }
+			        if (attack > 0) {
+			            int newHp = (int) Math.max(0, target.getHp() - attack);
+			            target.setHp(newHp);
+			        }
+			        
+			        if (target.getHp() <= 0) {
+			            tower.setTarget(null);
+			        }
+					
+				}
+		
+			}
+		}
+
+		
+	public void allTowerAttack(ArrayList<Building> buildings) {
 		for(Building building:buildings) {
 			if(building instanceof DefenseTower) {
-				attackTarget((DefenseTower) building);
+				singleTowerAttackSystem((DefenseTower) building);
 			}
 		}
 	}
+
 
 }

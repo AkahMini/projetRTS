@@ -12,6 +12,7 @@ import engine.mobile.MobileElement;
 import engine.mobile.Player;
 import engine.mobile.RessourceDeposit;
 import engine.mobile.building.Building;
+import engine.mobile.building.DefenseTower;
 import engine.mobile.building.HQ;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.StatsLoader;
@@ -77,7 +78,7 @@ public class MobileElementManager implements MobileInterface {
         processBySeconds();
         unitCombatSystem();
         unitManager.moveAllUnits();
-        buildingManager.allBuildingsAttack(buildings);
+        buildingManager.allTowerAttack(buildings);
     }
 
 	
@@ -118,6 +119,11 @@ public class MobileElementManager implements MobileInterface {
             	}else if (building instanceof HQ) {
             		HQ hQ = (HQ) building;
             		buildingManager.removeQueue(hQ.getWorkerProducer());
+            	}
+            }
+            for(Building tower: buildings) {
+            	if(tower instanceof DefenseTower) {
+            		buildingManager.setTowerTarget((DefenseTower) tower);
             	}
             }
         }
@@ -245,8 +251,9 @@ public class MobileElementManager implements MobileInterface {
 		//We add player's HQ, & ressource deposits
     	Block playerHQposition = map.getBlock(10, 10); //TMP player's HQ
     	Block playerTowerPosition = map.getBlock(20, 30);//TMP
-    	Building playerHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, "Zeus", playerHQposition);   	
+    	Building playerHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, "Zeus", playerHQposition);
     	Building playerTower = BuildingFactory.createBuilding(BuildingFactory.DEFENSE_BUILDING, 2, "Poseidon", playerTowerPosition);
+    	playerHQ.setUnderConstruction(false);
     	
     	Block playerLaboPos = map.getBlock(15, 10);//tmp too
     	Building playerLabo = BuildingFactory.createBuilding(BuildingFactory.RESEARCH_BUILDING,2,"Zeus",playerLaboPos);

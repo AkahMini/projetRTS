@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import engine.map.Block;
 import engine.mobile.Player;
 import engine.mobile.building.Building;
+import engine.mobile.building.DefenseTower;
 import engine.mobile.building.UnitProducer;
 
 
@@ -35,6 +36,7 @@ public interface BuildingInterface {
 	 void removeQueue(UnitProducer building);
 	 
 	 void action(String button, Player p);
-
-	 void allBuildingsAttack(ArrayList<Building> buildings);
+	 
+	 public void setTowerTarget(DefenseTower tower);
+	 void allTowerAttack(ArrayList<Building> buildings);
 }

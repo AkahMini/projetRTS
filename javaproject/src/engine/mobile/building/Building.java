@@ -137,4 +137,7 @@ public class Building extends MobileElement{
 	public void setAmbroisieCost(int ambroisieCost) {
 		AmbroisieCost = ambroisieCost;
 	}
+	public String toString() {
+		return "Name: " + BuildingName + ", faction: "+ faction + ", constructionTime: "+ constructionTime;
+	}
 }
