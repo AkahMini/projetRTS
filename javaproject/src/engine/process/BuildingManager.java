@@ -210,7 +210,6 @@ public class BuildingManager implements BuildingInterface{
 		/**
 		 * Seek for a potential target and attacks if possible
 		 */
-		System.out.println(tower.getAttackCounter());
 		if(tower.getIsUnderConstruction()==false) { //first check, for performance purpose
 			Unit target = tower.getTarget();
 			if(tower.getAttackCounter()<tower.getAttackTime()) {

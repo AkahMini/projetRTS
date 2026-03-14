@@ -45,6 +45,7 @@ public class MobileElementManager implements MobileInterface {
     
     private Building selectedBuild =null;
     private Worker selectedWorker =null;
+    private int selectedTier =0;
     
     private ArrayList<Unit> units = new ArrayList<Unit>();
     
