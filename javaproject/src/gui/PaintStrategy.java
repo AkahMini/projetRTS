@@ -387,9 +387,9 @@ public class PaintStrategy {
 			 */
 			if(currentTier==0) {
 				//tier 1,2,3 button
-				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1020,560,60,60,null);
-				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1100,560,60,60,null);
-				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1180,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("gameData/images/tier1.png"),1020,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("gameData/images/tier2.png"),1100,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("gameData/images/tier3.png"),1180,560,60,60,null);
 			}else if(currentTier==1) {
 				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1020,560,60,60,null);
 				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1100,560,60,60,null);
