@@ -203,9 +203,6 @@ public class BuildingManager implements BuildingInterface{
             	}
             }
 			tower.setTarget(target);
-			if(tower.getAttackCounter()!=0) {
-				tower.setAttackCounter(tower.getAttackCounter()-1);
-			}
     	}
     }
 
@@ -213,46 +210,46 @@ public class BuildingManager implements BuildingInterface{
 		/**
 		 * Seek for a potential target and attacks if possible
 		 */
-		
-		/*
-		if(tower.getIsUnderConstruction()==false) {
-			Unit target = closestEnnemy(tower);
-			tower.setTarget(target);
-			if(tower.getAttackCounter()!=0) {
-				tower.setAttackCounter(tower.getAttackCounter()-1);
+		System.out.println(tower.getAttackCounter());
+		if(tower.getIsUnderConstruction()==false) { //first check, for performance purpose
+			Unit target = tower.getTarget();
+			if(tower.getAttackCounter()<tower.getAttackTime()) {
+				tower.setIsAttacking(0);
+				tower.setAttackCounter(tower.getAttackCounter()+tower.getTowerAttackSpeed());
 			}
-		*/
-		Unit target = tower.getTarget();
-			if (target!=null) {
+			
+			if (target!=null&&tower.getAttackTime()<=tower.getAttackCounter()) {
+				tower.setIsAttacking(1);	
 				tower.resetAttackCounter();
-				if(manager.getDistance(tower.getPosition(),target.getPosition())<tower.getTowerRange()) {
-					//if the closestEnnemy is in range
-					double attack=tower.getTowerDamage();
-					
-					if (target instanceof Infantry) {
-			            Infantry infantryTarget = (Infantry) target;
-			            double shield = infantryTarget.getShieldValue();
-			            if (shield > 0) {
-			                if (shield >= attack) {
-			                    infantryTarget.setShieldValue(shield - attack);
-			                    attack = 0;
-			                } else {
-			                    infantryTarget.setShieldValue(0);
-			                    attack -= shield;
-			                }
-			            }
-			        }
-			        if (attack > 0) {
-			            int newHp = (int) Math.max(0, target.getHp() - attack);
-			            target.setHp(newHp);
-			        }
-			        
-			        if (target.getHp() <= 0) {
-			            tower.setTarget(null);
-			        }
-					
+					if(manager.getDistance(tower.getPosition(),target.getPosition())<tower.getTowerRange()) {
+						//if the closestEnnemy is in range, the tower attacks
+						double attack=tower.getTowerDamage();
+						
+						if (target instanceof Infantry) {
+				            Infantry infantryTarget = (Infantry) target;
+				            double shield = infantryTarget.getShieldValue();
+				            if (shield > 0) {
+				                if (shield >= attack) {
+				                    infantryTarget.setShieldValue(shield - attack);
+				                    attack = 0;
+				                } else {
+				                    infantryTarget.setShieldValue(0);
+				                    attack -= shield;
+				                }
+				            }
+				        }
+				        if (attack > 0) {
+				            int newHp = (int) Math.max(0, target.getHp() - attack);
+				            target.setHp(newHp);
+				        }
+				        
+				        if (target.getHp() <= 0) {
+				            tower.setTarget(null);
+				        }
+						
+					}
+			
 				}
-		
 			}
 		}
 

@@ -253,6 +253,11 @@ public class UnitsManager implements UnitsInterface{
     }
     
     public void damageCalculation(Unit unit) {
+    	/**
+    	 * the attackCounter increments by each call of the function by the attackSpeedValue of the unit, and 
+    	 * the units attacks when it's counter reach it's AttackTime
+    	 */
+    	
     	MobileElement target = unit.getTarget();
         if (target != null) {
             double attackCounter = unit.getAttackCounter();

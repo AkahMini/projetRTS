@@ -13,14 +13,19 @@ import engine.mobile.unit.Unit;
  */
 
 public class DefenseTower extends Building{
+	private static final int ATTACK_TIME = 200;
+	
 	private int attackCounter=0; //The active counter between attacks	
 	private Unit target;
 	
 	private int towerDamage;
 	private int towerAttackSpeed;
 	private int towerRange;
+	private int isAttacking;
 	
 	
+	
+
 	/**
 	 * Constructor for DefenseTower.
 	 * Initializes the tower at a specific position.
@@ -83,5 +88,13 @@ public class DefenseTower extends Building{
 	public void resetAttackCounter() {
 		this.attackCounter=this.towerAttackSpeed;
 	}
-	
+	public static int getAttackTime() {
+		return ATTACK_TIME;
+	}
+	public int getIsAttacking() {
+		return isAttacking;
+	}
+	public void setIsAttacking(int isAttacking) {
+		this.isAttacking = isAttacking;
+	}
 }
