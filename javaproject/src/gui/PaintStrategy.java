@@ -421,7 +421,7 @@ public class PaintStrategy {
 	
 	public void paintAttack(DefenseTower tower, Graphics graphics) {
 		MobileElement target = tower.getTarget();
-		if(tower.getIsAttacking()==1){
+		if(tower.getIsAttacking()==1&&tower.getTarget()!=null){
 			int dx = Math.abs(tower.getPosition().getColumn() - target.getPosition().getColumn());
 	        int dy = Math.abs(tower.getPosition().getLine() - target.getPosition().getLine());
 	        int dist = Math.max(dx, dy);
