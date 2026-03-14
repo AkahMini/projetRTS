@@ -345,6 +345,7 @@ public class PaintStrategy {
 		}
 	}
 
+	//cant be cut in 2 method because of the call order conflict
 	//only the info+button of the first selected building is displayed
 	public void paintSelectedInfo(MobileInterface manager, Graphics graphics) {
 		int x =windowWidth-windowWidth/5;
@@ -374,11 +375,43 @@ public class PaintStrategy {
 				graphics.fillRect((int)((percent*220.0/100))+x, y, (int)(220-(percent*220.0/100)), 6);
 			}
 			
+			int currentTier = manager.getSelectedTier();
 			//button to be defined, go see just under
-			//tier 1,2,3 button
-			graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1020,560,60,60,null);
-			graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1100,560,60,60,null);
-			graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1180,560,60,60,null);
+			/*
+			 * button1
+			 * button2
+			 * button3
+			 * button4
+			 * button5
+			 * button6
+			 */
+			if(currentTier==0) {
+				//tier 1,2,3 button
+				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1020,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1100,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1180,560,60,60,null);
+			}else if(currentTier==1) {
+				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1020,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1100,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1180,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1020,640,60,60,null);
+				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1100,640,60,60,null);
+				graphics.drawImage(GameUtility.readImage("gameData/images/cancel.png"),1180,640,60,60,null);
+			}else if(currentTier==2) {
+				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1020,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1100,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1180,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1020,640,60,60,null);
+				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1100,640,60,60,null);
+				graphics.drawImage(GameUtility.readImage("gameData/images/cancel.png"),1180,640,60,60,null);
+			}else if(currentTier==3) {
+				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1020,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1100,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1180,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1020,640,60,60,null);
+				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1100,640,60,60,null);
+				graphics.drawImage(GameUtility.readImage("gameData/images/cancel.png"),1180,640,60,60,null);
+			}
 			
 		}else if (manager.getSelectedBuild()!=null){
 			Building build =manager.getSelectedBuild();

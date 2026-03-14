@@ -62,4 +62,7 @@ public interface MobileInterface {
 	void selectUnit(String string);
 	void unitMoveOrder(Block firstBlock);
 	
+	int getSelectedTier();
+	void setSelectedTier(int selectedTier);
+	
 }

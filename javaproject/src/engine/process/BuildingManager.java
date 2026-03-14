@@ -156,6 +156,7 @@ public class BuildingManager implements BuildingInterface{
     				UnitProducer hq = (UnitProducer) ((HQ) manager.getSelectedBuild()).getWorkerProducer();// forced cast not optimal
     				manager.addQueue(hq, manager.getSelectedBuild().getPosition(), "WORKER",p);
     			}
+    			break;
     		}
     		break;
     	case "button2":

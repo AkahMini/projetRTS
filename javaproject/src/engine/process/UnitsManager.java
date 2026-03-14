@@ -384,19 +384,35 @@ public class UnitsManager implements UnitsInterface{
     }
     
     public void workerConstructionction(String button, Player p, Worker worker) {
+    	int currentTier = manager.getSelectedTier();
     	switch (button) {
     	case "button1":
-    		System.out.println("i");
+    		if(currentTier==0) {
+    			manager.setSelectedTier(1);
+    			break;
+    		}
     		break;
     	case "button2":
+    		if(currentTier==0) {
+    			manager.setSelectedTier(2);
+    			break;
+    		}
     		break;
     	case "button3":
+    		if(currentTier==0) {
+    			manager.setSelectedTier(3);
+    			break;
+    		}
     		break;
     	case "button4":
     		break;
     	case "button5":
     		break;
     	case "button6":
+    		if(currentTier!=0) {
+    			manager.setSelectedTier(0);
+    			break;
+    		}
     		break;
     	}
     }

@@ -45,7 +45,7 @@ public class MobileElementManager implements MobileInterface {
     
     private Building selectedBuild =null;
     private Worker selectedWorker =null;
-    private int selectedTier =0;
+    private int selectedTier =0;//for worker button
     
     private ArrayList<Unit> units = new ArrayList<Unit>();
     
@@ -404,5 +404,13 @@ public class MobileElementManager implements MobileInterface {
 
 	public void setSelectedWorker(Worker selectedWorker) {
 		this.selectedWorker=selectedWorker;
+	}
+
+	public int getSelectedTier() {
+		return selectedTier;
+	}
+
+	public void setSelectedTier(int selectedTier) {
+		this.selectedTier = selectedTier;
 	}
 }
