@@ -4,11 +4,13 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+
 import engine.map.Map;
 import engine.mobile.RessourceDeposit;
 import engine.mobile.building.Building;
 import engine.mobile.building.DefenseTower;
 import engine.mobile.unit.Unit;
+import engine.mobile.unit.Worker;
 import engine.process.MobileInterface;
 
 /**
@@ -62,6 +64,9 @@ public class GameDisplay extends JPanel {
 			//similar if of the calculDegats method in UnitManager
 			if (unit.getIsInCombat() && unit.getAttackCounter()>=(Unit.getAttackTime())-10) {
 				paintStrategy.paintAttack(unit, g);
+			}
+			if(unit instanceof Worker) {
+				paintStrategy.paintWorkingWorker((Worker)unit, g);
 			}
 		}
 		for(Unit selectedUnit:manager.getUnitsInSelectedArea()) {

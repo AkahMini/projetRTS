@@ -253,6 +253,16 @@ public class PaintStrategy {
 		graphics.drawOval(x * blockSize, y * blockSize, blockSize, blockSize);
 		
 	}
+	public void paintWorkingWorker(Worker worker, Graphics graphics) {
+		if(worker.getIsWorking()==true) {
+			Block position = worker.getPosition();
+			int blockSize = GameConfiguration.BLOCK_SIZE;
+			int y = position.getLine();
+			int x = position.getColumn();
+			graphics.setColor(Color.CYAN);
+			graphics.drawOval(x * blockSize, y * blockSize, blockSize, blockSize);
+		}
+	}
 
 	//draw the selected area
 	public void paint(List<Block> selectedArea, Graphics graphics) {

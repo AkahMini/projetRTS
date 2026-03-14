@@ -173,6 +173,7 @@ public class UnitFactory {
 		
 		worker.setPosition(position);
 		worker.setHp(worker.getMaxHp());
+		worker.setIsWorking(false);
 		return worker;
 		
     }

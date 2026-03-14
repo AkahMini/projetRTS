@@ -121,7 +121,7 @@ public class UnitsManager implements UnitsInterface{
                 
                 if(newLine > 6 && newLine < manager.getMap().getLineCount() && newColomn > 0 && newColomn < manager.getMap().getColumnCount() - 28) {
                     Block newPosition = manager.getMap().getBlock(newLine, newColomn);
-                    if(manager.isBlockCollider(newPosition) == 0) {
+                    if(manager.isBlockCollider(newPosition) == 0||displacedUnit instanceof Worker) {//if there is no collider
                         displacedUnit.setPosition(newPosition);
                     }
                 }
@@ -149,9 +149,11 @@ public class UnitsManager implements UnitsInterface{
     	else if(manager.getDistance(displacedWorker.getPosition(),displacedWorker.getCurrentDeposit().getPosition())<=displacedWorker.getVision()) {
     		//if a deposit is in worker's range	
     		displacedWorker.setCurrentRessourceLoad(displacedWorker.getRessourceLoad()+1);
-    		}
+    		displacedWorker.setIsWorking(true);
+    	}
     	
     	if(displacedWorker.getRessourceLoad()>=displacedWorker.getMaxCargoCapacity()) {
+    		displacedWorker.setIsWorking(false);
     		//if he has ressources, he comes back
     		displacedWorker.setDestination(displacedWorker.getCurrentHQ().getPosition());
     	}
@@ -173,6 +175,9 @@ public class UnitsManager implements UnitsInterface{
     }
     
     public void workerRessourceDeposit(Worker worker){
+    	/**
+    	 * the worker drops its resources when it reaches its HQ
+    	 */
     	Player player=manager.getPlayer();
     	if(manager.getDistance(worker.getPosition(),worker.getCurrentHQ().getPosition())<=worker.getVision()) {
     		//if he is the HQ's range

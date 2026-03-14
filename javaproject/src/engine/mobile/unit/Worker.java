@@ -24,6 +24,8 @@ public class Worker extends Unit{
 	private int maxCargoCapacity;
 	private RessourceDeposit currentDeposit;
 	private HQ workerHQ;
+	private boolean isWorking;
+	
 	
 	public Worker(Block position) {
 		super(position);
@@ -58,5 +60,11 @@ public class Worker extends Unit{
 	}
 	public void setRessourceType(String type) {
 		this.ressourceType=type;
+	}
+	public boolean getIsWorking() {
+		return isWorking;
+	}
+	public void setIsWorking(boolean isWorking) {
+		this.isWorking = isWorking;
 	}
 }
