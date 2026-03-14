@@ -1,5 +1,7 @@
 package engine.mobile;
 
+import java.util.ArrayList;
+
 /**
  * Class representing a player in the game.
  * It stores the player's profile (pseudo, faction),resources and population
@@ -18,6 +20,7 @@ public class Player {
 	private int ambroisieStock;
 	private int currentPopulation;
 	private int maxPopulation;
+	private ArrayList<String> technologies;
 	
 	/**
 	 * Constructor for Player.
@@ -34,6 +37,7 @@ public class Player {
 		this.ambroisieStock=0;
 		this.currentPopulation=0;
 		this.maxPopulation=100;
+		this.technologies= new ArrayList<String>();
 	}
 	
 	/**
@@ -132,5 +136,16 @@ public class Player {
 	 */
 	public void setMaxPopulation(int maxPopulation) {
 		this.maxPopulation = maxPopulation;
+	}
+
+	public ArrayList<String> getTechnologies() {
+		return technologies;
+	}
+
+	public void setTechnologies(ArrayList<String> technologies) {
+		this.technologies = technologies;
+	}
+	public void addTechnologieUnlocked(String technologieUnlocked) {
+		this.technologies.add(technologieUnlocked);
 	}
 }

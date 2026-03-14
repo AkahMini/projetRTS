@@ -224,7 +224,7 @@ public class MainGUI extends JFrame implements Runnable {
 			int blockSize = GameConfiguration.BLOCK_SIZE;
 			int line = e.getY() / blockSize;
 			int column = e.getX() / blockSize;
-			
+
 			System.out.println("x :"+e.getX()+" y :"+e.getY()+" - Block line : "+line+" Block column : "+column);
 
 			//we check if the player clicked in the button zone for x and y
@@ -239,11 +239,9 @@ public class MainGUI extends JFrame implements Runnable {
 			if(typeSelection!=null && typeSelection.equals("build")) {
 				manager.buildBuilding(position,manager.getSelectedTier(),manager.getPlayer().getFactionName());
 				typeSelection=null;
-				manager.setTypeSelection(null);
 			}else if(typeSelection!=null && typeSelection.equals("PopulationBuilding")) {
 				manager.buildBuilding(position,manager.getSelectedTier(),manager.getPlayer().getFactionName());
 				typeSelection=null;
-				manager.setTypeSelection(null);
 			}
 			else if(typeSelection!=null && typeSelection.equals("unitAllie")) {
 				manager.spawnUnit(position);
@@ -253,29 +251,11 @@ public class MainGUI extends JFrame implements Runnable {
 				manager.spawnUnitEnnemy(position);
 				typeSelection=null;
 			}
-			
+
 			if(manager.ifBlockInGamePanel(position)) {
 				manager.unitMoveOrder(position);
 			}
 		}
-
-		/*
-
-	        //button need to replace
-	        	for (Building building : manager.getBuildings()) {
-	        		int lineBuilding=building.getPosition().getLine();
-	        		int columnBuilding=building.getPosition().getColumn();
-		             if((line==lineBuilding || line==lineBuilding+1) && (column==columnBuilding || column==columnBuilding+1)) {
-		            	 if(building instanceof HQ && !building.getIsUnderConstruction()) {
-		            		 UnitProducer hqWorkerProducer = (UnitProducer) ((HQ) building).getWorkerProducer();
-		            		 manager.addQueue(hqWorkerProducer, building.getPosition(), "WORKER"); 
-		            	}else if(building instanceof UnitProducer && !building.getIsUnderConstruction()) {
-		            		manager.addQueue((UnitProducer) building, building.getPosition(), "INFANTRY");
-		            	}
-		             }
-		         }
-	        }
-		 */   
 
 		@Override
 		public void mousePressed(MouseEvent e) {
@@ -294,7 +274,7 @@ public class MainGUI extends JFrame implements Runnable {
 			manager.getUnitsInSelectedArea();
 			manager.getBuildingsInSelectedArea();
 			//System.out.println(manager.getUnits().size());
-			
+
 		}
 
 		@Override
@@ -306,8 +286,8 @@ public class MainGUI extends JFrame implements Runnable {
 		public void mouseExited(MouseEvent e) {
 
 		}
-		
-		
+
+
 	}
 
 

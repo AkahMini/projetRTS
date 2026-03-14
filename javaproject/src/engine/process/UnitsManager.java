@@ -421,6 +421,7 @@ public class UnitsManager implements UnitsInterface{
     			break;
     		}else if(currentTier==1) {
     			manager.selectBuilding("HQ");
+    			System.out.println("selectetd");
     			break;
     		}
     		break;

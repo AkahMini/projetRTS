@@ -443,6 +443,13 @@ public class PaintStrategy {
 			if(build.getBuildingName().equals("Temple de Zeus")) {
 				graphics.drawImage(GameUtility.readImage("gameData/images/miner.png"),1020,560,60,60,null);
 			}
+			if(build.getBuildingName().equals("École des Pythagoricien")) {
+				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1020,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1100,560,60,60,null);
+			}
+			if(build.getBuildingName().equals("Camp Olympique")) {
+				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1020,560,60,60,null);
+			}
 			//template for visual use only
 			//graphics.drawRect(1020, 560, 240, 140);
 			//Draw img max 6 from the entry point
