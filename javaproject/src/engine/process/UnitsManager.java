@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import config.DefaultGameSettings;
 import config.GameConfiguration;
 import engine.map.Block;
+import engine.map.Map;
 import engine.mobile.MobileElement;
 import engine.mobile.Player;
 import engine.mobile.RessourceDeposit;
@@ -341,12 +342,30 @@ public class UnitsManager implements UnitsInterface{
         //System.out.println("Number of units in selected Area:" + manager.getUnitsInSelectedArea().size());
     }
     
-    public void unitMoveOrder(Block destination){
+    public void unitMoveOrder(Block destination, Map map){
         int nbUnits = manager.getUnitsInSelectedArea().size();
+        ArrayList<Block> groupDestination = new ArrayList<Block>();
+        int sideOfGroupDestination=0; //the lenght of the square allocated for the troups
+        while((sideOfGroupDestination*sideOfGroupDestination)<nbUnits) {
+        	//We take the square root of the smallest perfect square n such as n>=nbUnits
+        	sideOfGroupDestination++;
+        }
+        
+        //Allocating the area for the moved army
+        for(int i=0;i<sideOfGroupDestination;i++) {
+        	for(int j=0; j<sideOfGroupDestination;j++) {
+        		int line = destination.getLine();
+        		int colomn = destination.getColumn();
+        		groupDestination.add(map.getBlock(line+i,colomn+j));
+        	}
+        }
+        
+        int movedUnitCounter=0;
         for(int unitIndex = 0; unitIndex < nbUnits; unitIndex++) {
             Unit unit = manager.getUnitsInSelectedArea().get(unitIndex);
             if(unit.getUnitFaction().equals(this.gameSettings.getPlayerFaction())) {
-            	unit.setDestination(destination);
+            	unit.setDestination(groupDestination.get(movedUnitCounter));
+            	movedUnitCounter+=1;
             	unit.setTarget(null);
                 unit.setIsInCombat(false);
             }

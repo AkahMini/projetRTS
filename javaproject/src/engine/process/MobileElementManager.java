@@ -338,7 +338,7 @@ public class MobileElementManager implements MobileInterface {
 
     @Override
     public void unitMoveOrder(Block destination) {
-        unitManager.unitMoveOrder(destination);
+        unitManager.unitMoveOrder(destination,map);
     }
 
     @Override

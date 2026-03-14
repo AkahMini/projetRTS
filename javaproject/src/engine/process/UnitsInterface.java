@@ -1,6 +1,7 @@
 package engine.process;
 
 import engine.map.Block;
+import engine.map.Map;
 import engine.mobile.Player;
 import engine.mobile.MobileElement;
 import engine.mobile.unit.Unit;
@@ -37,7 +38,7 @@ public interface UnitsInterface {
 	void damageCalculation(Unit unit);
 	
 	void unitsInSelectedArea();
-	void unitMoveOrder(Block destination);
+	void unitMoveOrder(Block destination, Map map);
 	void moveAllUnits();
 	
 	void workerConstructionction(String button, Player p, Worker worker);
