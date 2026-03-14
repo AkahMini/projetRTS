@@ -407,12 +407,20 @@ public class UnitsManager implements UnitsInterface{
     	}
     }
     
+    //manage the button part
+    //lot of if ik :/
     public void workerConstructionction(String button, Player p, Worker worker) {
     	int currentTier = manager.getSelectedTier();
+    	String currentFaction=p.getFactionName();
+    	manager.setTypeSelection("build");
+    	
     	switch (button) {
     	case "button1":
     		if(currentTier==0) {
     			manager.setSelectedTier(1);
+    			break;
+    		}else if(currentTier==1) {
+    			manager.selectBuilding("HQ");
     			break;
     		}
     		break;
@@ -420,11 +428,17 @@ public class UnitsManager implements UnitsInterface{
     		if(currentTier==0) {
     			manager.setSelectedTier(2);
     			break;
+    		}else if(currentTier==1) {
+    			manager.selectBuilding("Producer");
+    			break;
     		}
     		break;
     	case "button3":
     		if(currentTier==0) {
     			manager.setSelectedTier(3);
+    			break;
+    		}else if(currentTier==1) {
+    			manager.selectBuilding("PopulationBuilding");
     			break;
     		}
     		break;

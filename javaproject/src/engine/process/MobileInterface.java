@@ -64,5 +64,6 @@ public interface MobileInterface {
 	
 	int getSelectedTier();
 	void setSelectedTier(int selectedTier);
-	
+	String getTypeSelection();
+	void setTypeSelection(String typeSelection);
 }

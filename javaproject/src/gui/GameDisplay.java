@@ -80,6 +80,9 @@ public class GameDisplay extends JPanel {
 		if(manager.getSelectedBuild()!=null||manager.getSelectedWorker()!=null) {
 			paintStrategy.paintSelectedInfo(manager, g);
 		}
+		if(manager.getTypeSelection()!=null) {
+			paintStrategy.paintGrid(map, g);
+		}
 		
 		
 

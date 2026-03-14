@@ -55,9 +55,6 @@ public class PaintStrategy {
 		int blockSize = GameConfiguration.BLOCK_SIZE;
 		Block[][] blocks = map.getBlocks();
 
-
-
-
 		//used for drawing the game grid HARD IMPLEMENTED, NOT RELATIVE
 		for (int lineIndex = 0; lineIndex < map.getLineCount(); lineIndex++) {
 			for (int columnIndex = 0; columnIndex < map.getColumnCount(); columnIndex++) {
@@ -404,8 +401,7 @@ public class PaintStrategy {
 				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1020,560,60,60,null);
 				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1100,560,60,60,null);
 				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1180,560,60,60,null);
-				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1020,640,60,60,null);
-				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1100,640,60,60,null);
+
 				graphics.drawImage(GameUtility.readImage("gameData/images/cancel.png"),1180,640,60,60,null);
 			}else if(currentTier==2) {
 				graphics.drawImage(GameUtility.readImage("gameData/images/emptyButton.png"),1020,560,60,60,null);
@@ -455,6 +451,17 @@ public class PaintStrategy {
 		}
 	}
 
+	public void paintGrid(Map map, Graphics graphics) {
+		//dont work and cant figure it out....
+		/*
+		int blockSize = GameConfiguration.BLOCK_SIZE;
+		for (int columnIndex = 0; columnIndex < map.getColumnCount()-4; columnIndex+=blockSize) {
+			graphics.setColor(Color.BLACK);
+			graphics.drawLine(columnIndex, 70, columnIndex,1280);
+		}
+		*/
+	}
+	
 	public void paintAttack(Unit unit, Graphics graphics) {
 		MobileElement enemy = unit.getTarget();
 		int blockSize = GameConfiguration.BLOCK_SIZE;

@@ -46,6 +46,7 @@ public class MobileElementManager implements MobileInterface {
     private Building selectedBuild =null;
     private Worker selectedWorker =null;
     private int selectedTier =0;//for worker button
+    private String typeSelection =null; //I swear its the last attribute I add in this class
     
     private ArrayList<Unit> units = new ArrayList<Unit>();
     
@@ -412,5 +413,13 @@ public class MobileElementManager implements MobileInterface {
 
 	public void setSelectedTier(int selectedTier) {
 		this.selectedTier = selectedTier;
+	}
+
+	public String getTypeSelection() {
+		return typeSelection;
+	}
+
+	public void setTypeSelection(String typeSelection) {
+		this.typeSelection = typeSelection;
 	}
 }

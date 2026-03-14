@@ -44,8 +44,6 @@ public class MainGUI extends JFrame implements Runnable {
 
 	private final static Dimension preferredSize = new Dimension(GameConfiguration.WINDOW_WIDTH, GameConfiguration.WINDOW_HEIGHT);
 
-	private String typeSelection;
-
 	private MobileInterface manager;
 
 	private GameDisplay dashboard;
@@ -84,7 +82,7 @@ public class MainGUI extends JFrame implements Runnable {
 		testButton.addActionListener(new ActionListener() { //Temporary button to test some features
 			public void actionPerformed(ActionEvent e) {
 				manager.selectBuilding("Producer");
-				typeSelection="build";
+				manager.setTypeSelection("build");
 			}
 		});
 		javax.swing.JButton testButton2 = new javax.swing.JButton("Test Tower Defense");
@@ -92,7 +90,7 @@ public class MainGUI extends JFrame implements Runnable {
 		testButton2.addActionListener(new ActionListener() { //Temporary button to test some features
 			public void actionPerformed(ActionEvent e) {
 				manager.selectBuilding("DefenseTower");
-				typeSelection="build";
+				manager.setTypeSelection("build");
 			}
 		});
 
@@ -101,7 +99,7 @@ public class MainGUI extends JFrame implements Runnable {
 		testButton3.addActionListener(new ActionListener() { //Temporary button to test some features
 			public void actionPerformed(ActionEvent e) {
 				manager.selectBuilding("PopulationBuilding");
-				typeSelection="PopulationBuilding";
+				manager.setTypeSelection("PopulationBuilding");
 			}
 		});
 		javax.swing.JButton testButton4 = new javax.swing.JButton("Test Research Building ");
@@ -109,7 +107,7 @@ public class MainGUI extends JFrame implements Runnable {
 		testButton4.addActionListener(new ActionListener() { //Temporary button to test some features
 			public void actionPerformed(ActionEvent e) {
 				manager.selectBuilding("ResearchBuilding");
-				typeSelection="build";
+				manager.setTypeSelection("build");
 			}
 		});
 
@@ -118,7 +116,7 @@ public class MainGUI extends JFrame implements Runnable {
 		testButton5.addActionListener(new ActionListener() { //Temporary button to test some features
 			public void actionPerformed(ActionEvent e) {
 				manager.selectUnit("INFANTRY");
-				typeSelection="unitAllie";
+				manager.setTypeSelection("unitAllie");
 			}
 		});
 
@@ -127,7 +125,7 @@ public class MainGUI extends JFrame implements Runnable {
 		testButton6.addActionListener(new ActionListener() { //Temporary button to test some features
 			public void actionPerformed(ActionEvent e) {
 				manager.selectUnit("INFANTRY");
-				typeSelection="unitEnnemy";
+				manager.setTypeSelection("unitEnnemy");
 			}
 		});
 
@@ -136,7 +134,7 @@ public class MainGUI extends JFrame implements Runnable {
 		testButton7.addActionListener(new ActionListener() { //Temporary button to test some features
 			public void actionPerformed(ActionEvent e) {
 				manager.selectUnit("ARTILLERY");
-				typeSelection="unitEnnemy";
+				manager.setTypeSelection("unitEnnemy");
 			}
 		});
 
@@ -145,7 +143,7 @@ public class MainGUI extends JFrame implements Runnable {
 		testButton8.addActionListener(new ActionListener() { //Temporary button to test some features
 			public void actionPerformed(ActionEvent e) {
 				manager.selectUnit("CAVALRY");
-				typeSelection="unitAllie";
+				manager.setTypeSelection("unitAllie");
 			}
 		});
 
@@ -236,13 +234,16 @@ public class MainGUI extends JFrame implements Runnable {
 				manager.areaButtonPressed(e.getX(),e.getY());
 			}
 
-			Block position = map.getBlock(line, column);	             
+			Block position = map.getBlock(line, column);
+			String typeSelection =manager.getTypeSelection();
 			if(typeSelection!=null && typeSelection.equals("build")) {
-				manager.buildBuilding(position,2,"Zeus");
+				manager.buildBuilding(position,manager.getSelectedTier(),manager.getPlayer().getFactionName());
 				typeSelection=null;
+				manager.setTypeSelection(null);
 			}else if(typeSelection!=null && typeSelection.equals("PopulationBuilding")) {
-				manager.buildBuilding(position,1,"Zeus");
+				manager.buildBuilding(position,manager.getSelectedTier(),manager.getPlayer().getFactionName());
 				typeSelection=null;
+				manager.setTypeSelection(null);
 			}
 			else if(typeSelection!=null && typeSelection.equals("unitAllie")) {
 				manager.spawnUnit(position);
