@@ -229,7 +229,13 @@ public class PaintStrategy {
 			graphics.setColor(Color.YELLOW);
 		}
 		if(unit instanceof Artillery) {
-			graphics.setColor(Color.RED.darker());
+			if(unit.getUnitFaction().equalsIgnoreCase("Zeus")) {
+				graphics.setColor(Color.GREEN.darker());
+			}if(unit.getUnitFaction().equalsIgnoreCase("Hades")) {
+				graphics.setColor(Color.RED.darker());
+			}if(unit.getUnitFaction().equalsIgnoreCase("Poseidon")) {
+				graphics.setColor(Color.MAGENTA.darker());
+			}
 		}
 		if(unit instanceof Cavalry) {
 			Cavalry cav = (Cavalry) unit;
