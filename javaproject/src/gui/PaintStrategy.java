@@ -127,36 +127,35 @@ public class PaintStrategy {
 		int y = position.getLine();
 		int x = position.getColumn();
 		if(building.getIsUnderConstruction()) {
-			graphics.setColor(Color.ORANGE); // Orange for building under Construction
 			if (building instanceof PopulationBuilding || building instanceof DefenseTower) {
-				buildingSize= buildingSize/2;   
+				graphics.drawImage(GameUtility.readImage("gameData/images/hourglassVariation.png"),x * blockSize,y * blockSize,10,10,null);
+			}else {
+				graphics.drawImage(GameUtility.readImage("gameData/images/hourglass.png"),x * blockSize,y * blockSize,20,20,null);
 			}
 		}
 		else if(building instanceof HQ) {
-			graphics.setColor(Color.MAGENTA);//magenta for HQ
+			graphics.drawImage(GameUtility.readImage("gameData/images/HQ"+building.getFaction()+".png"),x * blockSize,y * blockSize,20,20,null);
 		}
 		else if (building instanceof UnitProducer) {
-			graphics.setColor(Color.BLUE); // blue for unitProdcing Building
+			graphics.drawImage(GameUtility.readImage("gameData/images/Camp"+building.getTierLevel()+building.getFaction()+".png"),x * blockSize,y * blockSize,20,20,null);
 		}
 		else if (building instanceof DefenseTower) {
-			graphics.setColor(Color.MAGENTA.darker()); // Dark magenta for DefenseTower
-			buildingSize= buildingSize/2;   
+			graphics.drawImage(GameUtility.readImage("gameData/images/Tower"+building.getTierLevel()+building.getFaction()+".png"),x * blockSize,y * blockSize,10,10,null);  
 		}
 		else if (building instanceof PopulationBuilding) {
-			graphics.setColor(Color.YELLOW.darker()); // Dark yellow for PopulationBuilding
-			buildingSize= buildingSize/2;   
+			graphics.drawImage(GameUtility.readImage("gameData/images/Pop"+building.getFaction()+".png"),x * blockSize,y * blockSize,10,10,null);
 		}
 		else if (building instanceof ResearchBuilding) {
-			graphics.setColor(Color.GRAY); //  for DefenseTower
+			graphics.drawImage(GameUtility.readImage("gameData/images/Research"+building.getFaction()+".png"),x * blockSize,y * blockSize,20,20,null);
 		}
 
-		graphics.fillRect(x * blockSize, y * blockSize, buildingSize, buildingSize);
+		//graphics.fillRect(x * blockSize, y * blockSize, buildingSize, buildingSize);
 
 		graphics.setColor(Color.BLACK);
-		graphics.drawRect(x * blockSize, y * blockSize, buildingSize, buildingSize);
+		//graphics.drawRect(x * blockSize, y * blockSize, buildingSize, buildingSize);
 		if (building instanceof UnitProducer && !building.getIsUnderConstruction()) {
 			int queueSize = ((UnitProducer) building).getProductionQueue().size();
-			graphics.setColor(Color.WHITE);
+			graphics.setColor(Color.MAGENTA);
 			int dotSize = buildingSize / 5; 
 			int gap = 2;
 
@@ -165,18 +164,18 @@ public class PaintStrategy {
 
 				int drawY = (y * blockSize) + (buildingSize - dotSize - 2);
 
-				graphics.setColor(Color.WHITE);
+				graphics.setColor(Color.MAGENTA);
 				graphics.fillRect(drawX, drawY, dotSize, dotSize);
 
 				graphics.setColor(Color.BLACK);
 				graphics.drawRect(drawX, drawY, dotSize, dotSize);
-				graphics.setColor(Color.WHITE);
+				graphics.setColor(Color.MAGENTA);
 			}
 		}
 
 		if (building instanceof HQ && !building.getIsUnderConstruction()) {
 			int queueSize = ((HQ) building).getWorkerProducer().getProductionQueue().size();
-			graphics.setColor(Color.WHITE);
+			graphics.setColor(Color.MAGENTA);
 			int dotSize = buildingSize / 5; 
 			int gap = 2;
 
@@ -185,12 +184,12 @@ public class PaintStrategy {
 
 				int drawY = (y * blockSize) + (buildingSize - dotSize - 2);
 
-				graphics.setColor(Color.WHITE);
+				graphics.setColor(Color.MAGENTA);
 				graphics.fillRect(drawX, drawY, dotSize, dotSize);
 
 				graphics.setColor(Color.BLACK);
 				graphics.drawRect(drawX, drawY, dotSize, dotSize);
-				graphics.setColor(Color.WHITE);
+				graphics.setColor(Color.MAGENTA);
 			}
 		}
 
@@ -202,8 +201,11 @@ public class PaintStrategy {
 		int buildingSize = blockSize *2;
 		int y = position.getLine();
 		int x = position.getColumn();
-		graphics.setColor(new Color(218, 165, 32));
-		graphics.fillRect(x * blockSize, y * blockSize, buildingSize, buildingSize);
+		if(deposit.getType().equals("FAITH")) {
+			graphics.drawImage(GameUtility.readImage("gameData/images/faith.png"),x * blockSize,y * blockSize,20,20,null);
+		}else {
+			graphics.drawImage(GameUtility.readImage("gameData/images/ambroisie.png"),x * blockSize,y * blockSize,20,20,null);
+		}
 	}
 
 	public void paint(Unit unit, Graphics graphics) {
