@@ -2,6 +2,8 @@ package engine.mobile;
 
 import java.util.ArrayList;
 
+import engine.mobile.building.Building;
+
 /**
  * Class representing a player in the game.
  * It stores the player's profile (pseudo, faction),resources and population
@@ -21,7 +23,10 @@ public class Player {
 	private int currentPopulation;
 	private int maxPopulation;
 	private ArrayList<String> technologies;
+	private ArrayList<String> builtBuilding; //The id of the built buildings
 	
+	
+
 	/**
 	 * Constructor for Player.
 	 * Initializes the player with a pseudo and a faction.
@@ -38,6 +43,7 @@ public class Player {
 		this.currentPopulation=0;
 		this.maxPopulation=100;
 		this.technologies= new ArrayList<String>();
+		this.builtBuilding = new ArrayList<String>();
 	}
 	
 	/**
@@ -147,5 +153,12 @@ public class Player {
 	}
 	public void addTechnologieUnlocked(String technologieUnlocked) {
 		this.technologies.add(technologieUnlocked);
+	}
+	public ArrayList<String> getBuiltBuilding() {
+		return builtBuilding;
+	}
+
+	public void setBuiltBuilding(ArrayList<String> buildtBuilding) {
+		this.builtBuilding = buildtBuilding;
 	}
 }

@@ -237,10 +237,10 @@ public class MainGUI extends JFrame implements Runnable {
 			Block position = map.getBlock(line, column);
 			String typeSelection =manager.getTypeSelection();
 			if(typeSelection!=null && typeSelection.equals("build")) {
-				manager.buildBuilding(position,manager.getSelectedTier(),manager.getPlayer().getFactionName());
+				manager.buildBuilding(position,manager.getSelectedTier(),manager.getPlayer().getFactionName(),manager.getPlayer());
 				typeSelection=null;
 			}else if(typeSelection!=null && typeSelection.equals("PopulationBuilding")) {
-				manager.buildBuilding(position,manager.getSelectedTier(),manager.getPlayer().getFactionName());
+				manager.buildBuilding(position,manager.getSelectedTier(),manager.getPlayer().getFactionName(),manager.getPlayer());
 				typeSelection=null;
 			}
 			else if(typeSelection!=null && typeSelection.equals("unitAllie")) {

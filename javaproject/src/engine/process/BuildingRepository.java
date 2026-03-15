@@ -38,7 +38,12 @@ public class BuildingRepository {
     	stats.put(key, data);
     }
 
-    public BuildingStats getStats(String key) {
+    @Override
+	public String toString() {
+		return "BuildingRepository [stats=" + stats + "]";
+	}
+
+	public BuildingStats getStats(String key) {
         return stats.get(key);
     }
 }

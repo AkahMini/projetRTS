@@ -54,7 +54,7 @@ public interface MobileInterface {
 	Building getSelectedBuild();
 	void setSelectedBuild(Building selectedBuild);
 	void selectBuilding(String string);
-	void buildBuilding(Block position,int tier,String faction);
+	void buildBuilding(Block position,int tier,String faction,Player p);
 	void addQueue(UnitProducer building, Block position, String unitType, Player p);
 	
 	void spawnUnit(Block spawnBlock);

@@ -41,7 +41,7 @@ public class BuildingManager implements BuildingInterface{
 		this.selectedBuilding = type;
 	}
 
-	public void buildBuilding(Block position,int tier,String faction) {
+	public void buildBuilding(Block position,int tier,String faction, Player p) {
 		if (selectedBuilding == null) {
 			return;
 		}
@@ -51,7 +51,11 @@ public class BuildingManager implements BuildingInterface{
 			if (newBuilding != null) {
 				manager.addInBuildings(newBuilding);
 			}
+			if(p.getBuiltBuilding().contains(selectedBuilding)==false) {
+				p.getBuiltBuilding().add(selectedBuilding);
+			}
 			selectedBuilding = null;
+			
 		}
 	}
 

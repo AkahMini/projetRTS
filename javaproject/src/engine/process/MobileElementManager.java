@@ -90,6 +90,7 @@ public class MobileElementManager implements MobileInterface {
 		 * Every slow process that don't need to be check every tick, for performance purpose
 		 */
 		//chronometer update
+		nextTierCheck(player);
 		if(timetweaker.getValue() == 100) {
             chronometer.increment();
             //Units manager
@@ -131,6 +132,22 @@ public class MobileElementManager implements MobileInterface {
         }
 	}
     
+	private void nextTierCheck(Player player){
+		/*
+		 * Next tier is reach when every building of the lower tiers are built
+		 */
+		int nbOfBuiltBuildings=player.getBuiltBuilding().size();
+		if(player.getCurrentTier()==1) {
+			if(nbOfBuiltBuildings==2) { //there are 2 tiers 1 buildings for all factions, not counting HQ
+				player.setCurrentTier(2);
+			}
+		}
+		else if(player.getCurrentTier()==5) { //there are three tiers 2 buildings and two tiers 1 buildings for all factions
+			player.setCurrentTier(3);
+		}
+		
+		
+	}
 	private void unitCombatSystem() {
 		for(int i=0;i<units.size();i++) {
         	Unit unit=units.get(i);
@@ -333,8 +350,8 @@ public class MobileElementManager implements MobileInterface {
     }
 
     @Override
-    public void buildBuilding(Block position,int tier,String faction) {
-        buildingManager.buildBuilding(position, tier, faction);
+    public void buildBuilding(Block position,int tier,String faction, Player p) {
+        buildingManager.buildBuilding(position, tier, faction, player);
     }
 
     @Override
