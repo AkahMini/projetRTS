@@ -168,7 +168,7 @@ public class BuildingManager implements BuildingInterface{
 			}if (manager.getSelectedBuild().getBuildingName().equals("Camp Olympique")) {
 				if(!manager.getSelectedBuild().getIsUnderConstruction()) {
 					UnitProducer unitProducer = (UnitProducer) manager.getSelectedBuild();
-					manager.addQueue(unitProducer, manager.getSelectedBuild().getPosition(), "INFANTRY",p);
+					manager.addQueue(unitProducer, manager.getSelectedBuild().getPosition(), "ARTILLERY",p);
 				}
 				break;
 			}

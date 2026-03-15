@@ -192,7 +192,7 @@ public class UnitsManager implements UnitsInterface{
                 }
             }
             for (Building b : manager.getBuildings()) {
-                if (!b.getFaction().equals(unit.getUnitFaction())) {
+                if (!b.getFaction().equalsIgnoreCase(unit.getUnitFaction())) {
                     double dist = manager.getDistance(unit.getPosition(), b.getPosition());
                     
                     if (dist <= unit.getVision() && dist < minDistance) {
