@@ -42,6 +42,7 @@ public interface MobileInterface {
     ArrayList<Building> getBuildings();
     ArrayList<Block> getSelectedArea();
     ArrayList<Unit> getUnitsInSelectedArea();
+    void addUnitsInSelectedArea(Unit unit);
     ArrayList<Building> getBuildingsInSelectedArea();
 	CyclicCounter getHour();
 	CyclicCounter getMinute();

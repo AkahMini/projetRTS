@@ -239,6 +239,7 @@ public class MainGUI extends JFrame implements Runnable {
 
 			//System.out.println("x :"+e.getX()+" y :"+e.getY()+" - Block line : "+line+" Block column : "+column);
 
+			
 			//we check if the player clicked in the button zone for x and y
 			boolean xZone = (e.getX()>=1020 && e.getX()<=1240);
 			boolean yZone = (e.getY()>=560 && e.getY()<=700);
@@ -248,11 +249,21 @@ public class MainGUI extends JFrame implements Runnable {
 
 			Block position = map.getBlock(line, column);
 			String typeSelection =manager.getTypeSelection();
-			if(typeSelection!=null && typeSelection.equals("build")) {
+			if(typeSelection!=null && typeSelection.equals("build") && manager.ifBlockInGamePanel(position)) {
 				manager.buildBuilding(position,manager.getSelectedTier(),manager.getPlayer().getFactionName(),manager.getPlayer());
+				if(manager.getSelectedWorker()!=null) {
+					manager.addUnitsInSelectedArea(manager.getSelectedWorker());
+					manager.unitMoveOrder(position);
+					manager.setSelectedWorker(null);
+				}
 				typeSelection=null;
-			}else if(typeSelection!=null && typeSelection.equals("PopulationBuilding")) {
+			}else if(typeSelection!=null && typeSelection.equals("PopulationBuilding")  && manager.ifBlockInGamePanel(position)) {
 				manager.buildBuilding(position,manager.getSelectedTier(),manager.getPlayer().getFactionName(),manager.getPlayer());
+				if(manager.getSelectedWorker()!=null) {
+					manager.addUnitsInSelectedArea(manager.getSelectedWorker());
+					manager.unitMoveOrder(position);
+					manager.setSelectedWorker(null);
+				}
 				typeSelection=null;
 			}
 			else if(typeSelection!=null && typeSelection.equals("unitAllie")) {

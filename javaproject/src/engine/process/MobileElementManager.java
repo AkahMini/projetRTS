@@ -439,4 +439,8 @@ public class MobileElementManager implements MobileInterface {
 	public void setTypeSelection(String typeSelection) {
 		this.typeSelection = typeSelection;
 	}
+	
+	public void addUnitsInSelectedArea(Unit unit) {
+		this.unitsInSelectedArea.add(unit);
+	}
 }
