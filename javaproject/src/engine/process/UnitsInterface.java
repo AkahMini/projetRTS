@@ -24,8 +24,7 @@ import engine.mobile.unit.Worker;
 public interface UnitsInterface {
 	void selectUnit(String type);
 	
-	void spawnUnit(Block position);
-	void spawnUnitEnnemy(Block position);
+	void spawnUnit(Block position, String faction);
 	
 	void unitMovement(Unit displacedUnit);
 	void workerMouvement(Worker displacedWorker);

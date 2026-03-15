@@ -115,47 +115,39 @@ public class MainGUI extends JFrame implements Runnable {
 			}
 		});
 
-		javax.swing.JButton testButton5 = new javax.swing.JButton(" Test Infantry");
-
-		testButton5.addActionListener(new ActionListener() { //Temporary button to test some features
+		javax.swing.JButton testButton5 = new javax.swing.JButton(" Test Infantry T1");
+		testButton5.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) {
-				manager.selectUnit("INFANTRY");
+				manager.selectUnit("ARTILLERY");
 				manager.setTypeSelection("unitAllie");
+				manager.setSelectedTier(1);
 			}
 		});
 
-		javax.swing.JButton testButton6 = new javax.swing.JButton("Test Unit ennemy");
-
-		testButton6.addActionListener(new ActionListener() { //Temporary button to test some features
+		javax.swing.JButton testButton6 = new javax.swing.JButton("Test Unit ennemy T1");
+		testButton6.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) {
 				manager.selectUnit("INFANTRY");
 				manager.setTypeSelection("unitEnnemy");
+				manager.setSelectedTier(1);
 			}
 		});
 
-		javax.swing.JButton testButton7 = new javax.swing.JButton("Test ranged Unit and attackspeed *2");
-
-		testButton7.addActionListener(new ActionListener() { //Temporary button to test some features
+		javax.swing.JButton testButton7 = new javax.swing.JButton("Test ranged Unit T2");
+		testButton7.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) {
 				manager.selectUnit("ARTILLERY");
 				manager.setTypeSelection("unitEnnemy");
+				manager.setSelectedTier(2);
 			}
 		});
 
-		javax.swing.JButton testButton8 = new javax.swing.JButton("Test cavalry");
-
-		testButton8.addActionListener(new ActionListener() { //Temporary button to test some features
+		javax.swing.JButton testButton8 = new javax.swing.JButton("Test cavalry T3");
+		testButton8.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) {
 				manager.selectUnit("CAVALRY");
 				manager.setTypeSelection("unitAllie");
-			}
-		});
-		javax.swing.JButton testButton9 = new javax.swing.JButton("Test amelioration attaque labo");
-
-		testButton9.addActionListener(new ActionListener() { //Temporary button to test some features
-			public void actionPerformed(ActionEvent e) {
-				manager.selectUnit("DISKTHROWER");
-				manager.setTypeSelection("unitAllie");
+				manager.setSelectedTier(3);
 			}
 		});
 
@@ -267,11 +259,11 @@ public class MainGUI extends JFrame implements Runnable {
 				typeSelection=null;
 			}
 			else if(typeSelection!=null && typeSelection.equals("unitAllie")) {
-				manager.spawnUnit(position);
+				manager.spawnUnit(position, manager.getPlayer().getFactionName());
 				typeSelection=null;
 
 			}else if(typeSelection!=null && typeSelection.equals("unitEnnemy")) {
-				manager.spawnUnitEnnemy(position);
+				manager.spawnUnit(position, "HADES"); // faction harcoded for testing
 				typeSelection=null;
 			}
 

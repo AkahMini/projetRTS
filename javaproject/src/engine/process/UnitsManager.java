@@ -48,44 +48,21 @@ public class UnitsManager implements UnitsInterface{
         System.out.println("Mode spawn : " + type);
     }
     
-    public void spawnUnit(Block position) {
+    public void spawnUnit(Block position, String faction) {
         if (selectedUnit == null) {
             return;
         }
-
-        String faction = "Zeus";
-        int tier = 1;
-        if (position.getLine() >=7 && position.getColumn() < GameConfiguration.COLUMN_COUNT-28) {
+        int tier = manager.getSelectedTier();
+        if (position.getLine() >= 7 && position.getColumn() < GameConfiguration.COLUMN_COUNT - 28) {
             Unit newUnit = UnitFactory.createUnit(selectedUnit, tier, faction, position);
     
             if (newUnit != null) {
-            	manager.addInUnits(newUnit);
-                System.out.println("Unité posée en : " + position.getLine() + ", " + position.getColumn());
+                manager.addInUnits(newUnit);
+                System.out.println("Unité posée en : " + position.getLine() + ", " + position.getColumn() + " | Faction: " + faction + " | Tier: " + tier);
             }
             selectedUnit = null;
         }
     }
-
-    
-    //this is temporary for testing
-    public void spawnUnitEnnemy(Block position) {
-        if (selectedUnit == null) {
-            return;
-        }
-
-        String faction = "Hades";
-        int tier = 1;
-        if (position.getLine() >=7 && position.getColumn() < GameConfiguration.COLUMN_COUNT-28) {
-            Unit newUnit = UnitFactory.createUnit(selectedUnit, tier, faction, position);
-    
-            if (newUnit != null) {
-            	manager.addInUnits(newUnit);
-                System.out.println("Unité ennemie posée en : " + position.getLine() + ", " + position.getColumn());
-            }
-            selectedUnit = null;
-        }
-    }
-    
     public void unitMovement(Unit displacedUnit) {
         if(displacedUnit.getDestination() != null) {
             Block position = displacedUnit.getPosition();
@@ -372,7 +349,7 @@ public class UnitsManager implements UnitsInterface{
         int movedUnitCounter=0;
         for(int unitIndex = 0; unitIndex < nbUnits; unitIndex++) {
             Unit unit = manager.getUnitsInSelectedArea().get(unitIndex);
-            if(unit.getUnitFaction().equals(this.gameSettings.getPlayerFaction())) {
+            if(unit.getUnitFaction().equalsIgnoreCase(this.gameSettings.getPlayerFaction())) {    
             	unit.setDestination(groupDestination.get(movedUnitCounter));
             	movedUnitCounter+=1;
             	unit.setTarget(null);

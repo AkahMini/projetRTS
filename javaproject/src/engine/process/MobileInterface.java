@@ -58,9 +58,7 @@ public interface MobileInterface {
 	void selectBuilding(String string);
 	void buildBuilding(Block position,int tier,String faction,Player p);
 	void addQueue(UnitProducer building, Block position, String unitType, Player p);
-	
-	void spawnUnit(Block spawnBlock);
-	void spawnUnitEnnemy(Block position);
+
 	void selectUnit(String string);
 	void unitMoveOrder(Block firstBlock);
 	
@@ -69,4 +67,5 @@ public interface MobileInterface {
 	String getTypeSelection();
 	void setTypeSelection(String typeSelection);
 	HashMap<String,ArrayList<Float>> getUnitStats();
+	void spawnUnit(Block position, String faction);
 }

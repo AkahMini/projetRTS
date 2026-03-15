@@ -14,18 +14,9 @@ import engine.map.Block;
 public class Artillery extends Unit{
 
 	private float blastRadius;
-	private float attackRange;
 	
 	public Artillery(Block position) {
 		super(position);
-	}
-
-	public float getAttackRange() {
-		return attackRange;
-	}
-
-	public void setAttackRange(float attackRange) {
-		this.attackRange = attackRange;
 	}
 
 	public float getBlastRadius() {

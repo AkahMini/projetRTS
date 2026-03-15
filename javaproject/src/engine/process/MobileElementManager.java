@@ -340,15 +340,10 @@ public class MobileElementManager implements MobileInterface {
     }
 
     @Override
-    public void spawnUnit(Block spawnBlock) {
-        unitManager.spawnUnit(spawnBlock);
+    public void spawnUnit(Block position, String faction) {
+        unitManager.spawnUnit(position, faction);
     }
     
-    @Override
-    public void spawnUnitEnnemy(Block position) {
-        unitManager.spawnUnitEnnemy(position);
-    }
-
     @Override
     public void buildBuilding(Block position,int tier,String faction, Player p) {
         buildingManager.buildBuilding(position, tier, faction, player);
