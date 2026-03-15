@@ -221,6 +221,7 @@ public class UnitFactory {
 		case WORKER_UNIT :
 			Worker worker= new Worker(position);
 			worker.setIsWorking(false);
+			worker.setMaxCargoCapacity(100);
 			unit = worker;
             break;
 		default:
