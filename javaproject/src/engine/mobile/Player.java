@@ -2,6 +2,7 @@ package engine.mobile;
 
 import java.util.ArrayList;
 
+import config.DefaultGameSettings;
 import engine.mobile.building.Building;
 
 /**
@@ -41,7 +42,7 @@ public class Player {
 		this.faithStock=0;
 		this.ambroisieStock=0;
 		this.currentPopulation=0;
-		this.maxPopulation=100;
+		this.maxPopulation=DefaultGameSettings.DEFAULT_POPULATION;
 		this.technologies= new ArrayList<String>();
 		this.builtBuilding = new ArrayList<String>();
 	}

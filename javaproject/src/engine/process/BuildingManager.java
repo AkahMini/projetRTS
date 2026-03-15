@@ -113,7 +113,7 @@ public class BuildingManager implements BuildingInterface{
 			if (building.getTierLevel() >= 1) {
 				if("Zeus".equals(building.getFaction())) {
 					Unit newUnit = UnitFactory.createUnit(unitType, 1, "Zeus", position);
-					if(p.getFactionName().equals(DefaultGameSettings.defaultPlayerFaction)) {
+					if(p.getFactionName().equals(DefaultGameSettings.DEFAULT_PLAYER_FACTION)) {
 						p.setCurrentPopulation(p.getCurrentPopulation()+newUnit.getPopCost());
 					}
 					((UnitProducer) building).getProductionQueue().add(newUnit);

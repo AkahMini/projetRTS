@@ -9,11 +9,11 @@ public class DefaultGameSettings {
     public static final String HADES = "Hades";
     public static final String POSEIDON = "Poseidon";
     
-    public static final String defaultPlayerFaction = ZEUS;
+    public static final String DEFAULT_PLAYER_FACTION = ZEUS;
+    public static final int DEFAULT_POPULATION = 20;
     
     
-    
-    private String playerFaction = defaultPlayerFaction;
+    private String playerFaction = DEFAULT_PLAYER_FACTION;
     
     public String getPlayerFaction() {
     	return this.playerFaction;

@@ -113,6 +113,8 @@ public class PaintStrategy {
 		graphics.drawString("Ambroisie : "+player.getAmbroisieStock(), windowWidth/2,windowHeight/20);
 		graphics.setColor(new Color(0,0,153));
 		graphics.drawString("Foi : "+player.getFaithStock(), 2*windowWidth/3,windowHeight/20);
+		graphics.setColor(new Color(0,0,0));
+		graphics.drawString("Tier "+player.getCurrentTier(), 7*windowWidth/9, windowHeight/20);
 	}
 
 
@@ -352,6 +354,8 @@ public class PaintStrategy {
 		}
 	}
 
+	
+	
 	//cant be cut in 2 method because of the call order conflict
 	//only the info+button of the first selected building is displayed
 	public void paintSelectedInfo(MobileInterface manager, Graphics graphics) {
