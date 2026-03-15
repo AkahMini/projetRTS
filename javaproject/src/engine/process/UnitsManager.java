@@ -1,6 +1,7 @@
 package engine.process;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import config.DefaultGameSettings;
 import config.GameConfiguration;
@@ -14,6 +15,7 @@ import engine.mobile.building.UnitProducer;
 import engine.mobile.building.Building;
 import engine.mobile.unit.Cavalry;
 import engine.mobile.unit.Infantry;
+import engine.mobile.unit.StatsLoader;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
 
@@ -32,10 +34,12 @@ public class UnitsManager implements UnitsInterface{
     private String selectedUnit = null;
     private MobileInterface manager;
     private DefaultGameSettings gameSettings;
+    private HashMap<String, ArrayList<Float>> unitStats;
 	
    	public UnitsManager(MobileInterface manager, DefaultGameSettings gameSettings) {
    		this.manager = manager;
    		this.gameSettings=gameSettings;
+   		this.unitStats = StatsLoader.loadUnitStats();
    	}
    	
 	

@@ -1,6 +1,7 @@
 package engine.process;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import engine.map.Block;
 import engine.map.Map;
@@ -66,4 +67,5 @@ public interface MobileInterface {
 	void setSelectedTier(int selectedTier);
 	String getTypeSelection();
 	void setTypeSelection(String typeSelection);
+	HashMap<String,ArrayList<Float>> getUnitStats();
 }
