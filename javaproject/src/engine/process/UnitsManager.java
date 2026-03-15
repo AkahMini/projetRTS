@@ -402,7 +402,13 @@ public class UnitsManager implements UnitsInterface{
     			break;
     		}else if(currentTier==1) {
     			manager.selectBuilding("HQ");
-    			System.out.println("selectetd");
+    			//System.out.println("selectetd");
+    			break;
+    		}else if(currentTier==2) {
+    			manager.selectBuilding("ResearchBuilding");
+    			break;
+    		}else if(currentTier==3) {
+    			manager.selectBuilding("Producer");
     			break;
     		}
     		break;
@@ -413,6 +419,9 @@ public class UnitsManager implements UnitsInterface{
     		}else if(currentTier==1) {
     			manager.selectBuilding("Producer");
     			break;
+    		}else if(currentTier==2) {
+    			manager.selectBuilding("Producer");
+    			break;
     		}
     		break;
     	case "button3":
@@ -421,6 +430,9 @@ public class UnitsManager implements UnitsInterface{
     			break;
     		}else if(currentTier==1) {
     			manager.selectBuilding("PopulationBuilding");
+    			break;
+    		}else if(currentTier==2) {
+    			manager.selectBuilding("DefenseTower");
     			break;
     		}
     		break;
