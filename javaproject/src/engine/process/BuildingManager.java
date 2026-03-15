@@ -1,6 +1,7 @@
 package engine.process;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import config.DefaultGameSettings;
 import config.GameConfiguration;
@@ -10,6 +11,7 @@ import engine.mobile.building.Building;
 import engine.mobile.building.BuildingStats;
 import engine.mobile.building.DefenseTower;
 import engine.mobile.building.HQ;
+import engine.mobile.building.ResearchBuilding;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Infantry;
 import engine.mobile.unit.Unit;
@@ -168,23 +170,51 @@ public class BuildingManager implements BuildingInterface{
 					UnitProducer unitProducer = (UnitProducer) manager.getSelectedBuild();
 					manager.addQueue(unitProducer, manager.getSelectedBuild().getPosition(), "INFANTRY",p);
 				}
+				break;
+			}
+			if (manager.getSelectedBuild() instanceof ResearchBuilding && !p.getTechnologies().contains("attackDamage_1.25") ) {
+				if(!manager.getSelectedBuild().getIsUnderConstruction()) {
+					p.addTechnologieUnlocked("attackDamage_1.25");
+					String id = null;
+					if(p.getFactionName().equals("ZEUS")) { // We only upgrade the unit of tier 1
+						id = "DISKTHROWER";
+					} else if (p.getFactionName().equals("HADES")){
+						id = "HOPLITE";
+					} else {
+						id = "RETIARIUS";
+					}
+
+					ArrayList<Float> unitData = manager.getUnitStats().get(id); // All the stats of the unit in question
+					if (unitData != null) {
+						float currentAtk = unitData.get(7);
+						unitData.set(7, (float) (currentAtk * 1.25));
+					}
+
+					System.out.println("Amélioration des degats d'attaque effectuée");
+
+					for (Unit u : manager.getUnits()) { // increase the dmg of the units already presents on the map
+						if (u.getUnitFaction().equals(p.getFactionName()) && id.equals(u.getUnitName())) {
+							u.setATK((int)(u.getATK() * 1.25)); 
+						}
+					}
+				}
 			}
 			break;
 		case "button2":
-			if (manager.getSelectedBuild().getBuildingName().equals("École des Pythagoricien") && !manager.getPlayer().getTechnologies().contains("productionSpeed_2") ) {
+			if (manager.getSelectedBuild() instanceof ResearchBuilding && !p.getTechnologies().contains("productionSpeed_2") ) {
 				if(!manager.getSelectedBuild().getIsUnderConstruction()) {
-					manager.getPlayer().addTechnologieUnlocked("productionSpeed_2");
-					String key = "Producer".toUpperCase() + "_" + "Zeus".toUpperCase() + "_" + 1;
+					p.addTechnologieUnlocked("productionSpeed_2");
+					String key = "Producer".toUpperCase() + "_" + manager.getSelectedBuild().getFaction().toUpperCase() + "_" + 1;
 					BuildingStats stats = BuildingRepository.getInstance().getStats(key);
 					stats.setProductionSpeed(stats.getProductionSpeed()/2);
 					System.out.println("amelioration de la production speed effectué");
 					for (Building b :manager.getBuildings()) {
-						if(b instanceof UnitProducer) {
+						if(b instanceof UnitProducer && b.getFaction().equals(p.getFactionName())) {
 							UnitProducer unitProducer= (UnitProducer) b;
 							unitProducer.setProductionSpeed(unitProducer.getProductionSpeed()/2);
 						}
 					}
-					
+
 				}
 				break;
 			}

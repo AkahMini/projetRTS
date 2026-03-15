@@ -83,6 +83,7 @@ public class MainGUI extends JFrame implements Runnable {
 			public void actionPerformed(ActionEvent e) {
 				manager.selectBuilding("Producer");
 				manager.setTypeSelection("build");
+				manager.setSelectedTier(1);
 			}
 		});
 		javax.swing.JButton testButton2 = new javax.swing.JButton("Test Tower Defense");
@@ -91,6 +92,7 @@ public class MainGUI extends JFrame implements Runnable {
 			public void actionPerformed(ActionEvent e) {
 				manager.selectBuilding("DefenseTower");
 				manager.setTypeSelection("build");
+				manager.setSelectedTier(2);
 			}
 		});
 
@@ -100,6 +102,7 @@ public class MainGUI extends JFrame implements Runnable {
 			public void actionPerformed(ActionEvent e) {
 				manager.selectBuilding("PopulationBuilding");
 				manager.setTypeSelection("PopulationBuilding");
+				manager.setSelectedTier(1);
 			}
 		});
 		javax.swing.JButton testButton4 = new javax.swing.JButton("Test Research Building ");
@@ -108,6 +111,7 @@ public class MainGUI extends JFrame implements Runnable {
 			public void actionPerformed(ActionEvent e) {
 				manager.selectBuilding("ResearchBuilding");
 				manager.setTypeSelection("build");
+				manager.setSelectedTier(2);
 			}
 		});
 
@@ -143,6 +147,14 @@ public class MainGUI extends JFrame implements Runnable {
 		testButton8.addActionListener(new ActionListener() { //Temporary button to test some features
 			public void actionPerformed(ActionEvent e) {
 				manager.selectUnit("CAVALRY");
+				manager.setTypeSelection("unitAllie");
+			}
+		});
+		javax.swing.JButton testButton9 = new javax.swing.JButton("Test amelioration attaque labo");
+
+		testButton9.addActionListener(new ActionListener() { //Temporary button to test some features
+			public void actionPerformed(ActionEvent e) {
+				manager.selectUnit("DISKTHROWER");
 				manager.setTypeSelection("unitAllie");
 			}
 		});
