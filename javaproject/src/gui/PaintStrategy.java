@@ -453,7 +453,7 @@ public class PaintStrategy {
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/emptyButton.png"),1100,560,60,60,null);
 			}
 			if(build.getBuildingName().equals("Camp Olympique")) {
-				graphics.drawImage(GameUtility.readImage("src/gameData/images/emptyButton.png"),1020,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("src/gameData/images/Artillery.png"),1020,560,60,60,null);
 			}
 			//template for visual use only
 			//graphics.drawRect(1020, 560, 240, 140);
