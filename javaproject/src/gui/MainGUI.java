@@ -16,10 +16,6 @@ import config.DefaultGameSettings;
 import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
-import engine.mobile.building.Building;
-import engine.mobile.building.HQ;
-import engine.mobile.building.UnitProducer;
-import engine.mobile.unit.StatsLoader;
 import engine.process.GameBuilder;
 import engine.process.MobileInterface;
 /**
@@ -115,7 +111,7 @@ public class MainGUI extends JFrame implements Runnable {
 			}
 		});
 
-		javax.swing.JButton testButton5 = new javax.swing.JButton(" Test Infantry T1");
+		javax.swing.JButton testButton5 = new javax.swing.JButton(" ARTILLERY T1");
 		testButton5.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) {
 				manager.selectUnit("ARTILLERY");
@@ -124,7 +120,7 @@ public class MainGUI extends JFrame implements Runnable {
 			}
 		});
 
-		javax.swing.JButton testButton6 = new javax.swing.JButton("Test Unit ennemy T1");
+		javax.swing.JButton testButton6 = new javax.swing.JButton("ennemy(INFANTRY) T1");
 		testButton6.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) {
 				manager.selectUnit("INFANTRY");
@@ -133,7 +129,7 @@ public class MainGUI extends JFrame implements Runnable {
 			}
 		});
 
-		javax.swing.JButton testButton7 = new javax.swing.JButton("Test ranged Unit T2");
+		javax.swing.JButton testButton7 = new javax.swing.JButton("ranged Unit T2");
 		testButton7.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) {
 				manager.selectUnit("ARTILLERY");
@@ -142,7 +138,7 @@ public class MainGUI extends JFrame implements Runnable {
 			}
 		});
 
-		javax.swing.JButton testButton8 = new javax.swing.JButton("Test cavalry T3");
+		javax.swing.JButton testButton8 = new javax.swing.JButton("cavalry T3");
 		testButton8.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) {
 				manager.selectUnit("CAVALRY");

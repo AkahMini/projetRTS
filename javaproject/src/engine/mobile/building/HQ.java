@@ -1,9 +1,7 @@
 package engine.mobile.building;
 
-import java.util.ArrayList;
 
 import engine.map.Block;
-import engine.mobile.unit.Unit;
 
 /**
  * Class representing the Headquarters (HQ) of a player.

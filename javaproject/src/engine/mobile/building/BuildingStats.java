@@ -1,7 +1,6 @@
 package engine.mobile.building;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Data class representing the stats of a building loaded from the CSV.

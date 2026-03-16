@@ -1,7 +1,6 @@
 package engine.process;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import config.DefaultGameSettings;
 import config.GameConfiguration;
@@ -15,6 +14,7 @@ import engine.mobile.building.ResearchBuilding;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Infantry;
 import engine.mobile.unit.Unit;
+import engine.mobile.unit.UnitStats;
 import engine.mobile.unit.Worker;
 /*
  * Manager pattern class. Used to manage building object.
@@ -176,28 +176,24 @@ public class BuildingManager implements BuildingInterface{
 				if(!manager.getSelectedBuild().getIsUnderConstruction()) {
 					p.addTechnologieUnlocked("attackDamage_1.25");
 					String id = null;
-					if(p.getFactionName().equals("ZEUS")) { // We only upgrade the unit of tier 1
-						id = "DISKTHROWER";
-					} else if (p.getFactionName().equals("HADES")){
-						id = "HOPLITE";
-					} else {
-						id = "RETIARIUS";
+					if(p.getFactionName().equalsIgnoreCase("ZEUS")) { // We only upgrade the unit of tier 1
+						id = "ARTILLERY";
+					} else{
+						id = "INFANTRY";
 					}
-
-					ArrayList<Float> unitData = manager.getUnitStats().get(id); // All the stats of the unit in question
-					if (unitData != null) {
-						float currentAtk = unitData.get(7);
-						unitData.set(7, (float) (currentAtk * 1.25));
-					}
-
-					System.out.println("Amélioration des degats d'attaque effectuée");
-
-					for (Unit u : manager.getUnits()) { // increase the dmg of the units already presents on the map
-						if (u.getUnitFaction().equals(p.getFactionName()) && id.equals(u.getUnitName())) {
-							u.setATK((int)(u.getATK() * 1.25)); 
+					String key = id+ "_" + manager.getSelectedBuild().getFaction().toUpperCase() + "_" + 1;
+					System.out.println(key);
+					UnitStats stats = UnitRepository.getInstance().getStats(key);
+					stats.setAttackDamage(stats.getAttackDamage()*1.25);
+					System.out.println("Attack damage of "+id+" of tier increased by 1.25 times");
+					for (Unit u :manager.getUnits()) {
+						if(!(u instanceof Worker) && (u.getUnitFaction().equals(p.getFactionName()) && u.getTierLevel()==1)) {
+							u.setATK(u.getATK()*1.25);	
 						}
 					}
+
 				}
+				break;
 			}
 			break;
 		case "button2":

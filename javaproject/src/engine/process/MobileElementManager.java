@@ -1,8 +1,6 @@
 package engine.process;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import config.DefaultGameSettings;
 import config.GameConfiguration;
 
@@ -15,7 +13,6 @@ import engine.mobile.building.Building;
 import engine.mobile.building.DefenseTower;
 import engine.mobile.building.HQ;
 import engine.mobile.building.UnitProducer;
-import engine.mobile.unit.StatsLoader;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
 import engine.process.chrono.Chronometer;
@@ -33,7 +30,6 @@ import engine.process.chrono.CyclicCounter;
  */
 public class MobileElementManager implements MobileInterface {
 	private DefaultGameSettings gameSettings;
-    private HashMap<String,ArrayList<Float>> unitStats = StatsLoader.loadUnitStats();
     
 	private Map map;
     
@@ -394,10 +390,6 @@ public class MobileElementManager implements MobileInterface {
     public Player getPlayer() {
         return this.player;
     }
-    public HashMap<String,ArrayList<Float>> getUnitStats(){
-    	return this.unitStats;
-    }
-
     
     //used for graphic interface
     public ArrayList<Unit> getUnitInSelectedArea(){
