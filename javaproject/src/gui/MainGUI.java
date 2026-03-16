@@ -225,7 +225,7 @@ public class MainGUI extends JFrame implements Runnable {
 			int line = e.getY() / blockSize;
 			int column = e.getX() / blockSize;
 
-			//System.out.println("x :"+e.getX()+" y :"+e.getY()+" - Block line : "+line+" Block column : "+column);
+			System.out.println("x :"+e.getX()+" y :"+e.getY()+" - Block line : "+line+" Block column : "+column);
 
 			
 			//we check if the player clicked in the button zone for x and y

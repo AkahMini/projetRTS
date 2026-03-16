@@ -265,25 +265,69 @@ public class MobileElementManager implements MobileInterface {
     private void initMap() {
 		//We add player's HQ, & ressource deposits
     	Block playerHQposition = map.getBlock(10, 10); //TMP player's HQ
-    	Block playerTowerPosition = map.getBlock(20, 30);//TMP
+    	//Block playerTowerPosition = map.getBlock(20, 15);//TMP
     	Building playerHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, "Zeus", playerHQposition);
-    	Building playerTower = BuildingFactory.createBuilding(BuildingFactory.DEFENSE_BUILDING, 2, "Poseidon", playerTowerPosition);
+    	//Building playerTower = BuildingFactory.createBuilding(BuildingFactory.DEFENSE_BUILDING, 2, DefaultGameSettings.ZEUS, playerTowerPosition);
     	playerHQ.setUnderConstruction(false);
     	
-    	Block playerLaboPos = map.getBlock(15, 10);//tmp too
-    	Building playerLabo = BuildingFactory.createBuilding(BuildingFactory.RESEARCH_BUILDING,2,"Zeus",playerLaboPos);
+    	Player ennemy = new Player("bot1",config.DefaultGameSettings.HADES);
+    	Building ennemyHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, DefaultGameSettings.HADES, map.getBlock(63, 84));
+    	Building ennemyTower1 = BuildingFactory.createBuilding(BuildingFactory.DEFENSE_BUILDING, 2, DefaultGameSettings.HADES, map.getBlock(47, 90));
+    	Building ennemyTower2 = BuildingFactory.createBuilding(BuildingFactory.DEFENSE_BUILDING, 2, DefaultGameSettings.HADES, map.getBlock(55, 78));
     	
-    	Block faithDepositLocation = map.getBlock(30, 20);//TMP
-    	RessourceDeposit deposit1 = new RessourceDeposit(faithDepositLocation,RessourceDeposit.FAITH);
     	
-    	Block ambroiseDepositLocation = map.getBlock(10, 35);
-    	RessourceDeposit deposit2= new RessourceDeposit(ambroiseDepositLocation,RessourceDeposit.AMBROSIA);
+    	//Block playerLaboPos = map.getBlock(15, 10);//tmp too
+    	//Building playerLabo = BuildingFactory.createBuilding(BuildingFactory.RESEARCH_BUILDING,2,"Zeus",playerLaboPos);
+    	
+ 
+    	RessourceDeposit deposit1 = new RessourceDeposit(map.getBlock(30, 20),RessourceDeposit.FAITH);
+    	RessourceDeposit deposit2 = new RessourceDeposit(map.getBlock(56,16),RessourceDeposit.FAITH);
+    	RessourceDeposit deposit3 = new RessourceDeposit(map.getBlock(40,55),RessourceDeposit.FAITH);
+    	RessourceDeposit deposit4 = new RessourceDeposit(map.getBlock(16,80),RessourceDeposit.AMBROSIA);
+    	RessourceDeposit deposit5 = new RessourceDeposit(map.getBlock(65,63),RessourceDeposit.AMBROSIA);
+    	
+    	ArrayList<Unit> ennemyTroups = new ArrayList<Unit>();
+    	
+    	for(int i=0;i<7;i++) {
+    		Block spawnBlock = map.getBlock(11+(int)(Math.random()*5),28+(int)(Math.random()*5));
+    		this.units.add(UnitFactory.createUnit(UnitFactory.INFANTRY_UNIT, 2, DefaultGameSettings.ZEUS, spawnBlock));
+    	}
+    	for(int i=0;i<5;i++) {
+    		Block spawnBlock = map.getBlock(19+(int)(Math.random()*5),21+(int)(Math.random()*5));
+    		this.units.add(UnitFactory.createUnit(UnitFactory.ARTILLERY_UNIT, 1, DefaultGameSettings.ZEUS, spawnBlock));
+    	}
+    	for(int i=0;i<3;i++) {
+    		Block spawnBlock = map.getBlock(22+(int)(Math.random()*5),7+(int)(Math.random()*5));
+    		this.units.add(UnitFactory.createUnit(UnitFactory.CAVALRY_UNIT, 3, DefaultGameSettings.ZEUS, spawnBlock));
+    	}
+    	
+    	
+    	for(int i=0;i<6;i++) {
+    		Block spawnBlock = map.getBlock(50+(int)(Math.random()*5),84+(int)(Math.random()*5));
+    		this.units.add(UnitFactory.createUnit(UnitFactory.INFANTRY_UNIT, 1, DefaultGameSettings.HADES, spawnBlock));
+    	}
+    	for(int i=0;i<6;i++) {
+    		Block spawnBlock = map.getBlock(53+(int)(Math.random()*5),65+(int)(Math.random()*5));
+    		this.units.add(UnitFactory.createUnit(UnitFactory.ARTILLERY_UNIT, 3, DefaultGameSettings.HADES, spawnBlock));
+    	}
+    	for(int i=0;i<3;i++) {
+    		Block spawnBlock = map.getBlock(64+(int)(Math.random()*5),69+(int)(Math.random()*5));
+    		this.units.add(UnitFactory.createUnit(UnitFactory.CAVALRY_UNIT, 3, DefaultGameSettings.HADES, spawnBlock));
+    	}
+    	
+    	
     	
     	this.buildings.add(playerHQ);
-    	this.buildings.add(playerTower);
-    	this.buildings.add(playerLabo);
+    	//this.buildings.add(playerTower);
+    	//this.buildings.add(playerLabo);
+    	this.buildings.add(ennemyHQ);
+    	this.buildings.add(ennemyTower1); this.buildings.add(ennemyTower2);
+    	
     	this.ressourceDeposits.add(deposit1);
     	this.ressourceDeposits.add(deposit2);
+    	this.ressourceDeposits.add(deposit3);
+    	this.ressourceDeposits.add(deposit4);
+    	this.ressourceDeposits.add(deposit5);
 	}
     
     public boolean ifBlockInGamePanel(Block block) {
