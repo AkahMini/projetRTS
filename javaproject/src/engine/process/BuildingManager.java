@@ -251,8 +251,7 @@ public class BuildingManager implements BuildingInterface{
 			for (Unit unit : manager.getUnits()) {
 				double dist = manager.getDistance(tower.getPosition(), unit.getPosition());
 
-				if (dist < minDistance&&unit.getUnitFaction()!=tower.getFaction()) {
-
+				if (dist < minDistance&&!(unit.getUnitFaction().equalsIgnoreCase(tower.getFaction()))) {
 					minDistance = dist;
 					target = unit;
 				}

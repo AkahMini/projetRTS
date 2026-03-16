@@ -217,7 +217,7 @@ public class PaintStrategy {
 
 
 		if (unit instanceof Infantry) {
-			if(unit.getUnitFaction().equals("Zeus")) {
+			if(unit.getUnitFaction().equalsIgnoreCase("Zeus")) {
 				graphics.setColor(Color.GREEN); // Greeeeeeeeeeen
 			}
 
@@ -242,7 +242,13 @@ public class PaintStrategy {
 			if (cav.getChargeDistanceValue() > 0) {
 				graphics.setColor(Color.CYAN);
 			} else {
-				graphics.setColor(Color.BLUE.darker());
+				if(unit.getUnitFaction().equalsIgnoreCase("Zeus")) {
+					graphics.setColor(Color.GREEN);
+				}if(unit.getUnitFaction().equalsIgnoreCase("Hades")) {
+					graphics.setColor(Color.RED);
+				}if(unit.getUnitFaction().equalsIgnoreCase("Poseidon")) {
+					graphics.setColor(Color.MAGENTA);
+				}
 			}
 		}
 
