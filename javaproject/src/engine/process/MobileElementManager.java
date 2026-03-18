@@ -49,7 +49,7 @@ public class MobileElementManager implements MobileInterface {
     private ArrayList<Block> selectedArea;
     
     private Chronometer chronometer = new Chronometer();
-    private CyclicCounter timetweaker = new CyclicCounter(0,100,0);
+    private CyclicCounter timetweaker = new CyclicCounter(0,68,0);
 
     private Player player;
     
@@ -87,7 +87,7 @@ public class MobileElementManager implements MobileInterface {
 		 */
 		//chronometer update
 		nextTierCheck(player);
-		if(timetweaker.getValue() == 100) {
+		if(timetweaker.getValue() == 68) {
             chronometer.increment();
             //Units manager
             for(int i=0;i<units.size();i++) {
@@ -285,7 +285,7 @@ public class MobileElementManager implements MobileInterface {
     	RessourceDeposit deposit3 = new RessourceDeposit(map.getBlock(40,55),RessourceDeposit.FAITH);
     	RessourceDeposit deposit4 = new RessourceDeposit(map.getBlock(16,80),RessourceDeposit.AMBROSIA);
     	RessourceDeposit deposit5 = new RessourceDeposit(map.getBlock(65,63),RessourceDeposit.AMBROSIA);
-    	
+    	/*
     	ArrayList<Unit> ennemyTroups = new ArrayList<Unit>();
     	
     	for(int i=0;i<7;i++) {
@@ -314,7 +314,7 @@ public class MobileElementManager implements MobileInterface {
     		Block spawnBlock = map.getBlock(64+(int)(Math.random()*5),69+(int)(Math.random()*5));
     		this.units.add(UnitFactory.createUnit(UnitFactory.CAVALRY_UNIT, 3, DefaultGameSettings.HADES, spawnBlock));
     	}
-    	
+    	*/
     	
     	
     	this.buildings.add(playerHQ);
