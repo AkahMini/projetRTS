@@ -440,8 +440,8 @@ public class PaintStrategy {
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/miner.png"),1020,560,60,60,null);
 			}
 			if(build.getBuildingName().equals("École des Pythagoricien")) {
-				graphics.drawImage(GameUtility.readImage("src/gameData/images/emptyButton.png"),1020,560,60,60,null);
-				graphics.drawImage(GameUtility.readImage("src/gameData/images/emptyButton.png"),1100,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("src/gameData/images/dmgUp.png"),1020,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("src/gameData/images/prodUnitUp.png"),1100,560,60,60,null);
 			}
 			if(build.getBuildingName().equals("Camp Olympique")) {
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/Artillery.png"),1020,560,60,60,null);
