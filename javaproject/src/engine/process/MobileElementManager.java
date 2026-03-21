@@ -132,6 +132,7 @@ public class MobileElementManager implements MobileInterface {
             		buildingManager.setTowerTarget((DefenseTower) tower);
             	}
             }
+            cpuManager.workerProductionManagement(cpu);
         }
 	}
     
@@ -278,6 +279,7 @@ public class MobileElementManager implements MobileInterface {
     	playerHQ.setUnderConstruction(false);
     	
     	Building ennemyHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, DefaultGameSettings.HADES, map.getBlock(63, 84));
+    	ennemyHQ.setUnderConstruction(false);
     	Building ennemyTower1 = BuildingFactory.createBuilding(BuildingFactory.DEFENSE_BUILDING, 2, DefaultGameSettings.HADES, map.getBlock(47, 90));
     	Building ennemyTower2 = BuildingFactory.createBuilding(BuildingFactory.DEFENSE_BUILDING, 2, DefaultGameSettings.HADES, map.getBlock(55, 78));
     	
@@ -291,6 +293,22 @@ public class MobileElementManager implements MobileInterface {
     	RessourceDeposit deposit3 = new RessourceDeposit(map.getBlock(40,55),RessourceDeposit.FAITH);
     	RessourceDeposit deposit4 = new RessourceDeposit(map.getBlock(16,80),RessourceDeposit.AMBROSIA);
     	RessourceDeposit deposit5 = new RessourceDeposit(map.getBlock(65,63),RessourceDeposit.AMBROSIA);
+    	
+    	deposit1.setMaxWorkers(2);
+    	deposit1.setCurrentWorkers(0);
+    	
+    	deposit2.setMaxWorkers(2);
+    	deposit2.setCurrentWorkers(0);
+
+    	deposit3.setMaxWorkers(2);
+    	deposit3.setCurrentWorkers(0);
+
+    	deposit4.setMaxWorkers(2);
+    	deposit4.setCurrentWorkers(0);
+
+    	deposit5.setMaxWorkers(2);
+    	deposit5.setCurrentWorkers(0);
+
     	ArrayList<Unit> ennemyTroups = new ArrayList<Unit>();
     	
     	for(int i=0;i<7;i++) {
@@ -341,7 +359,7 @@ public class MobileElementManager implements MobileInterface {
     	//this.buildings.add(playerTower);
     	//this.buildings.add(playerLabo);
     	this.buildings.add(ennemyHQ);
-    	cpu.getBuiltBuilding().add(ennemyHQ);
+    	this.cpu.getBuiltBuilding().add(ennemyHQ);
     	this.buildings.add(ennemyTower1); this.buildings.add(ennemyTower2);
     	
     	this.ressourceDeposits.add(deposit1);

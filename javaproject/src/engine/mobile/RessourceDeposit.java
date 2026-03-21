@@ -76,6 +76,30 @@ public class RessourceDeposit {
 	public float getExtractionSpeed() {
 		return this.extractionSpeed;
 	}
+
+	public void setPosition(Block position) {
+		this.position = position;
+	}
+
+	public void setAmountRemaining(int amountRemaining) {
+		this.amountRemaining = amountRemaining;
+	}
+
+	public void setCurrentWorkers(int currentWorkers) {
+		this.currentWorkers = currentWorkers;
+	}
+
+	public void setMaxWorkers(int maxWorkers) {
+		this.maxWorkers = maxWorkers;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public void setExtractionSpeed(float extractionSpeed) {
+		this.extractionSpeed = extractionSpeed;
+	}
 	
 }
 	

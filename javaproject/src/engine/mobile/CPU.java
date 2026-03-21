@@ -7,6 +7,9 @@ package engine.mobile;
  * 
  */
 public class CPU extends Player {
+	
+	private int workerProductionTime;
+
 	private int agressivity;
 	private int intelligence;
 	private int adaptibility;
@@ -23,6 +26,7 @@ public class CPU extends Player {
 		this.agressivity = agressivity;
 		this.intelligence = intelligence;
 		this.adaptibility = adaptibility;
+		this.workerProductionTime=0;
 	}
 	public int getAgressivity() {
 		return agressivity;
@@ -46,6 +50,12 @@ public class CPU extends Player {
 
 	public void setAdaptibility(int adaptibility) {
 		this.adaptibility = adaptibility;
+	}
+	public int getWorkerProductionTime() {
+		return workerProductionTime;
+	}
+	public void setWorkerProductionTime(int workerProductionTime) {
+		this.workerProductionTime = workerProductionTime;
 	}
 
 }
