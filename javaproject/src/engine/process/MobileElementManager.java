@@ -6,6 +6,7 @@ import config.GameConfiguration;
 
 import engine.map.Block;
 import engine.map.Map;
+import engine.mobile.CPU;
 import engine.mobile.MobileElement;
 import engine.mobile.Player;
 import engine.mobile.RessourceDeposit;
@@ -52,18 +53,22 @@ public class MobileElementManager implements MobileInterface {
     private CyclicCounter timetweaker = new CyclicCounter(0,68,0);
 
     private Player player;
+    private CPU cpu;
     
-    //this is for the two other manager, maked separatly for easier manipulation
+    //this is for the two other manager, made separately for easier manipulation
     private BuildingInterface buildingManager;
     private UnitsInterface unitManager;
+    private CPUManager cpuManager;
     
     public MobileElementManager(Map map, DefaultGameSettings gameSettings) {
         this.gameSettings=gameSettings;
     	this.map = map;
         this.player = new Player("Jhon Doe", "Zeus");
+        this.cpu = new CPU("Ian", "Hades",5,5,5);
         chronometer.init();
         this.buildingManager = new BuildingManager(this);
         this.unitManager = new UnitsManager(this,this.gameSettings);
+        this.cpuManager=new CPUManager(this);
     }
 
     public void firstRound() {    	
@@ -77,6 +82,8 @@ public class MobileElementManager implements MobileInterface {
         unitCombatSystem();
         unitManager.moveAllUnits();
         buildingManager.allTowerAttack(buildings);
+        cpuManager.attackReaction(cpu);
+        cpuManager.workerManagement(cpu);
     }
 
 	
@@ -270,7 +277,6 @@ public class MobileElementManager implements MobileInterface {
     	//Building playerTower = BuildingFactory.createBuilding(BuildingFactory.DEFENSE_BUILDING, 2, DefaultGameSettings.ZEUS, playerTowerPosition);
     	playerHQ.setUnderConstruction(false);
     	
-    	Player ennemy = new Player("bot1",config.DefaultGameSettings.HADES);
     	Building ennemyHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, DefaultGameSettings.HADES, map.getBlock(63, 84));
     	Building ennemyTower1 = BuildingFactory.createBuilding(BuildingFactory.DEFENSE_BUILDING, 2, DefaultGameSettings.HADES, map.getBlock(47, 90));
     	Building ennemyTower2 = BuildingFactory.createBuilding(BuildingFactory.DEFENSE_BUILDING, 2, DefaultGameSettings.HADES, map.getBlock(55, 78));
@@ -285,12 +291,13 @@ public class MobileElementManager implements MobileInterface {
     	RessourceDeposit deposit3 = new RessourceDeposit(map.getBlock(40,55),RessourceDeposit.FAITH);
     	RessourceDeposit deposit4 = new RessourceDeposit(map.getBlock(16,80),RessourceDeposit.AMBROSIA);
     	RessourceDeposit deposit5 = new RessourceDeposit(map.getBlock(65,63),RessourceDeposit.AMBROSIA);
-    	/*
     	ArrayList<Unit> ennemyTroups = new ArrayList<Unit>();
     	
     	for(int i=0;i<7;i++) {
     		Block spawnBlock = map.getBlock(11+(int)(Math.random()*5),28+(int)(Math.random()*5));
-    		this.units.add(UnitFactory.createUnit(UnitFactory.INFANTRY_UNIT, 2, DefaultGameSettings.ZEUS, spawnBlock));
+    		Unit unit=UnitFactory.createUnit(UnitFactory.INFANTRY_UNIT, 2, DefaultGameSettings.ZEUS, spawnBlock);
+    		this.units.add(unit);
+    		player.getCreatedUnits().add(unit);
     	}
     	for(int i=0;i<5;i++) {
     		Block spawnBlock = map.getBlock(19+(int)(Math.random()*5),21+(int)(Math.random()*5));
@@ -298,29 +305,43 @@ public class MobileElementManager implements MobileInterface {
     	}
     	for(int i=0;i<3;i++) {
     		Block spawnBlock = map.getBlock(22+(int)(Math.random()*5),7+(int)(Math.random()*5));
-    		this.units.add(UnitFactory.createUnit(UnitFactory.CAVALRY_UNIT, 3, DefaultGameSettings.ZEUS, spawnBlock));
+    		Unit unit=UnitFactory.createUnit(UnitFactory.CAVALRY_UNIT, 3, DefaultGameSettings.ZEUS, spawnBlock);
+    		this.units.add(unit);
+    		player.getCreatedUnits().add(unit);
     	}
     	
     	
     	for(int i=0;i<6;i++) {
     		Block spawnBlock = map.getBlock(50+(int)(Math.random()*5),84+(int)(Math.random()*5));
-    		this.units.add(UnitFactory.createUnit(UnitFactory.INFANTRY_UNIT, 1, DefaultGameSettings.HADES, spawnBlock));
+    		Unit unit=UnitFactory.createUnit(UnitFactory.INFANTRY_UNIT, 1, DefaultGameSettings.HADES, spawnBlock);
+    		this.units.add(unit);
+    		cpu.getCreatedUnits().add(unit);
+    		System.out.println(cpu.getCreatedUnits());
+
     	}
     	for(int i=0;i<6;i++) {
     		Block spawnBlock = map.getBlock(53+(int)(Math.random()*5),65+(int)(Math.random()*5));
-    		this.units.add(UnitFactory.createUnit(UnitFactory.ARTILLERY_UNIT, 3, DefaultGameSettings.HADES, spawnBlock));
+    		Unit unit=UnitFactory.createUnit(UnitFactory.ARTILLERY_UNIT, 3, DefaultGameSettings.HADES, spawnBlock);
+    		this.units.add(unit);
+    		cpu.getCreatedUnits().add(unit);
+    		System.out.println(cpu.getCreatedUnits());
+
     	}
     	for(int i=0;i<3;i++) {
     		Block spawnBlock = map.getBlock(64+(int)(Math.random()*5),69+(int)(Math.random()*5));
-    		this.units.add(UnitFactory.createUnit(UnitFactory.CAVALRY_UNIT, 3, DefaultGameSettings.HADES, spawnBlock));
+    		Unit unit=UnitFactory.createUnit(UnitFactory.CAVALRY_UNIT, 3, DefaultGameSettings.HADES, spawnBlock);
+    		this.units.add(unit);
+    		cpu.getCreatedUnits().add(unit);
+    		System.out.println(cpu.getCreatedUnits());
+
     	}
-    	*/
     	
     	
     	this.buildings.add(playerHQ);
     	//this.buildings.add(playerTower);
     	//this.buildings.add(playerLabo);
     	this.buildings.add(ennemyHQ);
+    	cpu.getBuiltBuilding().add(ennemyHQ);
     	this.buildings.add(ennemyTower1); this.buildings.add(ennemyTower2);
     	
     	this.ressourceDeposits.add(deposit1);
@@ -473,5 +494,21 @@ public class MobileElementManager implements MobileInterface {
 	
 	public void addUnitsInSelectedArea(Unit unit) {
 		this.unitsInSelectedArea.add(unit);
+	}
+
+	public CPU getCpu() {
+		return cpu;
+	}
+
+	public void setCpu(CPU cpu) {
+		this.cpu = cpu;
+	}
+
+	public CPUManager getCpuManager() {
+		return cpuManager;
+	}
+
+	public void setCpuManager(CPUManager cpuManager) {
+		this.cpuManager = cpuManager;
 	}
 }

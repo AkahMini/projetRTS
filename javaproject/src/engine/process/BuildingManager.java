@@ -38,7 +38,6 @@ public class BuildingManager implements BuildingInterface{
 	}
 
 
-	//temporaty method for testing
 	public void selectBuilding(String type) {
 		this.selectedBuilding = type;
 	}
@@ -52,9 +51,6 @@ public class BuildingManager implements BuildingInterface{
 
 			if (newBuilding != null) {
 				manager.addInBuildings(newBuilding);
-			}
-			if(p.getBuiltBuilding().contains(selectedBuilding)==false) {
-				p.getBuiltBuilding().add(selectedBuilding);
 			}
 			selectedBuilding = null;
 			

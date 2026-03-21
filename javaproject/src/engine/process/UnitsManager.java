@@ -51,6 +51,8 @@ public class UnitsManager implements UnitsInterface{
     
             if (newUnit != null) {
                 manager.addInUnits(newUnit);
+                manager.getCpu().getCreatedUnits().add(newUnit);
+                System.out.println("Unité ajouté :"+manager.getCpu().getCreatedUnits());
                 System.out.println("Unité posée en : " + position.getLine() + ", " + position.getColumn() + " | Faction: " + faction + " | Tier: " + tier);
             }
             selectedUnit = null;
@@ -205,27 +207,27 @@ public class UnitsManager implements UnitsInterface{
     	if (target instanceof Unit) {
     		Unit unit2 = (Unit) target;
     		if(unit1.getIsInCombat() == false && unit2.getIsInCombat() == false) {
-                unit1.setIsInCombat(true);
-                unit2.setIsInCombat(true);
-                unit2.setTarget(unit1);
-                unit1.setTarget(unit2);
-                if(unit1 instanceof Cavalry) {
-                    Cavalry cavalry = (Cavalry) unit1;
-                    cavalry.setMovementSpeed(cavalry.getMovementSpeed()*cavalry.getChargeSpeed());
-                    cavalry.setChargeDistanceValue(cavalry.getChargeDistanceMax());
-                }
-                if(unit2 instanceof Cavalry) {
-                    Cavalry cavalry = (Cavalry) unit2;
-                    cavalry.setMovementSpeed(cavalry.getChargeSpeed());
-                    cavalry.setChargeDistanceValue(cavalry.getChargeDistanceMax());
-                }
-            } else if(unit1.getIsInCombat() == false && unit2.getIsInCombat() == true) {
-                unit1.setIsInCombat(true);
-                unit1.setTarget(unit2);
-            } else if(unit2.getIsInCombat() == false && unit1.getIsInCombat() == true) {
-                unit2.setIsInCombat(true);
-                unit2.setTarget(unit1);
-            }
+    			unit1.setIsInCombat(true);
+    			unit2.setIsInCombat(true);
+    			unit2.setTarget(unit1);
+    			unit1.setTarget(unit2);
+    			if(unit1 instanceof Cavalry) {
+    				Cavalry cavalry = (Cavalry) unit1;
+    				cavalry.setMovementSpeed(cavalry.getMovementSpeed()*cavalry.getChargeSpeed());
+    				cavalry.setChargeDistanceValue(cavalry.getChargeDistanceMax());
+    			}
+    			if(unit2 instanceof Cavalry) {
+    				Cavalry cavalry = (Cavalry) unit2;
+    				cavalry.setMovementSpeed(cavalry.getChargeSpeed());
+    				cavalry.setChargeDistanceValue(cavalry.getChargeDistanceMax());
+    			}
+    		} else if(unit1.getIsInCombat() == false && unit2.getIsInCombat() == true) {
+    			unit1.setIsInCombat(true);
+    			unit1.setTarget(unit2);
+    		} else if(unit2.getIsInCombat() == false && unit1.getIsInCombat() == true) {
+    			unit2.setIsInCombat(true);
+    			unit2.setTarget(unit1);
+    		}
     	}else if(target instanceof Building && unit1.getIsInCombat() == false) {
     		unit1.setTarget(target);
     		unit1.setIsInCombat(true);

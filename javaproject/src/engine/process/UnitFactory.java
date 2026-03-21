@@ -30,7 +30,7 @@ public class UnitFactory {
 	public static Unit createUnit(String type, int tier, String faction, Block position) {
 		String key = type.toUpperCase() + "_" + faction.toUpperCase() + "_" + tier;
 		UnitStats stats = UnitRepository.getInstance().getStats(key);
-		System.out.println(stats);
+		//System.out.println(stats);
 		Unit unit = null;
 		if(stats==null) {
 			throw new IllegalArgumentException("Unknown key: " + key);

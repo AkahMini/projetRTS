@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import engine.map.Block;
 import engine.map.Map;
+import engine.mobile.CPU;
 import engine.mobile.Player;
 import engine.mobile.RessourceDeposit;
 import engine.mobile.building.Building;
@@ -66,4 +67,5 @@ public interface MobileInterface {
 	String getTypeSelection();
 	void setTypeSelection(String typeSelection);
 	void spawnUnit(Block position, String faction);
+	CPU getCpu();
 }

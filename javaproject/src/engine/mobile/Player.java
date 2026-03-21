@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import config.DefaultGameSettings;
 import engine.mobile.building.Building;
+import engine.mobile.unit.Unit;
 
 /**
  * Class representing a player in the game.
@@ -24,8 +25,9 @@ public class Player {
 	private int currentPopulation;
 	private int maxPopulation;
 	private ArrayList<String> technologies;
-	private ArrayList<String> builtBuilding; //The id of the built buildings
-	
+	private ArrayList<Building> builtBuilding; //The id of the built buildings
+	private ArrayList<Unit> createdUnits; //The id of the built buildings
+
 	
 
 	/**
@@ -44,7 +46,8 @@ public class Player {
 		this.currentPopulation=0;
 		this.maxPopulation=DefaultGameSettings.DEFAULT_POPULATION;
 		this.technologies= new ArrayList<String>();
-		this.builtBuilding = new ArrayList<String>();
+		this.builtBuilding = new ArrayList<Building>();
+		this.createdUnits = new ArrayList<Unit>();
 	}
 	
 	/**
@@ -155,11 +158,19 @@ public class Player {
 	public void addTechnologieUnlocked(String technologieUnlocked) {
 		this.technologies.add(technologieUnlocked);
 	}
-	public ArrayList<String> getBuiltBuilding() {
+	public ArrayList<Building> getBuiltBuilding() {
 		return builtBuilding;
 	}
 
-	public void setBuiltBuilding(ArrayList<String> buildtBuilding) {
+	public void setBuiltBuilding(ArrayList<Building> buildtBuilding) {
 		this.builtBuilding = buildtBuilding;
+	}
+
+	public ArrayList<Unit> getCreatedUnits() {
+		return createdUnits;
+	}
+
+	public void setCreatedUnits(ArrayList<Unit> createdUnits) {
+		this.createdUnits = createdUnits;
 	}
 }
