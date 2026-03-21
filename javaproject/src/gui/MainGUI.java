@@ -43,6 +43,8 @@ public class MainGUI extends JFrame implements Runnable {
 	private MobileInterface manager;
 
 	private GameDisplay dashboard;
+	
+	private long clickPressTime; //To decides wheter the click is short or not 
 
 	public MainGUI(String title) {
 		super(title);
@@ -218,9 +220,42 @@ public class MainGUI extends JFrame implements Runnable {
 	}
 
 	private class MouseControls implements MouseListener {
-
+		
+		
 		@Override
 		public void mouseClicked(MouseEvent e) {
+		}
+		
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			clickPressTime = System.currentTimeMillis(); //To decides whether the click is short or not
+			Block firstBlock=manager.getMousePosition(e.getY(), e.getX());
+			manager.initSelectedArea(firstBlock);
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			long clickDuration = System.currentTimeMillis()-clickPressTime;
+			if(clickDuration<GameConfiguration.SHORT_CLICK_TIME_DURATION) {
+				shortClick(e);
+			}
+			else {
+				longClick(e);
+			}
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+
+		}
+
+		public void shortClick(MouseEvent e) {
 			int blockSize = GameConfiguration.BLOCK_SIZE;
 			int line = e.getY() / blockSize;
 			int column = e.getX() / blockSize;
@@ -266,39 +301,17 @@ public class MainGUI extends JFrame implements Runnable {
 			if(manager.ifBlockInGamePanel(position)) {
 				manager.unitMoveOrder(position);
 			}
-		}
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-
-			Block firstBlock=manager.getMousePosition(e.getY(), e.getX());
-			if(manager.ifBlockInGamePanel(firstBlock)) {
-				manager.unitMoveOrder(firstBlock);
+			
+			if(manager.ifBlockInGamePanel(position)) {
+				manager.unitMoveOrder(position);
 			}
-			manager.initSelectedArea(firstBlock);
 		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
+		public void longClick(MouseEvent e) {
 			Block lastBlock=manager.getMousePosition(e.getY(), e.getX());
 			manager.calculateSelectedArea(lastBlock);
 			manager.getUnitsInSelectedArea();
 			manager.getBuildingsInSelectedArea();
-			//System.out.println(manager.getUnits().size());
-
 		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-
-		}
-
-
 	}
 
 
