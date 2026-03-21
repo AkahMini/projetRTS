@@ -27,9 +27,9 @@ public interface UnitsInterface {
 	void spawnUnit(Block position, String faction);
 	
 	void unitMovement(Unit displacedUnit);
-	void workerMouvement(Worker displacedWorker);
+	void workerMouvement(Worker displacedWorker, Player player);
 
-	void workerRessourceDeposit(Worker worker);
+	void workerRessourceDeposit(Worker worker,Player player);
 	
 	MobileElement scanForEnemy(Unit unit);
 	
@@ -38,7 +38,7 @@ public interface UnitsInterface {
 	
 	void unitsInSelectedArea();
 	void unitMoveOrder(Block destination, Map map);
-	void moveAllUnits();
+	void moveAllUnits(Player p);
 	
 	void workerConstructionction(String button, Player p, Worker worker);
 }

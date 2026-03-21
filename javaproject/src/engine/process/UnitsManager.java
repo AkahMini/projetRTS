@@ -108,7 +108,7 @@ public class UnitsManager implements UnitsInterface{
     	unit.setMoveCounter((int)(unit.getMoveCounter()+unit.getMovementSpeed()));
 	}
     
-    public void workerMouvement(Worker displacedWorker) {
+    public void workerMouvement(Worker displacedWorker,Player p) {
     	unitMovement((Unit)displacedWorker); //Moves like a normal unit
     	if(displacedWorker.getCurrentDeposit()==null)  {
     		for(RessourceDeposit deposit: manager.getRessourceDeposit()) {
@@ -128,13 +128,13 @@ public class UnitsManager implements UnitsInterface{
     		displacedWorker.setIsWorking(true);
     	}
     	
-    	if(displacedWorker.getRessourceLoad()>=displacedWorker.getMaxCargoCapacity()) {
+    	else if(displacedWorker.getRessourceLoad()>=displacedWorker.getMaxCargoCapacity()) {
     		displacedWorker.setIsWorking(false);
     		//if he has ressources, he comes back
     		displacedWorker.setDestination(displacedWorker.getCurrentHQ().getPosition());
     	}
 
-    	if(displacedWorker.getDestination() == null || displacedWorker.getDestination().equals(displacedWorker.getPosition())) {
+    	else if(displacedWorker.getDestination() == null || displacedWorker.getDestination().equals(displacedWorker.getPosition())) {
     		//if the worker is stationnary, we can check for new deposit
     		for(RessourceDeposit deposit: manager.getRessourceDeposit()) {
     			if(manager.getDistance(displacedWorker.getPosition(),deposit.getPosition())<displacedWorker.getVision()) {
@@ -147,14 +147,13 @@ public class UnitsManager implements UnitsInterface{
     		}
     	}
     	
-    	workerRessourceDeposit(displacedWorker);
+    	workerRessourceDeposit(displacedWorker,p);
     }
     
-    public void workerRessourceDeposit(Worker worker){
+    public void workerRessourceDeposit(Worker worker,Player player){
     	/**
     	 * the worker drops its resources when it reaches its HQ
     	 */
-    	Player player=manager.getPlayer();
     	if(manager.getDistance(worker.getPosition(),worker.getCurrentHQ().getPosition())<=worker.getVision()) {
     		//if he is the HQ's range
     		if(worker.getRessourceType()==RessourceDeposit.FAITH) {
@@ -163,6 +162,7 @@ public class UnitsManager implements UnitsInterface{
     		if(worker.getRessourceType()==RessourceDeposit.AMBROSIA) {
     			player.setAmbroisieStock(player.getAmbroisieStock()+worker.getRessourceLoad());
     		}
+    		System.out.println(manager.getCpu().getAmbroisieStock());
     		worker.setCurrentRessourceLoad(0);
     		if(worker.getCurrentDeposit()!=null) {
     			worker.setDestination(worker.getCurrentDeposit().getPosition());
@@ -353,14 +353,14 @@ public class UnitsManager implements UnitsInterface{
         }
     }
 
-    public void moveAllUnits() {
-        int size = manager.getUnits().size();
+    public void moveAllUnits(Player p) {
+        int size = p.getCreatedUnits().size();
         for(int i = 0; i < size; i++) {
-            Unit unit = manager.getUnits().get(i);
+            Unit unit = p.getCreatedUnits().get(i);
             unitTime(unit);
         	if(unit.getMoveCounter()>=Unit.getMoveTime()) {
         		if(unit instanceof Worker) {
-        			workerMouvement((Worker)unit);
+        			workerMouvement((Worker)unit,p);
         		}else {
         			if(unit instanceof Cavalry) {
         				Cavalry cavalry=(Cavalry) unit;

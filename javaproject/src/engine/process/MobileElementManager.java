@@ -80,7 +80,8 @@ public class MobileElementManager implements MobileInterface {
         timetweaker.increment();
         processBySeconds();
         unitCombatSystem();
-        unitManager.moveAllUnits();
+        unitManager.moveAllUnits(player);
+        unitManager.moveAllUnits(cpu);
         buildingManager.allTowerAttack(buildings);
         cpuManager.attackReaction(cpu);
         cpuManager.workerManagement(cpu);
@@ -319,7 +320,10 @@ public class MobileElementManager implements MobileInterface {
     	}
     	for(int i=0;i<5;i++) {
     		Block spawnBlock = map.getBlock(19+(int)(Math.random()*5),21+(int)(Math.random()*5));
-    		this.units.add(UnitFactory.createUnit(UnitFactory.ARTILLERY_UNIT, 1, DefaultGameSettings.ZEUS, spawnBlock));
+    		Unit unit=(UnitFactory.createUnit(UnitFactory.ARTILLERY_UNIT, 1, DefaultGameSettings.ZEUS, spawnBlock));
+    		this.units.add(unit);
+    		player.getCreatedUnits().add(unit);
+
     	}
     	for(int i=0;i<3;i++) {
     		Block spawnBlock = map.getBlock(22+(int)(Math.random()*5),7+(int)(Math.random()*5));

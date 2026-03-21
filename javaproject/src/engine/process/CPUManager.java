@@ -52,9 +52,6 @@ public class CPUManager implements CPUinterface {
 						}
 					}
 					if(workerDeposit!=null) {
-						w.setCurrentDeposit(workerDeposit);
-						workerDeposit.setCurrentWorkers(workerDeposit.getCurrentWorkers()+1);
-						w.setRessourceType(workerDeposit.getType());
 						w.setDestination(workerDeposit.getPosition());
 					}
 				}

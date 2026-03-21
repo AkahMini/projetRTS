@@ -60,6 +60,7 @@ public class UnitFactory {
 			Worker worker= new Worker(position);
 			worker.setIsWorking(false);
 			worker.setMaxCargoCapacity(100);
+			worker.setCurrentRessourceLoad(0);
 			unit = worker;
             break;
 		default:
