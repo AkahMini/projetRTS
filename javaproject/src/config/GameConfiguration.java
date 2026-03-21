@@ -24,6 +24,8 @@ public class GameConfiguration {
 	
 	public static final String UNITS_STATS = "src/gameData/units_Stats.csv";
 	public static final String BUILDINGS_STATS = "src/gameData/buildings_Stats.csv";
+	
+	public static final int SHORT_CLICK_TIME_DURATION = 120;
 
 	
 
