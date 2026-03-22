@@ -82,11 +82,15 @@ public class MobileElementManager implements MobileInterface {
         timetweaker.increment();
         processBySeconds();
         unitCombatSystem();
+        
         unitManager.moveAllUnits(player);
         unitManager.moveAllUnits(cpu);
+        
         buildingManager.allTowerAttack(buildings);
+        
         cpuManager.attackReaction(cpu);
         cpuManager.workerManagement(cpu);
+        //cpuManager.buildManagement(cpu);
     }
 
 	
@@ -275,13 +279,13 @@ public class MobileElementManager implements MobileInterface {
     }
     private void initMap() {
 		//We add player's HQ, & ressource deposits
-    	Block playerHQposition = map.getBlock(10, 10); //TMP player's HQ
+    	Block playerHQposition = map.getBlock(9, 5); //TMP player's HQ
     	//Block playerTowerPosition = map.getBlock(20, 15);//TMP
     	Building playerHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, "Zeus", playerHQposition);
     	//Building playerTower = BuildingFactory.createBuilding(BuildingFactory.DEFENSE_BUILDING, 2, DefaultGameSettings.ZEUS, playerTowerPosition);
     	playerHQ.setUnderConstruction(false);
     	
-    	Building ennemyHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, DefaultGameSettings.HADES, map.getBlock(63, 84));
+    	Building ennemyHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, DefaultGameSettings.HADES, map.getBlock(68,94));
     	ennemyHQ.setUnderConstruction(false);
     	Building ennemyTower1 = BuildingFactory.createBuilding(BuildingFactory.DEFENSE_BUILDING, 2, DefaultGameSettings.HADES, map.getBlock(47, 90));
     	Building ennemyTower2 = BuildingFactory.createBuilding(BuildingFactory.DEFENSE_BUILDING, 2, DefaultGameSettings.HADES, map.getBlock(55, 78));
@@ -340,25 +344,29 @@ public class MobileElementManager implements MobileInterface {
     		Unit unit=UnitFactory.createUnit(UnitFactory.INFANTRY_UNIT, 1, DefaultGameSettings.HADES, spawnBlock);
     		this.units.add(unit);
     		cpu.getCreatedUnits().add(unit);
-    		System.out.println(cpu.getCreatedUnits());
-
     	}
     	for(int i=0;i<6;i++) {
     		Block spawnBlock = map.getBlock(53+(int)(Math.random()*5),65+(int)(Math.random()*5));
     		Unit unit=UnitFactory.createUnit(UnitFactory.ARTILLERY_UNIT, 3, DefaultGameSettings.HADES, spawnBlock);
     		this.units.add(unit);
     		cpu.getCreatedUnits().add(unit);
-    		System.out.println(cpu.getCreatedUnits());
-
     	}
     	for(int i=0;i<3;i++) {
     		Block spawnBlock = map.getBlock(64+(int)(Math.random()*5),69+(int)(Math.random()*5));
     		Unit unit=UnitFactory.createUnit(UnitFactory.CAVALRY_UNIT, 3, DefaultGameSettings.HADES, spawnBlock);
     		this.units.add(unit);
     		cpu.getCreatedUnits().add(unit);
-    		System.out.println(cpu.getCreatedUnits());
-
     	}
+    	
+		Unit w1=UnitFactory.createUnit(UnitFactory.WORKER_UNIT, 1, DefaultGameSettings.HADES, ennemyHQ.getPosition());
+		Unit w2=UnitFactory.createUnit(UnitFactory.WORKER_UNIT, 1, DefaultGameSettings.HADES, ennemyHQ.getPosition());
+		((Worker) w1).setCurrentHQ((HQ) ennemyHQ);
+		((Worker) w2).setCurrentHQ((HQ) ennemyHQ);
+		this.units.add(w1);
+		cpu.getCreatedUnits().add(w1);
+		this.units.add(w2);
+		cpu.getCreatedUnits().add(w2);
+
     	
     	
     	this.buildings.add(playerHQ);

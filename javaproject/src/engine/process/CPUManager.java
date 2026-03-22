@@ -1,6 +1,10 @@
 package engine.process;
 
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import engine.map.Block;
 import engine.mobile.CPU;
 import engine.mobile.RessourceDeposit;
 import engine.mobile.building.Building;
@@ -53,7 +57,46 @@ public class CPUManager implements CPUinterface {
 					}
 					if(workerDeposit!=null) {
 						w.setDestination(workerDeposit.getPosition());
+						w.setCurrentDeposit(workerDeposit);
+						workerDeposit.setCurrentWorkers(workerDeposit.getCurrentWorkers()+1);
+						w.setRessourceType(workerDeposit.getType());
 					}
+				}
+			}
+		}
+	}
+	public void buildManagement(CPU c) {
+		int closeDeposit=0;
+		RessourceDeposit r=null;
+		Iterator<RessourceDeposit> it= manager.getRessourceDeposit().iterator();
+		while(it.hasNext()) {
+			r=it.next();
+			if(r.getCurrentWorkers()==r.getMaxWorkers()) {
+				closeDeposit+=1;
+				if(closeDeposit>=2 && it.hasNext()) {
+					RessourceDeposit dest=it.next();
+					int i=0;
+					ArrayList<Unit> array=c.getCreatedUnits();
+					Unit w=null;
+					while(array.get(i)!=null & w==null && i<array.size()-1) {
+						i+=1;
+						if(array.get(i) instanceof Worker) {
+							if(((Worker) array.get(i)).getIsWorking()==false) {
+								w=array.get(i);
+							}
+						}
+					}
+					if(w!=null) {
+						Block destination=new Block(dest.getPosition().getLine()+1,dest.getPosition().getColumn()+1);
+						w.setDestination(destination);;
+						if(w.getDestination()==w.getPosition()) {
+							System.out.println("je baise cabco");
+							manager.selectBuilding(BuildingFactory.HQ_BUILDING);
+							manager.buildBuilding(w.getPosition(), 1, c.getFactionName(), c);
+							continue;
+						}
+					}
+
 				}
 			}
 		}

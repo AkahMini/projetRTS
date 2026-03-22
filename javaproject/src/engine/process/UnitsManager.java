@@ -52,8 +52,7 @@ public class UnitsManager implements UnitsInterface{
             if (newUnit != null) {
                 manager.addInUnits(newUnit);
                 manager.getCpu().getCreatedUnits().add(newUnit);
-                System.out.println("Unité ajouté :"+manager.getCpu().getCreatedUnits());
-                System.out.println("Unité posée en : " + position.getLine() + ", " + position.getColumn() + " | Faction: " + faction + " | Tier: " + tier);
+                //System.out.println("Unité posée en : " + position.getLine() + ", " + position.getColumn() + " | Faction: " + faction + " | Tier: " + tier);
             }
             selectedUnit = null;
         }
@@ -162,7 +161,6 @@ public class UnitsManager implements UnitsInterface{
     		if(worker.getRessourceType()==RessourceDeposit.AMBROSIA) {
     			player.setAmbroisieStock(player.getAmbroisieStock()+worker.getRessourceLoad());
     		}
-    		System.out.println(manager.getCpu().getAmbroisieStock());
     		worker.setCurrentRessourceLoad(0);
     		if(worker.getCurrentDeposit()!=null) {
     			worker.setDestination(worker.getCurrentDeposit().getPosition());

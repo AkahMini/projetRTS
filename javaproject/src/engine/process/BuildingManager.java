@@ -51,6 +51,7 @@ public class BuildingManager implements BuildingInterface{
 
 			if (newBuilding != null) {
 				manager.addInBuildings(newBuilding);
+				p.getBuiltBuilding().add(newBuilding);
 			}
 			selectedBuilding = null;
 			
