@@ -171,12 +171,14 @@ public class BuildingManager implements BuildingInterface{
 				if(!manager.getSelectedBuild().getIsUnderConstruction()) {
 					UnitProducer hq = (UnitProducer) ((HQ) manager.getSelectedBuild()).getWorkerProducer();// forced cast not optimal
 					manager.addQueue(hq, manager.getSelectedBuild().getPosition(), "WORKER",p);
+					manager.setNotifText("Production d'un worker",true);
 				}
 				break;
 			}if (manager.getSelectedBuild().getBuildingName().equals("Camp Olympique")) {
 				if(!manager.getSelectedBuild().getIsUnderConstruction()) {
 					UnitProducer unitProducer = (UnitProducer) manager.getSelectedBuild();
 					manager.addQueue(unitProducer, manager.getSelectedBuild().getPosition(), "ARTILLERY",p);
+					manager.setNotifText("Production d'artillery",true);
 				}
 				break;
 			}
@@ -193,7 +195,8 @@ public class BuildingManager implements BuildingInterface{
 					System.out.println(key);
 					UnitStats stats = UnitRepository.getInstance().getStats(key);
 					stats.setAttackDamage(stats.getAttackDamage()*1.25);
-					System.out.println("Attack damage of "+id+" of tier increased by 1.25 times");
+					//System.out.println("Attack damage of "+id+" of tier increased by 1.25 times");
+					manager.setNotifText("Atk des "+id+" multiplié par 1.25",true);
 					for (Unit u :manager.getUnits()) {
 						if(!(u instanceof Worker) && (u.getUnitFaction().equals(p.getFactionName()) && u.getTierLevel()==1)) {
 							u.setATK(u.getATK()*1.25);	
@@ -212,6 +215,7 @@ public class BuildingManager implements BuildingInterface{
 					BuildingStats stats = BuildingRepository.getInstance().getStats(key);
 					stats.setProductionSpeed(stats.getProductionSpeed()/2);
 					System.out.println("amelioration de la production speed effectué");
+					manager.setNotifText("Vitesse de prod amélioré",true);
 					for (Building b :manager.getBuildings()) {
 						if(b instanceof UnitProducer && b.getFaction().equals(p.getFactionName())) {
 							UnitProducer unitProducer= (UnitProducer) b;

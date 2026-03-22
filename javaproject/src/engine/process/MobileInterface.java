@@ -62,6 +62,10 @@ public interface MobileInterface {
 	void selectUnit(String string);
 	void unitMoveOrder(Block firstBlock);
 	
+	public void setNotifText(String info,boolean isgood);
+	String getNotification();
+	boolean isNotificationGood();
+	
 	int getSelectedTier();
 	void setSelectedTier(int selectedTier);
 	String getTypeSelection();

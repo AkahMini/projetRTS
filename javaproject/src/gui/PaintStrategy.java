@@ -102,6 +102,15 @@ public class PaintStrategy {
 		graphics.drawString("Tier "+player.getCurrentTier(), 7*windowWidth/9, windowHeight/20);
 	}
 
+	public void paint(String notif, boolean isgood, Graphics graphics) {
+		graphics.setFont(new Font("Arial", Font.BOLD, 16));
+		if(isgood) {
+			graphics.setColor(Color.GREEN.darker());
+		}else {
+			graphics.setColor(Color.RED.darker());
+		}
+		graphics.drawString(notif, 300, 34);
+	}
 
 	//Need to upgrade
 	public void paint(Building building, Graphics graphics) {

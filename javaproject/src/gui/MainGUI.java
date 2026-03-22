@@ -274,6 +274,7 @@ public class MainGUI extends JFrame implements Runnable {
 			String typeSelection =manager.getTypeSelection();
 			if(typeSelection!=null && typeSelection.equals("build") && manager.ifBlockInGamePanel(position)) {
 				manager.buildBuilding(position,manager.getSelectedTier(),manager.getPlayer().getFactionName(),manager.getPlayer());
+				manager.setNotifText(typeSelection+" posé",true);
 				if(manager.getSelectedWorker()!=null) {
 					manager.addUnitsInSelectedArea(manager.getSelectedWorker());
 					manager.unitMoveOrder(position);
@@ -282,6 +283,8 @@ public class MainGUI extends JFrame implements Runnable {
 				typeSelection=null;
 			}else if(typeSelection!=null && typeSelection.equals("PopulationBuilding")  && manager.ifBlockInGamePanel(position)) {
 				manager.buildBuilding(position,manager.getSelectedTier(),manager.getPlayer().getFactionName(),manager.getPlayer());
+				int i=manager.getBuildings().size();
+				manager.setNotifText(typeSelection+" posé",true);
 				if(manager.getSelectedWorker()!=null) {
 					manager.addUnitsInSelectedArea(manager.getSelectedWorker());
 					manager.unitMoveOrder(position);

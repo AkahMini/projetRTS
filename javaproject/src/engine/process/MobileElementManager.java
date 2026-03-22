@@ -44,6 +44,8 @@ public class MobileElementManager implements MobileInterface {
     private Worker selectedWorker =null;
     private int selectedTier =0;//for worker button
     private String typeSelection =null; //I swear its the last attribute I add in this class
+    private String notification =null;
+    private boolean isNotificationGood=false;
     
     private ArrayList<Unit> units = new ArrayList<Unit>();
     
@@ -532,5 +534,23 @@ public class MobileElementManager implements MobileInterface {
 
 	public void setCpuManager(CPUManager cpuManager) {
 		this.cpuManager = cpuManager;
+	}
+	
+	public void setNotifText(String info,boolean isgood) {
+		if (info!=null) {
+			this.notification =info;
+			this.isNotificationGood=isgood;
+		} else {
+			this.notification=null;
+			this.isNotificationGood=false;
+		}
+	}
+	
+	public String getNotification() {
+		return this.notification;
+	}
+	
+	public boolean isNotificationGood() {
+		return this.isNotificationGood;
 	}
 }

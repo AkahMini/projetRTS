@@ -47,6 +47,10 @@ public class GameDisplay extends JPanel {
 		paintStrategy.paint(manager.getHour(), manager.getMinute(), manager.getSecond(), g);
 		paintStrategy.paint(manager.getPlayer(),g);
 		
+		if(manager.getNotification()!=null) {
+			paintStrategy.paint(manager.getNotification(),manager.isNotificationGood(), g);
+		}
+		
 		
 		paintStrategy.paint(manager.getSelectedArea(), g);
 		

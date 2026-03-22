@@ -397,13 +397,16 @@ public class UnitsManager implements UnitsInterface{
     			break;
     		}else if(currentTier==1) {
     			manager.selectBuilding("HQ");
+    			manager.setNotifText("QG sélectioné",true);
     			//System.out.println("selectetd");
     			break;
     		}else if(currentTier==2) {
     			manager.selectBuilding("ResearchBuilding");
+    			manager.setNotifText("Labo de recherche",true);
     			break;
     		}else if(currentTier==3) {
     			manager.selectBuilding("Producer");
+    			manager.setNotifText("Bat de prod tier 3 sélectioné",true);
     			break;
     		}
     		break;
@@ -413,9 +416,11 @@ public class UnitsManager implements UnitsInterface{
     			break;
     		}else if(currentTier==1) {
     			manager.selectBuilding("Producer");
+    			manager.setNotifText("Bat de prod tier 1 sélectioné",true);
     			break;
     		}else if(currentTier==2) {
     			manager.selectBuilding("Producer");
+    			manager.setNotifText("Bat de prod tier 2 sélectioné",true);
     			break;
     		}
     		break;
@@ -425,9 +430,11 @@ public class UnitsManager implements UnitsInterface{
     			break;
     		}else if(currentTier==1) {
     			manager.selectBuilding("PopulationBuilding");
+    			manager.setNotifText("Bat de population sélectioné",true);
     			break;
     		}else if(currentTier==2) {
     			manager.selectBuilding("DefenseTower");
+    			manager.setNotifText("Tour de défense sélectioné",true);
     			break;
     		}
     		break;
