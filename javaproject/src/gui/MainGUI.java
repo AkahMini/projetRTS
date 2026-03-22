@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
@@ -16,6 +17,7 @@ import config.DefaultGameSettings;
 import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
+import engine.mobile.unit.Unit;
 import engine.process.GameBuilder;
 import engine.process.MobileInterface;
 /**
@@ -236,12 +238,27 @@ public class MainGUI extends JFrame implements Runnable {
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			long clickDuration = System.currentTimeMillis()-clickPressTime;
-			if(clickDuration<GameConfiguration.SHORT_CLICK_TIME_DURATION) {
-				shortClick(e);
+
+			int blockSize = GameConfiguration.BLOCK_SIZE;
+			int line = e.getY() / blockSize;
+			int column = e.getX() / blockSize;
+			
+			//we check if the player clicked in the button zone for x and y
+			boolean xZone = (e.getX()>=1020 && e.getX()<=1240);
+			boolean yZone = (e.getY()>=560 && e.getY()<=700);
+			if(xZone && yZone) {
+				manager.areaButtonPressed(e.getX(),e.getY());
+			}
+
+			Block position = map.getBlock(line, column);
+			
+			
+			//if(clickDuration<GameConfiguration.SHORT_CLICK_TIME_DURATION||manager.getSelectedArea().get(0).equals(position)) {
+			if(manager.getSelectedArea().get(0).equals(position)) {
+				shortClick(e,position);
 			}
 			else {
-				longClick(e);
+				longClick(e,position);
 			}
 		}
 
@@ -255,7 +272,7 @@ public class MainGUI extends JFrame implements Runnable {
 
 		}
 
-		public void shortClick(MouseEvent e) {
+		public void shortClick(MouseEvent e, Block position) {
 			int blockSize = GameConfiguration.BLOCK_SIZE;
 			int line = e.getY() / blockSize;
 			int column = e.getX() / blockSize;
@@ -270,8 +287,15 @@ public class MainGUI extends JFrame implements Runnable {
 				manager.areaButtonPressed(e.getX(),e.getY());
 			}
 
-			Block position = map.getBlock(line, column);
+			//Move all units
+			if(manager.ifBlockInGamePanel(position)) {
+				manager.unitMoveOrder(position);
+			}
+			
+			
 			String typeSelection =manager.getTypeSelection();
+			
+			//if we selected a build
 			if(typeSelection!=null && typeSelection.equals("build") && manager.ifBlockInGamePanel(position)) {
 				manager.buildBuilding(position,manager.getSelectedTier(),manager.getPlayer().getFactionName(),manager.getPlayer());
 				manager.setNotifText(typeSelection+" posé",true);
@@ -281,9 +305,11 @@ public class MainGUI extends JFrame implements Runnable {
 					manager.setSelectedWorker(null);
 				}
 				typeSelection=null;
-			}else if(typeSelection!=null && typeSelection.equals("PopulationBuilding")  && manager.ifBlockInGamePanel(position)) {
+			}
+			
+			//if we selected a population building
+			else if(typeSelection!=null && typeSelection.equals("PopulationBuilding")  && manager.ifBlockInGamePanel(position)) {
 				manager.buildBuilding(position,manager.getSelectedTier(),manager.getPlayer().getFactionName(),manager.getPlayer());
-				int i=manager.getBuildings().size();
 				manager.setNotifText(typeSelection+" posé",true);
 				if(manager.getSelectedWorker()!=null) {
 					manager.addUnitsInSelectedArea(manager.getSelectedWorker());
@@ -292,6 +318,8 @@ public class MainGUI extends JFrame implements Runnable {
 				}
 				typeSelection=null;
 			}
+			
+			
 			else if(typeSelection!=null && typeSelection.equals("unitAllie")) {
 				manager.spawnUnit(position, manager.getPlayer().getFactionName());
 				typeSelection=null;
@@ -301,17 +329,28 @@ public class MainGUI extends JFrame implements Runnable {
 				typeSelection=null;
 			}
 
-			if(manager.ifBlockInGamePanel(position)) {
-				manager.unitMoveOrder(position);
-			}
+			//create 4x4 selection, because only the top left block of a building is recognized as a building
+			Block firstBlock = manager.getSelectedArea().get(0);
+			line = position.getLine()-1;
+			column = position.getColumn()-1;
+			manager.calculateSelectedArea(map.getBlock(line, column));
+			manager.getBuildingsInSelectedArea();
 			
-			if(manager.ifBlockInGamePanel(position)) {
-				manager.unitMoveOrder(position);
-			}
+			//create a new 1x1 selection, for units
+			//dosen't work because when we click, we usually move units, so we remove the selection
+			//needs correction
+			ArrayList<Block> newSelection = new ArrayList<Block>();
+			newSelection.add(firstBlock);
+			manager.setSelectedArea(newSelection);
+			manager.calculateSelectedArea(position);
+			manager.getUnitsInSelectedArea();
+			
+			
+			
+			manager.setUnitsInSelectedArea(new ArrayList<Unit>()); //Reset the selection
 		}
-		public void longClick(MouseEvent e) {
-			Block lastBlock=manager.getMousePosition(e.getY(), e.getX());
-			manager.calculateSelectedArea(lastBlock);
+		public void longClick(MouseEvent e,Block position) {
+			manager.calculateSelectedArea(position);
 			manager.getUnitsInSelectedArea();
 			manager.getBuildingsInSelectedArea();
 		}

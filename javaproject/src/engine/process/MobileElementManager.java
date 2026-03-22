@@ -198,6 +198,7 @@ public class MobileElementManager implements MobileInterface {
     
     public void calculateSelectedArea(Block lastBlock) {
         Block firstBlock = this.selectedArea.get(0);
+        this.selectedArea= new ArrayList<Block>();//Reset the selected area
         
         int x1 = firstBlock.getLine();
         int y1 = firstBlock.getColumn();
@@ -417,6 +418,9 @@ public class MobileElementManager implements MobileInterface {
     public ArrayList<Unit> getUnitsInSelectedArea(){
         return unitsInSelectedArea;
     }
+    public void setUnitsInSelectedArea(ArrayList<Unit> units){
+        this.unitsInSelectedArea=units;
+    }
     
     public ArrayList<Building> getBuildingsInSelectedArea(){
     	return buildingsInSelectedArea;
@@ -482,6 +486,9 @@ public class MobileElementManager implements MobileInterface {
     
     public ArrayList<Block> getSelectedArea() {
         return selectedArea;
+    }
+    public void setSelectedArea(ArrayList<Block> selectedArea) {
+        this.selectedArea=selectedArea;
     }
     
     public Player getPlayer() {

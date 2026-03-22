@@ -42,6 +42,7 @@ public interface MobileInterface {
     ArrayList<Building> getBuildings();
     ArrayList<Block> getSelectedArea();
     ArrayList<Unit> getUnitsInSelectedArea();
+    void setUnitsInSelectedArea(ArrayList<Unit> units);
     void addUnitsInSelectedArea(Unit unit);
     ArrayList<Building> getBuildingsInSelectedArea();
 	CyclicCounter getHour();
@@ -68,6 +69,7 @@ public interface MobileInterface {
 	
 	int getSelectedTier();
 	void setSelectedTier(int selectedTier);
+	void setSelectedArea(ArrayList<Block> selectedArea);
 	String getTypeSelection();
 	void setTypeSelection(String typeSelection);
 	void spawnUnit(Block position, String faction);
