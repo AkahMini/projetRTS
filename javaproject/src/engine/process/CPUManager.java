@@ -19,6 +19,41 @@ public class CPUManager implements CPUinterface {
 	public CPUManager(MobileInterface manager) {
 		this.setManager(manager);
 	}
+	public void buildManagement(CPU c) {
+		int closeDeposit=0;
+		RessourceDeposit r=null;
+		Iterator<RessourceDeposit> it= manager.getRessourceDeposit().iterator();
+		while(it.hasNext()) {
+			r=it.next();
+			if(r.getCurrentWorkers()==r.getMaxWorkers()) {
+				closeDeposit+=1;
+				if(closeDeposit>=2 && it.hasNext()) {
+					RessourceDeposit dest=it.next();
+					int i=0;
+					ArrayList<Unit> array=c.getCreatedUnits();
+					Unit w=null;
+					while(array.get(i)!=null & w==null && i<array.size()-1) {
+						i+=1;
+						if(array.get(i) instanceof Worker) {
+							if(((Worker) array.get(i)).getIsWorking()==false) {
+								w=array.get(i);
+							}
+						}
+					}
+					if(w!=null) {
+						Block destination=new Block(dest.getPosition().getLine()+1,dest.getPosition().getColumn()+1);
+						w.setDestination(destination);;
+						if(w.getDestination()==w.getPosition()) {
+							manager.selectBuilding(BuildingFactory.HQ_BUILDING);
+							manager.buildBuilding(w.getPosition(), 1, c.getFactionName(), c);
+							continue;
+						}
+					}
+
+				}
+			}
+		}
+	}
 	public void attackReaction(CPU c) {
 		for(Unit u : c.getCreatedUnits()) {
 			if(u.getIsInCombat()) {
@@ -61,42 +96,6 @@ public class CPUManager implements CPUinterface {
 						workerDeposit.setCurrentWorkers(workerDeposit.getCurrentWorkers()+1);
 						w.setRessourceType(workerDeposit.getType());
 					}
-				}
-			}
-		}
-	}
-	public void buildManagement(CPU c) {
-		int closeDeposit=0;
-		RessourceDeposit r=null;
-		Iterator<RessourceDeposit> it= manager.getRessourceDeposit().iterator();
-		while(it.hasNext()) {
-			r=it.next();
-			if(r.getCurrentWorkers()==r.getMaxWorkers()) {
-				closeDeposit+=1;
-				if(closeDeposit>=2 && it.hasNext()) {
-					RessourceDeposit dest=it.next();
-					int i=0;
-					ArrayList<Unit> array=c.getCreatedUnits();
-					Unit w=null;
-					while(array.get(i)!=null & w==null && i<array.size()-1) {
-						i+=1;
-						if(array.get(i) instanceof Worker) {
-							if(((Worker) array.get(i)).getIsWorking()==false) {
-								w=array.get(i);
-							}
-						}
-					}
-					if(w!=null) {
-						Block destination=new Block(dest.getPosition().getLine()+1,dest.getPosition().getColumn()+1);
-						w.setDestination(destination);;
-						if(w.getDestination()==w.getPosition()) {
-							System.out.println("je baise cabco");
-							manager.selectBuilding(BuildingFactory.HQ_BUILDING);
-							manager.buildBuilding(w.getPosition(), 1, c.getFactionName(), c);
-							continue;
-						}
-					}
-
 				}
 			}
 		}
