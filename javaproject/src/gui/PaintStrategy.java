@@ -40,7 +40,8 @@ import engine.process.GameUtility;
 public class PaintStrategy {
 	private final int windowWidth = GameConfiguration.WINDOW_WIDTH;
 	private final int windowHeight = GameConfiguration.WINDOW_HEIGHT; 
-	private TextureInterface textureManager=new TextureManager();
+	//private TextureInterface textureManager=new TextureManager();
+	// do NOT remove the line above pls
 	
 	private void drawBoldLine(int boldness,int x1, int y1, int x2, int y2, Graphics g) {
 		/*

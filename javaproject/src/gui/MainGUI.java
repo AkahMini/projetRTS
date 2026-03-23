@@ -38,8 +38,8 @@ public class MainGUI extends JFrame implements Runnable {
 
 	private Map map;
 
-
-
+	private boolean stop = false;
+	
 	private final static Dimension preferredSize = new Dimension(GameConfiguration.WINDOW_WIDTH, GameConfiguration.WINDOW_HEIGHT);
 
 	private MobileInterface manager;
@@ -59,7 +59,8 @@ public class MainGUI extends JFrame implements Runnable {
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new BorderLayout());
 
-		KeyControls keyControls = new KeyControls();
+		// ?
+		//KeyControls keyControls = new KeyControls();
 
 		//This part is used to see text input if wanted
 
@@ -173,6 +174,10 @@ public class MainGUI extends JFrame implements Runnable {
 		dashboard.setPreferredSize(preferredSize);
 		contentPane.add(dashboard, BorderLayout.CENTER);
 
+		
+		this.addKeyListener(new KeyControls());
+		setFocusable(true);
+		requestFocusInWindow();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		pack();
 		setVisible(true);
@@ -191,9 +196,10 @@ public class MainGUI extends JFrame implements Runnable {
 			} catch (InterruptedException e) {
 				System.out.println(e.getMessage());
 			}
-
-			manager.nextRound();
-			dashboard.repaint();
+			if(!stop) {
+				manager.nextRound();
+				dashboard.repaint();
+			}
 		}
 	}
 
@@ -202,9 +208,17 @@ public class MainGUI extends JFrame implements Runnable {
 		//this part is for the keybord interaction 
 		@Override
 		public void keyPressed(KeyEvent event) {
-			char keyChar = event.getKeyChar();
-			switch (keyChar) {
-
+			int keyCode = event.getKeyCode();
+			switch (keyCode) {
+			case KeyEvent.VK_ESCAPE:
+				if (!stop) {
+					stop = true;
+				} else {
+					stop = false;
+				}
+				manager.setIsGameStoped(stop);
+				dashboard.repaint();
+	            break;
 			default:
 				break;
 			}

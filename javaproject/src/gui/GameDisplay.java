@@ -30,6 +30,7 @@ public class GameDisplay extends JPanel {
 	private Map map;
 	private MobileInterface manager;
 	private PaintStrategy paintStrategy = new PaintStrategy();
+	private MenuStrategy menuStrategy = new MenuStrategy();
 
 	public GameDisplay(Map map, MobileInterface manager) {
 		this.map = map;
@@ -88,7 +89,9 @@ public class GameDisplay extends JPanel {
 			paintStrategy.paintGrid(map, g);
 		}
 		
-		
+		if(manager.isGameStoped()) {
+			menuStrategy.paintPauseMenu(g);
+		}
 
 	}	
 }

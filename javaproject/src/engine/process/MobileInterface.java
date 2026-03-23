@@ -23,6 +23,7 @@ import engine.process.chrono.CyclicCounter;
  * @version 1.0
  */
 
+//ok maybe this is too much
 public interface MobileInterface {
 	void firstRound();
 	void nextRound();
@@ -49,6 +50,9 @@ public interface MobileInterface {
 	CyclicCounter getMinute();
 	CyclicCounter getSecond();
 	Block getMousePosition(int y, int x);
+	
+	void setIsGameStoped(boolean stop);
+	boolean isGameStoped();
 	
 	void areaButtonPressed(int x, int y);
 	boolean ifBlockInGamePanel(Block block);

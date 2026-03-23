@@ -46,6 +46,7 @@ public class MobileElementManager implements MobileInterface {
     private String typeSelection =null; //I swear its the last attribute I add in this class
     private String notification =null;
     private boolean isNotificationGood=false;
+    private boolean isGameStoped = false;//OK THIS IS THE LAST, I CREATE A NEW CLASS IF NEEDED
     
     private ArrayList<Unit> units = new ArrayList<Unit>();
     
@@ -567,5 +568,13 @@ public class MobileElementManager implements MobileInterface {
 	
 	public boolean isNotificationGood() {
 		return this.isNotificationGood;
+	}
+
+	public boolean isGameStoped() {
+		return isGameStoped;
+	}
+
+	public void setIsGameStoped(boolean stop) {
+		this.isGameStoped = stop;
 	}
 }
