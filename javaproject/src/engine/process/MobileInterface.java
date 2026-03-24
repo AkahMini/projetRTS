@@ -78,4 +78,6 @@ public interface MobileInterface {
 	void setTypeSelection(String typeSelection);
 	void spawnUnit(Block position, String faction);
 	CPU getCpu();
+	
+	void motherload();
 }

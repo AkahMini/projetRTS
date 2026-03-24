@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -64,7 +65,8 @@ public class GameDisplay extends JPanel {
 		for (RessourceDeposit deposit: manager.getRessourceDeposit()) {
 			paintStrategy.paint(deposit, g);
 		}
-		for (Unit unit : manager.getUnits()) {
+		for (Unit unit : new ArrayList<>(manager.getUnits())) {
+			//We copy Unit list because it can be manipulated elsewhere while we iterate it
 			paintStrategy.paint(unit, g);
 			//similar if of the calculDegats method in UnitManager
 			if (unit.getIsInCombat() && unit.getAttackCounter()>=(Unit.getAttackTime())-10) {

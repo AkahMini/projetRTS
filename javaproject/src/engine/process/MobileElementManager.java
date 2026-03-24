@@ -105,14 +105,12 @@ public class MobileElementManager implements MobileInterface {
 		if(timetweaker.getValue() == 68) {
             chronometer.increment();
             //Units manager
-            for(int i=0;i<units.size();i++) {
-            	Unit unit=units.get(i);
+            for(Unit unit: new ArrayList<>(units)) {
+            	//We copy Unit list because it can be manipulated elsewhere while we iterate it
             	if(unit.getHp()<=0) {
             		System.out.println("Unit '"+unit.getUnitName()+"' removed");
-            		units.remove(i);
-            		
-            		i--;
-            		continue;
+            		units.remove(unit);
+      
             	}
                 
             	// Ennemy scan
@@ -385,6 +383,15 @@ public class MobileElementManager implements MobileInterface {
     	this.ressourceDeposits.add(deposit5);
 	}
     
+    public void motherload() {
+    	/**
+    	 * Set infinite ressources for the player
+    	 */
+    	player.setAmbroisieStock(999999);
+    	player.setFaithStock(999999);
+    	setNotifText("Motherload activated", true);
+    }
+    
     public boolean ifBlockInGamePanel(Block block) {
     	if(block.getColumn()<=100 && block.getLine()>=7) {
     		return true;
@@ -444,7 +451,15 @@ public class MobileElementManager implements MobileInterface {
     
     @Override
     public void buildBuilding(Block position,int tier,String faction, Player p) {
-        buildingManager.buildBuilding(position, tier, faction, player);
+        System.out.println("aaaa");
+    	if(buildingManager.buildBuilding(position, tier, faction, player)==1) {
+    		System.out.println("bbb");
+    		setNotifText("Batiment ajouté",true);
+        }
+        else {
+        	System.out.println("cccc");
+        	setNotifText("Ressources insuffisantes",false);
+        }
     }
 
     @Override

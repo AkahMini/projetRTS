@@ -385,8 +385,6 @@ public class UnitsManager implements UnitsInterface{
     		        it.remove();
     		    }
     		}
-    		
-    		
     		//units.remove(unit);
     	}
     }

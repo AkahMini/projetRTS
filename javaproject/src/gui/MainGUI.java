@@ -219,6 +219,9 @@ public class MainGUI extends JFrame implements Runnable {
 				manager.setIsGameStoped(stop);
 				dashboard.repaint();
 	            break;
+			case KeyEvent.VK_M:
+				manager.motherload();
+				break;
 			default:
 				break;
 			}
@@ -312,7 +315,6 @@ public class MainGUI extends JFrame implements Runnable {
 			//if we selected a build
 			if(typeSelection!=null && typeSelection.equals("build") && manager.ifBlockInGamePanel(position)) {
 				manager.buildBuilding(position,manager.getSelectedTier(),manager.getPlayer().getFactionName(),manager.getPlayer());
-				manager.setNotifText(typeSelection+" posé",true);
 				if(manager.getSelectedWorker()!=null) {
 					manager.addUnitsInSelectedArea(manager.getSelectedWorker());
 					manager.unitMoveOrder(position);

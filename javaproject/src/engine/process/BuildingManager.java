@@ -42,20 +42,31 @@ public class BuildingManager implements BuildingInterface{
 		this.selectedBuilding = type;
 	}
 
-	public void buildBuilding(Block position,int tier,String faction, Player p) {
-		if (selectedBuilding == null) {
-			return;
+	public int buildBuilding(Block position,int tier,String faction, Player p) {
+		/**
+		 * Build a building, returns 0 if it fails
+		 */
+		if (selectedBuilding == null){
+			return 0;
 		}
 		if (position.getLine() >= 7 && position.getColumn() < GameConfiguration.COLUMN_COUNT - 28) {
 			Building newBuilding = BuildingFactory.createBuilding(selectedBuilding, tier, faction, position);
 
 			if (newBuilding != null) {
+				if(newBuilding.getAmbroisieCost()>p.getAmbroisieStock()||newBuilding.getFaithCost()>p.getFaithStock()) {
+					//if the player don't have the funds to build
+					return 0;
+				}
+				
 				manager.addInBuildings(newBuilding);
 				p.getBuiltBuilding().add(newBuilding);
+				p.setAmbroisieStock(p.getAmbroisieStock()-newBuilding.getAmbroisieCost());
+				p.setFaithStock(p.getFaithStock()-newBuilding.getFaithCost());
 			}
 			selectedBuilding = null;
-			
+			return 1;
 		}
+		return 0;
 	}
 
 	public void buildingsInSelectedArea() {
