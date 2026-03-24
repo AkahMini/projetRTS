@@ -74,7 +74,19 @@ public class Map {
      * @return The Block object at the specified coordinates.
      */
 	public Block getBlock(int line, int column) {
-		return blocks[line][column];
+		if(line>lineCount-1) {
+			line=lineCount-1;
+		}
+		if(line<0) {
+			line=0;
+		}
+		if(column>columnCount-1) {
+			column=columnCount-1;
+		}
+		if(column<0) {
+			column=0;
+		}
+			return blocks[line][column];
 	}
 
 }

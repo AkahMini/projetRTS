@@ -1,6 +1,7 @@
 package engine.process;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import config.DefaultGameSettings;
 import config.GameConfiguration;
@@ -377,7 +378,16 @@ public class UnitsManager implements UnitsInterface{
     }
     public void killUnit(Unit unit, ArrayList<Unit> units) {
     	if(unit.getHp()<=0) {
-    		units.remove(unit);
+    		Iterator<Unit> it = units.iterator();
+    		while (it.hasNext()) {
+    		    Unit u= it.next();
+    		    if (u.equals(unit)) {
+    		        it.remove();
+    		    }
+    		}
+    		
+    		
+    		//units.remove(unit);
     	}
     }
     
