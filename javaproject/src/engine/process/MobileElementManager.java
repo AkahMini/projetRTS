@@ -451,13 +451,12 @@ public class MobileElementManager implements MobileInterface {
     
     @Override
     public void buildBuilding(Block position,int tier,String faction, Player p) {
-        System.out.println("aaaa");
-    	if(buildingManager.buildBuilding(position, tier, faction, player)==1) {
-    		System.out.println("bbb");
+    	boolean playerBuild = (faction.equals(gameSettings.getPlayerFaction()));
+    	if(buildingManager.buildBuilding(position, tier, faction, player)==1&&playerBuild) {
+    		//builds the building, check if it was succesfully built by the human player
     		setNotifText("Batiment ajouté",true);
         }
         else {
-        	System.out.println("cccc");
         	setNotifText("Ressources insuffisantes",false);
         }
     }

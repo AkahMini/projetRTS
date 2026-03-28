@@ -496,5 +496,14 @@ public class PaintStrategy {
 		}
 	}
 	
+	public void paintMouse(Block position, Graphics graphics){
+		int x1=position.getLine()*GameConfiguration.BLOCK_SIZE;
+		int y1=position.getColumn()*GameConfiguration.BLOCK_SIZE;
+		int x2=(position.getLine()+1)*GameConfiguration.BLOCK_SIZE;
+		int y2=(position.getColumn()+1)*GameConfiguration.BLOCK_SIZE;
+		
+		graphics.drawImage(GameUtility.readImage("src/gameData/images/Camp.png"),x1,y1,x2,y2,null);
+	}
+	
 	
 }

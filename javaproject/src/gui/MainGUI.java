@@ -46,7 +46,6 @@ public class MainGUI extends JFrame implements Runnable {
 
 	private GameDisplay dashboard;
 	
-	private long clickPressTime; //To decides wheter the click is short or not 
 
 	public MainGUI(String title) {
 		super(title);
@@ -248,7 +247,6 @@ public class MainGUI extends JFrame implements Runnable {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			clickPressTime = System.currentTimeMillis(); //To decides whether the click is short or not
 			Block firstBlock=manager.getMousePosition(e.getY(), e.getX());
 			manager.initSelectedArea(firstBlock);
 		}
@@ -288,6 +286,7 @@ public class MainGUI extends JFrame implements Runnable {
 		public void mouseExited(MouseEvent e) {
 
 		}
+		
 
 		public void shortClick(MouseEvent e, Block position) {
 			int blockSize = GameConfiguration.BLOCK_SIZE;
@@ -344,7 +343,7 @@ public class MainGUI extends JFrame implements Runnable {
 				manager.spawnUnit(position, "HADES"); // faction harcoded for testing
 				typeSelection=null;
 			}
-
+			manager.setTypeSelection(typeSelection);
 			//create 4x4 selection, because only the top left block of a building is recognized as a building
 			Block firstBlock = manager.getSelectedArea().get(0);
 			line = position.getLine()-1;
@@ -363,7 +362,7 @@ public class MainGUI extends JFrame implements Runnable {
 			
 			
 			
-			manager.setUnitsInSelectedArea(new ArrayList<Unit>()); //Reset the selection
+			//manager.setUnitsInSelectedArea(new ArrayList<Unit>()); //Reset the selection
 		}
 		public void longClick(MouseEvent e,Block position) {
 			manager.calculateSelectedArea(position);

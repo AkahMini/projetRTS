@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -43,7 +44,7 @@ public class GameDisplay extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
+		
 		paintStrategy.paint(map, g);
 		
 		paintStrategy.paint(manager.getHour(), manager.getMinute(), manager.getSecond(), g);
