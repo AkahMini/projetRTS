@@ -1,5 +1,7 @@
 package config;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Class containing the constant relevant to the game configuration like the game speed or the number of line
@@ -27,6 +29,5 @@ public class GameConfiguration {
 	
 	public static final int SHORT_CLICK_TIME_DURATION = 120;
 
-	
-
+	public static final ArrayList<String> GAMESTATE= new ArrayList<String>(Arrays.asList("MENU","CHOOSE","PLAYING","END"));
 }

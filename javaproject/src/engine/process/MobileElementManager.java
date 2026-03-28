@@ -63,10 +63,10 @@ public class MobileElementManager implements MobileInterface {
     private UnitsInterface unitManager;
     private CPUManager cpuManager;
     
-    public MobileElementManager(Map map, DefaultGameSettings gameSettings) {
+    public MobileElementManager(Map map, DefaultGameSettings gameSettings,String faction) {
         this.gameSettings=gameSettings;
     	this.map = map;
-        this.player = new Player("Jhon Doe", "Zeus");
+        this.player = new Player("Jhon Doe", faction);
         this.cpu = new CPU("Ian", "Hades",5,5,5);
         chronometer.init();
         this.buildingManager = new BuildingManager(this);

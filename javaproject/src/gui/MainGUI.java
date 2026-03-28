@@ -19,6 +19,7 @@ import engine.map.Block;
 import engine.map.Map;
 import engine.mobile.unit.Unit;
 import engine.process.GameBuilder;
+import engine.process.MenuInterface;
 import engine.process.MobileInterface;
 /**
  * 
@@ -40,12 +41,18 @@ public class MainGUI extends JFrame implements Runnable {
 
 	private boolean stop = false;
 	
+	private boolean running = true;
+	
 	private final static Dimension preferredSize = new Dimension(GameConfiguration.WINDOW_WIDTH, GameConfiguration.WINDOW_HEIGHT);
 
 	private MobileInterface manager;
+	private MenuInterface menu;
 
 	private GameDisplay dashboard;
 	
+	//launch the game with MENU as the current state
+	//please refer to the game config to see the list
+	private String currentState=GameConfiguration.GAMESTATE.get(0);
 
 	public MainGUI(String title) {
 		super(title);
@@ -54,7 +61,8 @@ public class MainGUI extends JFrame implements Runnable {
 
 	private void init() {
 
-
+		//System.out.println(GameConfiguration.GAMESTATE);
+		//System.out.println(currentState);
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new BorderLayout());
 
@@ -72,7 +80,8 @@ public class MainGUI extends JFrame implements Runnable {
 
 
 		//THIS PART IS FOR TEST ONLY WILL BE REMOVED
-
+		
+		
 		javax.swing.JPanel RightPanel = new javax.swing.JPanel();
 		RightPanel.setBackground(java.awt.Color.GRAY); 
 
@@ -160,12 +169,12 @@ public class MainGUI extends JFrame implements Runnable {
 		RightPanel.add(testButton7);
 		RightPanel.add(testButton8);
 		contentPane.add(RightPanel, BorderLayout.SOUTH);
-
+		 
 
 
 		map = GameBuilder.buildMap();
-		manager = GameBuilder.buildInitMobile(map,this.gameSettings);
-		dashboard = new GameDisplay(map, manager);
+		menu = GameBuilder.buildInitMenu(this.gameSettings);
+		dashboard = new GameDisplay(map, manager, menu);
 
 		MouseControls mouseControls = new MouseControls();
 		dashboard.addMouseListener(mouseControls);
@@ -188,38 +197,139 @@ public class MainGUI extends JFrame implements Runnable {
 
 	@Override
 	public void run() {
-		manager.firstRound();
-		while (true) {
+		while (running) {
 			try {
 				Thread.sleep(GameConfiguration.GAME_SPEED);
 			} catch (InterruptedException e) {
 				System.out.println(e.getMessage());
 			}
-			if(!stop) {
-				manager.nextRound();
-				dashboard.repaint();
+			switch(currentState) {
+				case "MENU":
+					menu.updateMenu(currentState);
+					break;
+				case "CHOOSE":
+					menu.updateMenu(currentState);
+					break;
+				case "PLAYING":
+					menu.updateMenu(currentState);
+					if(!stop) {
+						manager.nextRound();
+					}
+					break;
+				case "END":
+					menu.updateMenu(currentState);
+					break;
 			}
+			dashboard.repaint();
 		}
+		ExitGame();
 	}
 
+	public void startGame() {
+		manager = GameBuilder.buildInitMobile(map,this.gameSettings,menu.getSelectedFaction());
+		dashboard.resetManager(manager);
+	    manager.firstRound();
+	    currentState = GameConfiguration.GAMESTATE.get(2);
+	    System.out.println("jeu lancé");
+	}
+	
+	private void ExitGame() {
+		//if this message is  here = the game closed proprely
+	    System.out.println("Fermeture du jeu");
+	    //put here method for saving or for stopping other thread
+	    System.exit(0);
+	}
+	
 	private class KeyControls implements KeyListener {
 
 		//this part is for the keybord interaction 
+		//please indicate the gamestate (main game =2)
 		@Override
 		public void keyPressed(KeyEvent event) {
 			int keyCode = event.getKeyCode();
 			switch (keyCode) {
-			case KeyEvent.VK_ESCAPE:
-				if (!stop) {
-					stop = true;
-				} else {
-					stop = false;
+			
+			case KeyEvent.VK_ENTER:
+				if (currentState.equals("MENU")) {
+					currentState=GameConfiguration.GAMESTATE.get(1);
+					break;
+				} else if (currentState.equals("CHOOSE")) {
+					startGame();
+					break;
+				} else if (currentState.equals("END")) {
+					currentState=GameConfiguration.GAMESTATE.get(0);
+					break;
 				}
-				manager.setIsGameStoped(stop);
-				dashboard.repaint();
+				break;
+				
+			case KeyEvent.VK_ESCAPE:
+				if (currentState.equals("PLAYING")) {
+					if (!stop) {
+						stop = true;
+					} else {
+						stop = false;
+					}
+					manager.setIsGameStoped(stop);
+					dashboard.repaint();
+					break;
+				}else if(currentState.equals("CHOOSE")) {
+					currentState=GameConfiguration.GAMESTATE.get(0);
+					break;
+				}else if(currentState.equals("MENU") || currentState.equals("END")) {
+					running=false;
+				}
 	            break;
+	        
+			case KeyEvent.VK_1:
+				if (currentState.equals("CHOOSE")) {
+					menu.setSelectedFaction("Zeus");
+				}
+				break;
+				
+			case KeyEvent.VK_2:
+				if (currentState.equals("CHOOSE")) {
+					menu.setSelectedFaction("Hades");
+				}
+				break;	
+				
+			case KeyEvent.VK_3:
+				if (currentState.equals("CHOOSE")) {
+					menu.setSelectedFaction("Poseidon");
+				}
+				break;
+				
+			case KeyEvent.VK_S:
+				if (currentState.equals("CHOOSE")) {
+					menu.setselectedMode(0);
+				}
+				break;
+				
+			case KeyEvent.VK_Q:
+				if (currentState.equals("PLAYING")) {
+					if(stop) {
+						ExitGame();
+					}
+				}
+				break;
+			
+			case KeyEvent.VK_A:
+				if (currentState.equals("PLAYING")) {
+					if(stop) {
+						//do here the event for end the game ( a loose, this input is considered as giving up the game)
+					}
+				}
+				break;
+				
+			case KeyEvent.VK_F:
+				if (currentState.equals("CHOOSE")) {
+					menu.setselectedMode(1);
+				}
+				break;
+				
 			case KeyEvent.VK_M:
-				manager.motherload();
+				if (currentState.equals("PLAYING")) {
+					manager.motherload();
+				}
 				break;
 			default:
 				break;
@@ -236,7 +346,7 @@ public class MainGUI extends JFrame implements Runnable {
 
 		}
 	}
-
+	
 	private class MouseControls implements MouseListener {
 		
 		

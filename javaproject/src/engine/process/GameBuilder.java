@@ -21,10 +21,14 @@ public class GameBuilder {
 		return new Map(GameConfiguration.LINE_COUNT, GameConfiguration.COLUMN_COUNT);
 	}
 
-	public static MobileInterface buildInitMobile(Map map, DefaultGameSettings gameSettings) {
-		MobileInterface manager = new MobileElementManager(map, gameSettings);
-				
+	public static MobileInterface buildInitMobile(Map map, DefaultGameSettings gameSettings,String faction) {
+		MobileInterface manager = new MobileElementManager(map, gameSettings,faction);
 		return manager;
+	}
+	
+	public static MenuInterface buildInitMenu(DefaultGameSettings gameSettings) {
+		MenuInterface menu= new MenuManager(gameSettings);
+		return menu;
 	}
 
 }
