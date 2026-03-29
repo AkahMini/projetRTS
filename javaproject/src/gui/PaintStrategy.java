@@ -92,6 +92,9 @@ public class PaintStrategy {
 	}
 
 	public void paint(Player player, Graphics graphics) {
+		/**
+		 * paints the stats of the player
+		 */
 		graphics.setFont(new Font("Arial", Font.PLAIN, 20));
 		graphics.setColor(new Color(204,102,0));
 		graphics.drawString("Population : "+player.getCurrentPopulation()+"/"+player.getMaxPopulation(), 5*windowWidth/6,windowHeight/20);
@@ -104,6 +107,9 @@ public class PaintStrategy {
 	}
 
 	public void paint(String notif, boolean isgood, Graphics graphics) {
+		/**
+		 * game notification paiting
+		 */
 		graphics.setFont(new Font("Arial", Font.BOLD, 16));
 		if(isgood) {
 			graphics.setColor(Color.GREEN.darker());
@@ -435,10 +441,10 @@ public class PaintStrategy {
 			int percent = build.getPercentHP();
 	
 			if(percent>=98) {
-				graphics.setColor(new Color(0,102,0));// dark greeeeeeen
+				graphics.setColor(new Color(0,102,0));
 				graphics.fillRect(x, y, 220, 6);
 			}else {
-				graphics.setColor(new Color(0,102,0));// dark greeeeeeen
+				graphics.setColor(new Color(0,102,0));
 				graphics.fillRect(x, y, (int)((percent*220.0/100)), 6);
 				graphics.setColor(Color.RED);
 				graphics.fillRect((int)((percent*220.0/100))+x, y, (int)(220-(percent*220.0/100)), 6);
@@ -446,6 +452,8 @@ public class PaintStrategy {
 	
 	
 			//button to be defined
+			
+			/*
 			if(build.getBuildingName().equals("Temple de Zeus")) {
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/miner.png"),1020,560,60,60,null);
 			}
@@ -456,11 +464,95 @@ public class PaintStrategy {
 			if(build.getBuildingName().equals("Camp Olympique")) {
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/Artillery.png"),1020,560,60,60,null);
 			}
+			*/
+			
+			String imageRepertory = "src/gameData/images/";
+			String image1=imageRepertory+"emptyButton.png";
+			String image2=imageRepertory+"emptyButton.png";
+			String image3=imageRepertory+"emptyButton.png";
+			
+			
+			String name =build.getBuildingName();
+			
+			if(name.equals("Temple de Zeus")||name.equals("Gouffre du Tartare")||name.equals("Forum aquatique")) {
+				image1=imageRepertory+"miner.png";
+			}
+			if(name.equals("Bibliothèque d'Alexandrie")||name.equals("École des pythagoricien")||name.equals("Centre d'étude Atlan")) {
+				image1=imageRepertory+"dmgUp";
+				image2=imageRepertory+"prodUnitUp";
+			}
+			if(name.equals("Bibliothèque d'Alexandrie")||name.equals("École des pythagoricien")||name.equals("Centre d'étude Atlan")) {
+				image1=imageRepertory+"dmgUp";
+				image2=imageRepertory+"prodUnitUp";
+			}
+			else {
+				switch(name) {
+				case("Camp spartiate"):
+					image1=imageRepertory+"Infantry.png";
+					break;
+				case("Colisée d'Atlantide"):
+					image1=imageRepertory+"Infantry.png";
+					break;
+				case("Camp Olympique"):
+					image1=imageRepertory+"Artillery.png";
+					break;
+				case("Puit d'invocation"):
+					image1=imageRepertory+"Artillery.png";
+					image2=imageRepertory+"Cavalry.png";
+					break;
+				case("Cascade"):
+					image1=imageRepertory+"Artillery.png";
+					image2=imageRepertory+"Cavalry.png";
+					break;
+				case("prytanée"):
+					image1=imageRepertory+"Infantry.png";
+					image2=imageRepertory+"Cavalry.png";
+					break;
+				case("Portail vers les champs Élysées"):
+					image1=imageRepertory+"Artillery.png";
+					image2=imageRepertory+"Cavalry.png";
+					break;
+				case("Fosse sous marine"):
+					image1=imageRepertory+"Infantry.png";
+					image2=imageRepertory+"Cavalry.png";
+					break;
+				case("Autel de la sagesse"):
+					image1=imageRepertory+"Infantry.png";
+					image2=imageRepertory+"Cavalry.png";
+					break;
+				}
+			}
+			
+			
+			
+			graphics.drawImage(GameUtility.readImage(image1),1020,560,60,60,null);//first button
+			if(image2.equals(imageRepertory+"emptyButton.png")==false) {
+				graphics.drawImage(GameUtility.readImage(image2),1100,560,60,60,null);//second button
+			}
+			if(image3.equals(imageRepertory+"emptyButton.png")==false) {
+				graphics.drawImage(GameUtility.readImage(image3),1180,560,60,60,null);//third button
+			}
+			
+			/**
+			 * Camp spartiate: hoplites, infanterie
+			 * Colisée d'Atlantide: poseidon 1, Rétiaire, infantry
+			 * Camp Olympique: lanceurs de disque, artillery
+			 * Puit d'invocation: hades 2, Archers du Styx, Gêolière du tartare, cavalry
+			 * Cascade: poseidon 2, Élémentaire d'eau, artillery,Harpie, cavalerie
+			 * prytanée: aigle du caucase, cavalery, Cyclope, infantry
+			 * Portail vers les champs Élysées: hades 3, Chevalier sans tête, Méduses, artillery
+			 * Fosse sous marine: poseidon 3,Kraken fantôme infanterie, Hippocampe de guerre cavalry
+			 * Autel de la sagesse:zeus 3,Centaures, cavalery, Hydre infanterie
+			 * 
+			 * 
+			 */
+			
 			//template for visual use only
 			//graphics.drawRect(1020, 560, 240, 140);
 			//Draw img max 6 from the entry point
 			//img are 60x60 and 20 pixels between each
 			//-> one image per building per button (capacity/research/unit)
+			
 		}
 	}
 
@@ -497,6 +589,12 @@ public class PaintStrategy {
 	}
 	
 	public void paintMouse(Block position, Graphics graphics){
+		/**
+		 * draw an image to the coordonate of the mouse
+		 */
+		
+		//not used for now
+		
 		int x1=position.getLine()*GameConfiguration.BLOCK_SIZE;
 		int y1=position.getColumn()*GameConfiguration.BLOCK_SIZE;
 		int x2=(position.getLine()+1)*GameConfiguration.BLOCK_SIZE;

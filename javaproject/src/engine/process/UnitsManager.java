@@ -390,10 +390,8 @@ public class UnitsManager implements UnitsInterface{
     }
     
     //manage the button part
-    //lot of if ik :/
     public void workerConstructionction(String button, Player p, Worker worker) {
     	int currentTier = manager.getSelectedTier();
-    	String currentFaction=p.getFactionName();
     	manager.setTypeSelection("build");
     	
     	switch (button) {

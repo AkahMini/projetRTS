@@ -481,6 +481,10 @@ public class MainGUI extends JFrame implements Runnable {
 		}
 	}
 
+	public DefaultGameSettings getGameSettings() {
+		return gameSettings;
+	}
+
 
 
 

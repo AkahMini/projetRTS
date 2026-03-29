@@ -18,9 +18,10 @@ import gui.MainGUI;
 public class TestGame {
 	public static void main(String[] args) {
 
-		MainGUI gameMainGUI = new MainGUI("RTS game");
 		DefaultGameSettings gameSettings= new DefaultGameSettings();
 		BuildingStatsLoader buildingStatLoader=new BuildingStatsLoader(GameConfiguration.BUILDINGS_STATS);
+
+		MainGUI gameMainGUI = new MainGUI("RTS game");
 		UnitsStatsLoader unitsStatLoader=new UnitsStatsLoader(GameConfiguration.BUILDINGS_STATS);
 		Thread gameThread = new Thread(gameMainGUI);
 		gameThread.start();

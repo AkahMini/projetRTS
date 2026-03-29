@@ -116,23 +116,27 @@ public class BuildingManager implements BuildingInterface{
 	}
 
 	public void addQueue(UnitProducer building, Block position,String unitType,Player p) {
-		if (building.getProductionQueue().size() < 3) {
+		/**
+		 * Adds to UnitProducer's queue the next unit to produce
+		 */
+		
+		if (building.getProductionQueue().size() < 3) { //max 3 unit in queue
 			Unit newUnit=null;
 			if(building.getProductionQueue().isEmpty()) {
 				building.setCurrentProduction(building.getProductionSpeed());
 			}
 			if (building.getTierLevel() >= 1) {
-				if("Zeus".equalsIgnoreCase(building.getFaction())) {
+				if(DefaultGameSettings.ZEUS.equalsIgnoreCase(building.getFaction())) {
 					newUnit = UnitFactory.createUnit(unitType, 1, "Zeus", position);
 					if(p.getFactionName().equals(DefaultGameSettings.DEFAULT_PLAYER_FACTION)) {
 						p.setCurrentPopulation(p.getCurrentPopulation()+newUnit.getPopCost());
 					}
-				}else if("Hades".equalsIgnoreCase(building.getFaction())) {
+				}else if(DefaultGameSettings.HADES.equalsIgnoreCase(building.getFaction())) {
 					newUnit = UnitFactory.createUnit(unitType, 1, "Hades", position);
 					if(p.getFactionName().equalsIgnoreCase("Hades")) {
 						p.setCurrentPopulation(p.getCurrentPopulation()+newUnit.getPopCost());
 					}
-				}else if("Poseidon".equalsIgnoreCase(building.getFaction())) {
+				}else if(DefaultGameSettings.POSEIDON.equalsIgnoreCase(building.getFaction())) {
 					newUnit = UnitFactory.createUnit(unitType, 1, "Poseidon", position);
 					if(p.getFactionName().equalsIgnoreCase("Poseidon")) {
 						p.setCurrentPopulation(p.getCurrentPopulation()+newUnit.getPopCost());
