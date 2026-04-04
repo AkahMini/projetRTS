@@ -91,7 +91,8 @@ public class BuildingFactory {
         building.setFaithCost(stats.getFaithCost());
         building.setConstructionTime(stats.getConstructionTime());
         building.setUnderConstruction(true);
-		
+		building.setVision(stats.getVisionRange());
+        
 		return building;
 	}
 	/*

@@ -34,8 +34,9 @@ public class BuildingStatsLoader {
                 int populationProvided = Integer.valueOf(data[12].trim());
                 String technologies=data[13].trim();
                 String[] upgrade= technologies.split("\\|");
+                int visionRange = Integer.valueOf(data[14].trim());
                 if (upgrade.length>1) {
-                    BuildingStats stats = new BuildingStats(id, buildingType, faction, tierLevel, maxHp, ambroisieCost, faithCost, constructionTime, productionSpeed, towerDamage,towerAttackSpeed, towerRange, populationProvided,upgrade[0]);
+                    BuildingStats stats = new BuildingStats(id, buildingType, faction, tierLevel, maxHp, ambroisieCost, faithCost, constructionTime, productionSpeed, towerDamage,towerAttackSpeed, towerRange, populationProvided,upgrade[0],visionRange);
                     int i;
                     for(i=1;i<upgrade.length;i++) {
                     	stats.addTechnologieUnlocked(upgrade[i]);
@@ -45,7 +46,7 @@ public class BuildingStatsLoader {
                     buildingRepository.register(key, stats);
                     //System.out.println("Added building key: "+key);
                 }else {
-                    BuildingStats stats = new BuildingStats(id, buildingType, faction, tierLevel, maxHp, ambroisieCost, faithCost, constructionTime, productionSpeed, towerDamage,towerAttackSpeed, towerRange, populationProvided,technologies);
+                    BuildingStats stats = new BuildingStats(id, buildingType, faction, tierLevel, maxHp, ambroisieCost, faithCost, constructionTime, productionSpeed, towerDamage,towerAttackSpeed, towerRange, populationProvided,technologies,visionRange);
                     //the key is this and not the name cause we use these three arguments in the factory so it make more sense
                     String key = buildingType.toUpperCase() + "_" + faction.toUpperCase() + "_" + tierLevel;
                     buildingRepository.register(key, stats);

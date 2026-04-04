@@ -20,8 +20,9 @@ public class BuildingStats {
     private int towerRange;
     private int populationProvided;
     private ArrayList<String> technologieUnlocked = new ArrayList<>();
+    private float visionRange;
 
-    public BuildingStats(String id, String buildingType, String faction, int tierLevel, int maxHp, int ambroisieCost, int faithCost, int constructionTime, int productionSpeed, int towerDamage, int towerAttackSpeed, int towerRange, int populationProvided,String technologie) {
+    public BuildingStats(String id, String buildingType, String faction, int tierLevel, int maxHp, int ambroisieCost, int faithCost, int constructionTime, int productionSpeed, int towerDamage, int towerAttackSpeed, int towerRange, int populationProvided,String technologie,float visionRange) {
         this.setId(id);
         this.setBuildingType(buildingType);
         this.setFaction(faction);
@@ -36,6 +37,7 @@ public class BuildingStats {
         this.setTowerRange(towerRange);
         this.setPopulationProvided(populationProvided);
         this.addTechnologieUnlocked(technologie);
+        this.setVisionRange(visionRange);
     }
 
 	public int getPopulationProvided() {
@@ -156,6 +158,15 @@ public class BuildingStats {
                 ", towerAttackSpeed=" + towerAttackSpeed +
                 ", towerRange=" + towerRange +
                 ", populationProvided=" + populationProvided +
-                ", technologieUnlocked=" + technologieUnlocked ;
+                ", technologieUnlocked=" + technologieUnlocked 
+                + ", visionRange=" + visionRange;
     }
+
+	public float getVisionRange() {
+		return visionRange;
+	}
+
+	public void setVisionRange(float visionRange) {
+		this.visionRange = visionRange;
+	}
 }

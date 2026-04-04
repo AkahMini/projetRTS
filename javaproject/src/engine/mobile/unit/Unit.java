@@ -33,7 +33,6 @@ public abstract class Unit extends MobileElement{
 	private float attackSpeed;
 	private double movementSpeed;
 	private float attackRange;
-	private float visionRange;
 	private int hpRegenRate;
 	private int tierLevel;
 	private MobileElement target;
@@ -97,12 +96,6 @@ public abstract class Unit extends MobileElement{
 	}
 	public void setATKRange(float atkr) {
 		this.attackRange=atkr;
-	}
-	public float getVision() {
-		return this.visionRange;
-	}
-	public void setVision(float v) {
-		this.visionRange=v;
 	}
 	public float getHpRegen(){
 		return this.hpRegenRate;

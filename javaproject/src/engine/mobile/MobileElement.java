@@ -14,6 +14,7 @@ import engine.map.Block;
 public abstract class MobileElement {
 
 	private Block position;
+	private float visionRange;
 	private int hp;
 	/**
      * Constructor for MobileElement.
@@ -39,6 +40,13 @@ public abstract class MobileElement {
 	}
 	public void setHp(int hp) {
 		this.hp=hp;
+	}
+	
+	public float getVision() {
+		return this.visionRange;
+	}
+	public void setVision(float v) {
+		this.visionRange=v;
 	}
 
 }
