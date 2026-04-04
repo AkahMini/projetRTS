@@ -35,6 +35,9 @@ public class GameDisplay extends JPanel {
 	private MenuInterface menu;
 	private PaintStrategy paintStrategy = new PaintStrategy();
 	private MenuStrategy menuStrategy = new MenuStrategy();
+	
+	//basicly a matrix which indicate if the block is in vision or not
+	boolean[][] visible =new boolean[100][72];
 
 	public GameDisplay(Map map, MobileInterface manager, MenuInterface menu) {
 		this.map = map;
@@ -51,8 +54,42 @@ public class GameDisplay extends JPanel {
 		//this is for the game display
 		if(menu.getCurrentState().equals("PLAYING")) {
 
-			paintStrategy.paint(map, g);
+			//reset vision at each repaint
+			//not optimal but simpler, may be changed if it feels akward visually
+			for (int x = 0; x < 100; x++) {
+				for (int y = 0; y < 72; y++) {
+						visible[x][y] = false;
+				}
+			}
 			
+			//define MobileElement we need to paint + do things
+			ArrayList<Unit> units = new ArrayList<>(manager.getUnits());
+			ArrayList<Unit> selectedUnits = new ArrayList<>(manager.getUnitsInSelectedArea());
+			ArrayList<Unit> playerUnits = new ArrayList<>(manager.getPlayer().getCreatedUnits());
+			
+			ArrayList<Building> buildings = new ArrayList<>(manager.getBuildings());
+			ArrayList<RessourceDeposit> deposits = new ArrayList<>(manager.getRessourceDeposit());
+			ArrayList<Building> playerBuildings = new ArrayList<>(manager.getPlayer().getBuiltBuilding());
+			
+			for(Unit playerUnit: playerUnits) {
+				revealAround(playerUnit.getPosition().getColumn(),playerUnit.getPosition().getLine(),playerUnit.getVision());
+			}
+			for(Building playerBuilding: playerBuildings) {
+				revealAround(playerBuilding.getPosition().getColumn(),playerBuilding.getPosition().getLine(),playerBuilding.getVision());
+				//System.out.println("nom= "+playerBuilding.getBuildingName()+" vision= "+playerBuilding.getVision());
+			}
+			
+			
+			paintStrategy.paint(map, g);
+			for (int x = 0; x < 100; x++) {
+				for (int y = 0; y < 72; y++) {
+					if(y>=7) {
+						if(!visible[x][y]) {
+							paintStrategy.paint(x,y,g);
+						}
+					}
+				}
+			}
 			
 			paintStrategy.paint(manager.getPlayer(),g);
 			paintStrategy.paint(manager.getHour(), manager.getMinute(), manager.getSecond(), g);
@@ -65,28 +102,37 @@ public class GameDisplay extends JPanel {
 			
 			paintStrategy.paint(manager.getSelectedArea(), g);
 			
-			for (Building building : manager.getBuildings()) {
-	            paintStrategy.paint(building, g);
+			for (Building building : buildings) {
+				if(visible[building.getPosition().getColumn()][building.getPosition().getLine()]) {
+					paintStrategy.paint(building, g);
+				}
 	            if(building instanceof DefenseTower) {
 	            	paintStrategy.paintAttack((DefenseTower)building, g);
 	            }
 	        }
-			for (RessourceDeposit deposit: manager.getRessourceDeposit()) {
-				paintStrategy.paint(deposit, g);
+			for (RessourceDeposit deposit: deposits) {
+				if(visible[deposit.getPosition().getColumn()][deposit.getPosition().getLine()]) {
+					paintStrategy.paint(deposit, g);
+				}
 			}
-			for (Unit unit : new ArrayList<>(manager.getUnits())) {
-				//We copy Unit list because it can be manipulated elsewhere while we iterate it
-				paintStrategy.paint(unit, g);
+			for (Unit unit : units) {
+				
+				if(visible[unit.getPosition().getColumn()][unit.getPosition().getLine()]) {
+					paintStrategy.paint(unit, g);
+					if(unit instanceof Worker) {
+						paintStrategy.paintWorkingWorker((Worker)unit, g);
+					}
+				}
+
 				//similar if of the calculDegats method in UnitManager
 				if (unit.getIsInCombat() && unit.getAttackCounter()>=(Unit.getAttackTime())-10) {
 					paintStrategy.paintAttack(unit, g);
 				}
-				if(unit instanceof Worker) {
-					paintStrategy.paintWorkingWorker((Worker)unit, g);
-				}
 			}
-			for(Unit selectedUnit:manager.getUnitsInSelectedArea()) {
-				paintStrategy.paintSelectedUnit(selectedUnit, g);
+			for(Unit selectedUnit: selectedUnits) {
+				if(visible[selectedUnit.getPosition().getColumn()][selectedUnit.getPosition().getLine()]) {
+					paintStrategy.paintSelectedUnit(selectedUnit, g);
+				}
 			}
 			
 			
@@ -119,4 +165,32 @@ public class GameDisplay extends JPanel {
 	public void resetManager(MobileInterface manager) {
 		this.manager=manager;
 	}
+	
+	/*
+	 * used to turn true the blocks that the player should have vision
+	 * we check if the values are all in the game grid
+	 * 
+	 * @param cx the position x of the object(blocks not absolute)
+	 * @param cy the position y of the object(blocks not absolute)
+	 * @param range the vision range of the object
+	 */
+	void revealAround(int cx, int cy, float frange) {
+		int range= (int) frange;
+	    for (int x = cx - range; x <= cx + range; x++) {
+	    	if(x>=0 && x<=100) {
+		        for (int y = cy - range; y <= cy + range; y++) {
+		        	if(y>=7 && y<=72) {
+			            int dx = x - cx;
+			            int dy = y - cy;
+			            
+			            //euclidian norm elevated to the square
+			            if (dx * dx + dy * dy <= range * range) {
+			                visible[x][y] = true;
+			            }
+		        	}
+		        }
+	    	}
+	    }
+	}
+	
 }
