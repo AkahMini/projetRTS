@@ -83,6 +83,14 @@ public class PaintStrategy {
 		}
 
 	}
+	
+	//used to paint dark tiles
+	public void paint(int x, int y, Graphics graphics){
+		x*=10;
+		y*=10;
+		graphics.setColor(new Color(0,0,0,150));
+		graphics.fillRect(x, y, 10,10);
+	}
 
 	public void paint(CyclicCounter hour, CyclicCounter minute, CyclicCounter second, Graphics graphics) {
 

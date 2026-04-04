@@ -122,6 +122,12 @@ public class MobileElementManager implements MobileInterface {
                 }
             }
             
+            for (int i = player.getCreatedUnits().size() - 1; i >= 0; i--) {
+                if (player.getCreatedUnits().get(i).getHp()<=0) {
+                	player.getCreatedUnits().remove(i);
+                }
+            }
+            
             // Buildings management
             for(Building building : buildings) {
             	buildingManager.reduceConstructionTime(building);
@@ -282,6 +288,7 @@ public class MobileElementManager implements MobileInterface {
     	Block playerHQposition = map.getBlock(9, 5); //TMP player's HQ
     	//Block playerTowerPosition = map.getBlock(20, 15);//TMP
     	Building playerHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, "Zeus", playerHQposition);
+    	player.getBuiltBuilding().add(playerHQ);
     	//Building playerTower = BuildingFactory.createBuilding(BuildingFactory.DEFENSE_BUILDING, 2, DefaultGameSettings.ZEUS, playerTowerPosition);
     	playerHQ.setUnderConstruction(false);
     	
