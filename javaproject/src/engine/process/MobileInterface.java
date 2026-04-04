@@ -61,7 +61,7 @@ public interface MobileInterface {
 	Building getSelectedBuild();
 	void setSelectedBuild(Building selectedBuild);
 	void selectBuilding(String string);
-	void buildBuilding(Block position,int tier,String faction,Player p);
+	int buildBuilding(Block position,int tier,String faction,Player p);
 	void addQueue(UnitProducer building, Block position, String unitType, Player p);
 
 	void selectUnit(String string);
@@ -80,4 +80,5 @@ public interface MobileInterface {
 	CPU getCpu();
 	
 	void motherload();
+	void cpuLoad();
 }

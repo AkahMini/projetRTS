@@ -91,7 +91,11 @@ public class MobileElementManager implements MobileInterface {
         
         cpuManager.attackReaction(cpu);
         cpuManager.workerManagement(cpu);
-        //cpuManager.buildManagement(cpu);
+        cpuManager.buildManagement(cpu);
+        cpuManager.otherBuildingsManagement(cpu);
+        cpuManager.militaryProductionManagement(cpu);
+        
+        
     }
 
 	
@@ -102,7 +106,7 @@ public class MobileElementManager implements MobileInterface {
 		 */
 		//chronometer update
 		nextTierCheck(player);
-		if(timetweaker.getValue() == 68) {
+		if(timetweaker.getValue() == 66) {
             chronometer.increment();
             //Units manager
             for(Unit unit: new ArrayList<>(units)) {
@@ -288,111 +292,109 @@ public class MobileElementManager implements MobileInterface {
     	}
     }
     private void initMap() {
-		//We add player's HQ, & ressource deposits
-    	Block playerHQposition = map.getBlock(9, 5); //TMP player's HQ
-    	//Block playerTowerPosition = map.getBlock(20, 15);//TMP
-    	Building playerHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, "Zeus", playerHQposition);
-    	player.getBuiltBuilding().add(playerHQ);
-    	//Building playerTower = BuildingFactory.createBuilding(BuildingFactory.DEFENSE_BUILDING, 2, DefaultGameSettings.ZEUS, playerTowerPosition);
-    	playerHQ.setUnderConstruction(false);
-    	
-    	Building ennemyHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, DefaultGameSettings.HADES, map.getBlock(68,94));
-    	ennemyHQ.setUnderConstruction(false);
-    	Building ennemyTower1 = BuildingFactory.createBuilding(BuildingFactory.DEFENSE_BUILDING, 2, DefaultGameSettings.HADES, map.getBlock(47, 90));
-    	Building ennemyTower2 = BuildingFactory.createBuilding(BuildingFactory.DEFENSE_BUILDING, 2, DefaultGameSettings.HADES, map.getBlock(55, 78));
-    	
-    	
-    	//Block playerLaboPos = map.getBlock(15, 10);//tmp too
-    	//Building playerLabo = BuildingFactory.createBuilding(BuildingFactory.RESEARCH_BUILDING,2,"Zeus",playerLaboPos);
-    	
- 
-    	RessourceDeposit deposit1 = new RessourceDeposit(map.getBlock(30, 20),RessourceDeposit.FAITH);
-    	RessourceDeposit deposit2 = new RessourceDeposit(map.getBlock(56,16),RessourceDeposit.FAITH);
-    	RessourceDeposit deposit3 = new RessourceDeposit(map.getBlock(40,55),RessourceDeposit.FAITH);
-    	RessourceDeposit deposit4 = new RessourceDeposit(map.getBlock(16,80),RessourceDeposit.AMBROSIA);
-    	RessourceDeposit deposit5 = new RessourceDeposit(map.getBlock(65,63),RessourceDeposit.AMBROSIA);
-    	
-    	deposit1.setMaxWorkers(2);
-    	deposit1.setCurrentWorkers(0);
-    	
-    	deposit2.setMaxWorkers(2);
-    	deposit2.setCurrentWorkers(0);
+        // --- BASES DE DÉPART (HQs) ---
+        // On définit les positions de départ pour le joueur et le CPU
+        Block playerHQposition = map.getBlock(18, 18);
+        Building playerHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, "Zeus", playerHQposition);
+        playerHQ.setUnderConstruction(false);
+        player.getBuiltBuilding().add(playerHQ);
+        
+        Block ennemyHQposition = map.getBlock(60, 82);
+        Building ennemyHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, DefaultGameSettings.HADES, ennemyHQposition);
+        ennemyHQ.setUnderConstruction(false);
+        cpu.getBuiltBuilding().add(ennemyHQ);
 
-    	deposit3.setMaxWorkers(2);
-    	deposit3.setCurrentWorkers(0);
+        ArrayList<RessourceDeposit> allDeposits = new ArrayList<>();
 
-    	deposit4.setMaxWorkers(2);
-    	deposit4.setCurrentWorkers(0);
+        // ═════ 1. MAIN BASES (En U très large autour des QG) ═════
+        // Joueur
+        allDeposits.add(new RessourceDeposit(map.getBlock(12, 18), RessourceDeposit.AMBROSIA));
+        allDeposits.add(new RessourceDeposit(map.getBlock(14, 13), RessourceDeposit.FAITH));
+        allDeposits.add(new RessourceDeposit(map.getBlock(18, 12), RessourceDeposit.AMBROSIA));
+        allDeposits.add(new RessourceDeposit(map.getBlock(22, 13), RessourceDeposit.FAITH));
+        allDeposits.add(new RessourceDeposit(map.getBlock(24, 18), RessourceDeposit.AMBROSIA));
 
-    	deposit5.setMaxWorkers(2);
-    	deposit5.setCurrentWorkers(0);
+        // CPU
+        allDeposits.add(new RessourceDeposit(map.getBlock(66, 82), RessourceDeposit.AMBROSIA));
+        allDeposits.add(new RessourceDeposit(map.getBlock(64, 87), RessourceDeposit.FAITH));
+        allDeposits.add(new RessourceDeposit(map.getBlock(60, 88), RessourceDeposit.AMBROSIA));
+        allDeposits.add(new RessourceDeposit(map.getBlock(56, 87), RessourceDeposit.FAITH));
+        allDeposits.add(new RessourceDeposit(map.getBlock(54, 82), RessourceDeposit.AMBROSIA));
 
-    	ArrayList<Unit> ennemyTroups = new ArrayList<Unit>();
-    	
-    	for(int i=0;i<7;i++) {
-    		Block spawnBlock = map.getBlock(11+(int)(Math.random()*5),28+(int)(Math.random()*5));
-    		Unit unit=UnitFactory.createUnit(UnitFactory.INFANTRY_UNIT, 2, DefaultGameSettings.ZEUS, spawnBlock);
-    		this.units.add(unit);
-    		player.getCreatedUnits().add(unit);
-    	}
-    	for(int i=0;i<5;i++) {
-    		Block spawnBlock = map.getBlock(19+(int)(Math.random()*5),21+(int)(Math.random()*5));
-    		Unit unit=(UnitFactory.createUnit(UnitFactory.ARTILLERY_UNIT, 1, DefaultGameSettings.ZEUS, spawnBlock));
-    		this.units.add(unit);
-    		player.getCreatedUnits().add(unit);
+        // ═════ 2. NATURAL EXPANSIONS / B2 (Clusters carrés très aérés) ═════
+        // Joueur B2 (Centre-gauche)
+        allDeposits.add(new RessourceDeposit(map.getBlock(31, 23), RessourceDeposit.AMBROSIA));
+        allDeposits.add(new RessourceDeposit(map.getBlock(33, 28), RessourceDeposit.FAITH));
+        allDeposits.add(new RessourceDeposit(map.getBlock(37, 28), RessourceDeposit.AMBROSIA));
+        allDeposits.add(new RessourceDeposit(map.getBlock(39, 23), RessourceDeposit.FAITH));
 
-    	}
-    	for(int i=0;i<3;i++) {
-    		Block spawnBlock = map.getBlock(22+(int)(Math.random()*5),7+(int)(Math.random()*5));
-    		Unit unit=UnitFactory.createUnit(UnitFactory.CAVALRY_UNIT, 3, DefaultGameSettings.ZEUS, spawnBlock);
-    		this.units.add(unit);
-    		player.getCreatedUnits().add(unit);
-    	}
-    	
-    	
-    	for(int i=0;i<6;i++) {
-    		Block spawnBlock = map.getBlock(50+(int)(Math.random()*5),84+(int)(Math.random()*5));
-    		Unit unit=UnitFactory.createUnit(UnitFactory.INFANTRY_UNIT, 1, DefaultGameSettings.HADES, spawnBlock);
-    		this.units.add(unit);
-    		cpu.getCreatedUnits().add(unit);
-    	}
-    	for(int i=0;i<6;i++) {
-    		Block spawnBlock = map.getBlock(53+(int)(Math.random()*5),65+(int)(Math.random()*5));
-    		Unit unit=UnitFactory.createUnit(UnitFactory.ARTILLERY_UNIT, 3, DefaultGameSettings.HADES, spawnBlock);
-    		this.units.add(unit);
-    		cpu.getCreatedUnits().add(unit);
-    	}
-    	for(int i=0;i<3;i++) {
-    		Block spawnBlock = map.getBlock(64+(int)(Math.random()*5),69+(int)(Math.random()*5));
-    		Unit unit=UnitFactory.createUnit(UnitFactory.CAVALRY_UNIT, 3, DefaultGameSettings.HADES, spawnBlock);
-    		this.units.add(unit);
-    		cpu.getCreatedUnits().add(unit);
-    	}
-    	
-		Unit w1=UnitFactory.createUnit(UnitFactory.WORKER_UNIT, 1, DefaultGameSettings.HADES, ennemyHQ.getPosition());
-		Unit w2=UnitFactory.createUnit(UnitFactory.WORKER_UNIT, 1, DefaultGameSettings.HADES, ennemyHQ.getPosition());
-		((Worker) w1).setCurrentHQ((HQ) ennemyHQ);
-		((Worker) w2).setCurrentHQ((HQ) ennemyHQ);
-		this.units.add(w1);
-		cpu.getCreatedUnits().add(w1);
-		this.units.add(w2);
-		cpu.getCreatedUnits().add(w2);
+        // CPU B2 (Centre-droite)
+        allDeposits.add(new RessourceDeposit(map.getBlock(35, 77), RessourceDeposit.AMBROSIA));
+        allDeposits.add(new RessourceDeposit(map.getBlock(37, 72), RessourceDeposit.FAITH));
+        allDeposits.add(new RessourceDeposit(map.getBlock(40, 72), RessourceDeposit.AMBROSIA));
+        allDeposits.add(new RessourceDeposit(map.getBlock(44, 77), RessourceDeposit.FAITH));
 
-    	
-    	
-    	this.buildings.add(playerHQ);
-    	//this.buildings.add(playerTower);
-    	//this.buildings.add(playerLabo);
-    	this.buildings.add(ennemyHQ);
-    	this.cpu.getBuiltBuilding().add(ennemyHQ);
-    	this.buildings.add(ennemyTower1); this.buildings.add(ennemyTower2);
-    	
-    	this.ressourceDeposits.add(deposit1);
-    	this.ressourceDeposits.add(deposit2);
-    	this.ressourceDeposits.add(deposit3);
-    	this.ressourceDeposits.add(deposit4);
-    	this.ressourceDeposits.add(deposit5);
-	}
+        // ═════ 3. BASES LATÉRALES / B3 (Sur les flancs haut et bas) ═════
+        // Joueur B3 (Bottom-Left)
+        allDeposits.add(new RessourceDeposit(map.getBlock(48, 18), RessourceDeposit.AMBROSIA));
+        allDeposits.add(new RessourceDeposit(map.getBlock(49, 23), RessourceDeposit.FAITH));
+        allDeposits.add(new RessourceDeposit(map.getBlock(52, 23), RessourceDeposit.AMBROSIA));
+        allDeposits.add(new RessourceDeposit(map.getBlock(51, 18), RessourceDeposit.FAITH));
+
+        // CPU B3 (Top-Right)
+        allDeposits.add(new RessourceDeposit(map.getBlock(18, 82), RessourceDeposit.AMBROSIA));
+        allDeposits.add(new RessourceDeposit(map.getBlock(20, 77), RessourceDeposit.FAITH));
+        allDeposits.add(new RessourceDeposit(map.getBlock(24, 77), RessourceDeposit.AMBROSIA));
+        allDeposits.add(new RessourceDeposit(map.getBlock(22, 82), RessourceDeposit.FAITH));
+
+        // ═════ 4. ZONES CONTESTÉES (Le long de la diagonale centrale) ═════
+        allDeposits.add(new RessourceDeposit(map.getBlock(17, 48), RessourceDeposit.AMBROSIA));
+        allDeposits.add(new RessourceDeposit(map.getBlock(18, 52), RessourceDeposit.FAITH));
+        allDeposits.add(new RessourceDeposit(map.getBlock(22, 52), RessourceDeposit.AMBROSIA));
+        allDeposits.add(new RessourceDeposit(map.getBlock(23, 48), RessourceDeposit.FAITH));
+
+        allDeposits.add(new RessourceDeposit(map.getBlock(52, 48), RessourceDeposit.FAITH));
+        allDeposits.add(new RessourceDeposit(map.getBlock(53, 52), RessourceDeposit.AMBROSIA));
+        allDeposits.add(new RessourceDeposit(map.getBlock(57, 52), RessourceDeposit.FAITH));
+        allDeposits.add(new RessourceDeposit(map.getBlock(58, 48), RessourceDeposit.AMBROSIA));
+
+        // Initialisation globale des gisements
+        for (RessourceDeposit d : allDeposits) {
+            d.setMaxWorkers(2); 
+            d.setCurrentWorkers(0);
+            this.ressourceDeposits.add(d);
+        }
+
+        // --- UNITÉS DE DÉPART ---
+        // Armée de départ du joueur
+        for(int i=0; i<7; i++) {
+            Block spawnBlock = map.getBlock(22+(int)(Math.random()*3), 22+(int)(Math.random()*3));
+            Unit unit = UnitFactory.createUnit(UnitFactory.ARTILLERY_UNIT, 1, DefaultGameSettings.ZEUS, spawnBlock);
+            this.units.add(unit);
+            player.getCreatedUnits().add(unit);
+        }
+
+        // Armée de départ du CPU
+        for(int i=0; i<5; i++) {
+            Block spawnBlock = map.getBlock(54+(int)(Math.random()*3), 75+(int)(Math.random()*3));
+            Unit unit = UnitFactory.createUnit(UnitFactory.INFANTRY_UNIT, 1, DefaultGameSettings.HADES, spawnBlock);
+            this.units.add(unit);
+            cpu.getCreatedUnits().add(unit);
+        }
+        
+        // Workers de départ du CPU (indispensable pour l'IA)
+        Unit w1 = UnitFactory.createUnit(UnitFactory.WORKER_UNIT, 1, DefaultGameSettings.HADES, ennemyHQ.getPosition());
+        Unit w2 = UnitFactory.createUnit(UnitFactory.WORKER_UNIT, 1, DefaultGameSettings.HADES, ennemyHQ.getPosition());
+        ((Worker) w1).setCurrentHQ((HQ) ennemyHQ);
+        ((Worker) w2).setCurrentHQ((HQ) ennemyHQ);
+        this.units.add(w1); cpu.getCreatedUnits().add(w1);
+        this.units.add(w2); cpu.getCreatedUnits().add(w2);
+
+        // Ajout final des bâtiments aux listes globales
+        this.buildings.add(playerHQ);
+        this.buildings.add(ennemyHQ);
+        System.out.println("Vision HQ: " + playerHQ.getVision());
+    }
     
     public void motherload() {
     	/**
@@ -402,6 +404,14 @@ public class MobileElementManager implements MobileInterface {
     	player.setFaithStock(999999);
     	player.setMaxPopulation(999999);
     	setNotifText("Motherload activated", true);
+    }
+    public void cpuLoad() {
+    	/**
+    	 * Set infinite ressources for the player
+    	 */
+    	cpu.setAmbroisieStock(999999);
+    	cpu.setFaithStock(999999);
+    	setNotifText("cpuLoad activated", true);
     }
     
     public boolean ifBlockInGamePanel(Block block) {
@@ -414,12 +424,16 @@ public class MobileElementManager implements MobileInterface {
     //method for the communation between this class and BuildingManager
     
     public void addInBuildings(Building n) {
-    	this.buildings.add(n);
+        synchronized(this.buildings) {
+            this.buildings.add(n);
+        }
     }
+
     public void addInUnits(Unit u) {
-    	this.units.add(u);
+        synchronized(this.units) {
+            this.units.add(u);
+        }
     }
-    
     public Map getMap() {
     	return this.map;
     }
@@ -462,15 +476,17 @@ public class MobileElementManager implements MobileInterface {
     }
     
     @Override
-    public void buildBuilding(Block position,int tier,String faction, Player p) {
-    	boolean playerBuild = (faction.equals(gameSettings.getPlayerFaction()));
-    	if(buildingManager.buildBuilding(position, tier, faction, player)==1&&playerBuild) {
-    		//builds the building, check if it was succesfully built by the human player
-    		setNotifText("Batiment ajouté",true);
+    public int buildBuilding(Block position, int tier, String faction, Player p) {
+        int result = buildingManager.buildBuilding(position, tier, faction, p); // p et non player
+        boolean playerBuild = faction.equals(gameSettings.getPlayerFaction());
+        if (playerBuild) {
+            if (result == 1) {
+                setNotifText("Batiment ajouté", true);
+            } else {
+                setNotifText("Ressources insuffisantes", false);
+            }
         }
-        else {
-        	setNotifText("Ressources insuffisantes",false);
-        }
+        return result;
     }
 
     @Override

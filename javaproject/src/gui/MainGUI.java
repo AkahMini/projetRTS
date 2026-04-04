@@ -57,9 +57,9 @@ public class MainGUI extends JFrame implements Runnable {
 	
 	private JPanel statsPanel = new JPanel();
 	
-	private ChartPanel typeCountPie;
-	private ChartPanel typeCountBar;
-	private ChartPanel heightEvolutionChart;
+	//private ChartPanel typeCountPie;
+	//private ChartPanel typeCountBar;
+	//private ChartPanel heightEvolutionChart;
 
 	private ChartManager chartManager = new ChartManager();
 	
@@ -343,6 +343,7 @@ public class MainGUI extends JFrame implements Runnable {
 			case KeyEvent.VK_M:
 				if (currentState.equals("PLAYING")) {
 					manager.motherload();
+					manager.cpuLoad();
 				}
 				break;
 			default:

@@ -108,65 +108,68 @@ public class UnitsManager implements UnitsInterface{
     	unit.setMoveCounter((int)(unit.getMoveCounter()+unit.getMovementSpeed()));
 	}
     
-    public void workerMouvement(Worker displacedWorker,Player p) {
-    	unitMovement((Unit)displacedWorker); //Moves like a normal unit
-    	if(displacedWorker.getCurrentDeposit()==null)  {
-    		for(RessourceDeposit deposit: manager.getRessourceDeposit()) {
-    			if(manager.getDistance(displacedWorker.getPosition(),deposit.getPosition())<=displacedWorker.getVision()) {
-    				//if a deposit is in range
-    					displacedWorker.setCurrentDeposit(deposit);
-    					displacedWorker.setRessourceType(deposit.getType());
-    			}
-    			
-    			
-    		}
-    	}
-    	
-    	else if(manager.getDistance(displacedWorker.getPosition(),displacedWorker.getCurrentDeposit().getPosition())<=displacedWorker.getVision()) {
-    		//if a deposit is in worker's range	
-    		displacedWorker.setCurrentRessourceLoad(displacedWorker.getRessourceLoad()+1);
-    		displacedWorker.setIsWorking(true);
-    	}
-    	
-    	else if(displacedWorker.getRessourceLoad()>=displacedWorker.getMaxCargoCapacity()) {
-    		displacedWorker.setIsWorking(false);
-    		//if he has ressources, he comes back
-    		displacedWorker.setDestination(displacedWorker.getCurrentHQ().getPosition());
-    	}
+    public void workerMouvement(Worker displacedWorker, Player p) {
+        unitMovement((Unit)displacedWorker); // Moves like a normal unit
+        
+        // 1. S'il est en mission de construction (assigné par l'IA), on ne le perturbe pas
+        if (displacedWorker.getIsWorking() && displacedWorker.getCurrentDeposit() == null) {
+            return; 
+        }
 
-    	else if(displacedWorker.getDestination() == null || displacedWorker.getDestination().equals(displacedWorker.getPosition())) {
-    		//if the worker is stationnary, we can check for new deposit
-    		for(RessourceDeposit deposit: manager.getRessourceDeposit()) {
-    			if(manager.getDistance(displacedWorker.getPosition(),deposit.getPosition())<displacedWorker.getVision()) {
-    				//if a deposit is in range
-    					displacedWorker.setCurrentDeposit(deposit);
-    					displacedWorker.setRessourceType(deposit.getType());
-    			}
-    			
-    			
-    		}
-    	}
-    	
-    	workerRessourceDeposit(displacedWorker,p);
+        // 2. S'il n'a pas de dépôt assigné, il en cherche un
+        if (displacedWorker.getCurrentDeposit() == null && !displacedWorker.getIsWorking())  {
+            for (RessourceDeposit deposit: manager.getRessourceDeposit()) {
+                if (manager.getDistance(displacedWorker.getPosition(), deposit.getPosition()) <= displacedWorker.getVision()) {
+                    displacedWorker.setCurrentDeposit(deposit);
+                    displacedWorker.setRessourceType(deposit.getType());
+                    break; // On arrête de chercher dès qu'on en trouve un
+                }
+            }
+        }
+        
+        // 3. LA CORRECTION : On vérifie EN PREMIER si le sac est plein !
+        if (displacedWorker.getRessourceLoad() >= displacedWorker.getMaxCargoCapacity()) {
+            displacedWorker.setIsWorking(false);
+            if (displacedWorker.getCurrentHQ() != null) {
+                displacedWorker.setDestination(displacedWorker.getCurrentHQ().getPosition());
+            }
+        } 
+        // 4. S'il N'EST PAS plein et qu'il est sur le dépôt, il mine
+        else if (displacedWorker.getCurrentDeposit() != null && manager.getDistance(displacedWorker.getPosition(), displacedWorker.getCurrentDeposit().getPosition()) <= displacedWorker.getVision()) {
+            displacedWorker.setCurrentRessourceLoad(displacedWorker.getRessourceLoad() + 1);
+            displacedWorker.setIsWorking(true);
+        }
+        // 5. S'il glande sans destination, on le renvoie au dépôt
+        else if (displacedWorker.getDestination() == null && displacedWorker.getCurrentDeposit() != null) {
+            displacedWorker.setDestination(displacedWorker.getCurrentDeposit().getPosition());
+        }
+        
+        // 6. On gère le dépôt au QG
+        workerRessourceDeposit(displacedWorker, p);
     }
     
-    public void workerRessourceDeposit(Worker worker,Player player){
-    	/**
-    	 * the worker drops its resources when it reaches its HQ
-    	 */
-    	if(manager.getDistance(worker.getPosition(),worker.getCurrentHQ().getPosition())<=worker.getVision()) {
-    		//if he is the HQ's range
-    		if(worker.getRessourceType()==RessourceDeposit.FAITH) {
-    			player.setFaithStock(player.getFaithStock()+worker.getRessourceLoad());
-    		}
-    		if(worker.getRessourceType()==RessourceDeposit.AMBROSIA) {
-    			player.setAmbroisieStock(player.getAmbroisieStock()+worker.getRessourceLoad());
-    		}
-    		worker.setCurrentRessourceLoad(0);
-    		if(worker.getCurrentDeposit()!=null) {
-    			worker.setDestination(worker.getCurrentDeposit().getPosition());
-    		}
-    	}
+    public void workerRessourceDeposit(Worker worker, Player player) {
+        // CORRECTION ICI AUSSI : On s'assure qu'il a un QG ET qu'il a bien quelque chose à déposer
+        // (Sinon, il se vide même en passant à côté du QG par hasard)
+        if (worker.getCurrentHQ() != null && worker.getRessourceLoad() > 0) {
+            if (manager.getDistance(worker.getPosition(), worker.getCurrentHQ().getPosition()) <= worker.getVision()) {
+                
+                // Ajout de l'argent au joueur ou au CPU
+                if (worker.getRessourceType() == RessourceDeposit.FAITH) {
+                    player.setFaithStock(player.getFaithStock() + worker.getRessourceLoad());
+                } else if (worker.getRessourceType() == RessourceDeposit.AMBROSIA) {
+                    player.setAmbroisieStock(player.getAmbroisieStock() + worker.getRessourceLoad());
+                }
+                
+                // On vide le sac
+                worker.setCurrentRessourceLoad(0);
+                
+                // On le renvoie bosser
+                if (worker.getCurrentDeposit() != null) {
+                    worker.setDestination(worker.getCurrentDeposit().getPosition());
+                }
+            }
+        }
     }
     
     public MobileElement scanForEnemy(Unit unit) {

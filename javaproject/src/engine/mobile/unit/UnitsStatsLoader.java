@@ -4,14 +4,14 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 
 import config.GameConfiguration;
 import engine.process.UnitRepository;
 
 public class UnitsStatsLoader {
 	private UnitRepository unitsRepository = UnitRepository.getInstance();
-	private static final Logger logger = Logger.getLogger(UnitsStatsLoader.class);
+	//private static final Logger logger = Logger.getLogger(UnitsStatsLoader.class);
 	public UnitsStatsLoader (String unitsStats) {
 		String line;
 		try {
@@ -44,7 +44,7 @@ public class UnitsStatsLoader {
 				String key = UnitType.toUpperCase() + "_" + faction.toUpperCase() + "_" + tierLevel;
 				unitsRepository.register(key, stats);
 				System.out.println("Added Unit key: "+key);
-				logger.info("UnitStats créé → clé={"+key+"} valeur={"+stats+"}");
+				//logger.info("UnitStats créé → clé={"+key+"} valeur={"+stats+"}");
 			}br.close();
 		}catch (IOException e) {
 			e.printStackTrace();

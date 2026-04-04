@@ -63,7 +63,7 @@ public class UnitFactory {
 		case WORKER_UNIT :
 			Worker worker= new Worker(position);
 			worker.setIsWorking(false);
-			worker.setMaxCargoCapacity(100);
+			worker.setMaxCargoCapacity(50);
 			worker.setCurrentRessourceLoad(0);
 			unit = worker;
             break;

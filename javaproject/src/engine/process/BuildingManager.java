@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import config.DefaultGameSettings;
 import config.GameConfiguration;
 import engine.map.Block;
+import engine.mobile.CPU;
 import engine.mobile.Player;
 import engine.mobile.building.Building;
 import engine.mobile.building.BuildingStats;
@@ -114,49 +115,6 @@ public class BuildingManager implements BuildingInterface{
 			}
 		}
 	}
-	/*
-	public void addQueue(UnitProducer building, Block position,String unitType,Player p) {
-		/**
-		 * Adds to UnitProducer's queue the next unit to produce
-		 */
-	/*
-		
-		if (building.getProductionQueue().size() < 3) { //max 3 unit in queue
-			Unit newUnit=null;
-			if(building.getProductionQueue().isEmpty()) {
-				building.setCurrentProduction(building.getProductionSpeed());
-			}
-			if (building.getTierLevel() >= 1) {
-				if(DefaultGameSettings.ZEUS.equalsIgnoreCase(building.getFaction())) {
-					newUnit = UnitFactory.createUnit(unitType, 1, "Zeus", position);
-					if(p.getFactionName().equals(DefaultGameSettings.DEFAULT_PLAYER_FACTION)) {
-						p.setCurrentPopulation(p.getCurrentPopulation()+newUnit.getPopCost());
-					}
-				}else if(DefaultGameSettings.HADES.equalsIgnoreCase(building.getFaction())) {
-					newUnit = UnitFactory.createUnit(unitType, 1, "Hades", position);
-					if(p.getFactionName().equalsIgnoreCase("Hades")) {
-						p.setCurrentPopulation(p.getCurrentPopulation()+newUnit.getPopCost());
-					}
-				}else if(DefaultGameSettings.POSEIDON.equalsIgnoreCase(building.getFaction())) {
-					newUnit = UnitFactory.createUnit(unitType, 1, "Poseidon", position);
-					if(p.getFactionName().equalsIgnoreCase("Poseidon")) {
-						p.setCurrentPopulation(p.getCurrentPopulation()+newUnit.getPopCost());
-					}
-				}
-				((UnitProducer) building).getProductionQueue().add(newUnit);
-				p.getCreatedUnits().add(newUnit);
-				if (newUnit instanceof Worker) {
-					for (Building b : manager.getBuildings()) {
-						if (b instanceof HQ && b.getPosition()==newUnit.getPosition()) {
-							((Worker) newUnit).setCurrentHQ((HQ) b);
-							break; 
-						}
-					}
-				}
-			}
-		}
-	}
-	*/
 	public void addQueue(UnitProducer building, Block position,String unitType,Player p) {
 		/**
 		 * Adds to UnitProducer's queue its next unit to produce
