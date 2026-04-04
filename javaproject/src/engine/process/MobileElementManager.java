@@ -43,10 +43,10 @@ public class MobileElementManager implements MobileInterface {
     private Building selectedBuild =null;
     private Worker selectedWorker =null;
     private int selectedTier =0;//for worker button
-    private String typeSelection =null; //I swear its the last attribute I add in this class
+    private String typeSelection =null;
     private String notification =null;
     private boolean isNotificationGood=false;
-    private boolean isGameStoped = false;//OK THIS IS THE LAST, I CREATE A NEW CLASS IF NEEDED
+    private boolean isGameStoped = false;
     
     private ArrayList<Unit> units = new ArrayList<Unit>();
     
@@ -239,6 +239,10 @@ public class MobileElementManager implements MobileInterface {
     //we indicate if its in the first or second line then for the col
     // do nothing if in the white space
     public void areaButtonPressed(int x, int y) {
+    	/*
+    	 * Create clickable area where button are drawn in bottom right part of the screen
+    	 */
+    	
     	if(selectedWorker!=null){
     		if(y<=620) {
     			if(x<=1080) {
@@ -389,6 +393,7 @@ public class MobileElementManager implements MobileInterface {
     	 */
     	player.setAmbroisieStock(999999);
     	player.setFaithStock(999999);
+    	player.setMaxPopulation(999999);
     	setNotifText("Motherload activated", true);
     }
     
@@ -468,7 +473,11 @@ public class MobileElementManager implements MobileInterface {
 
     @Override
     public void addQueue(UnitProducer building, Block position, String unitType, Player p) {
-        buildingManager.addQueue(building, position, unitType,p);
+        if(p.getCurrentPopulation()<p.getMaxPopulation()&&building.getProductionQueue().size()<3) {
+    		buildingManager.addQueue(building, position, unitType,p);
+    		p.setCurrentPopulation(p.getCurrentPopulation()+1);
+        }
+       
     }
     
     // --- Timer part ---

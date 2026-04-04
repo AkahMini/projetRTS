@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -12,6 +13,9 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import org.jfree.chart.ChartPanel;
 
 import config.DefaultGameSettings;
 import config.GameConfiguration;
@@ -21,6 +25,7 @@ import engine.mobile.unit.Unit;
 import engine.process.GameBuilder;
 import engine.process.MenuInterface;
 import engine.process.MobileInterface;
+import gui.instrument.ChartManager;
 /**
  * 
  * Main graphic class that create the game window and manage the different user input.
@@ -49,6 +54,14 @@ public class MainGUI extends JFrame implements Runnable {
 	private MenuInterface menu;
 
 	private GameDisplay dashboard;
+	
+	private JPanel statsPanel = new JPanel();
+	
+	private ChartPanel typeCountPie;
+	private ChartPanel typeCountBar;
+	private ChartPanel heightEvolutionChart;
+
+	private ChartManager chartManager = new ChartManager();
 	
 	//launch the game with MENU as the current state
 	//please refer to the game config to see the list
@@ -221,6 +234,7 @@ public class MainGUI extends JFrame implements Runnable {
 					break;
 			}
 			dashboard.repaint();
+		
 		}
 		ExitGame();
 	}
@@ -372,7 +386,7 @@ public class MainGUI extends JFrame implements Runnable {
 			boolean xZone = (e.getX()>=1020 && e.getX()<=1240);
 			boolean yZone = (e.getY()>=560 && e.getY()<=700);
 			if(xZone && yZone) {
-				manager.areaButtonPressed(e.getX(),e.getY());
+				//manager.areaButtonPressed(e.getX(),e.getY());
 			}
 
 			Block position = map.getBlock(line, column);
@@ -402,9 +416,7 @@ public class MainGUI extends JFrame implements Runnable {
 			int blockSize = GameConfiguration.BLOCK_SIZE;
 			int line = e.getY() / blockSize;
 			int column = e.getX() / blockSize;
-
-			System.out.println("x :"+e.getX()+" y :"+e.getY()+" - Block line : "+line+" Block column : "+column);
-
+			//System.out.println("x :"+e.getX()+" y :"+e.getY()+" - Block line : "+line+" Block column : "+column);
 			
 			//we check if the player clicked in the button zone for x and y
 			boolean xZone = (e.getX()>=1020 && e.getX()<=1240);
@@ -454,6 +466,8 @@ public class MainGUI extends JFrame implements Runnable {
 				typeSelection=null;
 			}
 			manager.setTypeSelection(typeSelection);
+			
+			
 			//create 4x4 selection, because only the top left block of a building is recognized as a building
 			Block firstBlock = manager.getSelectedArea().get(0);
 			line = position.getLine()-1;

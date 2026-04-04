@@ -114,11 +114,12 @@ public class BuildingManager implements BuildingInterface{
 			}
 		}
 	}
-
+	/*
 	public void addQueue(UnitProducer building, Block position,String unitType,Player p) {
 		/**
 		 * Adds to UnitProducer's queue the next unit to produce
 		 */
+	/*
 		
 		if (building.getProductionQueue().size() < 3) { //max 3 unit in queue
 			Unit newUnit=null;
@@ -155,13 +156,48 @@ public class BuildingManager implements BuildingInterface{
 			}
 		}
 	}
-
+	*/
+	public void addQueue(UnitProducer building, Block position,String unitType,Player p) {
+		/**
+		 * Adds to UnitProducer's queue its next unit to produce
+		 */
+		if(building.getIsUnderConstruction()==false&&building.getProductionQueue().size()<3) {
+			String key = unitType+ "_" + building.getFaction().toUpperCase() + "_" + building.getTierLevel();
+			UnitStats stats = UnitRepository.getInstance().getStats(key);
+			System.out.println(key);
+			System.out.println(stats);
+			if(stats!=null) {
+				if(building.getProductionQueue().isEmpty()) {
+					building.setCurrentProduction(building.getProductionSpeed());
+				}
+				Unit newUnit = UnitFactory.createUnit(unitType, building.getTierLevel(), p.getFactionName(), position);
+				if (newUnit instanceof Worker) {
+					//if it's a worker, he needs to be affiliated with the building (his HQ)
+					for (Building b : manager.getBuildings()) {
+						if (b instanceof HQ && b.getPosition()==newUnit.getPosition()) {
+							((Worker) newUnit).setCurrentHQ((HQ) b);
+							break; 
+						}
+					}
+				}
+				((UnitProducer) building).getProductionQueue().add(newUnit);
+				p.getCreatedUnits().add(newUnit);
+				building.setCurrentProduction(building.getCurrentProduction()+1);
+			}
+		}
+		
+	}
 	public void removeQueue(UnitProducer building) {
+		/**
+		 * reduce the timer for the creation of new units,
+		 * creates the corresponding unit when the timer hits 0
+		 */
 		ArrayList<Unit> queue = building.getProductionQueue();
 		if (building.getCurrentProduction() != 0) {
 			// reduce remaining spawning time
 			building.setCurrentProduction(building.getCurrentProduction() - 1);
 			if (building.getCurrentProduction() == 0) {
+				
 				Unit unit=queue.remove(0);
 				int line = building.getPosition().getLine()-1;
 				int column = building.getPosition().getColumn() + 1;
@@ -180,24 +216,79 @@ public class BuildingManager implements BuildingInterface{
 
 	//put here in each case the action wanted for your building
 	public void action(String button, Player p) {
-		//System.out.println("Bouton cliqué pour : " + manager.getSelectedBuild().getBuildingName());
+		/*
+		 * Take the corresponding action for each button in bottom right part of the screen (adding unit to unitProducers)
+		 */
+		//System.out.println("Bouton"+ button+"cliqué pour : " + manager.getSelectedBuild().getBuildingName());
 		switch (button) {
-		case "button1":
-			if (manager.getSelectedBuild().getBuildingName().equals("Temple de Zeus")) {
-				if(!manager.getSelectedBuild().getIsUnderConstruction()) {
-					UnitProducer hq = (UnitProducer) ((HQ) manager.getSelectedBuild()).getWorkerProducer();// forced cast not optimal
+		case "button1":			
+			//first button for unitProducers
+			if(manager.getSelectedBuild() instanceof HQ) {
+				//UnitProducer hq = (UnitProducer) ((HQ) manager.getSelectedBuild()).getWorkerProducer();
+					UnitProducer hq = (UnitProducer) ((HQ) manager.getSelectedBuild()).getWorkerProducer();
 					manager.addQueue(hq, manager.getSelectedBuild().getPosition(), "WORKER",p);
-					manager.setNotifText("Production d'un worker",true);
-				}
-				break;
-			}if (manager.getSelectedBuild().getBuildingName().equals("Camp Olympique")) {
-				if(!manager.getSelectedBuild().getIsUnderConstruction()) {
-					UnitProducer unitProducer = (UnitProducer) manager.getSelectedBuild();
-					manager.addQueue(unitProducer, manager.getSelectedBuild().getPosition(), "ARTILLERY",p);
-					manager.setNotifText("Production d'artillery",true);
-				}
-				break;
 			}
+			if(manager.getSelectedBuild() instanceof UnitProducer) {
+				UnitProducer producer = (UnitProducer) manager.getSelectedBuild();
+				switch(producer.getBuildingName()) {
+				case("Colisée d'Atlantide"):
+				case("Camp spartiate"):
+				case("prytanée"):
+				case("Fosse sous marine"):
+				case("Autel de la sagesse"):
+					manager.addQueue(producer, manager.getSelectedBuild().getPosition(), "INFANTRY", p);
+					break;
+				case("Camp Olympique"):
+				case("Puit d'invocation"):
+				case("Cascade"):
+				case("Portail vers les champs Élysées"):
+					manager.addQueue(producer, manager.getSelectedBuild().getPosition(), "ARTILLERY", p);
+					break;
+				}
+			}
+			
+			
+			/*
+			 * switch(name) {
+				case("Camp spartiate"):
+					image1=imageRepertory+"Infantry.png";
+					break;
+				case("Colisée d'Atlantide"):
+					image1=imageRepertory+"Infantry.png";
+					break;
+				case("Camp Olympique"):
+					image1=imageRepertory+"Artillery.png";
+					break;
+				case("Puit d'invocation"):
+					image1=imageRepertory+"Artillery.png";
+					image2=imageRepertory+"Cavalry.png";
+					break;
+				case("Cascade"):
+					image1=imageRepertory+"Artillery.png";
+					image2=imageRepertory+"Cavalry.png";
+					break;
+				case("prytanée"):
+					image1=imageRepertory+"Infantry.png";
+					image2=imageRepertory+"Cavalry.png";
+					break;
+				case("Portail vers les champs Élysées"):
+					image1=imageRepertory+"Artillery.png";
+					image2=imageRepertory+"Cavalry.png";
+					break;
+				case("Fosse sous marine"):
+					image1=imageRepertory+"Infantry.png";
+					image2=imageRepertory+"Cavalry.png";
+					break;
+				case("Autel de la sagesse"):
+					image1=imageRepertory+"Infantry.png";
+					image2=imageRepertory+"Cavalry.png";
+					break;
+				}
+			 */
+				
+			
+			
+			
 			if (manager.getSelectedBuild() instanceof ResearchBuilding && !p.getTechnologies().contains("attackDamage_1.25") ) {
 				if(!manager.getSelectedBuild().getIsUnderConstruction()) {
 					p.addTechnologieUnlocked("attackDamage_1.25");
@@ -208,7 +299,7 @@ public class BuildingManager implements BuildingInterface{
 						id = "INFANTRY";
 					}
 					String key = id+ "_" + manager.getSelectedBuild().getFaction().toUpperCase() + "_" + 1;
-					System.out.println(key);
+					//System.out.println(key);
 					UnitStats stats = UnitRepository.getInstance().getStats(key);
 					stats.setAttackDamage(stats.getAttackDamage()*1.25);
 					//System.out.println("Attack damage of "+id+" of tier increased by 1.25 times");
@@ -220,7 +311,6 @@ public class BuildingManager implements BuildingInterface{
 					}
 
 				}
-				break;
 			}
 			break;
 		case "button2":
@@ -238,11 +328,18 @@ public class BuildingManager implements BuildingInterface{
 							unitProducer.setProductionSpeed(unitProducer.getProductionSpeed()/2);
 						}
 					}
-
+						
 				}
-				break;
 			}
+			if(manager.getSelectedBuild() instanceof UnitProducer) {
+				//if its the second button of a unit producer
+				UnitProducer producer = (UnitProducer) manager.getSelectedBuild();	
+				manager.addQueue(producer, manager.getSelectedBuild().getPosition(), "CAVALRY", p);//the second button always create a cavalery unit
+				
+				}
+			
 			break;
+		
 		case "button3":
 			break;
 		case "button4":
