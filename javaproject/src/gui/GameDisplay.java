@@ -39,6 +39,9 @@ public class GameDisplay extends JPanel {
 	//basicly a matrix which indicate if the block is in vision or not
 	boolean[][] visible =new boolean[100][72];
 
+	//true if fog of war 
+	boolean fogOfWar=true;
+	
 	public GameDisplay(Map map, MobileInterface manager, MenuInterface menu) {
 		this.map = map;
 		this.manager = manager;
@@ -54,11 +57,13 @@ public class GameDisplay extends JPanel {
 		//this is for the game display
 		if(menu.getCurrentState().equals("PLAYING")) {
 
-			//reset vision at each repaint
-			//not optimal but simpler, may be changed if it feels akward visually
-			for (int x = 0; x < 100; x++) {
-				for (int y = 0; y < 72; y++) {
-						visible[x][y] = false;
+			if(fogOfWar) {
+				//reset vision at each repaint
+				//not optimal but simpler, may be changed if it feels akward visually
+				for (int x = 0; x < 100; x++) {
+					for (int y = 0; y < 72; y++) {
+							visible[x][y] = false;
+					}
 				}
 			}
 			
@@ -71,21 +76,26 @@ public class GameDisplay extends JPanel {
 			ArrayList<RessourceDeposit> deposits = new ArrayList<>(manager.getRessourceDeposit());
 			ArrayList<Building> playerBuildings = new ArrayList<>(manager.getPlayer().getBuiltBuilding());
 			
-			for(Unit playerUnit: playerUnits) {
-				revealAround(playerUnit.getPosition().getColumn(),playerUnit.getPosition().getLine(),playerUnit.getVision());
-			}
-			for(Building playerBuilding: playerBuildings) {
-				revealAround(playerBuilding.getPosition().getColumn(),playerBuilding.getPosition().getLine(),playerBuilding.getVision());
-				//System.out.println("nom= "+playerBuilding.getBuildingName()+" vision= "+playerBuilding.getVision());
+			if(fogOfWar) {
+				for(Unit playerUnit: playerUnits) {
+					revealAround(playerUnit.getPosition().getColumn(),playerUnit.getPosition().getLine(),playerUnit.getVision());
+				}
+				for(Building playerBuilding: playerBuildings) {
+					revealAround(playerBuilding.getPosition().getColumn(),playerBuilding.getPosition().getLine(),playerBuilding.getVision());
+					//System.out.println("nom= "+playerBuilding.getBuildingName()+" vision= "+playerBuilding.getVision());
+				}
 			}
 			
 			
 			paintStrategy.paint(map, g);
-			for (int x = 0; x < 100; x++) {
-				for (int y = 0; y < 72; y++) {
-					if(y>=7) {
-						if(!visible[x][y]) {
-							paintStrategy.paint(x,y,g);
+			
+			if(fogOfWar) {
+				for (int x = 0; x < 100; x++) {
+					for (int y = 0; y < 72; y++) {
+						if(y>=7) {
+							if(!visible[x][y]) {
+								paintStrategy.paint(x,y,g);
+							}
 						}
 					}
 				}
@@ -103,21 +113,36 @@ public class GameDisplay extends JPanel {
 			paintStrategy.paint(manager.getSelectedArea(), g);
 			
 			for (Building building : buildings) {
-				if(visible[building.getPosition().getColumn()][building.getPosition().getLine()]) {
-					paintStrategy.paint(building, g);
+				if(fogOfWar) {
+					if(visible[building.getPosition().getColumn()][building.getPosition().getLine()]) {
+						paintStrategy.paint(building, g);
+					}
+				}else {
+					paintStrategy.paint(building,g);
 				}
 	            if(building instanceof DefenseTower) {
 	            	paintStrategy.paintAttack((DefenseTower)building, g);
 	            }
 	        }
 			for (RessourceDeposit deposit: deposits) {
-				if(visible[deposit.getPosition().getColumn()][deposit.getPosition().getLine()]) {
+				if(fogOfWar) {
+					if(visible[deposit.getPosition().getColumn()][deposit.getPosition().getLine()]) {
+						paintStrategy.paint(deposit, g);
+					}
+				}else {
 					paintStrategy.paint(deposit, g);
 				}
 			}
 			for (Unit unit : units) {
 				
-				if(visible[unit.getPosition().getColumn()][unit.getPosition().getLine()]) {
+				if(fogOfWar) {
+					if(visible[unit.getPosition().getColumn()][unit.getPosition().getLine()]) {
+						paintStrategy.paint(unit, g);
+						if(unit instanceof Worker) {
+							paintStrategy.paintWorkingWorker((Worker)unit, g);
+						}
+					}
+				}else {
 					paintStrategy.paint(unit, g);
 					if(unit instanceof Worker) {
 						paintStrategy.paintWorkingWorker((Worker)unit, g);
@@ -130,8 +155,12 @@ public class GameDisplay extends JPanel {
 				}
 			}
 			for(Unit selectedUnit: selectedUnits) {
-				if(visible[selectedUnit.getPosition().getColumn()][selectedUnit.getPosition().getLine()]) {
-					paintStrategy.paintSelectedUnit(selectedUnit, g);
+				if(fogOfWar) {
+					if(visible[selectedUnit.getPosition().getColumn()][selectedUnit.getPosition().getLine()]) {
+						paintStrategy.paintSelectedUnit(selectedUnit, g);
+					}
+				}else {
+					paintStrategy.paintSelectedUnit(selectedUnit,g);
 				}
 			}
 			
