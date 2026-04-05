@@ -569,7 +569,7 @@ public class CPUManager implements CPUinterface {
             }
         }
         
-        int hqCount = countBuildingType(c, HQ.class);
+        int hqCount = manager.countBuildingType(c, HQ.class);
         int maxArmy = 10 + (hqCount * 15); 
         
         if (armyCount >= maxArmy) { // it means we don't need to create more army.
@@ -607,25 +607,6 @@ public class CPUManager implements CPUinterface {
                 }
             }
         }
-    }
-
-    /**
-     * This method is used to count the number of instance of a class ( used in militaryProductionManagement)
-     * 
-     * @param c the cpu of the game
-     * @param clazz the instance of which class we want to count
-     * @return
-     */
-    private int countBuildingType(CPU c, Class<?> clazz) {
-        int count = 0;
-        synchronized(manager.getBuildings()) {
-            for (Building b : c.getBuiltBuilding()) {
-                if (clazz.isInstance(b)) {
-                    count++;
-                }
-            }
-        }
-        return count;
     }
     
     public MobileInterface getManager() {

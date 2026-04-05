@@ -36,11 +36,11 @@ public class GameDisplay extends JPanel {
 	private PaintStrategy paintStrategy = new PaintStrategy();
 	private MenuStrategy menuStrategy = new MenuStrategy();
 	
-	//basicly a matrix which indicate if the block is in vision or not
+	//Basically a matrix which indicate if the block is in vision or not
 	boolean[][] visible =new boolean[100][72];
 
 	//true if fog of war 
-	boolean fogOfWar=true;
+	boolean fogOfWar=false;
 	
 	public GameDisplay(Map map, MobileInterface manager, MenuInterface menu) {
 		this.map = map;

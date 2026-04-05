@@ -8,6 +8,7 @@ import engine.mobile.CPU;
 import engine.mobile.Player;
 import engine.mobile.RessourceDeposit;
 import engine.mobile.building.Building;
+import engine.mobile.building.HQ;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
@@ -81,4 +82,5 @@ public interface MobileInterface {
 	
 	void motherload();
 	void cpuLoad();
+	int countBuildingType(Player p, Class<?> class1);
 }

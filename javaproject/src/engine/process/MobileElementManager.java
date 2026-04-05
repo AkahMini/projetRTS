@@ -13,6 +13,8 @@ import engine.mobile.RessourceDeposit;
 import engine.mobile.building.Building;
 import engine.mobile.building.DefenseTower;
 import engine.mobile.building.HQ;
+import engine.mobile.building.PopulationBuilding;
+import engine.mobile.building.ResearchBuilding;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
@@ -159,20 +161,29 @@ public class MobileElementManager implements MobileInterface {
 	}
     
 	private void nextTierCheck(Player player){
-		/*
-		 * Next tier is reach when every building of the lower tiers are built
-		 */
-		int nbOfBuiltBuildings=player.getBuiltBuilding().size();
-		if(player.getCurrentTier()==1) {
-			if(nbOfBuiltBuildings==2) { //there are 2 tiers 1 buildings for all factions, not counting HQ
+
+		if(player.getCurrentTier() == 1) {
+			int nbProducers = countBuildingTypeByTier(player, UnitProducer.class, 1);
+			int nbPop = countBuildingTypeByTier(player, PopulationBuilding.class, 1);
+
+			if(nbProducers >= 1 && nbPop >= 1) { 
 				player.setCurrentTier(2);
+				setNotifText("passage tier 2", true);
+				System.out.println(player.getFactionName() + " passe tier 2");
 			}
 		}
-		else if(player.getCurrentTier()==5) { //there are three tiers 2 buildings and two tiers 1 buildings for all factions
-			player.setCurrentTier(3);
+
+		else if(player.getCurrentTier() == 2) {
+			int nbLabos = countBuildingTypeByTier(player, ResearchBuilding.class, 2);
+			int nbTowers = countBuildingTypeByTier(player, DefenseTower.class, 2);
+			int nbProducersT2 = countBuildingTypeByTier(player, UnitProducer.class, 2);
+
+			if(nbLabos >= 1 && nbTowers >= 1 && nbProducersT2 >= 1) {
+				player.setCurrentTier(3);
+				setNotifText("passage tier 3", true);
+				System.out.println(player.getFactionName() + " passe tier 3");
+			}
 		}
-		
-		
 	}
 	private void unitCombatSystem() {
 		for(int i=0;i<units.size();i++) {
@@ -415,6 +426,35 @@ public class MobileElementManager implements MobileInterface {
     	}else {
     		return false;
     	}
+    }
+    /**
+     * This method is used to count the number of instance of a class (used in militaryProductionManagement)
+     * 
+     * @param p the current player or cpu of the Game
+     * @param clazz the instance of which class we want to count
+     * @return
+     */
+    public int countBuildingType(Player p, Class<?> clazz) {
+        int count = 0;
+        synchronized(p.getBuiltBuilding()) { 
+            for (Building b : p.getBuiltBuilding()) {
+                if (clazz.isInstance(b)) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+    public int countBuildingTypeByTier(Player p, Class<?> clazz, int tier) {
+        int count = 0;
+        synchronized(p.getBuiltBuilding()) {
+            for (Building b : p.getBuiltBuilding()) {
+                if (clazz.isInstance(b) && b.getTierLevel() == tier) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
     //method for the communation between this class and BuildingManager
     

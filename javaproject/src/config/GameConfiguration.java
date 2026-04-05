@@ -22,7 +22,7 @@ public class GameConfiguration {
 	public static final int LINE_COUNT = WINDOW_HEIGHT / BLOCK_SIZE;
 	public static final int COLUMN_COUNT = WINDOW_WIDTH / BLOCK_SIZE;
 	
-	public static final int GAME_SPEED =10;//Default 10
+	public static final int GAME_SPEED =1;//Default 10
 	
 	public static final String UNITS_STATS = "src/gameData/units_Stats.csv";
 	public static final String BUILDINGS_STATS = "src/gameData/buildings_Stats.csv";
