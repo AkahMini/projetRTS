@@ -117,11 +117,7 @@ public class MobileElementManager implements MobileInterface {
             //Units manager
             for(Unit unit: new ArrayList<>(units)) {
             	//We copy Unit list because it can be manipulated elsewhere while we iterate it
-            	if(unit.getHp()<=0) {
-            		System.out.println("Unit '"+unit.getUnitName()+"' removed");
-            		units.remove(unit);
-      
-            	}
+            	killUnit(unit);
                 
             	// Ennemy scan
                 if (unit.getTarget() == null && unit.getDestination() == null ) {
@@ -139,7 +135,10 @@ public class MobileElementManager implements MobileInterface {
             }
             
             // Buildings management
-            for(Building building : buildings) {
+            for(Building building : new ArrayList<>(buildings)) {
+            	if(building.getHp()<=0) {
+            		buildings.remove(building);
+            	}
             	buildingManager.reduceConstructionTime(building);
             	if(building instanceof UnitProducer) {
             		UnitProducer producer = (UnitProducer) building;
@@ -159,6 +158,8 @@ public class MobileElementManager implements MobileInterface {
             buildingManager.researchTime(player);
         }
 	}
+
+	
     
 	private void nextTierCheck(Player player){
 
@@ -207,6 +208,46 @@ public class MobileElementManager implements MobileInterface {
         		}
         	}
         }
+	}
+	
+	private void killUnit(Unit unit) {
+		if(unit.getHp()<=0) {
+			//System.out.println("Unit '"+unit.getUnitName()+"' removed");
+			units.remove(unit);
+		}
+	}
+	public String winningFaction(){
+		/**
+		 * return the name of the only faction that have active buildings in the map, return "null" otherwise
+		 */
+		String winingfaction="null";
+		boolean activeZEUS = false;
+		boolean activeHADES = false;
+		boolean activePOSEIDON = false;
+		
+		for(Building building: buildings) {
+			//checks if faction still possess buildings
+			if(building.getFaction().equals(DefaultGameSettings.ZEUS)) {
+				activeZEUS=true;
+			}
+			if(building.getFaction().equals(DefaultGameSettings.POSEIDON)) {
+				activePOSEIDON=true;
+			}
+			if(building.getFaction().equals(DefaultGameSettings.HADES)) {
+				activeHADES=true;
+			}
+		}
+		
+		if(activeZEUS&&!(activeHADES||activePOSEIDON)) {
+			return gameSettings.ZEUS;
+		}
+		if(activePOSEIDON&&!(activeZEUS||activeHADES)) {
+			return gameSettings.POSEIDON;
+		}
+		if(activeHADES&&!(activeZEUS||activePOSEIDON)) {
+			return gameSettings.HADES;
+		}
+		return winingfaction;
 	}
     
     public double getDistance(Block b1, Block b2) {

@@ -28,6 +28,7 @@ import engine.process.chrono.CyclicCounter;
 public interface MobileInterface {
 	void firstRound();
 	void nextRound();
+	String winningFaction();
 	
 	double getDistance(Block b1, Block b2);
 	void initSelectedArea(Block firstBlock);
