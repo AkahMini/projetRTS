@@ -206,9 +206,9 @@ public class GameDisplay extends JPanel {
 	void revealAround(int cx, int cy, float frange) {
 		int range= (int) frange;
 	    for (int x = cx - range; x <= cx + range; x++) {
-	    	if(x>=0 && x<=100) {
+	    	if(x>=0 && x<100) {
 		        for (int y = cy - range; y <= cy + range; y++) {
-		        	if(y>=7 && y<=72) {
+		        	if(y>=7 && y<72) {
 			            int dx = x - cx;
 			            int dy = y - cy;
 			            

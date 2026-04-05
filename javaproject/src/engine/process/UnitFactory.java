@@ -1,7 +1,7 @@
 package engine.process;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.LogManager;
+//import org.apache.log4j.Logger;
 
 import engine.map.Block;
 import engine.mobile.unit.Artillery;

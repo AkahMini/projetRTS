@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import org.jfree.chart.ChartPanel;
+//import org.jfree.chart.ChartPanel;
 
 import config.DefaultGameSettings;
 import config.GameConfiguration;
@@ -25,7 +25,7 @@ import engine.mobile.unit.Unit;
 import engine.process.GameBuilder;
 import engine.process.MenuInterface;
 import engine.process.MobileInterface;
-import gui.instrument.ChartManager;
+//import gui.instrument.ChartManager;
 /**
  * 
  * Main graphic class that create the game window and manage the different user input.
@@ -61,7 +61,7 @@ public class MainGUI extends JFrame implements Runnable {
 	//private ChartPanel typeCountBar;
 	//private ChartPanel heightEvolutionChart;
 
-	private ChartManager chartManager = new ChartManager();
+	//private ChartManager chartManager = new ChartManager();
 	
 	//launch the game with MENU as the current state
 	//please refer to the game config to see the list
