@@ -88,13 +88,16 @@ public class MobileElementManager implements MobileInterface {
         unitManager.moveAllUnits(cpu);
         
         buildingManager.allTowerAttack(buildings);
-        
-        cpuManager.attackReaction(cpu);
-        cpuManager.workerManagement(cpu);
-        cpuManager.buildManagement(cpu);
-        cpuManager.otherBuildingsManagement(cpu);
-        cpuManager.militaryProductionManagement(cpu);
-        
+       	if(timetweaker.getValue() == 5) {
+       		cpuManager.attackReaction(cpu);
+            cpuManager.workerManagement(cpu);    
+       	}
+       	if(timetweaker.getValue() == 10) {
+       		cpuManager.buildManagement(cpu);
+            cpuManager.otherBuildingsManagement(cpu);
+            cpuManager.militaryProductionManagement(cpu);
+       	}
+
         
     }
 
@@ -292,8 +295,6 @@ public class MobileElementManager implements MobileInterface {
     	}
     }
     private void initMap() {
-        // --- BASES DE DÉPART (HQs) ---
-        // On définit les positions de départ pour le joueur et le CPU
         Block playerHQposition = map.getBlock(18, 18);
         Building playerHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, "Zeus", playerHQposition);
         playerHQ.setUnderConstruction(false);
@@ -306,7 +307,6 @@ public class MobileElementManager implements MobileInterface {
 
         ArrayList<RessourceDeposit> allDeposits = new ArrayList<>();
 
-        // ═════ 1. MAIN BASES (En U très large autour des QG) ═════
         // Joueur
         allDeposits.add(new RessourceDeposit(map.getBlock(12, 18), RessourceDeposit.AMBROSIA));
         allDeposits.add(new RessourceDeposit(map.getBlock(14, 13), RessourceDeposit.FAITH));
@@ -321,7 +321,6 @@ public class MobileElementManager implements MobileInterface {
         allDeposits.add(new RessourceDeposit(map.getBlock(56, 87), RessourceDeposit.FAITH));
         allDeposits.add(new RessourceDeposit(map.getBlock(54, 82), RessourceDeposit.AMBROSIA));
 
-        // ═════ 2. NATURAL EXPANSIONS / B2 (Clusters carrés très aérés) ═════
         // Joueur B2 (Centre-gauche)
         allDeposits.add(new RessourceDeposit(map.getBlock(31, 23), RessourceDeposit.AMBROSIA));
         allDeposits.add(new RessourceDeposit(map.getBlock(33, 28), RessourceDeposit.FAITH));
@@ -334,7 +333,6 @@ public class MobileElementManager implements MobileInterface {
         allDeposits.add(new RessourceDeposit(map.getBlock(40, 72), RessourceDeposit.AMBROSIA));
         allDeposits.add(new RessourceDeposit(map.getBlock(44, 77), RessourceDeposit.FAITH));
 
-        // ═════ 3. BASES LATÉRALES / B3 (Sur les flancs haut et bas) ═════
         // Joueur B3 (Bottom-Left)
         allDeposits.add(new RessourceDeposit(map.getBlock(48, 18), RessourceDeposit.AMBROSIA));
         allDeposits.add(new RessourceDeposit(map.getBlock(49, 23), RessourceDeposit.FAITH));
@@ -347,7 +345,7 @@ public class MobileElementManager implements MobileInterface {
         allDeposits.add(new RessourceDeposit(map.getBlock(24, 77), RessourceDeposit.AMBROSIA));
         allDeposits.add(new RessourceDeposit(map.getBlock(22, 82), RessourceDeposit.FAITH));
 
-        // ═════ 4. ZONES CONTESTÉES (Le long de la diagonale centrale) ═════
+        // along the center diagonal
         allDeposits.add(new RessourceDeposit(map.getBlock(17, 48), RessourceDeposit.AMBROSIA));
         allDeposits.add(new RessourceDeposit(map.getBlock(18, 52), RessourceDeposit.FAITH));
         allDeposits.add(new RessourceDeposit(map.getBlock(22, 52), RessourceDeposit.AMBROSIA));
@@ -358,31 +356,26 @@ public class MobileElementManager implements MobileInterface {
         allDeposits.add(new RessourceDeposit(map.getBlock(57, 52), RessourceDeposit.FAITH));
         allDeposits.add(new RessourceDeposit(map.getBlock(58, 48), RessourceDeposit.AMBROSIA));
 
-        // Initialisation globale des gisements
         for (RessourceDeposit d : allDeposits) {
             d.setMaxWorkers(2); 
             d.setCurrentWorkers(0);
             this.ressourceDeposits.add(d);
         }
 
-        // --- UNITÉS DE DÉPART ---
-        // Armée de départ du joueur
         for(int i=0; i<7; i++) {
             Block spawnBlock = map.getBlock(22+(int)(Math.random()*3), 22+(int)(Math.random()*3));
             Unit unit = UnitFactory.createUnit(UnitFactory.ARTILLERY_UNIT, 1, DefaultGameSettings.ZEUS, spawnBlock);
             this.units.add(unit);
             player.getCreatedUnits().add(unit);
         }
-
-        // Armée de départ du CPU
+        /*
         for(int i=0; i<5; i++) {
             Block spawnBlock = map.getBlock(54+(int)(Math.random()*3), 75+(int)(Math.random()*3));
             Unit unit = UnitFactory.createUnit(UnitFactory.INFANTRY_UNIT, 1, DefaultGameSettings.HADES, spawnBlock);
             this.units.add(unit);
             cpu.getCreatedUnits().add(unit);
         }
-        
-        // Workers de départ du CPU (indispensable pour l'IA)
+        */
         Unit w1 = UnitFactory.createUnit(UnitFactory.WORKER_UNIT, 1, DefaultGameSettings.HADES, ennemyHQ.getPosition());
         Unit w2 = UnitFactory.createUnit(UnitFactory.WORKER_UNIT, 1, DefaultGameSettings.HADES, ennemyHQ.getPosition());
         ((Worker) w1).setCurrentHQ((HQ) ennemyHQ);
@@ -390,7 +383,6 @@ public class MobileElementManager implements MobileInterface {
         this.units.add(w1); cpu.getCreatedUnits().add(w1);
         this.units.add(w2); cpu.getCreatedUnits().add(w2);
 
-        // Ajout final des bâtiments aux listes globales
         this.buildings.add(playerHQ);
         this.buildings.add(ennemyHQ);
         System.out.println("Vision HQ: " + playerHQ.getVision());

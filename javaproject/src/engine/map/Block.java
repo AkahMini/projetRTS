@@ -43,24 +43,19 @@ public class Block {
 	}
 	@Override
 	public boolean equals(Object obj) {
-		// 1. Si on compare l'objet avec lui-même, c'est forcément vrai
 		if (this == obj) {
 			return true;
 		}
 		
-		// 2. Si l'autre objet n'existe pas (null) ou n'est pas de la classe Block, c'est faux
 		if (obj == null || getClass() != obj.getClass()) {
 			return false;
 		}
 		
-		// 3. On est sûr que c'est un Block et qu'il n'est pas null, on peut le "convertir" (cast)
 		Block b = (Block) obj;
 		
-		// 4. On compare enfin les coordonnées
 		return this.column == b.column && this.line == b.line;
 	}
 
-	// Toujours redéfinir hashCode quand on redéfinit equals !
 	@Override
 	public int hashCode() {
 		return Objects.hash(line, column);

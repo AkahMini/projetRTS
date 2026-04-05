@@ -31,10 +31,22 @@ public class CPUManager implements CPUinterface {
         this.setManager(manager);
     }
 
+    /**
+     * Method used to make sure the CPU doesn't expand too far away at some point
+     * 
+     * @param b  block that we want to check if he is not outside the designated zone
+     * @return
+     */
     private boolean isBlockInCPUZone(Block b) {
-        return b.getColumn() > 65 || (b.getColumn() > 40 && b.getLine() > 40); 
+        return b.getColumn() > 70 || (b.getColumn() > 45 && b.getLine() > 40); 
     }
 
+    /**
+     * This method is used to decide if an hq has to be built and where based on multiple conditions
+     * like the number of HQ, the resources of the CPU and if it has started to harvest it's other RessourceDepostit beforehand
+     * 
+     * @param c
+     */
     public void buildManagement(CPU c) {
         ArrayList<HQ> cpuHQs = new ArrayList<>();
         synchronized(manager.getBuildings()) {
@@ -54,9 +66,9 @@ public class CPUManager implements CPUinterface {
             ArrayList<RessourceDeposit> nearDeposits = getTwoNearestDeposits(hq.getPosition());
             int saturatedCount = 0;
             for (RessourceDeposit d : nearDeposits) {
-                if (d.getCurrentWorkers() >= d.getMaxWorkers()) saturatedCount++;
+                if (d.getCurrentWorkers() >= d.getMaxWorkers() - 1) saturatedCount++;
             }
-            if (saturatedCount < 2) return; 
+            if (!nearDeposits.isEmpty() && saturatedCount == 0) return; 
         }
 
         if (c.getAmbroisieStock() < 500 || c.getFaithStock() < 500) return;
@@ -70,26 +82,41 @@ public class CPUManager implements CPUinterface {
             }
 
             Block wPos = assignedBuilder.getPosition();
-            if (wPos.getLine() == pendingHQTarget.getLine() && wPos.getColumn() == pendingHQTarget.getColumn()) {
+            
+            if (manager.getDistance(wPos, pendingHQTarget) <= 2) {
                 manager.selectBuilding(BuildingFactory.HQ_BUILDING);
                 int result = manager.buildBuilding(pendingHQTarget, 1, c.getFactionName(), c);
 
                 if (result == 1) {
                     System.out.println("[CPU] nouveau hq construit");
+                    HQ newHQ = null;
+                    
                     synchronized(manager.getBuildings()) {
                         for (Building b : manager.getBuildings()) {
-                            if (b instanceof HQ && b.getPosition().equals(pendingHQTarget) && !c.getBuiltBuilding().contains(b)) {
+                            if (b instanceof HQ 
+                                && b.getPosition().getLine() == pendingHQTarget.getLine() 
+                                && b.getPosition().getColumn() == pendingHQTarget.getColumn() 
+                                && !c.getBuiltBuilding().contains(b)) {
+                                
                                 c.getBuiltBuilding().add(b);
+                                newHQ = (HQ) b;
                                 break;
                             }
                         }
                     }
                     if (pendingDeposit != null) {
+                        if (newHQ != null) {
+                            assignedBuilder.setCurrentHQ(newHQ);
+                        }
+                        
                         assignedBuilder.setCurrentDeposit(pendingDeposit);
                         assignedBuilder.setRessourceType(pendingDeposit.getType());
                         assignedBuilder.setDestination(pendingDeposit.getPosition());
                         pendingDeposit.setCurrentWorkers(pendingDeposit.getCurrentWorkers() + 1);
                     }
+                    resetBuildMission();
+                } else {
+                    assignedBuilder.setIsWorking(false);
                     resetBuildMission();
                 }
             }
@@ -151,33 +178,47 @@ public class CPUManager implements CPUinterface {
         pendingDeposit  = targetDeposit;
         assignedBuilder = builder;
     }
-
+    /**
+    * Method used to search for an available worker to build a building
+    * 
+    * @return  A Worker that will be tasked with the next construction
+    *
+    */
     private Worker getAvailableWorker(CPU c) {
+    	/* first for loop is used to search for worker who are not working(if they have just been created)
+    	 * so that we don't pertub the ressource production of the CPU
+    	 */
         for (Unit u : c.getCreatedUnits()) {
             if (u instanceof Worker && !((Worker) u).getIsWorking()) return (Worker) u;
         }
+        // since the CPU has to built something anyway if every worker is working we use one that was harvesting resources
         for (Unit u : c.getCreatedUnits()) {
             if (u instanceof Worker) return (Worker) u;
         }
-        return null;
+        return null; // return null if there is no worker on the map.
     }
-
+    /**
+	 * Method used to build any building that is not an HQ by either checking if a worker already has a mission or
+	 * launching another mission for a worker.
+	 * 
+	 * @param c Instance of the CPU class which is currently used in the game
+	 */
     public void otherBuildingsManagement(CPU c) {
 
-        if (pendingBuildTarget != null && pendingBuildWorker != null) {
+        if (pendingBuildTarget != null && pendingBuildWorker != null) { // check if the CPU has a worker with a task
 
-            if (!c.getCreatedUnits().contains(pendingBuildWorker)) {
+            if (!c.getCreatedUnits().contains(pendingBuildWorker)) {//if the assigned worker is dead we reset the mission
                 resetOtherBuildMission();
                 return;
             }
 
-            if (pendingBuildWorker.getPosition().equals(pendingBuildTarget)) {
-                manager.selectBuilding(pendingBuildType);
+            if (manager.getDistance(pendingBuildWorker.getPosition(), pendingBuildTarget) <= 2) {
+                manager.selectBuilding(pendingBuildType);//if the worker is close to the building block we choose the building
                 
                 int tierToBuild = 1; 
                 if (pendingBuildType.equals(BuildingFactory.DEFENSE_BUILDING) || 
                     pendingBuildType.equals(BuildingFactory.RESEARCH_BUILDING)) {
-                    tierToBuild = 2; 
+                    tierToBuild = 2; // because there is no tier 1 defense of research building
                 }
                 
                 int result = manager.buildBuilding(pendingBuildTarget, tierToBuild, c.getFactionName(), c);
@@ -188,6 +229,11 @@ public class CPUManager implements CPUinterface {
                     if (pendingBuildType.equals(BuildingFactory.POPULATION_BUILDING)) {
                         synchronized(manager.getBuildings()) {
                             for (Building b : manager.getBuildings()) {
+                            	/*
+                            	 Since the CPU doesn't have the building, we check all the building and see if it has 
+                            	 the same position has the target and then get his population Provided to update 
+                            	 the population of the CPU.
+                            	 */
                                 if (b.getPosition().equals(pendingBuildTarget) && b instanceof PopulationBuilding) {
                                     PopulationBuilding popBuilding = (PopulationBuilding) b;
                                     c.setMaxPopulation(c.getMaxPopulation() + popBuilding.getPopulationProvided());
@@ -200,23 +246,29 @@ public class CPUManager implements CPUinterface {
                     
                     pendingBuildWorker.setIsWorking(false);
                     resetOtherBuildMission();
+                } else { // we free the worker even if the building has not been made ( if he is dead for example)
+                    pendingBuildWorker.setIsWorking(false);
+                    resetOtherBuildMission();
                 }
             }
             return; 
         }
 
-        Worker builder = getAvailableWorker(c);
+        Worker builder = getAvailableWorker(c); // we try to find an available worker
         if (builder == null) return;
 
         ArrayList<HQ> cpuHQs = new ArrayList<>();
         synchronized(manager.getBuildings()) {
             for (Building b : c.getBuiltBuilding()) {
-                if (b instanceof HQ) cpuHQs.add((HQ) b);
+                if (b instanceof HQ) cpuHQs.add((HQ) b);//we create an arrayList of HQ so that we can check each HQ for expansion
             }
         }
 
+        if (pendingHQTarget != null) return; // we return if an hq is beaing made at the moment
+
         for (HQ hq : cpuHQs) {
             int prodCount = 0, popCount = 0, towerCount = 0, labCount = 0;
+            // we have to reset and check the number of building each time because one of them could have been destroyed
             
             synchronized(manager.getBuildings()) {
                 for (Building b : c.getBuiltBuilding()) {
@@ -228,65 +280,69 @@ public class CPUManager implements CPUinterface {
                     }
                 }
             }
-
+            // The next part of the code is a set of rule for each type building that will check resources 
+            //and the number of said type so that the CPU doesn't built the same building infinitely
             if (prodCount < 2) {
-                if (c.getAmbroisieStock() >= 125 && c.getFaithStock() >= 125) { 
-                    Block pos = findBuildPositionSpecificallyNear(hq, 4, 8);
-                    if (pos != null) {
-                        launchOtherBuildMission(builder, pos, BuildingFactory.PRODUCER_BUILDING);
-                    }
+                if (c.getAmbroisieStock() < 125 || c.getFaithStock() < 125) return; // we stop only if we lack resources
+                Block pos = findBuildPositionSpecificallyNear(hq, 4, 8);
+                if (pos != null) {
+                    launchOtherBuildMission(builder, pos, BuildingFactory.PRODUCER_BUILDING);
+                    return;
                 }
-                return; 
             }
 
             if (popCount < 3) {
-                if (c.getAmbroisieStock() >= 100 && c.getFaithStock() >= 100) { 
-                    Block pos = findBuildPositionSpecificallyNear(hq, 4, 9);
-                    if (pos != null) {
-                        launchOtherBuildMission(builder, pos, BuildingFactory.POPULATION_BUILDING);
-                    }
+                if (c.getAmbroisieStock() < 100 || c.getFaithStock() < 100) return; 
+                Block pos = findBuildPositionSpecificallyNear(hq, 4, 13);
+                if (pos != null) {
+                    launchOtherBuildMission(builder, pos, BuildingFactory.POPULATION_BUILDING);
+                    return;
                 }
-                return;
             }
 
             if (labCount < 1) {
-                if (c.getAmbroisieStock() >= 150 && c.getFaithStock() >= 150) { 
-                    Block pos = findBuildPositionSpecificallyNear(hq, 5, 10);
-                    if (pos != null) {
-                        launchOtherBuildMission(builder, pos, BuildingFactory.RESEARCH_BUILDING);
-                    }
+                if (c.getAmbroisieStock() < 150 || c.getFaithStock() < 150) return; 
+                Block pos = findBuildPositionSpecificallyNear(hq, 5, 10);
+                if (pos != null) {
+                    launchOtherBuildMission(builder, pos, BuildingFactory.RESEARCH_BUILDING);
+                    return;
                 }
-                return;
             }
 
             if (towerCount < 4) {
-                if (c.getAmbroisieStock() >= 150 && c.getFaithStock() >= 150) { 
-                    Block pos = findBuildPositionSpecificallyNear(hq, 7, 13);
-                    if (pos != null) {
-                        launchOtherBuildMission(builder, pos, BuildingFactory.DEFENSE_BUILDING);
-                    }
+                if (c.getAmbroisieStock() < 150 || c.getFaithStock() < 150) return; 
+                Block pos = findBuildPositionSpecificallyNear(hq, 6, 10);
+                if (pos != null) {
+                    launchOtherBuildMission(builder, pos, BuildingFactory.DEFENSE_BUILDING);
+                    return;
                 }
-                return;
             }
         }
     }
-
+    /**
+    * method used to find a block to build a building based on the HQ position and a min and max distance from it
+    * 
+    * @param hq		  The HQ from which we want to expand
+    * @param minDist  Minimum distance so that not every building is stacked againt the HQ
+    * @param maxDist  Maximum distance away from the HQ where a building can be built
+    * @return       The Block where the Building will be built 
+    */
     private Block findBuildPositionSpecificallyNear(HQ hq, int minDist, int maxDist) {
         int hqLine = hq.getPosition().getLine();
         int hqCol  = hq.getPosition().getColumn();
 
-        for (int dist = minDist; dist <= maxDist; dist++) {
-            for (int dl = -dist; dl <= dist; dl++) {
-                for (int dc = -dist; dc <= dist; dc++) {
+        for (int dist = minDist; dist <= maxDist; dist++) {//Used to increase the research zone little by little starting from the minimum distance from the HQ
+            for (int dl = -dist; dl <= dist; dl++) {// search line by line
+                for (int dc = -dist; dc <= dist; dc++) { // search column by column
                     int line = hqLine + dl;
                     int col  = hqCol  + dc;
-                    if (!isInMapBounds(line, col)) continue;
+                    if (!isInMapBounds(line, col)) continue; // if the cordinates are outside the map we check the next iteration
 
                     Block candidate = manager.getMap().getBlock(line, col);
                     
-                    if (!isBlockInCPUZone(candidate)) continue;
+                    if (!isBlockInCPUZone(candidate)) continue; //if it's not in the expansion zone of the CPU
                     
-                    if (isBlockFreeForBuilding(candidate)) {
+                    if (isBlockFreeForBuilding(candidate)) { // if there is no other building on this block
                         return candidate;
                     }
                 }
@@ -295,15 +351,21 @@ public class CPUManager implements CPUinterface {
         return null;
     }
 
+    /**
+     * Method used to decide which worker to send on a mission and on what mission(what building to build and where)
+     * @param builder
+     * @param targetPos
+     * @param buildingType
+     */
     private void launchOtherBuildMission(Worker builder, Block targetPos, String buildingType) {
         if (builder.getCurrentDeposit() != null) {
             builder.getCurrentDeposit().setCurrentWorkers(
-                    builder.getCurrentDeposit().getCurrentWorkers() - 1);
+                    builder.getCurrentDeposit().getCurrentWorkers() - 1); // we remove a worker from the deposit if he has one
             builder.setCurrentDeposit(null);
         }
         builder.setDestination(targetPos);
         builder.setIsWorking(true);
-
+        // we send the worker on a mission based on the Parameters
         pendingBuildTarget = targetPos;
         pendingBuildType   = buildingType;
         pendingBuildWorker = builder;
@@ -311,12 +373,17 @@ public class CPUManager implements CPUinterface {
         System.out.println("[CPU] Worker envoyé vers " + buildingType + " en X:" + targetPos.getColumn() + " Y:" + targetPos.getLine());
     }
 
+    /**
+     * method used to free a worker and reset the mission
+     */
     private void resetBuildMission() {
         pendingHQTarget = null;
         pendingDeposit  = null;
         assignedBuilder = null;
     }
-
+    /**
+     * method used to free a worker and reset the mission of building something else than an HQ
+     */
     private void resetOtherBuildMission() {
         pendingBuildTarget = null;
         pendingBuildType   = null;
@@ -429,16 +496,23 @@ public class CPUManager implements CPUinterface {
         int maxWorkers = hqCount * 10;
         if (workerCount >= maxWorkers) return;
 
-        synchronized(manager.getBuildings()) {
-            for(Building b: c.getBuiltBuilding()) {
-                if(b instanceof HQ) {
-                    HQ hq=(HQ) b;
-                    c.setWorkerProductionTime(c.getWorkerProductionTime()+1);
-                    if(hq.getWorkerProducer().getProductionQueue().size() <= 1 && !hq.getIsUnderConstruction() && c.getWorkerProductionTime() >= 40) {
-                        manager.addQueue(hq.getWorkerProducer(), hq.getPosition(), "WORKER", c);
-                        c.setWorkerProductionTime(0);
+        c.setWorkerProductionTime(c.getWorkerProductionTime()+1);
+
+        if (c.getWorkerProductionTime() >= 40) {
+            boolean workerQueued = false;
+            synchronized(manager.getBuildings()) {
+                for(Building b: c.getBuiltBuilding()) {
+                    if(b instanceof HQ) {
+                        HQ hq=(HQ) b;
+                        if(hq.getWorkerProducer().getProductionQueue().size() <= 1 && !hq.getIsUnderConstruction()) {
+                            manager.addQueue(hq.getWorkerProducer(), hq.getPosition(), "WORKER", c);
+                            workerQueued = true;
+                        }
                     }
                 }
+            }
+            if (workerQueued) {
+                c.setWorkerProductionTime(0);
             }
         }
     }
@@ -464,6 +538,23 @@ public class CPUManager implements CPUinterface {
                         workerDeposit.setCurrentWorkers(workerDeposit.getCurrentWorkers()+1);
                         w.setRessourceType(workerDeposit.getType());
                         w.setIsWorking(true);
+                        
+                        HQ nearestHQ = null;
+                        double minHQDist = Double.MAX_VALUE;
+                        synchronized(manager.getBuildings()) {
+                            for (Building b : c.getBuiltBuilding()) {
+                                if (b instanceof HQ) {
+                                    double dist = manager.getDistance(b.getPosition(), workerDeposit.getPosition());
+                                    if (dist < minHQDist) {
+                                        minHQDist = dist;
+                                        nearestHQ = (HQ) b;
+                                    }
+                                }
+                            }
+                        }
+                        if (nearestHQ != null) {
+                            w.setCurrentHQ(nearestHQ);
+                        }
                     }
                 }
             }
@@ -479,10 +570,17 @@ public class CPUManager implements CPUinterface {
         }
         
         int hqCount = countBuildingType(c, HQ.class);
-        int maxArmy = 30 + (hqCount * 15); 
+        int maxArmy = 10 + (hqCount * 15); 
         
-        if (armyCount >= maxArmy) {
+        if (armyCount >= maxArmy) { // it means we don't need to create more army.
             return;
+        }
+
+        int safeAmbroisie = 200; // check if we have enough resources to no block the other actions of the CPU
+        int safeFaith = 200;
+        if (pendingHQTarget != null) {
+            safeAmbroisie = 520; 
+            safeFaith = 520;
         }
 
         synchronized(manager.getBuildings()) {
@@ -492,18 +590,15 @@ public class CPUManager implements CPUinterface {
                     
                     if(producer.getProductionQueue().isEmpty() && !producer.getIsUnderConstruction()) {
                         if(c.getCurrentPopulation() < c.getMaxPopulation()) {
-                            if(c.getAmbroisieStock() >= 20 && c.getFaithStock() >= 20) {
+                            
+                            if(c.getAmbroisieStock() >= safeAmbroisie && c.getFaithStock() >= safeFaith) {
                                 String unitToProduce = "INFANTRY"; 
                                 
                                 if (c.getFactionName().equalsIgnoreCase("ZEUS")) {
                                     unitToProduce = "ARTILLERY"; 
                                 }
 
-                                manager.addQueue(producer, producer.getPosition(), unitToProduce, c);
-                                
-                                c.setAmbroisieStock(c.getAmbroisieStock() - 15);
-                                c.setFaithStock(c.getFaithStock() - 15);
-                                
+                                manager.addQueue(producer, producer.getPosition(), unitToProduce, c); 
                                 armyCount++; 
                                 if (armyCount >= maxArmy) break;
                             }
@@ -514,10 +609,13 @@ public class CPUManager implements CPUinterface {
         }
     }
 
-    public MobileInterface getManager() {
-        return manager;
-    }
-
+    /**
+     * This method is used to count the number of instance of a class ( used in militaryProductionManagement)
+     * 
+     * @param c the cpu of the game
+     * @param clazz the instance of which class we want to count
+     * @return
+     */
     private int countBuildingType(CPU c, Class<?> clazz) {
         int count = 0;
         synchronized(manager.getBuildings()) {
@@ -528,6 +626,10 @@ public class CPUManager implements CPUinterface {
             }
         }
         return count;
+    }
+    
+    public MobileInterface getManager() {
+        return manager;
     }
 
     public void setManager(MobileInterface manager) {

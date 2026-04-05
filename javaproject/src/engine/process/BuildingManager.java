@@ -115,35 +115,53 @@ public class BuildingManager implements BuildingInterface{
 			}
 		}
 	}
-	public void addQueue(UnitProducer building, Block position,String unitType,Player p) {
-		/**
-		 * Adds to UnitProducer's queue its next unit to produce
-		 */
-		if(building.getIsUnderConstruction()==false&&building.getProductionQueue().size()<3) {
-			String key = unitType+ "_" + building.getFaction().toUpperCase() + "_" + building.getTierLevel();
-			UnitStats stats = UnitRepository.getInstance().getStats(key);
-			System.out.println(key);
-			System.out.println(stats);
-			if(stats!=null) {
-				if(building.getProductionQueue().isEmpty()) {
-					building.setCurrentProduction(building.getProductionSpeed());
-				}
-				Unit newUnit = UnitFactory.createUnit(unitType, building.getTierLevel(), p.getFactionName(), position);
-				if (newUnit instanceof Worker) {
-					//if it's a worker, he needs to be affiliated with the building (his HQ)
-					for (Building b : manager.getBuildings()) {
-						if (b instanceof HQ && b.getPosition()==newUnit.getPosition()) {
-							((Worker) newUnit).setCurrentHQ((HQ) b);
-							break; 
-						}
-					}
-				}
-				((UnitProducer) building).getProductionQueue().add(newUnit);
-				p.getCreatedUnits().add(newUnit);
-				building.setCurrentProduction(building.getCurrentProduction()+1);
-			}
-		}
-		
+	public void addQueue(UnitProducer building, Block position, String unitType, Player p) {
+	    /**
+	     * Adds to UnitProducer's queue its next unit to produce
+	     */
+	    if (building.getIsUnderConstruction() == false && building.getProductionQueue().size() < 3) {
+	        String key = unitType + "_" + building.getFaction().toUpperCase() + "_" + building.getTierLevel();
+	        UnitStats stats = UnitRepository.getInstance().getStats(key);
+	        
+	        if (stats != null) {
+	            Unit newUnit = UnitFactory.createUnit(unitType, building.getTierLevel(), p.getFactionName(), position);
+	            
+	            if (newUnit != null) {
+	                if (p.getAmbroisieStock() >= newUnit.getACost() && p.getFaithStock() >= newUnit.getFCost()) {
+	                    
+	                    p.setAmbroisieStock(p.getAmbroisieStock() - newUnit.getACost());
+	                    p.setFaithStock(p.getFaithStock() - newUnit.getFCost());
+
+	                    if (building.getProductionQueue().isEmpty()) {
+	                        building.setCurrentProduction(building.getProductionSpeed());
+	                    }
+	                    
+	                    if (newUnit instanceof Worker) {
+	                        for (Building b : manager.getBuildings()) {
+	                            if (b instanceof HQ && b.getPosition().equals(newUnit.getPosition())) {
+	                                ((Worker) newUnit).setCurrentHQ((HQ) b);
+	                                break; 
+	                            }
+	                        }
+	                    }
+	                    
+	                    ((UnitProducer) building).getProductionQueue().add(newUnit);
+	                    p.getCreatedUnits().add(newUnit);
+	                    
+	                    if (p instanceof CPU) {
+	                        System.out.println("[CPU] Unité ajoutée : " + unitType 
+	                            + " (Cout Pop: " + newUnit.getPopCost() + ")"
+	                            + " | Population totale : " + p.getCurrentPopulation() 
+	                            + "/" + p.getMaxPopulation());
+	                    }
+	                    
+	                    building.setCurrentProduction(building.getCurrentProduction() + 1);
+	                } else {
+	                    System.out.println("Fonds insuffisants pour créer : " + unitType);
+	                }
+	            }
+	        }
+	    }
 	}
 	public void removeQueue(UnitProducer building) {
 		/**
