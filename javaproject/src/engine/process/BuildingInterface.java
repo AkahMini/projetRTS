@@ -3,6 +3,7 @@ package engine.process;
 import java.util.ArrayList;
 
 import engine.map.Block;
+import engine.mobile.CPU;
 import engine.mobile.Player;
 import engine.mobile.building.Building;
 import engine.mobile.building.DefenseTower;
@@ -39,4 +40,6 @@ public interface BuildingInterface {
 	 
 	 public void setTowerTarget(DefenseTower tower);
 	 void allTowerAttack(ArrayList<Building> buildings);
+
+	 void researchTime(Player p);
 }

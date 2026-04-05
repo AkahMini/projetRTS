@@ -87,6 +87,7 @@ public class MobileElementManager implements MobileInterface {
         unitManager.moveAllUnits(player);
         unitManager.moveAllUnits(cpu);
         
+        
         buildingManager.allTowerAttack(buildings);
        	if(timetweaker.getValue() == 5) {
        		cpuManager.attackReaction(cpu);
@@ -152,6 +153,8 @@ public class MobileElementManager implements MobileInterface {
             	}
             }
             cpuManager.workerProductionManagement(cpu);
+            buildingManager.researchTime(cpu);
+            buildingManager.researchTime(player);
         }
 	}
     

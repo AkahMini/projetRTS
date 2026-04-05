@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import config.DefaultGameSettings;
 import engine.mobile.building.Building;
+import engine.mobile.building.ResearchBuilding;
 import engine.mobile.unit.Unit;
 
 /**
@@ -26,6 +27,7 @@ public class Player {
 	private int maxPopulation;
 	private ArrayList<String> technologies;
 	private ArrayList<Building> builtBuilding; //The id of the built buildings
+	private ArrayList<ResearchBuilding> ResearchBuildings; // arrayList to stock the Lab so that we don't have to search the whole array of buildings when needed
 	private ArrayList<Unit> createdUnits; //The id of the built buildings
 
 	
@@ -47,6 +49,7 @@ public class Player {
 		this.maxPopulation=DefaultGameSettings.DEFAULT_POPULATION;
 		this.technologies= new ArrayList<String>();
 		this.builtBuilding = new ArrayList<Building>();
+		this.ResearchBuildings = new ArrayList<ResearchBuilding>();
 		this.createdUnits = new ArrayList<Unit>();
 	}
 	
@@ -172,5 +175,13 @@ public class Player {
 
 	public void setCreatedUnits(ArrayList<Unit> createdUnits) {
 		this.createdUnits = createdUnits;
+	}
+
+	public ArrayList<ResearchBuilding> getResearchBuildings() {
+		return ResearchBuildings;
+	}
+
+	public void setResearchBuildings(ArrayList<ResearchBuilding> researchBuildings) {
+		ResearchBuildings = researchBuildings;
 	}
 }

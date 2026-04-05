@@ -459,9 +459,7 @@ public class PaintStrategy {
 			}
 	
 	
-			//button to be defined
-			
-			/*
+		
 			if(build.getBuildingName().equals("Temple de Zeus")) {
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/miner.png"),1020,560,60,60,null);
 			}
@@ -472,7 +470,6 @@ public class PaintStrategy {
 			if(build.getBuildingName().equals("Camp Olympique")) {
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/Artillery.png"),1020,560,60,60,null);
 			}
-			*/
 			
 			String imageRepertory = "src/gameData/images/";
 			String image1=imageRepertory+"emptyButton.png";

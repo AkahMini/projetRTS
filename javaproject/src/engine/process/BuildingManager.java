@@ -61,6 +61,9 @@ public class BuildingManager implements BuildingInterface{
 				
 				manager.addInBuildings(newBuilding);
 				p.getBuiltBuilding().add(newBuilding);
+				if(newBuilding instanceof ResearchBuilding) {
+					p.getResearchBuildings().add((ResearchBuilding) newBuilding);
+				}
 				p.setAmbroisieStock(p.getAmbroisieStock()-newBuilding.getAmbroisieCost());
 				p.setFaithStock(p.getFaithStock()-newBuilding.getFaithCost());
 			}
@@ -267,44 +270,24 @@ public class BuildingManager implements BuildingInterface{
 			
 			if (manager.getSelectedBuild() instanceof ResearchBuilding && !p.getTechnologies().contains("attackDamage_1.25") ) {
 				if(!manager.getSelectedBuild().getIsUnderConstruction()) {
-					p.addTechnologieUnlocked("attackDamage_1.25");
-					String id = null;
-					if(p.getFactionName().equalsIgnoreCase("ZEUS")) { // We only upgrade the unit of tier 1
-						id = "ARTILLERY";
-					} else{
-						id = "INFANTRY";
+					ResearchBuilding research = (ResearchBuilding) manager.getSelectedBuild();
+					if(research.getResearch2() <= ResearchBuilding.getResearchTime()) {
+						research.setResearchActive2(true);
+						System.out.println("Recherche d'attaque start");
+						manager.setNotifText("Recherche d'attaque en cours", true);
 					}
-					String key = id+ "_" + manager.getSelectedBuild().getFaction().toUpperCase() + "_" + 1;
-					//System.out.println(key);
-					UnitStats stats = UnitRepository.getInstance().getStats(key);
-					stats.setAttackDamage(stats.getAttackDamage()*1.25);
-					//System.out.println("Attack damage of "+id+" of tier increased by 1.25 times");
-					manager.setNotifText("Atk des "+id+" multiplié par 1.25",true);
-					for (Unit u :manager.getUnits()) {
-						if(!(u instanceof Worker) && (u.getUnitFaction().equals(p.getFactionName()) && u.getTierLevel()==1)) {
-							u.setATK(u.getATK()*1.25);	
-						}
-					}
-
 				}
 			}
 			break;
 		case "button2":
-			if (manager.getSelectedBuild() instanceof ResearchBuilding && !p.getTechnologies().contains("productionSpeed_2") ) {
+			if (manager.getSelectedBuild() instanceof ResearchBuilding && (!p.getTechnologies().contains("productionSpeed_2") || !p.getTechnologies().contains("productionSpeed_3")) ) {
 				if(!manager.getSelectedBuild().getIsUnderConstruction()) {
-					p.addTechnologieUnlocked("productionSpeed_2");
-					String key = "Producer".toUpperCase() + "_" + manager.getSelectedBuild().getFaction().toUpperCase() + "_" + 1;
-					BuildingStats stats = BuildingRepository.getInstance().getStats(key);
-					stats.setProductionSpeed(stats.getProductionSpeed()/2);
-					System.out.println("amelioration de la production speed effectué");
-					manager.setNotifText("Vitesse de prod amélioré",true);
-					for (Building b :manager.getBuildings()) {
-						if(b instanceof UnitProducer && b.getFaction().equals(p.getFactionName())) {
-							UnitProducer unitProducer= (UnitProducer) b;
-							unitProducer.setProductionSpeed(unitProducer.getProductionSpeed()/2);
-						}
-					}
-						
+					ResearchBuilding research =(ResearchBuilding) manager.getSelectedBuild();
+					if(research.getResearch1()<=ResearchBuilding.getResearchTime()) {
+						research.setResearchActive1(true);
+						System.out.println("Recherche d'amelioration production start");
+						manager.setNotifText("Amélioration de la Production en cours", true);
+					}	
 				}
 			}
 			if(manager.getSelectedBuild() instanceof UnitProducer) {
@@ -407,7 +390,78 @@ public class BuildingManager implements BuildingInterface{
 		}
 	}
 
+	public void researchTime(Player p) {
+		for (ResearchBuilding r : p.getResearchBuildings()) {
+				if (r.isResearchActive1()) {
+					if (r.getResearch1() < ResearchBuilding.getResearchTime()) {
+						r.setResearch1(r.getResearch1() + 1);
+					} else {
+						r.setResearchActive1(false);
 
+						String techName = r.getTechnologiesUnlocked().get(0);
+
+						if (!p.getTechnologies().contains(techName)) {
+							p.addTechnologieUnlocked(techName);
+
+							String key = "PRODUCER_" + p.getFactionName().toUpperCase() + "_1";
+							BuildingStats stats = BuildingRepository.getInstance().getStats(key);
+
+							if (stats != null) {
+								int value = Integer.valueOf(techName.split("_")[1]);
+								stats.setProductionSpeed(stats.getProductionSpeed() / value);
+
+								System.out.println("Vitesse de prod : fois" + value);
+
+								if (!(p instanceof CPU)) {
+									manager.setNotifText("Vitesse de prod améliorée", true);
+								}
+
+								for (Building prodBuilding : manager.getBuildings()) {
+									if (prodBuilding instanceof UnitProducer && prodBuilding.getFaction().equals(p.getFactionName())) {
+										UnitProducer unitProducer = (UnitProducer) prodBuilding;
+										unitProducer.setProductionSpeed(unitProducer.getProductionSpeed() / value);
+									}
+								}
+							}
+						}
+					}
+				}
+
+				if (r.isResearchActive2()) {
+					if (r.getResearch2() < ResearchBuilding.getResearchTime()) {
+						r.setResearch2(r.getResearch2() + 1);
+					} else {
+						r.setResearchActive2(false);
+						
+						String techName = "attackDamage_1.25";
+						
+						if (!p.getTechnologies().contains(techName)) {
+							p.addTechnologieUnlocked(techName);
+							
+							String id = (p.getFactionName().equalsIgnoreCase("ZEUS")) ? "ARTILLERY" : "INFANTRY";
+							String key = id + "_" + p.getFactionName().toUpperCase() + "_1";
+							
+							UnitStats stats = UnitRepository.getInstance().getStats(key);
+							
+							if(stats != null) {
+								stats.setAttackDamage(stats.getAttackDamage() * 1.25);
+								System.out.println("Attaque des " + id + "augménté");
+								
+								if (!(p instanceof CPU)) {
+									manager.setNotifText("Atk des " + id + " améliorée", true);
+								}
+								
+								for (Unit u : manager.getUnits()) {
+									if (!(u instanceof Worker) && u.getUnitFaction().equals(p.getFactionName()) && u.getTierLevel() == 1) {
+										u.setATK(u.getATK() * 1.25);	
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	public void allTowerAttack(ArrayList<Building> buildings) {
 		for(Building building:buildings) {
 			if(building instanceof DefenseTower) {

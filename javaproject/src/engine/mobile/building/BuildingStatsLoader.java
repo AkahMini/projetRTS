@@ -38,8 +38,10 @@ public class BuildingStatsLoader {
                 if (upgrade.length>1) {
                     BuildingStats stats = new BuildingStats(id, buildingType, faction, tierLevel, maxHp, ambroisieCost, faithCost, constructionTime, productionSpeed, towerDamage,towerAttackSpeed, towerRange, populationProvided,upgrade[0],visionRange);
                     int i;
-                    for(i=1;i<upgrade.length;i++) {
+                    for(i=0;i<upgrade.length;i++) {
                     	stats.addTechnologieUnlocked(upgrade[i]);
+                        System.out.println(upgrade[i]);
+
                     }
                     //the key is this and not the name cause we use these three arguments in the factory so it make more sense
                     String key = buildingType.toUpperCase() + "_" + faction.toUpperCase() + "_" + tierLevel;

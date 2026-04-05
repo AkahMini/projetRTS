@@ -36,7 +36,6 @@ public class BuildingFactory {
 	public static Building createBuilding(String type, int tier, String faction, Block position) {
 		String key = type.toUpperCase() + "_" + faction.toUpperCase() + "_" + tier;
 		BuildingStats stats = BuildingRepository.getInstance().getStats(key);
-		//System.out.println(BuildingRepository.getInstance());
 		//System.out.println(stats);
 		Building building = null;
 		if(stats==null) {
