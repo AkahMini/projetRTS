@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-//import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartPanel;
 
 import config.DefaultGameSettings;
 import config.GameConfiguration;
