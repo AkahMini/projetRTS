@@ -459,7 +459,7 @@ public class PaintStrategy {
 			}
 	
 	
-		
+			/*
 			if(build.getBuildingName().equals("Temple de Zeus")) {
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/miner.png"),1020,560,60,60,null);
 			}
@@ -470,6 +470,7 @@ public class PaintStrategy {
 			if(build.getBuildingName().equals("Camp Olympique")) {
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/Artillery.png"),1020,560,60,60,null);
 			}
+			*/
 			
 			String imageRepertory = "src/gameData/images/";
 			String image1=imageRepertory+"emptyButton.png";
@@ -482,13 +483,9 @@ public class PaintStrategy {
 			if(name.equals("Temple de Zeus")||name.equals("Gouffre du Tartare")||name.equals("Forum aquatique")) {
 				image1=imageRepertory+"miner.png";
 			}
-			if(name.equals("Bibliothèque d'Alexandrie")||name.equals("École des pythagoricien")||name.equals("Centre d'étude Atlan")) {
-				image1=imageRepertory+"dmgUp";
-				image2=imageRepertory+"prodUnitUp";
-			}
-			if(name.equals("Bibliothèque d'Alexandrie")||name.equals("École des pythagoricien")||name.equals("Centre d'étude Atlan")) {
-				image1=imageRepertory+"dmgUp";
-				image2=imageRepertory+"prodUnitUp";
+			if(name.equals("Bibliothèque d'Alexandrie")||name.equals("École des Pythagoricien")||name.equals("Centre d'étude Atlan")) {
+				image1=imageRepertory+"dmgUp.png";
+				image2=imageRepertory+"prodUnitUp.png";
 			}
 			else {
 				switch(name) {
