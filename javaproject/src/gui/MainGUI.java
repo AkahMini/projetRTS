@@ -229,17 +229,7 @@ public class MainGUI extends JFrame implements Runnable {
 						manager.nextRound();
 					}
 					if(!manager.winningFaction().equals("null")) {
-						//C'est temporaire tout ça, faudrait un vrai écran de fin
-						String winningFaction=manager.winningFaction();
-						System.out.println("victoire de "+winningFaction);
-						if(winningFaction.equals(manager.getPlayer().getFactionName())) {
-							manager.setNotifText("Victoire",true);
-						}
-						else {
-							manager.setNotifText("Défaite", false);
-						}
-						
-						manager.setIsGameStoped(true);
+						currentState=GameConfiguration.GAMESTATE.get(3);
 					}
 					break;
 				case "END":
