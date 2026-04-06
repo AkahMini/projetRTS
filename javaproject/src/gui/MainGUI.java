@@ -13,6 +13,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import org.jfree.chart.ChartPanel;
@@ -25,6 +26,7 @@ import engine.mobile.unit.Unit;
 import engine.process.GameBuilder;
 import engine.process.MenuInterface;
 import engine.process.MobileInterface;
+import gui.instrument.ChartManager;
 //import gui.instrument.ChartManager;
 /**
  * 
@@ -55,13 +57,12 @@ public class MainGUI extends JFrame implements Runnable {
 
 	private GameDisplay dashboard;
 	
-	private JPanel statsPanel = new JPanel();
-	
+	private ChartPanel unitChart;
+	private ChartManager chartManager = new ChartManager();
 	//private ChartPanel typeCountPie;
 	//private ChartPanel typeCountBar;
 	//private ChartPanel heightEvolutionChart;
 
-	//private ChartManager chartManager = new ChartManager();
 	
 	//launch the game with MENU as the current state
 	//please refer to the game config to see the list
@@ -78,26 +79,32 @@ public class MainGUI extends JFrame implements Runnable {
 		//System.out.println(currentState);
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new BorderLayout());
+		
+		javax.swing.JPanel chartContainer = new javax.swing.JPanel();
+		chartContainer.setLayout(new javax.swing.BoxLayout(chartContainer, javax.swing.BoxLayout.Y_AXIS));
+		chartContainer.setOpaque(false);
 
-		// ?
-		//KeyControls keyControls = new KeyControls();
+		
 
-		//This part is used to see text input if wanted
+		map = GameBuilder.buildMap();
+		menu = GameBuilder.buildInitMenu(this.gameSettings);
+		unitChart = chartManager.getChartPanel();
+		unitChart.setOpaque(true);
+		unitChart.setBackground(java.awt.Color.BLACK);
+		dashboard = new GameDisplay(map, manager, menu,chartManager.getChart());
+		//dashboard.setUnitChart(chartManager.getChart());
 
-		/*
-		JTextField textField = new JTextField();
-		textField.addKeyListener(keyControls);
-		contentPane.add(textField, BorderLayout.SOUTH);
-		 */
+		MouseControls mouseControls = new MouseControls();
+		dashboard.addMouseListener(mouseControls);
+		dashboard.setPreferredSize(preferredSize);
 
-
+		
+		dashboard.setBounds(0, 0, GameConfiguration.WINDOW_WIDTH, GameConfiguration.WINDOW_HEIGHT);
+		contentPane.add(dashboard, BorderLayout.CENTER);
 
 		//THIS PART IS FOR TEST ONLY WILL BE REMOVED
-		
-		
 		javax.swing.JPanel RightPanel = new javax.swing.JPanel();
 		RightPanel.setBackground(java.awt.Color.GRAY); 
-
 
 		javax.swing.JButton testButton = new javax.swing.JButton("Test Unit Producer");
 
@@ -184,15 +191,6 @@ public class MainGUI extends JFrame implements Runnable {
 		contentPane.add(RightPanel, BorderLayout.SOUTH);
 		 
 
-
-		map = GameBuilder.buildMap();
-		menu = GameBuilder.buildInitMenu(this.gameSettings);
-		dashboard = new GameDisplay(map, manager, menu);
-
-		MouseControls mouseControls = new MouseControls();
-		dashboard.addMouseListener(mouseControls);
-
-		dashboard.setPreferredSize(preferredSize);
 		contentPane.add(dashboard, BorderLayout.CENTER);
 
 		
@@ -225,8 +223,11 @@ public class MainGUI extends JFrame implements Runnable {
 					break;
 				case "PLAYING":
 					menu.updateMenu(currentState);
+					
 					if(!stop) {
 						manager.nextRound();
+						chartManager.updateUnitChart(manager.getPlayer());
+						
 					}
 					if(!manager.winningFaction().equals("null")) {
 						currentState=GameConfiguration.GAMESTATE.get(3);

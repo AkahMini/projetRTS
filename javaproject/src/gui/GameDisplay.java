@@ -3,6 +3,12 @@ package gui;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import org.jfree.chart.JFreeChart;
+
+import config.GameConfiguration;
+
+import java.awt.image.BufferedImage;import org.jfree.chart.JFreeChart;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
@@ -35,17 +41,18 @@ public class GameDisplay extends JPanel {
 	private MenuInterface menu;
 	private PaintStrategy paintStrategy = new PaintStrategy();
 	private MenuStrategy menuStrategy = new MenuStrategy();
-	
+	private JFreeChart unitJFreeChart;
 	//Basically a matrix which indicate if the block is in vision or not
 	boolean[][] visible =new boolean[100][72];
 
 	//true if fog of war 
 	boolean fogOfWar=false;
 	
-	public GameDisplay(Map map, MobileInterface manager, MenuInterface menu) {
+	public GameDisplay(Map map, MobileInterface manager, MenuInterface menu, JFreeChart chart) {
 		this.map = map;
 		this.manager = manager;
 		this.menu= menu;
+		this.unitJFreeChart=chart;
 	}
 	
 	
@@ -56,7 +63,7 @@ public class GameDisplay extends JPanel {
 		
 		//this is for the game display
 		if(menu.getCurrentState().equals("PLAYING")) {
-
+			
 			if(fogOfWar) {
 				//reset vision at each repaint
 				//not optimal but simpler, may be changed if it feels akward visually
@@ -178,7 +185,14 @@ public class GameDisplay extends JPanel {
 			if(manager.isGameStoped()) {
 				menuStrategy.paintPauseMenu(g);
 			}
-			
+			if (unitJFreeChart != null) {
+			    int chartWidth = 250;
+			    int chartHeight = 180;
+			    int chartX =  GameConfiguration.WINDOW_WIDTH- chartWidth - 10;
+			    int chartY = 2*GameConfiguration.WINDOW_HEIGHT / 5;
+			    BufferedImage chartImage = unitJFreeChart.createBufferedImage(chartWidth, chartHeight);
+			    g.drawImage(chartImage, chartX, chartY, null);
+			}
 		//this is for menu display
 		}else {
 			if(menu.getCurrentState().equals("MENU")) {
@@ -189,6 +203,8 @@ public class GameDisplay extends JPanel {
 				menuStrategy.paintEndMenu(g);
 			}
 		}
+		
+		
 	}
 	
 	public void resetManager(MobileInterface manager) {
@@ -220,6 +236,9 @@ public class GameDisplay extends JPanel {
 		        }
 	    	}
 	    }
+	}
+	public void setUnitChart(JFreeChart chart) {
+	    this.unitJFreeChart = chart;
 	}
 	
 }
