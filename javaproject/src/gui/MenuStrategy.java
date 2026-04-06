@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 
 import config.GameConfiguration;
+import engine.process.GameUtility;
 import engine.process.MenuInterface;
 
 public class MenuStrategy {
@@ -23,12 +24,7 @@ public class MenuStrategy {
 	}
 	
 	public void paintMainMenu(Graphics graphics) {
-		graphics.setColor(Color.BLACK);
-		graphics.setFont(new Font("Arial", Font.PLAIN, 40));
-		graphics.drawString("FATE OF OLYMPUS", windowWidth/2-35, windowHeight/2-200);
-		graphics.setFont(new Font("Arial", Font.PLAIN, 20));
-		graphics.drawString("Appuyez sur entrée pour lancer une partie", windowWidth/2-35, windowHeight/2-20);
-		graphics.drawString("Appuyez sur Esc pour quitter le jeu", windowWidth/2-35, windowHeight/2+20);
+		graphics.drawImage(GameUtility.readImage("src/gameData/images/FateOfOlympusTitle.png"),0,0,1280,720,null);
 	}
 	
 	public void paintChooseMenu(MenuInterface menu,Graphics graphics) {
