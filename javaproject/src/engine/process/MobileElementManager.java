@@ -1,6 +1,8 @@
 package engine.process;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import config.DefaultGameSettings;
 import config.GameConfiguration;
 
@@ -89,6 +91,9 @@ public class MobileElementManager implements MobileInterface {
         unitManager.moveAllUnits(player);
         unitManager.moveAllUnits(cpu);
         
+        killUnits(player);
+        killUnits(cpu);
+        
         
         buildingManager.allTowerAttack(buildings);
        	if(timetweaker.getValue() == 5) {
@@ -116,24 +121,16 @@ public class MobileElementManager implements MobileInterface {
             chronometer.increment();
             //Units manager
             for(Unit unit: new ArrayList<>(units)) {
-            	//We copy Unit list because it can be manipulated elsewhere while we iterate it
-            	killUnit(unit);
                 
             	// Ennemy scan
-                if (unit.getTarget() == null && unit.getDestination() == null ) {
+                if (unit.getTarget() == null ) {
                     MobileElement target = unitManager.scanForEnemy(unit);
                     if (target != null) {
                     	unitManager.setCombatState(unit, target);
                     }
                 }
             }
-            
-            for (int i = player.getCreatedUnits().size() - 1; i >= 0; i--) {
-                if (player.getCreatedUnits().get(i).getHp()<=0) {
-                	player.getCreatedUnits().remove(i);
-                }
-            }
-            
+                        
             // Buildings management
             for(Building building : new ArrayList<>(buildings)) {
             	if(building.getHp()<=0) {
@@ -152,6 +149,9 @@ public class MobileElementManager implements MobileInterface {
             	if(tower instanceof DefenseTower) {
             		buildingManager.setTowerTarget((DefenseTower) tower);
             	}
+            }
+            if(cpu.getCreatedUnits().size()>40) {
+            	cpuManager.attack(cpu);
             }
             cpuManager.workerProductionManagement(cpu);
             buildingManager.researchTime(cpu);
@@ -210,12 +210,17 @@ public class MobileElementManager implements MobileInterface {
         }
 	}
 	
-	private void killUnit(Unit unit) {
-		if(unit.getHp()<=0) {
-			//System.out.println("Unit '"+unit.getUnitName()+"' removed");
-			units.remove(unit);
-		}
-	}
+	private void killUnits(Player p) {
+        Iterator<Unit> it = p.getCreatedUnits().iterator(); 
+        while(it.hasNext()) {
+            Unit u = it.next();
+            if(u.getHp() <= 0) {
+                it.remove();       
+                units.remove(u);
+                p.setCurrentPopulation(p.getCurrentPopulation()-u.getPopCost());
+            }
+        }
+    }
 	public String winningFaction(){
 		/**
 		 * return the name of the only faction that have active buildings in the map, return "null" otherwise
@@ -572,12 +577,8 @@ public class MobileElementManager implements MobileInterface {
 
     @Override
     public void addQueue(UnitProducer building, Block position, String unitType, Player p) {
-        if(p.getCurrentPopulation()<p.getMaxPopulation()&&building.getProductionQueue().size()<3) {
     		buildingManager.addQueue(building, position, unitType,p);
-    		p.setCurrentPopulation(p.getCurrentPopulation()+1);
         }
-       
-    }
     
     // --- Timer part ---
     public CyclicCounter getHour() {

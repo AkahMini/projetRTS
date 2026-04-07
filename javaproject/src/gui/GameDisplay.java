@@ -46,7 +46,7 @@ public class GameDisplay extends JPanel {
 	boolean[][] visible =new boolean[100][72];
 
 	//true if fog of war 
-	boolean fogOfWar=true;
+	boolean fogOfWar=false;
 	
 	public GameDisplay(Map map, MobileInterface manager, MenuInterface menu, JFreeChart chart) {
 		this.map = map;

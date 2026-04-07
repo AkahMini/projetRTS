@@ -347,7 +347,7 @@ public class MainGUI extends JFrame implements Runnable {
 			case KeyEvent.VK_M:
 				if (currentState.equals("PLAYING")) {
 					manager.motherload();
-					manager.cpuLoad();
+					//manager.cpuLoad();
 				}
 				break;
 			default:

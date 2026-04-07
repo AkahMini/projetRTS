@@ -225,25 +225,6 @@ public class CPUManager implements CPUinterface {
 
                 if (result == 1) {
                     System.out.println("[CPU] " + pendingBuildType + " construit en X:" + pendingBuildTarget.getColumn() + " Y:" + pendingBuildTarget.getLine());
-                    
-                    if (pendingBuildType.equals(BuildingFactory.POPULATION_BUILDING)) {
-                        synchronized(manager.getBuildings()) {
-                            for (Building b : manager.getBuildings()) {
-                            	/*
-                            	 Since the CPU doesn't have the building, we check all the building and see if it has 
-                            	 the same position has the target and then get his population Provided to update 
-                            	 the population of the CPU.
-                            	 */
-                                if (b.getPosition().equals(pendingBuildTarget) && b instanceof PopulationBuilding) {
-                                    PopulationBuilding popBuilding = (PopulationBuilding) b;
-                                    c.setMaxPopulation(c.getMaxPopulation() + popBuilding.getPopulationProvided());
-                                    System.out.println("[CPU] Population max augmentée à " + c.getMaxPopulation());
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    
                     pendingBuildWorker.setIsWorking(false);
                     resetOtherBuildMission();
                 } else { // we free the worker even if the building has not been made ( if he is dead for example)
@@ -607,6 +588,25 @@ public class CPUManager implements CPUinterface {
                 }
             }
         }
+    }
+    public void attack(CPU c) {
+    	double minDistance = Double.MAX_VALUE; 
+    	Block attackTarget=null;
+    	for( Building b : manager.getBuildings()) {
+    		if(b instanceof HQ) {
+    			if(manager.getPlayer().getBuiltBuilding().contains(b)) {
+    				double distance=manager.getDistance(c.getBuiltBuilding().get(0).getPosition(), b.getPosition());
+    				if(distance<minDistance){
+    					minDistance=distance;
+    					attackTarget=b.getPosition();
+    				}
+    			}
+    		}
+    	}for(Unit u : c.getCreatedUnits()) {
+    		if(!(u instanceof Worker)) {
+        		u.setDestination(attackTarget);
+    		}
+    	}
     }
     
     public MobileInterface getManager() {

@@ -11,6 +11,7 @@ import engine.mobile.building.Building;
 import engine.mobile.building.BuildingStats;
 import engine.mobile.building.DefenseTower;
 import engine.mobile.building.HQ;
+import engine.mobile.building.PopulationBuilding;
 import engine.mobile.building.ResearchBuilding;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Infantry;
@@ -64,6 +65,10 @@ public class BuildingManager implements BuildingInterface{
 				if(newBuilding instanceof ResearchBuilding) {
 					p.getResearchBuildings().add((ResearchBuilding) newBuilding);
 				}
+				if (newBuilding instanceof PopulationBuilding) {
+			        PopulationBuilding popBuild = (PopulationBuilding) newBuilding;
+			        p.setMaxPopulation(p.getMaxPopulation() + popBuild.getPopulationProvided());
+			    }
 				p.setAmbroisieStock(p.getAmbroisieStock()-newBuilding.getAmbroisieCost());
 				p.setFaithStock(p.getFaithStock()-newBuilding.getFaithCost());
 			}
@@ -130,6 +135,15 @@ public class BuildingManager implements BuildingInterface{
 	            Unit newUnit = UnitFactory.createUnit(unitType, building.getTierLevel(), p.getFactionName(), position);
 	            
 	            if (newUnit != null) {
+	            	if (p.getCurrentPopulation() + newUnit.getPopCost() > p.getMaxPopulation()) {
+	            		if (!(p instanceof CPU)) {
+	                        manager.setNotifText("Population maximale atteinte", false);
+	                    } else {
+	                        System.out.println("[CPU] pop Max pas de prod d'unités");
+	                    }
+	                    return;
+	                }
+	            }
 	                if (p.getAmbroisieStock() >= newUnit.getACost() && p.getFaithStock() >= newUnit.getFCost()) {
 	                    
 	                    p.setAmbroisieStock(p.getAmbroisieStock() - newUnit.getACost());
@@ -150,6 +164,7 @@ public class BuildingManager implements BuildingInterface{
 	                    
 	                    ((UnitProducer) building).getProductionQueue().add(newUnit);
 	                    p.getCreatedUnits().add(newUnit);
+	                    p.setCurrentPopulation(p.getCurrentPopulation()+newUnit.getPopCost());
 	                    
 	                    if (p instanceof CPU) {
 	                        System.out.println("[CPU] Unité ajoutée : " + unitType 
@@ -165,7 +180,6 @@ public class BuildingManager implements BuildingInterface{
 	            }
 	        }
 	    }
-	}
 	public void removeQueue(UnitProducer building) {
 		/**
 		 * reduce the timer for the creation of new units,
