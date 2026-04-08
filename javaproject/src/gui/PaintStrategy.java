@@ -217,61 +217,105 @@ public class PaintStrategy {
 		}
 	}
 
+	
+	
 	public void paint(Unit unit, Graphics graphics) {
 		Block position = unit.getPosition();
-		int blockSize = GameConfiguration.BLOCK_SIZE;
+	    int blockSize = GameConfiguration.BLOCK_SIZE;
 
-		int y = position.getLine();
-		int x = position.getColumn();
+	    int y = position.getLine();
+	    int x = position.getColumn();
+	    int px = x * blockSize;
+	    int py = y * blockSize;
 
+	    //we draw with the good color
+	    Color baseColor = Color.GREEN; //worker or if the color isn't defined
+	    if(!(unit instanceof Worker)) {
+		    int tierUnit=unit.getTierLevel();
+		    if (unit.getUnitFaction().equalsIgnoreCase("Zeus")) {
+		        if(tierUnit==1) {
+		        	baseColor = new Color(255, 255, 148);
+		        }else if(tierUnit==2) {
+		        	baseColor = Color.YELLOW;
+		        }else if(tierUnit==3) {
+		        	baseColor = Color.YELLOW.darker();
+		        }
+		    } else if (unit.getUnitFaction().equalsIgnoreCase("Hades")) {
+		    	if(tierUnit==1) {
+		        	baseColor = new Color(255, 148, 148);
+		        }else if(tierUnit==2) {
+		        	baseColor = Color.RED;
+		        }else if(tierUnit==3) {
+		        	baseColor = Color.RED.darker();
+		        }
+		    } else if (unit.getUnitFaction().equalsIgnoreCase("Poseidon")) {
+		    	if(tierUnit==1) {
+		        	baseColor = new Color(148, 148, 255);
+		        }else if(tierUnit==2) {
+		        	baseColor = Color.BLUE;
+		        }else if(tierUnit==3) {
+		        	baseColor = Color.BLUE.darker();
+		        }
+		    }
+	    graphics.setColor(baseColor);
+	    graphics.fillOval(px, py, blockSize, blockSize);
 
-		if (unit instanceof Infantry) {
-			if(unit.getUnitFaction().equalsIgnoreCase("Zeus")) {
-				graphics.setColor(Color.GREEN); // Greeeeeeeeeeen
-			}
+	    //we do the variation
+	    int centerX = px + blockSize / 2;
+	    int centerY = py + blockSize / 2;
 
-			else {
-				graphics.setColor(Color.RED); // Ennemy=Red
-			}
-		}
-		if(unit instanceof Worker) {
-			graphics.setColor(Color.YELLOW);
-		}
-		if(unit instanceof Artillery) {
-			if(unit.getUnitFaction().equalsIgnoreCase("Zeus")) {
-				graphics.setColor(Color.GREEN.darker());
-			}if(unit.getUnitFaction().equalsIgnoreCase("Hades")) {
-				graphics.setColor(Color.RED.darker());
-			}if(unit.getUnitFaction().equalsIgnoreCase("Poseidon")) {
-				graphics.setColor(Color.MAGENTA.darker());
-			}
-		}
-		if(unit instanceof Cavalry) {
-			Cavalry cav = (Cavalry) unit;
-			if (cav.getChargeDistanceValue() > 0) {
-				graphics.setColor(Color.CYAN);
-			} else {
-				if(unit.getUnitFaction().equalsIgnoreCase("Zeus")) {
-					graphics.setColor(Color.GREEN);
-				}if(unit.getUnitFaction().equalsIgnoreCase("Hades")) {
-					graphics.setColor(Color.RED);
-				}if(unit.getUnitFaction().equalsIgnoreCase("Poseidon")) {
-					graphics.setColor(Color.MAGENTA);
-				}
-			}
-		}
+	    if (unit instanceof Infantry) {
+	        graphics.setColor(Color.BLACK);
+	        graphics.drawLine(centerX - 5, centerY, centerX + 5, centerY);
+	        graphics.drawLine(centerX, centerY - 5, centerX, centerY + 5);
+	    }
 
-		graphics.fillOval(x * blockSize, y * blockSize, blockSize, blockSize);
+	    else if (unit instanceof Artillery) {
+	        graphics.setColor(Color.BLACK);
+	        graphics.fillOval(px + blockSize/4, py + blockSize/4, blockSize/2, blockSize/2);
+	    }
 
-		graphics.setColor(Color.BLACK);
-		graphics.drawOval(x * blockSize, y * blockSize, blockSize, blockSize);
+	    else if (unit instanceof Cavalry) {
+	        Cavalry cav = (Cavalry) unit;
+
+	        if (cav.getChargeDistanceValue() > 0) {
+	            graphics.setColor(Color.CYAN);
+	            graphics.drawOval(px - 2, py - 2, blockSize + 4, blockSize + 4);
+	        }
+	        graphics.setColor(Color.BLACK);
+	        graphics.drawLine(centerX - 3, centerY + 3, centerX, centerY - 3);
+	        graphics.drawLine(centerX, centerY - 3, centerX + 3, centerY + 3);
+	    }
+	    
+	    graphics.setColor(Color.BLACK);
+		graphics.drawOval(px, py, blockSize, blockSize);
+	    }
+	    //wprker part
+	    else {
+	    	graphics.setColor(baseColor);
+		    graphics.fillOval(px, py, blockSize, blockSize);
+		    Color contour = Color.BLACK;
+		    if (unit.getUnitFaction().equalsIgnoreCase("Zeus")) {
+		    	contour = Color.YELLOW;
+		    } else if (unit.getUnitFaction().equalsIgnoreCase("Hades")) {
+		    	contour = Color.RED;
+		    } else if (unit.getUnitFaction().equalsIgnoreCase("Poseidon")) {
+		    	contour = Color.BLUE;
+		    }
+		    
+		    graphics.setColor(contour);
+			graphics.drawOval(px, py, blockSize, blockSize);
+			graphics.drawOval(px, py, blockSize, blockSize);
+	    }
 	}
+	
+	
 	public void paintSelectedUnit(Unit selectedUnit, Graphics graphics) {
 		Block position = selectedUnit.getPosition();
 		int blockSize = GameConfiguration.BLOCK_SIZE;
 		int y = position.getLine();
 		int x = position.getColumn();
-		graphics.setColor(Color.YELLOW);
+		graphics.setColor(Color.ORANGE.darker());
 		graphics.drawOval(x * blockSize, y * blockSize, blockSize, blockSize);
 		
 	}
@@ -281,7 +325,7 @@ public class PaintStrategy {
 			int blockSize = GameConfiguration.BLOCK_SIZE;
 			int y = position.getLine();
 			int x = position.getColumn();
-			graphics.setColor(Color.CYAN);
+			graphics.setColor(Color.BLACK);
 			graphics.drawOval(x * blockSize, y * blockSize, blockSize, blockSize);
 		}
 	}

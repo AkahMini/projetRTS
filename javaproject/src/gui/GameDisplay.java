@@ -44,10 +44,10 @@ public class GameDisplay extends JPanel {
 	private MenuStrategy menuStrategy = new MenuStrategy();
 	private JFreeChart unitJFreeChart;
 	//Basically a matrix which indicate if the block is in vision or not
-	boolean[][] visible =new boolean[100][72];
+	private boolean[][] visible =new boolean[100][72];
 
 	//true if fog of war 
-	boolean fogOfWar=false;
+	private boolean fogOfWar=true;
 
 	private ChartManager chartManager;
 	
