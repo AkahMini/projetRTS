@@ -19,51 +19,64 @@ public class ChartManager {
 
     private DefaultCategoryDataset dataset;
     private ChartPanel chartPanel;
-
+    
+    //values of the chart
+    private int[] counts = new int[4]; // [infantry, cavalry, artillery, worker]
+    private  String seriesName = "";
     public ChartManager() {
         this.dataset = new DefaultCategoryDataset();
         JFreeChart chart = ChartFactory.createBarChart("Unités sur le terrain","Type d'unité","Nombre",dataset,PlotOrientation.VERTICAL,true, true, false);
         this.chartPanel = new ChartPanel(chart);
     }
 
-    /**
-     * Update the chart with the new unitCount
-     * Called every second
-     */
+    
     public void updateUnitChart(Player player) {
-    	// Compter en dehors du thread Swing (pas de risque ici)
-        ArrayList<Unit> units = player.getCreatedUnits();
-        int infantryCount  = 0;
-        int cavalryCount   = 0;
-        int artilleryCount = 0;
-        int workerCount    = 0;
+    	/**
+    	 * count the number of units of the player
+    	 */
+        ArrayList<Unit> units = new ArrayList<>(player.getCreatedUnits());
 
-        for (Unit u : units) {
-            if (u instanceof Infantry)       infantryCount++;
-            else if (u instanceof Cavalry)   cavalryCount++;
-            else if (u instanceof Artillery) artilleryCount++;
-            else if (u instanceof Worker)    workerCount++;
+        int inf = 0;
+        int cav = 0;
+        int art = 0;
+        int wor = 0;
+        seriesName = player.getPseudo();
+
+        for (Unit u :new ArrayList<>(units)) {
+            if (u instanceof Infantry)       
+            	inf++;
+            else if (u instanceof Cavalry)   
+            	cav++;
+            else if (u instanceof Artillery) 
+            	art++;
+            else if (u instanceof Worker)    
+            	wor++;
         }
-
-        // Capture pour le lambda
-        final int inf = infantryCount, cav = cavalryCount,
-                  art = artilleryCount, wrk = workerCount;
-        final String series = player.getPseudo();
-
-        // Mise à jour du dataset uniquement dans le thread Swing
-        javax.swing.SwingUtilities.invokeLater(() -> {
-            dataset.clear();
-            dataset.addValue(inf, series, "Infantry");
-            dataset.addValue(cav, series, "Cavalry");
-            dataset.addValue(art, series, "Artillery");
-            dataset.addValue(wrk, series, "Worker");
-        });
+        synchronized(counts) {
+            counts[0] = inf;
+            counts[1] = cav;
+            counts[2] = art;
+            counts[3] = wor;
+        }
+     
+    }
+    
+    public JFreeChart getChart() {
+        /**
+         * construct the dataset
+         */
+        synchronized(counts) {
+        	
+            dataset.addValue(counts[0], seriesName, "Infantry");
+            dataset.addValue(counts[1], seriesName, "Cavalry");
+            dataset.addValue(counts[2], seriesName, "Artillery");
+            dataset.addValue(counts[3], seriesName, "Worker");
+        }
+        return chartPanel.getChart();
     }
 
     public ChartPanel getChartPanel() {
         return chartPanel;
     }
-    public JFreeChart getChart() {
-        return chartPanel.getChart();
-    }
+    
 }

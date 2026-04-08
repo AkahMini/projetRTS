@@ -20,9 +20,9 @@ public class TestGame {
 
 		DefaultGameSettings gameSettings= new DefaultGameSettings();
 		BuildingStatsLoader buildingStatLoader=new BuildingStatsLoader(GameConfiguration.BUILDINGS_STATS);
-
-		MainGUI gameMainGUI = new MainGUI("RTS game");
 		UnitsStatsLoader unitsStatLoader=new UnitsStatsLoader(GameConfiguration.BUILDINGS_STATS);
+		MainGUI gameMainGUI = new MainGUI("RTS game");
+		
 		Thread gameThread = new Thread(gameMainGUI);
 		gameThread.start();
 	}
