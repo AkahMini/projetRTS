@@ -22,7 +22,7 @@ public class ChartManager {
     
     //values of the chart
     private int[] counts = new int[4]; // [infantry, cavalry, artillery, worker]
-    private  String seriesName = "";
+    private  String seriesName = ""; //the name of the player related to the chart
     public ChartManager() {
         this.dataset = new DefaultCategoryDataset();
         JFreeChart chart = ChartFactory.createBarChart("Unités sur le terrain","Type d'unité","Nombre",dataset,PlotOrientation.VERTICAL,true, true, false);
@@ -36,27 +36,27 @@ public class ChartManager {
     	 */
         ArrayList<Unit> units = new ArrayList<>(player.getCreatedUnits());
 
-        int inf = 0;
-        int cav = 0;
-        int art = 0;
-        int wor = 0;
+        int infantryCount = 0;
+        int cavalryCount = 0;
+        int artilleryCount = 0;
+        int workerCount = 0;
         seriesName = player.getPseudo();
 
         for (Unit u :new ArrayList<>(units)) {
             if (u instanceof Infantry)       
-            	inf++;
+            	infantryCount++;
             else if (u instanceof Cavalry)   
-            	cav++;
+            	cavalryCount++;
             else if (u instanceof Artillery) 
-            	art++;
+            	artilleryCount++;
             else if (u instanceof Worker)    
-            	wor++;
+            	workerCount++;
         }
         synchronized(counts) {
-            counts[0] = inf;
-            counts[1] = cav;
-            counts[2] = art;
-            counts[3] = wor;
+            counts[0] = infantryCount;
+            counts[1] = cavalryCount;
+            counts[2] = artilleryCount;
+            counts[3] = workerCount;
         }
      
     }
@@ -71,10 +71,19 @@ public class ChartManager {
             dataset.addValue(counts[1], seriesName, "Cavalry");
             dataset.addValue(counts[2], seriesName, "Artillery");
             dataset.addValue(counts[3], seriesName, "Worker");
+            
         }
         return chartPanel.getChart();
     }
-
+    public void refreshDataset() {
+        synchronized(counts) {
+            dataset.clear();
+            dataset.addValue(counts[0], seriesName, "Infantry");
+            dataset.addValue(counts[1], seriesName, "Cavalry");
+            dataset.addValue(counts[2], seriesName, "Artillery");
+            dataset.addValue(counts[3], seriesName, "Worker");
+        }
+    }
     public ChartPanel getChartPanel() {
         return chartPanel;
     }

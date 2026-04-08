@@ -21,6 +21,7 @@ import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
 import engine.process.MenuInterface;
 import engine.process.MobileInterface;
+import gui.instrument.ChartManager;
 
 /**
  * 
@@ -46,7 +47,9 @@ public class GameDisplay extends JPanel {
 	boolean[][] visible =new boolean[100][72];
 
 	//true if fog of war 
-	boolean fogOfWar=true;
+	boolean fogOfWar=false;
+
+	private ChartManager chartManager;
 	
 	public GameDisplay(Map map, MobileInterface manager, MenuInterface menu, JFreeChart chart) {
 		this.map = map;
@@ -186,6 +189,7 @@ public class GameDisplay extends JPanel {
 				menuStrategy.paintPauseMenu(g);
 			}
 			if (unitJFreeChart != null) {
+				chartManager.refreshDataset(); //we refresh the data here in the graphic thread because otherwise there are conflicts
 			    int chartWidth = 250;
 			    int chartHeight = 180;
 			    int chartX =  GameConfiguration.WINDOW_WIDTH- chartWidth - 10;
@@ -239,6 +243,13 @@ public class GameDisplay extends JPanel {
 	}
 	public void setUnitChart(JFreeChart chart) {
 	    this.unitJFreeChart = chart;
+	}
+
+
+
+	public void setChartManager(ChartManager chartManager) {
+		this.chartManager = chartManager;
+		
 	}
 	
 }

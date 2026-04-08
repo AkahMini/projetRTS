@@ -92,7 +92,8 @@ public class MainGUI extends JFrame implements Runnable {
 		unitChart.setOpaque(true);
 		unitChart.setBackground(java.awt.Color.BLACK);
 		dashboard = new GameDisplay(map, manager, menu,chartManager.getChart());
-		//dashboard.setUnitChart(chartManager.getChart());
+		dashboard.setChartManager(chartManager);
+		
 
 		MouseControls mouseControls = new MouseControls();
 		dashboard.addMouseListener(mouseControls);

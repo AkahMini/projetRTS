@@ -40,8 +40,8 @@ public class TestStatsLoading {
 		BuildingStats buildingstats = new BuildingStats("Baliste","DefenseTower","Zeus",2,400,250,250,20,0,15,2,8,0,"0",(float)3.0);
 		BuildingStats buildingLoadedStats = BuildingRepository.getInstance().getStats("DEFENSETOWER_ZEUS_2");
 		
-		System.out.println(buildingstats);
-		System.out.println(buildingLoadedStats);
+		//System.out.println(buildingstats);
+		//System.out.println(buildingLoadedStats);
 		assertNotNull(buildingLoadedStats);
 		assertEquals(buildingstats.toString(), buildingLoadedStats.toString());
 	}
