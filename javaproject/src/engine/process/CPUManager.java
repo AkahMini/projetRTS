@@ -26,6 +26,8 @@ public class CPUManager implements CPUinterface {
     private Block  pendingBuildTarget = null; // block where the building will be built
     private String pendingBuildType   = null; // Type of the building
     private Worker pendingBuildWorker = null; // the worker who is building it 
+	private int pendingTier;
+	String tier2Produced="CAVALRY";
 
     public CPUManager(MobileInterface manager) {
         this.setManager(manager);
@@ -215,13 +217,16 @@ public class CPUManager implements CPUinterface {
             if (manager.getDistance(pendingBuildWorker.getPosition(), pendingBuildTarget) <= 2) {
                 manager.selectBuilding(pendingBuildType);//if the worker is close to the building block we choose the building
                 
-                int tierToBuild = 1; 
-                if (pendingBuildType.equals(BuildingFactory.DEFENSE_BUILDING) || 
-                    pendingBuildType.equals(BuildingFactory.RESEARCH_BUILDING)) {
-                    tierToBuild = 2; // because there is no tier 1 defense of research building
-                }
                 
-                int result = manager.buildBuilding(pendingBuildTarget, tierToBuild, c.getFactionName(), c);
+                int result = manager.buildBuilding(pendingBuildTarget, pendingTier, c.getFactionName(), c);
+                if (pendingBuildType.equals(BuildingFactory.RESEARCH_BUILDING)) {
+                	for(ResearchBuilding r : c.getResearchBuildings()) {
+                		if(r.getPosition().getLine()==pendingBuildTarget.getLine() && r.getPosition().getColumn()==pendingBuildTarget.getColumn()) {
+                			r.setResearchActive1(true);
+                			r.setResearchActive2(true);
+                		}
+                	}
+                }
 
                 if (result == 1) {
                     System.out.println("[CPU] " + pendingBuildType + " construit en X:" + pendingBuildTarget.getColumn() + " Y:" + pendingBuildTarget.getLine());
@@ -248,13 +253,14 @@ public class CPUManager implements CPUinterface {
         if (pendingHQTarget != null) return; // we return if an hq is beaing made at the moment
 
         for (HQ hq : cpuHQs) {
-            int prodCount = 0, popCount = 0, towerCount = 0, labCount = 0;
+            int prodCount1 = 0, popCount = 0, towerCount = 0, labCount = 0, prodCount2=0;
             // we have to reset and check the number of building each time because one of them could have been destroyed
             
             synchronized(manager.getBuildings()) {
                 for (Building b : c.getBuiltBuilding()) {
                     if (manager.getDistance(b.getPosition(), hq.getPosition()) <= 18) {
-                        if (b instanceof UnitProducer && !(b instanceof HQ)) prodCount++;
+                    	if (b instanceof UnitProducer && !(b instanceof HQ) && b.getTierLevel()==1) prodCount1++;
+                    	else if (b instanceof UnitProducer && !(b instanceof HQ) && b.getTierLevel()==2) prodCount2++;
                         else if (b instanceof PopulationBuilding) popCount++;
                         else if (b instanceof DefenseTower) towerCount++;
                         else if (b instanceof ResearchBuilding) labCount++;
@@ -263,38 +269,46 @@ public class CPUManager implements CPUinterface {
             }
             // The next part of the code is a set of rule for each type building that will check resources 
             //and the number of said type so that the CPU doesn't built the same building infinitely
-            if (prodCount < 2) {
+            if (prodCount1 < 1) {
                 if (c.getAmbroisieStock() < 125 || c.getFaithStock() < 125) return; // we stop only if we lack resources
-                Block pos = findBuildPositionSpecificallyNear(hq, 4, 8);
+                Block pos = findBuildPositionSpecificallyNear(hq, 3, 8);
                 if (pos != null) {
-                    launchOtherBuildMission(builder, pos, BuildingFactory.PRODUCER_BUILDING);
+                    launchOtherBuildMission(builder, pos, BuildingFactory.PRODUCER_BUILDING,1);
+                    return;
+                }
+            }
+            if (prodCount2 < 2 && c.getCurrentTier()>=2) {
+                if (c.getAmbroisieStock() < 250 || c.getFaithStock() < 250) return; // we stop only if we lack resources
+                Block pos = findBuildPositionSpecificallyNear(hq, 3, 8);
+                if (pos != null) {
+                    launchOtherBuildMission(builder, pos, BuildingFactory.PRODUCER_BUILDING,2);
                     return;
                 }
             }
 
-            if (popCount < 3) {
+            if (popCount < 4) {
                 if (c.getAmbroisieStock() < 100 || c.getFaithStock() < 100) return; 
-                Block pos = findBuildPositionSpecificallyNear(hq, 4, 13);
+                Block pos = findBuildPositionSpecificallyNear(hq, 4, 14);
                 if (pos != null) {
-                    launchOtherBuildMission(builder, pos, BuildingFactory.POPULATION_BUILDING);
+                    launchOtherBuildMission(builder, pos, BuildingFactory.POPULATION_BUILDING,1);
                     return;
                 }
             }
 
             if (labCount < 1) {
                 if (c.getAmbroisieStock() < 150 || c.getFaithStock() < 150) return; 
-                Block pos = findBuildPositionSpecificallyNear(hq, 5, 10);
+                Block pos = findBuildPositionSpecificallyNear(hq, 4, 10);
                 if (pos != null) {
-                    launchOtherBuildMission(builder, pos, BuildingFactory.RESEARCH_BUILDING);
+                    launchOtherBuildMission(builder, pos, BuildingFactory.RESEARCH_BUILDING,2);
                     return;
                 }
             }
 
             if (towerCount < 4) {
                 if (c.getAmbroisieStock() < 150 || c.getFaithStock() < 150) return; 
-                Block pos = findBuildPositionSpecificallyNear(hq, 6, 10);
+                Block pos = findBuildPositionSpecificallyNear(hq, 5, 10);
                 if (pos != null) {
-                    launchOtherBuildMission(builder, pos, BuildingFactory.DEFENSE_BUILDING);
+                    launchOtherBuildMission(builder, pos, BuildingFactory.DEFENSE_BUILDING,2);
                     return;
                 }
             }
@@ -338,7 +352,7 @@ public class CPUManager implements CPUinterface {
      * @param targetPos
      * @param buildingType
      */
-    private void launchOtherBuildMission(Worker builder, Block targetPos, String buildingType) {
+    private void launchOtherBuildMission(Worker builder, Block targetPos, String buildingType, int tier) {
         if (builder.getCurrentDeposit() != null) {
             builder.getCurrentDeposit().setCurrentWorkers(
                     builder.getCurrentDeposit().getCurrentWorkers() - 1); // we remove a worker from the deposit if he has one
@@ -350,8 +364,7 @@ public class CPUManager implements CPUinterface {
         pendingBuildTarget = targetPos;
         pendingBuildType   = buildingType;
         pendingBuildWorker = builder;
-
-        System.out.println("[CPU] Worker envoyé vers " + buildingType + " en X:" + targetPos.getColumn() + " Y:" + targetPos.getLine());
+        pendingTier=tier;
     }
 
     /**
@@ -442,7 +455,7 @@ public class CPUManager implements CPUinterface {
             if (manager.getDistance(pendingHQTarget, block) < 3) return false;
         }
         if (pendingBuildTarget != null) {
-            if (manager.getDistance(pendingBuildTarget, block) < 3) return false;
+            if (manager.getDistance(pendingBuildTarget, block) < 4) return false;
         }
         
         return true; 
@@ -479,13 +492,13 @@ public class CPUManager implements CPUinterface {
 
         c.setWorkerProductionTime(c.getWorkerProductionTime()+1);
 
-        if (c.getWorkerProductionTime() >= 40) {
+        if (c.getWorkerProductionTime() >= 30) {
             boolean workerQueued = false;
             synchronized(manager.getBuildings()) {
                 for(Building b: c.getBuiltBuilding()) {
                     if(b instanceof HQ) {
                         HQ hq=(HQ) b;
-                        if(hq.getWorkerProducer().getProductionQueue().size() <= 1 && !hq.getIsUnderConstruction()) {
+                        if(hq.getWorkerProducer().getProductionQueue().size() <= 2 && !hq.getIsUnderConstruction()) {
                             manager.addQueue(hq.getWorkerProducer(), hq.getPosition(), "WORKER", c);
                             workerQueued = true;
                         }
@@ -566,7 +579,7 @@ public class CPUManager implements CPUinterface {
 
         synchronized(manager.getBuildings()) {
             for(Building b : c.getBuiltBuilding()) {
-                if(b instanceof UnitProducer && !(b instanceof HQ)) {
+                if(b instanceof UnitProducer && !(b instanceof HQ) && b.getTierLevel()==1) {
                     UnitProducer producer = (UnitProducer) b;
                     
                     if(producer.getProductionQueue().isEmpty() && !producer.getIsUnderConstruction()) {
@@ -585,6 +598,39 @@ public class CPUManager implements CPUinterface {
                             }
                         }
                     }
+                }if(b instanceof UnitProducer && !(b instanceof HQ) && b.getTierLevel()==2) {
+                	UnitProducer producer = (UnitProducer) b;
+                	if(tier2Produced.equalsIgnoreCase("cavalry")) {
+                		if(producer.getProductionQueue().isEmpty() && !producer.getIsUnderConstruction()) {
+                			if(c.getCurrentPopulation() < c.getMaxPopulation()) {
+                				if(c.getAmbroisieStock() >= safeAmbroisie && c.getFaithStock() >= safeFaith) {
+                					String unitToProduce = "ARTILLERY";
+                					tier2Produced="ARTILLERY";
+
+                					if (c.getFactionName().equalsIgnoreCase("ZEUS")) {
+                						unitToProduce = "INFANTRY"; 
+                						tier2Produced="INFANTRY";
+                					}
+
+                					manager.addQueue(producer, producer.getPosition(), unitToProduce, c); 
+                					armyCount++; 
+                					if (armyCount >= maxArmy) break;
+                				}
+                			}
+                		}
+                	}else if(tier2Produced.equalsIgnoreCase("INFANTRY") || tier2Produced.equalsIgnoreCase("ARTILLERY") ) {
+                		if(producer.getProductionQueue().isEmpty() && !producer.getIsUnderConstruction()) {
+                			if(c.getCurrentPopulation() < c.getMaxPopulation()) {
+                				if(c.getAmbroisieStock() >= safeAmbroisie && c.getFaithStock() >= safeFaith) {
+                					String unitToProduce = "CAVALRY";
+                					tier2Produced="CAVALRY";
+                					manager.addQueue(producer, producer.getPosition(), unitToProduce, c); 
+                					armyCount++; 
+                					if (armyCount >= maxArmy) break;
+                				}
+                			}
+                		}
+                	}
                 }
             }
         }

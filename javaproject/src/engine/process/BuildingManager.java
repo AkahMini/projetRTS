@@ -136,11 +136,6 @@ public class BuildingManager implements BuildingInterface{
 	            
 	            if (newUnit != null) {
 	            	if (p.getCurrentPopulation() + newUnit.getPopCost() > p.getMaxPopulation()) {
-	            		if (!(p instanceof CPU)) {
-	                        manager.setNotifText("Population maximale atteinte", false);
-	                    } else {
-	                        System.out.println("[CPU] pop Max pas de prod d'unités");
-	                    }
 	                    return;
 	                }
 	            }
@@ -167,7 +162,7 @@ public class BuildingManager implements BuildingInterface{
 	                    p.setCurrentPopulation(p.getCurrentPopulation()+newUnit.getPopCost());
 	                    
 	                    if (p instanceof CPU) {
-	                        System.out.println("[CPU] Unité ajoutée : " + unitType 
+	                        System.out.println("[CPU] Unité ajoutée : " + unitType + newUnit.getTierLevel() 
 	                            + " (Cout Pop: " + newUnit.getPopCost() + ")"
 	                            + " | Population totale : " + p.getCurrentPopulation() 
 	                            + "/" + p.getMaxPopulation());

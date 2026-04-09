@@ -47,7 +47,7 @@ public class GameDisplay extends JPanel {
 	private boolean[][] visible =new boolean[100][72];
 
 	//true if fog of war 
-	private boolean fogOfWar=true;
+	private boolean fogOfWar=false;
 
 	private ChartManager chartManager;
 	

@@ -117,7 +117,8 @@ public class MobileElementManager implements MobileInterface {
 		 */
 		//chronometer update
 		nextTierCheck(player);
-		if(timetweaker.getValue() == 66) {
+		nextTierCheck(cpu);
+		if(timetweaker.getValue() == 64) {
             chronometer.increment();
             //Units manager
             for(Unit unit: new ArrayList<>(units)) {
