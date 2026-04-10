@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
 import org.jfree.chart.ChartPanel;
 
 import config.DefaultGameSettings;
@@ -23,10 +24,12 @@ import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
 import engine.mobile.unit.Unit;
+import engine.mobile.unit.UnitsStatsLoader;
 import engine.process.GameBuilder;
 import engine.process.MenuInterface;
 import engine.process.MobileInterface;
 import gui.instrument.ChartManager;
+import log.LoggerUtility;
 //import gui.instrument.ChartManager;
 /**
  * 
@@ -54,6 +57,7 @@ public class MainGUI extends JFrame implements Runnable {
 
 	private MobileInterface manager;
 	private MenuInterface menu;
+	private static Logger logger = LoggerUtility.getLogger(MainGUI.class, "html");
 
 	private GameDisplay dashboard;
 	
@@ -213,7 +217,8 @@ public class MainGUI extends JFrame implements Runnable {
 			try {
 				Thread.sleep(GameConfiguration.GAME_SPEED);
 			} catch (InterruptedException e) {
-				System.out.println(e.getMessage());
+				//System.out.println(e.getMessage());
+				logger.fatal(e);
 			}
 			switch(currentState) {
 				case "MENU":
@@ -245,6 +250,7 @@ public class MainGUI extends JFrame implements Runnable {
 	}
 
 	public void startGame() {
+		logger.info("Game started");
 		manager = GameBuilder.buildInitMobile(map,this.gameSettings,menu.getSelectedFaction());
 		dashboard.resetManager(manager);
 	    manager.firstRound();
@@ -254,7 +260,7 @@ public class MainGUI extends JFrame implements Runnable {
 	
 	private void ExitGame() {
 		//if this message is  here = the game closed proprely
-	    System.out.println("Fermeture du jeu");
+		logger.info("Game exited");
 	    //put here method for saving or for stopping other thread
 	    System.exit(0);
 	}

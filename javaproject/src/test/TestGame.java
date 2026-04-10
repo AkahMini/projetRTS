@@ -17,7 +17,7 @@ import gui.MainGUI;
  */
 public class TestGame {
 	public static void main(String[] args) {
-
+		
 		DefaultGameSettings gameSettings= new DefaultGameSettings();
 		BuildingStatsLoader buildingStatLoader=new BuildingStatsLoader(GameConfiguration.BUILDINGS_STATS);
 		UnitsStatsLoader unitsStatLoader=new UnitsStatsLoader(GameConfiguration.BUILDINGS_STATS);

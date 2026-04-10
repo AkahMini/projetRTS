@@ -4,18 +4,24 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
+
 import config.GameConfiguration;
 import engine.process.BuildingRepository;
+import log.LoggerUtility;
+
 
 
 public class BuildingStatsLoader {
 	
 	private BuildingRepository buildingRepository = BuildingRepository.getInstance();
+	private static Logger logger = LoggerUtility.getLogger(BuildingStatsLoader.class, "html");
 	
 	public BuildingStatsLoader (String buildingsStats) {
         String line;
         try {
 			BufferedReader br = new BufferedReader(new FileReader(GameConfiguration.BUILDINGS_STATS));
+			logger.info("Reading \""+GameConfiguration.BUILDINGS_STATS+"\"");
 			br.readLine();
 			while ((line = br.readLine()) != null) {
 				String[] data = line.split(",");        	
@@ -46,19 +52,23 @@ public class BuildingStatsLoader {
                     //the key is this and not the name cause we use these three arguments in the factory so it make more sense
                     String key = buildingType.toUpperCase() + "_" + faction.toUpperCase() + "_" + tierLevel;
                     buildingRepository.register(key, stats);
+                    logger.info("Added building key : " + key);
                     //System.out.println("Added building key: "+key);
                 }else {
                     BuildingStats stats = new BuildingStats(id, buildingType, faction, tierLevel, maxHp, ambroisieCost, faithCost, constructionTime, productionSpeed, towerDamage,towerAttackSpeed, towerRange, populationProvided,technologies,visionRange);
                     //the key is this and not the name cause we use these three arguments in the factory so it make more sense
                     String key = buildingType.toUpperCase() + "_" + faction.toUpperCase() + "_" + tierLevel;
                     buildingRepository.register(key, stats);
+                    logger.info("Added building key : " + key);
                     //System.out.println("Added building key: "+key);
                 }
             }
 			
             br.close();
+            logger.info("Reading of \""+GameConfiguration.BUILDINGS_STATS+"\" completed");
 		} catch (IOException e) {
 			e.printStackTrace();
+			logger.fatal(e);
 		}
 	}
 }

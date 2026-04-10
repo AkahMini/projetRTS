@@ -3,6 +3,8 @@ package engine.process;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.apache.log4j.Logger;
+
 import config.DefaultGameSettings;
 import config.GameConfiguration;
 
@@ -22,6 +24,8 @@ import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
 import engine.process.chrono.Chronometer;
 import engine.process.chrono.CyclicCounter;
+import gui.MainGUI;
+import log.LoggerUtility;
 
 /**
  * 
@@ -35,7 +39,7 @@ import engine.process.chrono.CyclicCounter;
  */
 public class MobileElementManager implements MobileInterface {
 	private DefaultGameSettings gameSettings;
-    
+	private static Logger logger = LoggerUtility.getLogger(MobileElementManager.class, "html");
 	private Map map;
     
 	
@@ -80,6 +84,7 @@ public class MobileElementManager implements MobileInterface {
 
     public void firstRound() {    	
     	initMap();
+    	logger.info("Map initialized");
     }
 
 	
@@ -245,12 +250,15 @@ public class MobileElementManager implements MobileInterface {
 		}
 		
 		if(activeZEUS&&!(activeHADES||activePOSEIDON)) {
+			logger.info("ZEUS faction won");
 			return gameSettings.ZEUS;
 		}
 		if(activePOSEIDON&&!(activeZEUS||activeHADES)) {
+			logger.info("POSEIDON faction won");
 			return gameSettings.POSEIDON;
 		}
 		if(activeHADES&&!(activeZEUS||activePOSEIDON)) {
+			logger.info("HADES faction won");
 			return gameSettings.HADES;
 		}
 		return winingfaction;

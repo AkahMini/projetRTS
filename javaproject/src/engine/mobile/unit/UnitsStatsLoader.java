@@ -4,19 +4,24 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
+
 //import org.apache.log4j.Logger;
 
 import config.GameConfiguration;
+import engine.mobile.building.BuildingStatsLoader;
 import engine.process.UnitRepository;
+import log.LoggerUtility;
 
 public class UnitsStatsLoader {
 	private UnitRepository unitsRepository = UnitRepository.getInstance();
+	private static Logger logger = LoggerUtility.getLogger(UnitsStatsLoader.class, "html");
 	//private static final Logger logger = Logger.getLogger(UnitsStatsLoader.class);
 	public UnitsStatsLoader (String unitsStats) {
 		String line;
 		try {
-			
 			BufferedReader br = new BufferedReader(new FileReader(GameConfiguration.UNITS_STATS));
+			logger.info("Reading of \""+GameConfiguration.UNITS_STATS+"\"");
 			br.readLine();
 			while ((line = br.readLine()) != null) {
 				String[] data = line.split(",");        	
@@ -43,9 +48,11 @@ public class UnitsStatsLoader {
 				UnitStats stats = new UnitStats(id, UnitType, faction, maxHp, populationCost, ambroisieCost, faithCost, AttackDamage, attackSpeed, movementsSpeed, attackRange, visionRange, hpRegenRate, tierLevel, BlastRadius_ARTILLERY, ThroughObstacle_CAVALRY, ChageBonusDamage, chargeDistanceMax, chargeSpeed, maxShield);
 				String key = UnitType.toUpperCase() + "_" + faction.toUpperCase() + "_" + tierLevel;
 				unitsRepository.register(key, stats);
-				System.out.println("Added Unit key: "+key);
+				//System.out.println("Added Unit key: "+key);
 				//logger.info("UnitStats créé → clé={"+key+"} valeur={"+stats+"}");
+				logger.info("Added Unit key: "+key);
 			}br.close();
+			logger.info("Reading of \""+GameConfiguration.UNITS_STATS+"\" completed");
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
