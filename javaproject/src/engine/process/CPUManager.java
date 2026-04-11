@@ -32,6 +32,7 @@ public class CPUManager implements CPUinterface {
 	private int pendingTier;
 	private String tier2Produced="CAVALRY";
 
+
     public CPUManager(MobileInterface manager) {
         this.setManager(manager);
     }
@@ -89,7 +90,8 @@ public class CPUManager implements CPUinterface {
             Block wPos = assignedBuilder.getPosition();
             
             if (manager.getDistance(wPos, pendingHQTarget) <= 2) {
-                manager.selectBuilding(BuildingFactory.HQ_BUILDING);
+                //manager.selectBuilding(BuildingFactory.HQ_BUILDING);
+                c.setBuildingToBuildID(BuildingFactory.HQ_BUILDING);
                 int result = manager.buildBuilding(pendingHQTarget, 1, c.getFactionName(), c);
 
                 if (result == 1) {
@@ -218,7 +220,8 @@ public class CPUManager implements CPUinterface {
             }
 
             if (manager.getDistance(pendingBuildWorker.getPosition(), pendingBuildTarget) <= 2) {
-                manager.selectBuilding(pendingBuildType);//if the worker is close to the building block we choose the building
+                c.setBuildingToBuildID(pendingBuildType);
+            	manager.selectBuilding(pendingBuildType);//if the worker is close to the building block we choose the building
                 
                 
                 int result = manager.buildBuilding(pendingBuildTarget, pendingTier, c.getFactionName(), c);

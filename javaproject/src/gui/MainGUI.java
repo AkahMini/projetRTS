@@ -124,7 +124,8 @@ public class MainGUI extends JFrame implements Runnable {
 
 		testButton2.addActionListener(new ActionListener() { //Temporary button to test some features
 			public void actionPerformed(ActionEvent e) {
-				manager.selectBuilding("DefenseTower");
+				//manager.selectBuilding("DefenseTower");
+				manager.getPlayer().setBuildingToBuildID("DefenseTower");
 				manager.setTypeSelection("build");
 				manager.setSelectedTier(2);
 			}
@@ -134,7 +135,8 @@ public class MainGUI extends JFrame implements Runnable {
 
 		testButton3.addActionListener(new ActionListener() { //Temporary button to test some features
 			public void actionPerformed(ActionEvent e) {
-				manager.selectBuilding("PopulationBuilding");
+				//manager.selectBuilding("PopulationBuilding");
+				manager.getPlayer().setBuildingToBuildID("PopulationBuilding");
 				manager.setTypeSelection("PopulationBuilding");
 				manager.setSelectedTier(1);
 			}
@@ -143,7 +145,8 @@ public class MainGUI extends JFrame implements Runnable {
 
 		testButton4.addActionListener(new ActionListener() { //Temporary button to test some features
 			public void actionPerformed(ActionEvent e) {
-				manager.selectBuilding("ResearchBuilding");
+				//manager.selectBuilding("ResearchBuilding");
+				manager.getPlayer().setBuildingToBuildID("ResearchBuilding");
 				manager.setTypeSelection("build");
 				manager.setSelectedTier(2);
 			}
@@ -184,7 +187,7 @@ public class MainGUI extends JFrame implements Runnable {
 				manager.setSelectedTier(3);
 			}
 		});
-
+		
 		RightPanel.add(testButton);
 		RightPanel.add(testButton2);
 		RightPanel.add(testButton3);
@@ -443,10 +446,12 @@ public class MainGUI extends JFrame implements Runnable {
 			}
 			
 			
-			String typeSelection =manager.getTypeSelection();
-			
+			//String typeSelection =manager.getTypeSelection();
 			//if we selected a build
+			
+			/*
 			if(typeSelection!=null && typeSelection.equals("build") && manager.ifBlockInGamePanel(position)) {
+				manager.getPlayer().setBuildingToBuildID(typeSelection);
 				manager.buildBuilding(position,manager.getSelectedTier(),manager.getPlayer().getFactionName(),manager.getPlayer());
 				if(manager.getSelectedWorker()!=null) {
 					manager.addUnitsInSelectedArea(manager.getSelectedWorker());
@@ -458,6 +463,8 @@ public class MainGUI extends JFrame implements Runnable {
 			
 			//if we selected a population building
 			else if(typeSelection!=null && typeSelection.equals("PopulationBuilding")  && manager.ifBlockInGamePanel(position)) {
+				
+				manager.getPlayer().setBuildingToBuildID(typeSelection);
 				manager.buildBuilding(position,manager.getSelectedTier(),manager.getPlayer().getFactionName(),manager.getPlayer());
 				manager.setNotifText(typeSelection+" posé",true);
 				if(manager.getSelectedWorker()!=null) {
@@ -467,8 +474,22 @@ public class MainGUI extends JFrame implements Runnable {
 				}
 				typeSelection=null;
 			}
-			
-			
+			*/
+			//if(typeSelection!=null&&typeSelection.equals("build")&&manager.ifBlockInGamePanel(position)){
+			String buildingID = manager.getPlayer().getBuildingToBuildID();
+			if(buildingID!=null&&manager.ifBlockInGamePanel(position)){
+				manager.getPlayer().setBuildingToBuildID(buildingID);
+				manager.buildBuilding(position,manager.getSelectedTier(),manager.getPlayer().getFactionName(),manager.getPlayer());
+				//manager.setNotifText(buildingID+" posé",true);
+				if(manager.getSelectedWorker()!=null) {
+					manager.addUnitsInSelectedArea(manager.getSelectedWorker());
+					manager.unitMoveOrder(position);
+					manager.setSelectedWorker(null);
+				}
+				//typeSelection=null;
+				manager.getPlayer().setBuildingToBuildID(null);
+			}
+			/*
 			else if(typeSelection!=null && typeSelection.equals("unitAllie")) {
 				manager.spawnUnit(position, manager.getPlayer().getFactionName());
 				typeSelection=null;
@@ -477,7 +498,8 @@ public class MainGUI extends JFrame implements Runnable {
 				manager.spawnUnit(position, "HADES"); // faction harcoded for testing
 				typeSelection=null;
 			}
-			manager.setTypeSelection(typeSelection);
+			*/
+			//manager.setTypeSelection(typeSelection);
 			
 			
 			//create 4x4 selection, because only the top left block of a building is recognized as a building

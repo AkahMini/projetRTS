@@ -391,7 +391,7 @@ public class UnitsManager implements UnitsInterface{
     public void workerConstruction(String button, Player p, Worker worker) {
     	int currentButtonTier = manager.getSelectedTier();
     	int playerTier = manager.getPlayer().getCurrentTier();
-    	manager.setTypeSelection("build");
+    	//manager.setTypeSelection("build");
     	
     	switch (button) {
     	case "button1":
@@ -400,15 +400,18 @@ public class UnitsManager implements UnitsInterface{
     			break;
     		}else if(currentButtonTier==1) {
     			manager.selectBuilding("HQ");
+    			p.setBuildingToBuildID("HQ");
     			manager.setNotifText("QG sélectioné",true);
     			//System.out.println("selectetd");
     			break;
     		}else if(currentButtonTier==2) {
     			manager.selectBuilding("ResearchBuilding");
+    			p.setBuildingToBuildID("ResearchBuilding");
     			manager.setNotifText("Labo de recherche",true);
     			break;
     		}else if(currentButtonTier==3) {
     			manager.selectBuilding("Producer");
+    			p.setBuildingToBuildID("Producer");
     			manager.setNotifText("Bat de prod tier 3 sélectioné",true);
     			break;
     		}
@@ -420,10 +423,13 @@ public class UnitsManager implements UnitsInterface{
     			break;
     		}else if(currentButtonTier==1) {
     			manager.selectBuilding("Producer");
+    			p.setBuildingToBuildID("Producer");
     			manager.setNotifText("Bat de prod tier 1 sélectioné",true);
+    			manager.setTypeSelection("build");
     			break;
     		}else if(currentButtonTier==2) {
     			manager.selectBuilding("Producer");
+    			p.setBuildingToBuildID("Producer");
     			manager.setNotifText("Bat de prod tier 2 sélectioné",true);
     			break;
     		}
@@ -434,9 +440,11 @@ public class UnitsManager implements UnitsInterface{
     			break;
     		}else if(currentButtonTier==1) {
     			manager.selectBuilding("PopulationBuilding");
+    			p.setBuildingToBuildID("PopulationBuilding");
     			manager.setNotifText("Bat de population sélectioné",true);
     			break;
     		}else if(currentButtonTier==2) {
+    			p.setBuildingToBuildID("DefenseTower");
     			manager.selectBuilding("DefenseTower");
     			manager.setNotifText("Tour de défense sélectioné",true);
     			break;

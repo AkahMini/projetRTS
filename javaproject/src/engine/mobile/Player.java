@@ -29,6 +29,7 @@ public class Player {
 	private ArrayList<Building> builtBuilding; //The id of the built buildings
 	private ArrayList<ResearchBuilding> ResearchBuildings; // arrayList to stock the Lab so that we don't have to search the whole array of buildings when needed
 	private ArrayList<Unit> createdUnits; //The id of the built buildings
+	private String buildingToBuildID; //The id of the selected building, the one that the player want to build
 
 	
 
@@ -51,6 +52,7 @@ public class Player {
 		this.builtBuilding = new ArrayList<Building>();
 		this.ResearchBuildings = new ArrayList<ResearchBuilding>();
 		this.createdUnits = new ArrayList<Unit>();
+		
 	}
 	
 	/**
@@ -183,5 +185,11 @@ public class Player {
 
 	public void setResearchBuildings(ArrayList<ResearchBuilding> researchBuildings) {
 		ResearchBuildings = researchBuildings;
+	}
+	public String getBuildingToBuildID() {
+		return buildingToBuildID;
+	}
+	public void setBuildingToBuildID(String buildingToBuildID) {
+		this.buildingToBuildID = buildingToBuildID;
 	}
 }

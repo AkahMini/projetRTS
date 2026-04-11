@@ -54,11 +54,11 @@ public class BuildingManager implements BuildingInterface{
 		 * returns -1 if no building was selected by the building
 		 * 
 		 */
-		if (selectedBuilding == null){
+		if (p.getBuildingToBuildID()==null){
 			return -1;
 		}
 		if (position.getLine() >= 7 && position.getColumn() < GameConfiguration.COLUMN_COUNT - 28) {
-			Building newBuilding = BuildingFactory.createBuilding(selectedBuilding, tier, faction, position);
+			Building newBuilding = BuildingFactory.createBuilding(p.getBuildingToBuildID(), tier, faction, position);
 
 			if (newBuilding != null) {
 				if(newBuilding.getAmbroisieCost()>p.getAmbroisieStock()||newBuilding.getFaithCost()>p.getFaithStock()) {
@@ -79,7 +79,7 @@ public class BuildingManager implements BuildingInterface{
 				p.setAmbroisieStock(p.getAmbroisieStock()-newBuilding.getAmbroisieCost());
 				p.setFaithStock(p.getFaithStock()-newBuilding.getFaithCost());
 			}
-			selectedBuilding = null;
+			p.setBuildingToBuildID(null);;
 			return 1;
 		}
 		return -1;

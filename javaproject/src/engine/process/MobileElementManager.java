@@ -109,7 +109,6 @@ public class MobileElementManager implements MobileInterface {
         killUnits(player);
         killUnits(cpu);
         
-        
         buildingManager.allTowerAttack(buildings);
        	if(timetweaker.getValue() == 5) {
        		cpuManager.attackReaction(cpu);
@@ -591,7 +590,7 @@ public class MobileElementManager implements MobileInterface {
     @Override
     public int buildBuilding(Block position, int tier, String faction, Player p) {
         int result = buildingManager.buildBuilding(position, tier, faction, p); // p et non player
-        boolean playerBuild = faction.equalsIgnoreCase(player.getFactionName());
+        boolean playerBuild = faction.equalsIgnoreCase(player.getFactionName());//the no
         if (playerBuild) {
             if (result == 1) {
                 setNotifText("Batiment ajouté", true);
