@@ -149,22 +149,17 @@ public class UnitsManager implements UnitsInterface{
     }
     
     public void workerRessourceDeposit(Worker worker, Player player) {
-        // CORRECTION ICI AUSSI : On s'assure qu'il a un QG ET qu'il a bien quelque chose à déposer
-        // (Sinon, il se vide même en passant à côté du QG par hasard)
         if (worker.getCurrentHQ() != null && worker.getRessourceLoad() > 0) {
             if (manager.getDistance(worker.getPosition(), worker.getCurrentHQ().getPosition()) <= worker.getVision()) {
                 
-                // Ajout de l'argent au joueur ou au CPU
                 if (worker.getRessourceType() == RessourceDeposit.FAITH) {
                     player.setFaithStock(player.getFaithStock() + worker.getRessourceLoad());
                 } else if (worker.getRessourceType() == RessourceDeposit.AMBROSIA) {
                     player.setAmbroisieStock(player.getAmbroisieStock() + worker.getRessourceLoad());
                 }
                 
-                // On vide le sac
                 worker.setCurrentRessourceLoad(0);
                 
-                // On le renvoie bosser
                 if (worker.getCurrentDeposit() != null) {
                     worker.setDestination(worker.getCurrentDeposit().getPosition());
                 }
@@ -346,7 +341,7 @@ public class UnitsManager implements UnitsInterface{
         int movedUnitCounter=0;
         for(int unitIndex = 0; unitIndex < nbUnits; unitIndex++) {
             Unit unit = manager.getUnitsInSelectedArea().get(unitIndex);
-            if(unit.getUnitFaction().equalsIgnoreCase(this.gameSettings.getPlayerFaction())) {    
+            if(unit.getUnitFaction().equalsIgnoreCase(manager.getPlayer().getFactionName())) {    
             	unit.setDestination(groupDestination.get(movedUnitCounter));
             	movedUnitCounter+=1;
             	unit.setTarget(null);

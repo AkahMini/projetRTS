@@ -27,7 +27,7 @@ public class CPUManager implements CPUinterface {
     private String pendingBuildType   = null; // Type of the building
     private Worker pendingBuildWorker = null; // the worker who is building it 
 	private int pendingTier;
-	String tier2Produced="CAVALRY";
+	private String tier2Produced="CAVALRY";
 
     public CPUManager(MobileInterface manager) {
         this.setManager(manager);
@@ -73,7 +73,7 @@ public class CPUManager implements CPUinterface {
             if (!nearDeposits.isEmpty() && saturatedCount == 0) return; 
         }
 
-        if (c.getAmbroisieStock() < 500 || c.getFaithStock() < 500) return;
+        if (c.getAmbroisieStock() < 600 || c.getFaithStock() < 500) return;
 
         if (pendingHQTarget != null && assignedBuilder != null) {
             if (!c.getCreatedUnits().contains(assignedBuilder)) {
@@ -271,7 +271,7 @@ public class CPUManager implements CPUinterface {
             //and the number of said type so that the CPU doesn't built the same building infinitely
             if (prodCount1 < 1) {
                 if (c.getAmbroisieStock() < 125 || c.getFaithStock() < 125) return; // we stop only if we lack resources
-                Block pos = findBuildPositionSpecificallyNear(hq, 3, 8);
+                Block pos = findBuildPositionSpecificallyNear(hq, 3, 9);
                 if (pos != null) {
                     launchOtherBuildMission(builder, pos, BuildingFactory.PRODUCER_BUILDING,1);
                     return;
@@ -279,7 +279,7 @@ public class CPUManager implements CPUinterface {
             }
             if (prodCount2 < 2 && c.getCurrentTier()>=2) {
                 if (c.getAmbroisieStock() < 250 || c.getFaithStock() < 250) return; // we stop only if we lack resources
-                Block pos = findBuildPositionSpecificallyNear(hq, 3, 8);
+                Block pos = findBuildPositionSpecificallyNear(hq, 3, 9);
                 if (pos != null) {
                     launchOtherBuildMission(builder, pos, BuildingFactory.PRODUCER_BUILDING,2);
                     return;
@@ -288,7 +288,7 @@ public class CPUManager implements CPUinterface {
 
             if (popCount < 4) {
                 if (c.getAmbroisieStock() < 100 || c.getFaithStock() < 100) return; 
-                Block pos = findBuildPositionSpecificallyNear(hq, 4, 14);
+                Block pos = findBuildPositionSpecificallyNear(hq, 4, 15);
                 if (pos != null) {
                     launchOtherBuildMission(builder, pos, BuildingFactory.POPULATION_BUILDING,1);
                     return;
@@ -297,7 +297,7 @@ public class CPUManager implements CPUinterface {
 
             if (labCount < 1) {
                 if (c.getAmbroisieStock() < 150 || c.getFaithStock() < 150) return; 
-                Block pos = findBuildPositionSpecificallyNear(hq, 4, 10);
+                Block pos = findBuildPositionSpecificallyNear(hq, 4, 12);
                 if (pos != null) {
                     launchOtherBuildMission(builder, pos, BuildingFactory.RESEARCH_BUILDING,2);
                     return;
@@ -572,9 +572,13 @@ public class CPUManager implements CPUinterface {
 
         int safeAmbroisie = 200; // check if we have enough resources to no block the other actions of the CPU
         int safeFaith = 200;
-        if (pendingHQTarget != null) {
-            safeAmbroisie = 520; 
-            safeFaith = 520;
+        if (hqCount < 4) {
+            safeAmbroisie = 600; 
+            safeFaith = 500;
+        } 
+        else if (pendingHQTarget != null) {
+            safeAmbroisie = 650; 
+            safeFaith = 550;
         }
 
         synchronized(manager.getBuildings()) {
@@ -648,7 +652,14 @@ public class CPUManager implements CPUinterface {
     				}
     			}
     		}
-    	}for(Unit u : c.getCreatedUnits()) {
+    	}if(attackTarget==null) {
+    		for( Building b : manager.getBuildings()) {
+    			if(manager.getPlayer().getBuiltBuilding().contains(b)) {
+					attackTarget=b.getPosition();
+    			}
+    		}
+    	}
+    	for(Unit u : c.getCreatedUnits()) {
     		if(!(u instanceof Worker)) {
         		u.setDestination(attackTarget);
     		}

@@ -79,7 +79,7 @@ public class MobileElementManager implements MobileInterface {
     	this.map = map;
         this.player = new Player("Jhon Doe", faction);
         
-        List<String> factions = new ArrayList<>(Arrays.asList("Zeus", "Hades", "Poseidon"));
+        List<String> factions = new ArrayList<>(Arrays.asList(DefaultGameSettings.ZEUS, DefaultGameSettings.HADES,DefaultGameSettings.POSEIDON));
         factions.remove(faction);
         Random random = new Random();
         String cpuFaction = factions.get(random.nextInt(factions.size()));
@@ -131,10 +131,10 @@ public class MobileElementManager implements MobileInterface {
 		 * Every slow process that don't need to be check every tick, for performance purpose
 		 */
 		//chronometer update
-		nextTierCheck(player);
-		nextTierCheck(cpu);
 		if(timetweaker.getValue() == 64) {
             chronometer.increment();
+            nextTierCheck(player);
+    		nextTierCheck(cpu);
             //Units manager
             for(Unit unit: new ArrayList<>(units)) {
                 
@@ -440,7 +440,7 @@ public class MobileElementManager implements MobileInterface {
             d.setCurrentWorkers(0);
             this.ressourceDeposits.add(d);
         }
-
+        /*
         for(int i=0; i<7; i++) {
             Block spawnBlock = map.getBlock(22+(int)(Math.random()*3), 22+(int)(Math.random()*3));
             Unit unit = UnitFactory.createUnit(UnitFactory.ARTILLERY_UNIT, 1, DefaultGameSettings.ZEUS, spawnBlock);
@@ -455,13 +455,24 @@ public class MobileElementManager implements MobileInterface {
             cpu.getCreatedUnits().add(unit);
         }
         */
-        Unit w1 = UnitFactory.createUnit(UnitFactory.WORKER_UNIT, 1, DefaultGameSettings.HADES, ennemyHQ.getPosition());
-        Unit w2 = UnitFactory.createUnit(UnitFactory.WORKER_UNIT, 1, DefaultGameSettings.HADES, ennemyHQ.getPosition());
+        Unit w1 = UnitFactory.createUnit(UnitFactory.WORKER_UNIT, 1, cpu.getFactionName(), ennemyHQ.getPosition());
+        Unit w2 = UnitFactory.createUnit(UnitFactory.WORKER_UNIT, 1,cpu.getFactionName(), ennemyHQ.getPosition());
         ((Worker) w1).setCurrentHQ((HQ) ennemyHQ);
         ((Worker) w2).setCurrentHQ((HQ) ennemyHQ);
-        this.units.add(w1); cpu.getCreatedUnits().add(w1);
-        this.units.add(w2); cpu.getCreatedUnits().add(w2);
+        this.units.add(w1); 
+        cpu.getCreatedUnits().add(w1);
+        this.units.add(w2); 
+        cpu.getCreatedUnits().add(w2);
 
+        Unit w3 = UnitFactory.createUnit(UnitFactory.WORKER_UNIT, 1, player.getFactionName(), playerHQ.getPosition());
+        Unit w4 = UnitFactory.createUnit(UnitFactory.WORKER_UNIT, 1,player.getFactionName(), playerHQ.getPosition());
+        ((Worker) w3).setCurrentHQ((HQ) playerHQ);
+        ((Worker) w4).setCurrentHQ((HQ) playerHQ);
+        this.units.add(w3); 
+        player.getCreatedUnits().add(w3);
+        this.units.add(w4); 
+        player.getCreatedUnits().add(w4);
+        
         this.buildings.add(playerHQ);
         this.buildings.add(ennemyHQ);
         System.out.println("Vision HQ: " + playerHQ.getVision());
@@ -578,7 +589,7 @@ public class MobileElementManager implements MobileInterface {
     @Override
     public int buildBuilding(Block position, int tier, String faction, Player p) {
         int result = buildingManager.buildBuilding(position, tier, faction, p); // p et non player
-        boolean playerBuild = faction.equals(gameSettings.getPlayerFaction());
+        boolean playerBuild = faction.equalsIgnoreCase(player.getFactionName());
         if (playerBuild) {
             if (result == 1) {
                 setNotifText("Batiment ajouté", true);
