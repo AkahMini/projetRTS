@@ -197,10 +197,8 @@ public class MainGUI extends JFrame implements Runnable {
 		RightPanel.add(testButton7);
 		RightPanel.add(testButton8);
 		contentPane.add(RightPanel, BorderLayout.SOUTH);
-		 
-
+		
 		contentPane.add(dashboard, BorderLayout.CENTER);
-
 		
 		this.addKeyListener(new KeyControls());
 		setFocusable(true);
@@ -210,7 +208,6 @@ public class MainGUI extends JFrame implements Runnable {
 		setVisible(true);
 		setPreferredSize(preferredSize);
 		setResizable(false);
-
 	}
 
 
@@ -247,14 +244,24 @@ public class MainGUI extends JFrame implements Runnable {
 					break;
 			}
 			dashboard.repaint();
-		
 		}
 		ExitGame();
 	}
 
 	public void startGame() {
 		logger.info("Game started");
-		manager = GameBuilder.buildInitMobile(map,this.gameSettings,menu.getSelectedFaction());
+		boolean istop=false;
+		if(manager!=null) {
+			if(manager.isGameStoped()) {
+				istop=true;
+			}
+			manager=null;
+		}
+		System.out.println(menu.getSelectedMode());
+		manager = GameBuilder.buildInitMobile(map,this.gameSettings,menu.getSelectedFaction(),menu.getSelectedMode());
+		if(istop) {
+			manager.setIsGameStoped(true);
+		}
 		dashboard.resetManager(manager);
 	    manager.firstRound();
 	    currentState = GameConfiguration.GAMESTATE.get(2);
@@ -344,6 +351,7 @@ public class MainGUI extends JFrame implements Runnable {
 				if (currentState.equals("PLAYING")) {
 					if(stop) {
 						//do here the event for end the game ( a loose, this input is considered as giving up the game)
+						currentState=GameConfiguration.GAMESTATE.get(3);
 					}
 				}
 				break;
@@ -431,7 +439,7 @@ public class MainGUI extends JFrame implements Runnable {
 			int blockSize = GameConfiguration.BLOCK_SIZE;
 			int line = e.getY() / blockSize;
 			int column = e.getX() / blockSize;
-			//System.out.println("x :"+e.getX()+" y :"+e.getY()+" - Block line : "+line+" Block column : "+column);
+			System.out.println("x :"+e.getX()+" y :"+e.getY()+" - Block line : "+line+" Block column : "+column);
 			
 			//we check if the player clicked in the button zone for x and y
 			boolean xZone = (e.getX()>=1020 && e.getX()<=1240);

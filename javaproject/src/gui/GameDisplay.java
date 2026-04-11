@@ -115,6 +115,7 @@ public class GameDisplay extends JPanel {
 			paintStrategy.paint(manager.getHour(), manager.getMinute(), manager.getSecond(), g);
 			
 			
+			
 			if(manager.getNotification()!=null) {
 				paintStrategy.paint(manager.getNotification(),manager.isNotificationGood(), g);
 			}
@@ -185,18 +186,20 @@ public class GameDisplay extends JPanel {
 				paintStrategy.paintGrid(map, g);
 			}
 			
-			if(manager.isGameStoped()) {
-				menuStrategy.paintPauseMenu(g);
-			}
 			if (unitJFreeChart != null) {
 				chartManager.refreshDataset(); //we refresh the data here in the graphic thread because otherwise there are conflicts
-			    int chartWidth = 250;
-			    int chartHeight = 180;
-			    int chartX =  GameConfiguration.WINDOW_WIDTH- chartWidth - 10;
-			    int chartY = 2*GameConfiguration.WINDOW_HEIGHT / 5;
+			    int chartWidth = 261;
+			    int chartHeight = 196;
+			    int chartX =  1009;
+			    int chartY = 285;
 			    BufferedImage chartImage = unitJFreeChart.createBufferedImage(chartWidth, chartHeight);
 			    g.drawImage(chartImage, chartX, chartY, null);
 			}
+			
+			if(manager.isGameStoped()) {
+				menuStrategy.paintPauseMenu(g);
+			}
+			
 		//this is for menu display
 		}else {
 			if(menu.getCurrentState().equals("MENU")) {
