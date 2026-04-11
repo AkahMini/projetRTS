@@ -77,14 +77,11 @@ public class PaintStrategy {
 			graphics.setColor(Color.BLACK);
 			graphics.fillRect(100*blockSize, 27*blockSize, GameConfiguration.COLUMN_COUNT*blockSize, blockSize);
 			graphics.fillRect(100*blockSize, 48*blockSize, GameConfiguration.COLUMN_COUNT*blockSize, blockSize);
-			//this is temporary foh suh
-			graphics.setFont(new Font("Arial", Font.PLAIN, 24));
-			graphics.drawString("Inserez diagramme ici", 1020, 380);
 		}
 
 	}
 	
-	//used to paint dark tiles
+	//used to paint dark tiles (fog of war)
 	public void paint(int x, int y, Graphics graphics){
 		x*=10;
 		y*=10;
@@ -640,6 +637,8 @@ public class PaintStrategy {
 		 */
 		
 		//not used for now
+		
+		//why creating that ??? à_à
 		
 		int x1=position.getLine()*GameConfiguration.BLOCK_SIZE;
 		int y1=position.getColumn()*GameConfiguration.BLOCK_SIZE;

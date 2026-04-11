@@ -28,23 +28,30 @@ public class MenuStrategy {
 	}
 	
 	public void paintChooseMenu(MenuInterface menu,Graphics graphics) {
-		graphics.setColor(Color.BLACK);
-		graphics.setFont(new Font("Arial", Font.PLAIN, 30));
-		graphics.drawString(menu.getSelectedFaction()+" sélectionnée", windowWidth/2-35, windowHeight/2-200);
-		int mode =menu.getSelectedMode();
-		if(mode==0) {
-			graphics.drawString("Mode 1V1", windowWidth/2-35, windowHeight/2-150);
-		}else if(mode==1) {
-			graphics.drawString("Mode 1V1V1", windowWidth/2-35, windowHeight/2-150);
+		graphics.drawImage(GameUtility.readImage("src/gameData/images/SelectMenu.png"),0,0,1280,720,null);
+		String faction =menu.getSelectedFaction();
+		graphics.setColor(new Color(0,0,0,150));
+		if(faction.equals("Zeus")) {
+			graphics.fillRect(426, 0,856 ,538 );
+		}else if(faction.equals("Hades")) {
+			graphics.fillRect(0, 0,426,538 );
+			graphics.fillRect(856, 0,426,538 );
+		}else if(faction.equals("Poseidon")) {
+			graphics.fillRect(0, 0,856,538 );
 		}
-		graphics.setFont(new Font("Arial", Font.PLAIN, 20));
-		graphics.drawString("Appuyez sur s pour jouer en 1V1", windowWidth/2-35, windowHeight/2-100);
-		graphics.drawString("Appuyez sur f pour jouer en 1v1v1", windowWidth/2-35, windowHeight/2-60);
-		graphics.drawString("Appuyez sur 1 pour ZEUS", windowWidth/2-35, windowHeight/2-20);
-		graphics.drawString("Appuyez sur 2 pour Hades", windowWidth/2-35, windowHeight/2+20);
-		graphics.drawString("Appuyez sur 3 pour Poseidon", windowWidth/2-35, windowHeight/2+60);
-		graphics.drawString("Appuyez sur entrée pour commencer", windowWidth/2-35, windowHeight/2+100);
-		graphics.drawString("Appuyez sur Esc pour revenir a l'acceuil", windowWidth/2-35, windowHeight/2+150);
+		int mode =menu.getSelectedMode();
+		graphics.setColor(Color.ORANGE);
+		if(mode==0) {
+			graphics.drawRect(200, 580, 400, 104);
+			graphics.drawRect(201, 581, 398, 102);
+			graphics.drawRect(202, 582, 396, 100);
+			graphics.drawRect(203, 583, 394, 98);
+		}else if(mode==1) {
+			graphics.drawRect(640, 580, 400, 104);
+			graphics.drawRect(641, 581, 398, 102);
+			graphics.drawRect(642, 582, 396, 100);
+			graphics.drawRect(643, 583, 394, 98);
+		}
 	}
 	
 	public void paintEndMenu(Graphics graphics) {
