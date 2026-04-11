@@ -463,6 +463,7 @@ public class MobileElementManager implements MobileInterface {
         cpu.getCreatedUnits().add(w1);
         this.units.add(w2); 
         cpu.getCreatedUnits().add(w2);
+        cpu.setCurrentPopulation(2);
 
         Unit w3 = UnitFactory.createUnit(UnitFactory.WORKER_UNIT, 1, player.getFactionName(), playerHQ.getPosition());
         Unit w4 = UnitFactory.createUnit(UnitFactory.WORKER_UNIT, 1,player.getFactionName(), playerHQ.getPosition());
@@ -472,6 +473,7 @@ public class MobileElementManager implements MobileInterface {
         player.getCreatedUnits().add(w3);
         this.units.add(w4); 
         player.getCreatedUnits().add(w4);
+        player.setCurrentPopulation(2);
         
         this.buildings.add(playerHQ);
         this.buildings.add(ennemyHQ);

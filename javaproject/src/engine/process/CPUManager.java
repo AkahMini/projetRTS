@@ -253,7 +253,7 @@ public class CPUManager implements CPUinterface {
         if (pendingHQTarget != null) return; // we return if an hq is beaing made at the moment
 
         for (HQ hq : cpuHQs) {
-            int prodCount1 = 0, popCount = 0, towerCount = 0, labCount = 0, prodCount2=0;
+            int prodCount1 = 0, popCount = 0, towerCount = 0, labCount = 0, prodCount2=0, prodCount3=0;
             // we have to reset and check the number of building each time because one of them could have been destroyed
             
             synchronized(manager.getBuildings()) {
@@ -261,6 +261,7 @@ public class CPUManager implements CPUinterface {
                     if (manager.getDistance(b.getPosition(), hq.getPosition()) <= 18) {
                     	if (b instanceof UnitProducer && !(b instanceof HQ) && b.getTierLevel()==1) prodCount1++;
                     	else if (b instanceof UnitProducer && !(b instanceof HQ) && b.getTierLevel()==2) prodCount2++;
+                    	else if (b instanceof UnitProducer && !(b instanceof HQ) && b.getTierLevel()==3) prodCount3++;
                         else if (b instanceof PopulationBuilding) popCount++;
                         else if (b instanceof DefenseTower) towerCount++;
                         else if (b instanceof ResearchBuilding) labCount++;
@@ -285,8 +286,16 @@ public class CPUManager implements CPUinterface {
                     return;
                 }
             }
+            if (prodCount3 < 1 && c.getCurrentTier()>=3) {
+                if (c.getAmbroisieStock() < 350 || c.getFaithStock() < 275) return; // we stop only if we lack resources
+                Block pos = findBuildPositionSpecificallyNear(hq, 3, 9);
+                if (pos != null) {
+                    launchOtherBuildMission(builder, pos, BuildingFactory.PRODUCER_BUILDING,3);
+                    return;
+                }
+            }
 
-            if (popCount < 4) {
+            if (popCount < 5) {
                 if (c.getAmbroisieStock() < 100 || c.getFaithStock() < 100) return; 
                 Block pos = findBuildPositionSpecificallyNear(hq, 4, 15);
                 if (pos != null) {
@@ -614,6 +623,40 @@ public class CPUManager implements CPUinterface {
                 					if (c.getFactionName().equalsIgnoreCase("ZEUS")) {
                 						unitToProduce = "INFANTRY"; 
                 						tier2Produced="INFANTRY";
+                					}
+
+                					manager.addQueue(producer, producer.getPosition(), unitToProduce, c); 
+                					armyCount++; 
+                					if (armyCount >= maxArmy) break;
+                				}
+                			}
+                		}
+                	}else if(tier2Produced.equalsIgnoreCase("INFANTRY") || tier2Produced.equalsIgnoreCase("ARTILLERY") ) {
+                		if(producer.getProductionQueue().isEmpty() && !producer.getIsUnderConstruction()) {
+                			if(c.getCurrentPopulation() < c.getMaxPopulation()) {
+                				if(c.getAmbroisieStock() >= safeAmbroisie && c.getFaithStock() >= safeFaith) {
+                					String unitToProduce = "CAVALRY";
+                					tier2Produced="CAVALRY";
+                					manager.addQueue(producer, producer.getPosition(), unitToProduce, c); 
+                					armyCount++; 
+                					if (armyCount >= maxArmy) break;
+                				}
+                			}
+                		}
+                	}
+                }
+                if(b instanceof UnitProducer && !(b instanceof HQ) && b.getTierLevel()==3) {
+                	UnitProducer producer = (UnitProducer) b;
+                	if(tier2Produced.equalsIgnoreCase("cavalry")) {
+                		if(producer.getProductionQueue().isEmpty() && !producer.getIsUnderConstruction()) {
+                			if(c.getCurrentPopulation() < c.getMaxPopulation()) {
+                				if(c.getAmbroisieStock() >= safeAmbroisie && c.getFaithStock() >= safeFaith) {
+                					String unitToProduce = "INFANTRY";
+                					tier2Produced="INFANTRY";
+
+                					if (c.getFactionName().equalsIgnoreCase("HADES")) {
+                						unitToProduce = "ARTILLERY"; 
+                						tier2Produced="ARTILLERY";
                 					}
 
                 					manager.addQueue(producer, producer.getPosition(), unitToProduce, c); 
