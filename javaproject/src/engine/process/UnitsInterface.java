@@ -40,5 +40,5 @@ public interface UnitsInterface {
 	void unitMoveOrder(Block destination, Map map);
 	void moveAllUnits(Player p);
 	
-	void workerConstructionction(String button, Player p, Worker worker);
+	void workerConstruction(String button, Player p, Worker worker);
 }

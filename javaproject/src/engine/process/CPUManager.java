@@ -2,6 +2,8 @@ package engine.process;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import engine.map.Block;
 import engine.mobile.CPU;
 import engine.mobile.RessourceDeposit;
@@ -10,6 +12,7 @@ import engine.mobile.building.DefenseTower;
 import engine.mobile.building.HQ;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
+import log.LoggerUtility;
 import engine.mobile.building.PopulationBuilding;
 import engine.mobile.building.ResearchBuilding;
 import engine.mobile.building.UnitProducer;
@@ -17,7 +20,7 @@ import engine.mobile.building.UnitProducer;
 public class CPUManager implements CPUinterface {
     
     private MobileInterface manager;
-
+    private static Logger logger = LoggerUtility.getLogger(CPUManager.class, "html");
     private Block  pendingHQTarget= null;// used to store the block of the HQ that will be built there
     private RessourceDeposit pendingDeposit = null;// store the deposit that the worker will work on after having built hq
     private Worker assignedBuilder= null; // the worker that has a mission of building the hq
@@ -90,7 +93,7 @@ public class CPUManager implements CPUinterface {
                 int result = manager.buildBuilding(pendingHQTarget, 1, c.getFactionName(), c);
 
                 if (result == 1) {
-                    System.out.println("[CPU] nouveau hq construit");
+                    logger.info("[CPU] nouveau hq construit");
                     HQ newHQ = null;
                     
                     synchronized(manager.getBuildings()) {
@@ -229,7 +232,7 @@ public class CPUManager implements CPUinterface {
                 }
 
                 if (result == 1) {
-                    System.out.println("[CPU] " + pendingBuildType + " construit en X:" + pendingBuildTarget.getColumn() + " Y:" + pendingBuildTarget.getLine());
+                	logger.info("[CPU] " + pendingBuildType + " construit en X:" + pendingBuildTarget.getColumn() + " Y:" + pendingBuildTarget.getLine());
                     pendingBuildWorker.setIsWorking(false);
                     resetOtherBuildMission();
                 } else { // we free the worker even if the building has not been made ( if he is dead for example)
