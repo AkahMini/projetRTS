@@ -376,19 +376,19 @@ public class MobileElementManager implements MobileInterface {
     	if(selectedWorker!=null){
     		if(y<=620) {
     			if(x<=1080) {
-    				unitManager.workerConstructionction("button1",player,selectedWorker);
+    				unitManager.workerConstruction("button1",player,selectedWorker);
     			} else if (x>=1100 && x<=1160) {
-    				unitManager.workerConstructionction("button2",player,selectedWorker);
+    				unitManager.workerConstruction("button2",player,selectedWorker);
     			} else if (x>=1180) {
-    				unitManager.workerConstructionction("button3",player,selectedWorker);
+    				unitManager.workerConstruction("button3",player,selectedWorker);
     			}
     		} else if (y>=640) {
     			if(x<=1080) {
-    				unitManager.workerConstructionction("button4",player,selectedWorker);
+    				unitManager.workerConstruction("button4",player,selectedWorker);
     			} else if (x>=1100 && x<=1160) {
-    				unitManager.workerConstructionction("button5",player,selectedWorker);
+    				unitManager.workerConstruction("button5",player,selectedWorker);
     			} else if (x>=1180) {
-    				unitManager.workerConstructionction("button6",player,selectedWorker);
+    				unitManager.workerConstruction("button6",player,selectedWorker);
     			}
     		}
     	}else if(selectedBuild!=null) {
@@ -733,8 +733,11 @@ public class MobileElementManager implements MobileInterface {
         if (playerBuild) {
             if (result == 1) {
                 setNotifText("Batiment ajouté", true);
-            } else {
+            } else if(result ==0){
                 setNotifText("Ressources insuffisantes", false);
+            }
+            else {
+            	setNotifText("Construction impossible, raison inconnue",false);
             }
         }
         return result;

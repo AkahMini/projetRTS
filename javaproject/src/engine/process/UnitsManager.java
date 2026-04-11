@@ -388,53 +388,55 @@ public class UnitsManager implements UnitsInterface{
     }
     
     //manage the button part
-    public void workerConstructionction(String button, Player p, Worker worker) {
-    	int currentTier = manager.getSelectedTier();
+    public void workerConstruction(String button, Player p, Worker worker) {
+    	int currentButtonTier = manager.getSelectedTier();
+    	int playerTier = manager.getPlayer().getCurrentTier();
     	manager.setTypeSelection("build");
     	
     	switch (button) {
     	case "button1":
-    		if(currentTier==0) {
+    		if(currentButtonTier==0) {
     			manager.setSelectedTier(1);
     			break;
-    		}else if(currentTier==1) {
+    		}else if(currentButtonTier==1) {
     			manager.selectBuilding("HQ");
     			manager.setNotifText("QG sélectioné",true);
     			//System.out.println("selectetd");
     			break;
-    		}else if(currentTier==2) {
+    		}else if(currentButtonTier==2) {
     			manager.selectBuilding("ResearchBuilding");
     			manager.setNotifText("Labo de recherche",true);
     			break;
-    		}else if(currentTier==3) {
+    		}else if(currentButtonTier==3) {
     			manager.selectBuilding("Producer");
     			manager.setNotifText("Bat de prod tier 3 sélectioné",true);
     			break;
     		}
     		break;
     	case "button2":
-    		if(currentTier==0) {
+    		
+    		if(currentButtonTier==0&&playerTier>=2) { //if the player chose the tier2 button and is tier 2 or higher
     			manager.setSelectedTier(2);
     			break;
-    		}else if(currentTier==1) {
+    		}else if(currentButtonTier==1) {
     			manager.selectBuilding("Producer");
     			manager.setNotifText("Bat de prod tier 1 sélectioné",true);
     			break;
-    		}else if(currentTier==2) {
+    		}else if(currentButtonTier==2) {
     			manager.selectBuilding("Producer");
     			manager.setNotifText("Bat de prod tier 2 sélectioné",true);
     			break;
     		}
     		break;
     	case "button3":
-    		if(currentTier==0) {
+    		if(currentButtonTier==0&&playerTier>=3) { //if the player chose the tier3 button and is tier 3 or higher
     			manager.setSelectedTier(3);
     			break;
-    		}else if(currentTier==1) {
+    		}else if(currentButtonTier==1) {
     			manager.selectBuilding("PopulationBuilding");
     			manager.setNotifText("Bat de population sélectioné",true);
     			break;
-    		}else if(currentTier==2) {
+    		}else if(currentButtonTier==2) {
     			manager.selectBuilding("DefenseTower");
     			manager.setNotifText("Tour de défense sélectioné",true);
     			break;
@@ -445,7 +447,7 @@ public class UnitsManager implements UnitsInterface{
     	case "button5":
     		break;
     	case "button6":
-    		if(currentTier!=0) {
+    		if(currentButtonTier!=0) {
     			manager.setSelectedTier(0);
     			break;
     		}

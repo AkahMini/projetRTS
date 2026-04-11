@@ -2,6 +2,8 @@ package engine.process;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import config.DefaultGameSettings;
 import config.GameConfiguration;
 import engine.map.Block;
@@ -27,11 +29,12 @@ import engine.mobile.unit.Worker;
  * @version 1.0
  * 
  */
+import log.LoggerUtility;
 
 
 
 public class BuildingManager implements BuildingInterface{
-
+	private static Logger logger = LoggerUtility.getLogger(BuildingManager.class, "html");
 	private String selectedBuilding = null;
 	private MobileInterface manager;
 
@@ -46,10 +49,13 @@ public class BuildingManager implements BuildingInterface{
 
 	public int buildBuilding(Block position,int tier,String faction, Player p) {
 		/**
-		 * Build a building, returns 0 if it fails
+		 * Build a building, 
+		 * returns 0 if not enough founds
+		 * returns -1 if no building was selected by the building
+		 * 
 		 */
 		if (selectedBuilding == null){
-			return 0;
+			return -1;
 		}
 		if (position.getLine() >= 7 && position.getColumn() < GameConfiguration.COLUMN_COUNT - 28) {
 			Building newBuilding = BuildingFactory.createBuilding(selectedBuilding, tier, faction, position);
@@ -57,6 +63,7 @@ public class BuildingManager implements BuildingInterface{
 			if (newBuilding != null) {
 				if(newBuilding.getAmbroisieCost()>p.getAmbroisieStock()||newBuilding.getFaithCost()>p.getFaithStock()) {
 					//if the player don't have the funds to build
+					
 					return 0;
 				}
 				
@@ -75,7 +82,7 @@ public class BuildingManager implements BuildingInterface{
 			selectedBuilding = null;
 			return 1;
 		}
-		return 0;
+		return -1;
 	}
 
 	public void buildingsInSelectedArea() {
@@ -218,7 +225,7 @@ public class BuildingManager implements BuildingInterface{
 			}
 			if(manager.getSelectedBuild() instanceof UnitProducer) {
 				UnitProducer producer = (UnitProducer) manager.getSelectedBuild();
-				System.out.println(producer.getBuildingName());
+				//System.out.println(producer.getBuildingName());
 				switch(producer.getBuildingName()) {
 				case("Colisée d’Atlantide"):
 				case("Camp Spartiate"):

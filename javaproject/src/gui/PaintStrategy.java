@@ -427,7 +427,7 @@ public class PaintStrategy {
 				graphics.fillRect((int)((percent*220.0/100))+x, y, (int)(220-(percent*220.0/100)), 6);
 			}
 			
-			int currentTier = manager.getSelectedTier();
+			int selectedTier = manager.getSelectedTier();
 			//button to be defined, go see just under
 			/*
 			 * button1
@@ -437,22 +437,24 @@ public class PaintStrategy {
 			 * button5
 			 * button6
 			 */
-			if(currentTier==0) {
+			if(selectedTier==0) {
 				//tier 1,2,3 button
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/tier1.png"),1020,560,60,60,null);
-				graphics.drawImage(GameUtility.readImage("src/gameData/images/tier2.png"),1100,560,60,60,null);
-				graphics.drawImage(GameUtility.readImage("src/gameData/images/tier3.png"),1180,560,60,60,null);
-			}else if(currentTier==1) {
+					if(manager.getPlayer().getCurrentTier()>=2)
+					graphics.drawImage(GameUtility.readImage("src/gameData/images/tier2.png"),1100,560,60,60,null);
+					if(manager.getPlayer().getCurrentTier()>=3)
+					graphics.drawImage(GameUtility.readImage("src/gameData/images/tier3.png"),1180,560,60,60,null);
+			}else if(selectedTier==1) {
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/HQ.png"),1020,560,60,60,null);
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/Camp.png"),1100,560,60,60,null);
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/Pop.png"),1180,560,60,60,null);
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/cancel.png"),1180,640,60,60,null);
-			}else if(currentTier==2) {
+			}else if(selectedTier==2) {
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/Lab.png"),1020,560,60,60,null);
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/Camp.png"),1100,560,60,60,null);
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/Tower.png"),1180,560,60,60,null);
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/cancel.png"),1180,640,60,60,null);
-			}else if(currentTier==3) {
+			}else if(selectedTier==3) {
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/Camp.png"),1020,560,60,60,null);
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/cancel.png"),1180,640,60,60,null);
 			}
@@ -544,7 +546,7 @@ public class PaintStrategy {
 			}
 			
 			
-			
+			if(image1.equals(imageRepertory+"emptyButton.png")==false)
 			graphics.drawImage(GameUtility.readImage(image1),1020,560,60,60,null);//first button
 			if(image2.equals(imageRepertory+"emptyButton.png")==false) {
 				graphics.drawImage(GameUtility.readImage(image2),1100,560,60,60,null);//second button
@@ -552,20 +554,6 @@ public class PaintStrategy {
 			if(image3.equals(imageRepertory+"emptyButton.png")==false) {
 				graphics.drawImage(GameUtility.readImage(image3),1180,560,60,60,null);//third button
 			}
-			
-			/**
-			 * Camp spartiate: hoplites, infanterie
-			 * Colisée d'Atlantide: poseidon 1, Rétiaire, infantry
-			 * Camp Olympique: lanceurs de disque, artillery
-			 * Puit d'invocation: hades 2, Archers du Styx, Gêolière du tartare, cavalry
-			 * Cascade: poseidon 2, Élémentaire d'eau, artillery,Harpie, cavalerie
-			 * prytanée: aigle du caucase, cavalery, Cyclope, infantry
-			 * Portail vers les champs Élysées: hades 3, Chevalier sans tête, Méduses, artillery
-			 * Fosse sous marine: poseidon 3,Kraken fantôme infanterie, Hippocampe de guerre cavalry
-			 * Autel de la sagesse:zeus 3,Centaures, cavalery, Hydre infanterie
-			 * 
-			 * 
-			 */
 			
 			//template for visual use only
 			//graphics.drawRect(1020, 560, 240, 140);
