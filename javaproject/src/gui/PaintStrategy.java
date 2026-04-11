@@ -272,7 +272,7 @@ public class PaintStrategy {
 
 	    else if (unit instanceof Artillery) {
 	        graphics.setColor(Color.BLACK);
-	        graphics.fillOval(px + blockSize/4, py + blockSize/4, blockSize/2, blockSize/2);
+	        graphics.drawOval(px + blockSize/4, py + blockSize/4, blockSize/2, blockSize/2);
 	    }
 
 	    else if (unit instanceof Cavalry) {
