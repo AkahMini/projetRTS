@@ -218,18 +218,19 @@ public class BuildingManager implements BuildingInterface{
 			}
 			if(manager.getSelectedBuild() instanceof UnitProducer) {
 				UnitProducer producer = (UnitProducer) manager.getSelectedBuild();
+				System.out.println(producer.getBuildingName());
 				switch(producer.getBuildingName()) {
-				case("Colisée d'Atlantide"):
-				case("Camp spartiate"):
+				case("Colisée d’Atlantide"):
+				case("Camp Spartiate"):
 				case("prytanée"):
 				case("Fosse sous marine"):
 				case("Autel de la sagesse"):
 					manager.addQueue(producer, manager.getSelectedBuild().getPosition(), "INFANTRY", p);
 					break;
 				case("Camp Olympique"):
-				case("Puit d'invocation"):
+				case("Puit d’invocation"):
 				case("Cascade"):
-				case("Portail vers les champs Élysées"):
+				case("Portail vers les champ Élysées"):
 					manager.addQueue(producer, manager.getSelectedBuild().getPosition(), "ARTILLERY", p);
 					break;
 				}

@@ -533,16 +533,16 @@ public class PaintStrategy {
 			}
 			else {
 				switch(name) {
-				case("Camp spartiate"):
+				case("Camp Spartiate"):
 					image1=imageRepertory+"Infantry.png";
 					break;
-				case("Colisée d'Atlantide"):
+				case("Colisée d’Atlantide"):
 					image1=imageRepertory+"Infantry.png";
 					break;
 				case("Camp Olympique"):
 					image1=imageRepertory+"Artillery.png";
 					break;
-				case("Puit d'invocation"):
+				case("Puit d’invocation"):
 					image1=imageRepertory+"Artillery.png";
 					image2=imageRepertory+"Cavalry.png";
 					break;
@@ -554,7 +554,7 @@ public class PaintStrategy {
 					image1=imageRepertory+"Infantry.png";
 					image2=imageRepertory+"Cavalry.png";
 					break;
-				case("Portail vers les champs Élysées"):
+				case("Portail vers les champ Élysées"):
 					image1=imageRepertory+"Artillery.png";
 					image2=imageRepertory+"Cavalry.png";
 					break;

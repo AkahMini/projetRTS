@@ -46,20 +46,20 @@ public class BuildingStatsLoader {
                     int i;
                     for(i=0;i<upgrade.length;i++) {
                     	stats.addTechnologieUnlocked(upgrade[i]);
-                        System.out.println(upgrade[i]);
+                        logger.info("upgrade "+ upgrade[i]);
 
                     }
                     //the key is this and not the name cause we use these three arguments in the factory so it make more sense
                     String key = buildingType.toUpperCase() + "_" + faction.toUpperCase() + "_" + tierLevel;
                     buildingRepository.register(key, stats);
-                    logger.info("Added building key : " + key);
+                    logger.info("Added building key: " + key+", id: "+id);
                     //System.out.println("Added building key: "+key);
                 }else {
                     BuildingStats stats = new BuildingStats(id, buildingType, faction, tierLevel, maxHp, ambroisieCost, faithCost, constructionTime, productionSpeed, towerDamage,towerAttackSpeed, towerRange, populationProvided,technologies,visionRange);
                     //the key is this and not the name cause we use these three arguments in the factory so it make more sense
                     String key = buildingType.toUpperCase() + "_" + faction.toUpperCase() + "_" + tierLevel;
                     buildingRepository.register(key, stats);
-                    logger.info("Added building key : " + key);
+                    logger.info("Added building key : " + key+", id: "+id);
                     //System.out.println("Added building key: "+key);
                 }
             }
