@@ -1,7 +1,10 @@
 package engine.process;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 import org.apache.log4j.Logger;
 
@@ -75,7 +78,14 @@ public class MobileElementManager implements MobileInterface {
         this.gameSettings=gameSettings;
     	this.map = map;
         this.player = new Player("Jhon Doe", faction);
-        this.cpu = new CPU("Ian", "Hades",5,5,5);
+        
+        List<String> factions = new ArrayList<>(Arrays.asList("Zeus", "Hades", "Poseidon"));
+        factions.remove(faction);
+        Random random = new Random();
+        String cpuFaction = factions.get(random.nextInt(factions.size()));
+        
+        System.out.println(cpuFaction);
+        this.cpu = new CPU("Ian", cpuFaction,5,5,5);
         chronometer.init();
         this.buildingManager = new BuildingManager(this);
         this.unitManager = new UnitsManager(this,this.gameSettings);
@@ -365,12 +375,12 @@ public class MobileElementManager implements MobileInterface {
     }
     private void initMap() {
         Block playerHQposition = map.getBlock(18, 18);
-        Building playerHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, "Zeus", playerHQposition);
+        Building playerHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1,player.getFactionName(), playerHQposition);
         playerHQ.setUnderConstruction(false);
         player.getBuiltBuilding().add(playerHQ);
         
         Block ennemyHQposition = map.getBlock(60, 82);
-        Building ennemyHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, DefaultGameSettings.HADES, ennemyHQposition);
+        Building ennemyHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, cpu.getFactionName(), ennemyHQposition);
         ennemyHQ.setUnderConstruction(false);
         cpu.getBuiltBuilding().add(ennemyHQ);
 

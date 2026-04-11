@@ -255,7 +255,7 @@ public class MainGUI extends JFrame implements Runnable {
 		dashboard.resetManager(manager);
 	    manager.firstRound();
 	    currentState = GameConfiguration.GAMESTATE.get(2);
-	    System.out.println("jeu lancé");
+	    logger.info("jeu lancé");
 	}
 	
 	private void ExitGame() {
