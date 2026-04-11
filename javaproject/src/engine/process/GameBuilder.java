@@ -21,8 +21,8 @@ public class GameBuilder {
 		return new Map(GameConfiguration.LINE_COUNT, GameConfiguration.COLUMN_COUNT);
 	}
 
-	public static MobileInterface buildInitMobile(Map map, DefaultGameSettings gameSettings,String faction) {
-		MobileInterface manager = new MobileElementManager(map, gameSettings,faction);
+	public static MobileInterface buildInitMobile(Map map, DefaultGameSettings gameSettings,String faction,int mode) {
+		MobileInterface manager = new MobileElementManager(map, gameSettings,faction, mode);
 		return manager;
 	}
 	

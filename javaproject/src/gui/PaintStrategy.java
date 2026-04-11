@@ -54,31 +54,8 @@ public class PaintStrategy {
 
 	public void paint(Map map, Graphics graphics) {
 		int blockSize = GameConfiguration.BLOCK_SIZE;
-		Block[][] blocks = map.getBlocks();
-
-		//used for drawing the game grid HARD IMPLEMENTED, NOT RELATIVE
-		for (int lineIndex = 0; lineIndex < map.getLineCount(); lineIndex++) {
-			for (int columnIndex = 0; columnIndex < map.getColumnCount(); columnIndex++) {
-				Block block = blocks[lineIndex][columnIndex];
-
-				if(lineIndex==6) {
-					graphics.setColor(Color.BLACK);
-					graphics.fillRect(block.getColumn() * blockSize, block.getLine() * blockSize, blockSize, blockSize);
-				}
-
-				else if(lineIndex==7 && columnIndex==0) {
-					graphics.drawImage(GameUtility.readImage("src/gameData/images/grassTiled.png"),0,7*blockSize,1000,650,null);
-				}
-				else if(lineIndex>6 && columnIndex==GameConfiguration.COLUMN_COUNT-28) {
-					graphics.setColor(Color.BLACK);
-					graphics.fillRect(block.getColumn() * blockSize, block.getLine() * blockSize, blockSize, blockSize);
-				}
-			}
-			graphics.setColor(Color.BLACK);
-			graphics.fillRect(100*blockSize, 27*blockSize, GameConfiguration.COLUMN_COUNT*blockSize, blockSize);
-			graphics.fillRect(100*blockSize, 48*blockSize, GameConfiguration.COLUMN_COUNT*blockSize, blockSize);
-		}
-
+		graphics.drawImage(GameUtility.readImage("src/gameData/images/grassTiled.png"),0,7*blockSize,1000,650,null);
+		graphics.drawImage(GameUtility.readImage("src/gameData/images/GameGui.png"),0,0,1280,720,null);
 	}
 	
 	//used to paint dark tiles (fog of war)
@@ -101,7 +78,7 @@ public class PaintStrategy {
 		 * paints the stats of the player
 		 */
 		graphics.setFont(new Font("Arial", Font.PLAIN, 20));
-		graphics.setColor(new Color(204,102,0));
+		graphics.setColor(Color.BLACK);
 		graphics.drawString("Population : "+player.getCurrentPopulation()+"/"+player.getMaxPopulation(), 5*windowWidth/6,windowHeight/20);
 		graphics.setColor(new Color(0,204,102));
 		graphics.drawString("Ambroisie : "+player.getAmbroisieStock(), windowWidth/2,windowHeight/20);
@@ -368,7 +345,7 @@ public class PaintStrategy {
 	//display selected Units info
 	public void paintUnitInfo(List<Unit> unitsInSelectedArea, Graphics graphics) {
 
-		int x =windowWidth-windowWidth/5;
+		int x =windowWidth-windowWidth/5 -10;
 		int y =windowHeight/8;
 		final int maxUnitDisplayed =5;
 
@@ -388,12 +365,12 @@ public class PaintStrategy {
 			//only current hp is in green. The >=98 is for the eventual float to int conevrsion error
 			if(percent>=98) {
 				graphics.setColor(new Color(0,102,0));// dark greeeeeeen
-				graphics.fillRect(x, y, 220, 6);
+				graphics.fillRect(x-5, y, 220, 6);
 			}else {
 				graphics.setColor(new Color(0,102,0));// dark greeeeeeen
-				graphics.fillRect(x, y, (int)((percent*220.0/100)), 6);
+				graphics.fillRect(x-5, y, (int)((percent*220.0/100)), 6);
 				graphics.setColor(Color.RED);
-				graphics.fillRect((int)((percent*220.0/100))+x, y, (int)(220-(percent*220.0/100)), 6);
+				graphics.fillRect((int)((percent*220.0/100))+x-5, y, (int)(220-(percent*220.0/100)), 6);
 			}
 			if (unit instanceof Infantry) {
 				int percentShield = ((Infantry) unit).getPercentShield();
