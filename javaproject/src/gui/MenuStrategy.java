@@ -16,11 +16,13 @@ public class MenuStrategy {
 		graphics.setColor(new Color(0,0,0,150));
 		graphics.fillRect(0, 0, windowWidth, windowHeight);
 		graphics.setColor(Color.WHITE);
-		graphics.fillRect(windowWidth/2-175,windowHeight/2-50, 350, 100);
+		graphics.fillRect(windowWidth/2-200,windowHeight/2-100, 400, 200);
 		graphics.setColor(Color.BLACK);
 		graphics.setFont(new Font("Arial", Font.PLAIN, 20));
-		graphics.drawString("PAUSE", windowWidth/2-35, windowHeight/2-20);
-		graphics.drawString("Appuyez sur Esc pour revenir au jeu", windowWidth/2-155, windowHeight/2+20);
+		graphics.drawString("PAUSE", windowWidth/2-35, windowHeight/2-60);
+		graphics.drawString("Appuyez sur Esc pour revenir au jeu", windowWidth/2-155, windowHeight/2-20);
+		graphics.drawString("Appuyez sur a pour abandonner la partie", windowWidth/2-165, windowHeight/2+20);
+		graphics.drawString("Appuyez sur q pour quitter le jeu", windowWidth/2-145, windowHeight/2+60);
 	}
 	
 	public void paintMainMenu(Graphics graphics) {
