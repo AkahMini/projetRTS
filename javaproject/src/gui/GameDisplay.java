@@ -43,11 +43,15 @@ public class GameDisplay extends JPanel {
 	private PaintStrategy paintStrategy = new PaintStrategy();
 	private MenuStrategy menuStrategy = new MenuStrategy();
 	private JFreeChart unitJFreeChart;
-	//Basically a matrix which indicate if the block is in vision or not
+	//matrix which indicate if the block is in vision or not
 	private boolean[][] visible =new boolean[100][72];
 
 	//true if fog of war 
-	private boolean fogOfWar=false;
+	private boolean fogOfWar;
+
+	
+
+
 
 	private ChartManager chartManager;
 	
@@ -62,6 +66,7 @@ public class GameDisplay extends JPanel {
 
 	@Override
 	public void paintComponent(Graphics g) {
+	
 		super.paintComponent(g);
 		
 		//this is for the game display
@@ -247,12 +252,12 @@ public class GameDisplay extends JPanel {
 	public void setUnitChart(JFreeChart chart) {
 	    this.unitJFreeChart = chart;
 	}
-
-
-
 	public void setChartManager(ChartManager chartManager) {
 		this.chartManager = chartManager;
 		
+	}
+	public void setFogOfWar(boolean fogOfWar) {
+		this.fogOfWar = fogOfWar;
 	}
 	
 }

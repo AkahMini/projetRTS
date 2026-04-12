@@ -2,6 +2,7 @@ package engine.process;
 
 import java.util.ArrayList;
 
+import config.DefaultGameSettings;
 import engine.map.Block;
 import engine.map.Map;
 import engine.mobile.CPU;
@@ -84,4 +85,5 @@ public interface MobileInterface {
 	void motherload();
 	void cpuLoad();
 	int countBuildingType(Player p, Class<?> class1);
+	DefaultGameSettings getGameSettings();
 }

@@ -42,9 +42,11 @@ import log.LoggerUtility;
  */
 public class MobileElementManager implements MobileInterface {
 	private DefaultGameSettings gameSettings;
+	
+
 	private static Logger logger = LoggerUtility.getLogger(MobileElementManager.class, "html");
 	private Map map;
-    int mode;//0 for 1V1 1 for 1V1V1
+    int mode;//0 for 1V1 1 for 1V1V1, 2 for devmode
 	
     private ArrayList<Building> buildings = new ArrayList<Building>();
     private ArrayList<Unit> unitsInSelectedArea = new ArrayList<Unit>();
@@ -413,7 +415,23 @@ public class MobileElementManager implements MobileInterface {
     	}
     }
     private void initMap() {
-    	if(mode==0) {
+    	/**
+    	 * Create the map depending of the settings
+    	 * mode 0=1v1
+    	 * mode 1=1v1v1
+    	 * mode 2: developper mode (1v1 unlimited ressources, maxGameSpeed, no fog of war)
+    	 */
+    	logger.info("Selected mode: "+mode);
+    	if(mode==2) {
+    		//devmode
+    		gameSettings.setEffectiveGameSpeed(1);
+    		gameSettings.setFogOfWar(false);
+    		motherload();
+    	}
+    	if(mode==0||mode==1) {
+    		gameSettings.setFogOfWar(true);
+    	}
+    	if(mode==0||mode==2) {
 	        Block playerHQposition = map.getBlock(18, 18);
 	        Building playerHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1,player.getFactionName(), playerHQposition);
 	        playerHQ.setUnderConstruction(false);
@@ -890,4 +908,8 @@ public class MobileElementManager implements MobileInterface {
 	public void setIsGameStoped(boolean stop) {
 		this.isGameStoped = stop;
 	}
+	public DefaultGameSettings getGameSettings() {
+		return gameSettings;
+	}
+
 }

@@ -95,6 +95,7 @@ public class MainGUI extends JFrame implements Runnable {
 		unitChart = chartManager.getChartPanel();
 		unitChart.setOpaque(true);
 		unitChart.setBackground(java.awt.Color.BLACK);
+		
 		dashboard = new GameDisplay(map, manager, menu,chartManager.getChart());
 		dashboard.setChartManager(chartManager);
 		
@@ -108,6 +109,7 @@ public class MainGUI extends JFrame implements Runnable {
 		contentPane.add(dashboard, BorderLayout.CENTER);
 
 		//THIS PART IS FOR TEST ONLY WILL BE REMOVED
+		/*
 		javax.swing.JPanel RightPanel = new javax.swing.JPanel();
 		RightPanel.setBackground(java.awt.Color.GRAY); 
 
@@ -197,7 +199,7 @@ public class MainGUI extends JFrame implements Runnable {
 		RightPanel.add(testButton7);
 		RightPanel.add(testButton8);
 		contentPane.add(RightPanel, BorderLayout.SOUTH);
-		
+		*/
 		contentPane.add(dashboard, BorderLayout.CENTER);
 		
 		this.addKeyListener(new KeyControls());
@@ -215,7 +217,8 @@ public class MainGUI extends JFrame implements Runnable {
 	public void run() {
 		while (running) {
 			try {
-				Thread.sleep(GameConfiguration.GAME_SPEED);
+				//Thread.sleep(GameConfiguration.DEFAULT_GAME_SPEED);
+				Thread.sleep(gameSettings.getEffectiveGameSpeed());
 			} catch (InterruptedException e) {
 				//System.out.println(e.getMessage());
 				logger.fatal(e);
@@ -257,13 +260,15 @@ public class MainGUI extends JFrame implements Runnable {
 			}
 			manager=null;
 		}
-		System.out.println(menu.getSelectedMode());
+		logger.info(menu.getSelectedMode());
 		manager = GameBuilder.buildInitMobile(map,this.gameSettings,menu.getSelectedFaction(),menu.getSelectedMode());
+		
 		if(istop) {
 			manager.setIsGameStoped(true);
 		}
 		dashboard.resetManager(manager);
 	    manager.firstRound();
+	    dashboard.setFogOfWar(manager.getGameSettings().isFogOfWar());
 	    currentState = GameConfiguration.GAMESTATE.get(2);
 	    logger.info("jeu lancé");
 	}
@@ -338,6 +343,11 @@ public class MainGUI extends JFrame implements Runnable {
 					menu.setselectedMode(0);
 				}
 				break;
+			case KeyEvent.VK_D:
+				if (currentState.equals("CHOOSE")) {
+					menu.setselectedMode(2);
+				}
+				break;
 				
 			case KeyEvent.VK_Q:
 				if (currentState.equals("PLAYING")) {
@@ -394,6 +404,7 @@ public class MainGUI extends JFrame implements Runnable {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
+			
 			Block firstBlock=manager.getMousePosition(e.getY(), e.getX());
 			manager.initSelectedArea(firstBlock);
 		}
@@ -439,7 +450,7 @@ public class MainGUI extends JFrame implements Runnable {
 			int blockSize = GameConfiguration.BLOCK_SIZE;
 			int line = e.getY() / blockSize;
 			int column = e.getX() / blockSize;
-			System.out.println("x :"+e.getX()+" y :"+e.getY()+" - Block line : "+line+" Block column : "+column);
+			//System.out.println("x :"+e.getX()+" y :"+e.getY()+" - Block line : "+line+" Block column : "+column);
 			
 			//we check if the player clicked in the button zone for x and y
 			boolean xZone = (e.getX()>=1020 && e.getX()<=1240);
