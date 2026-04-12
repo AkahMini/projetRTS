@@ -13,7 +13,8 @@ import engine.mobile.MobileElement;
  * @author POSE Romain
  * @version 1.0
  */
-public class Building extends MobileElement{
+
+public abstract class Building extends MobileElement{
 
 	private String BuildingName;
 	private String faction;
