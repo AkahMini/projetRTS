@@ -454,61 +454,18 @@ public class MainGUI extends JFrame implements Runnable {
 			}
 			
 			
-			//String typeSelection =manager.getTypeSelection();
-			//if we selected a build
-			
-			/*
-			if(typeSelection!=null && typeSelection.equals("build") && manager.ifBlockInGamePanel(position)) {
-				manager.getPlayer().setBuildingToBuildID(typeSelection);
-				manager.buildBuilding(position,manager.getSelectedTier(),manager.getPlayer().getFactionName(),manager.getPlayer());
-				if(manager.getSelectedWorker()!=null) {
-					manager.addUnitsInSelectedArea(manager.getSelectedWorker());
-					manager.unitMoveOrder(position);
-					manager.setSelectedWorker(null);
-				}
-				typeSelection=null;
-			}
-			
-			//if we selected a population building
-			else if(typeSelection!=null && typeSelection.equals("PopulationBuilding")  && manager.ifBlockInGamePanel(position)) {
-				
-				manager.getPlayer().setBuildingToBuildID(typeSelection);
-				manager.buildBuilding(position,manager.getSelectedTier(),manager.getPlayer().getFactionName(),manager.getPlayer());
-				manager.setNotifText(typeSelection+" posé",true);
-				if(manager.getSelectedWorker()!=null) {
-					manager.addUnitsInSelectedArea(manager.getSelectedWorker());
-					manager.unitMoveOrder(position);
-					manager.setSelectedWorker(null);
-				}
-				typeSelection=null;
-			}
-			*/
-			//if(typeSelection!=null&&typeSelection.equals("build")&&manager.ifBlockInGamePanel(position)){
+
 			String buildingID = manager.getPlayer().getBuildingToBuildID();
 			if(buildingID!=null&&manager.ifBlockInGamePanel(position)){
 				manager.getPlayer().setBuildingToBuildID(buildingID);
 				manager.buildBuilding(position,manager.getSelectedTier(),manager.getPlayer().getFactionName(),manager.getPlayer());
-				//manager.setNotifText(buildingID+" posé",true);
 				if(manager.getSelectedWorker()!=null) {
 					manager.addUnitsInSelectedArea(manager.getSelectedWorker());
 					manager.unitMoveOrder(position);
 					manager.setSelectedWorker(null);
 				}
-				//typeSelection=null;
 				manager.getPlayer().setBuildingToBuildID(null);
 			}
-			/*
-			else if(typeSelection!=null && typeSelection.equals("unitAllie")) {
-				manager.spawnUnit(position, manager.getPlayer().getFactionName());
-				typeSelection=null;
-
-			}else if(typeSelection!=null && typeSelection.equals("unitEnnemy")) {
-				manager.spawnUnit(position, "HADES"); // faction harcoded for testing
-				typeSelection=null;
-			}
-			*/
-			//manager.setTypeSelection(typeSelection);
-			
 			
 			//create 4x4 selection, because only the top left block of a building is recognized as a building
 			Block firstBlock = manager.getSelectedArea().get(0);

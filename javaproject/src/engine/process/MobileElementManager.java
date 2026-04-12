@@ -341,8 +341,10 @@ public class MobileElementManager implements MobileInterface {
                 this.selectedArea.add(map.getBlock(x, y));
             }
         }
-        unitManager.unitsInSelectedArea();
+        //we check for the buildings first, because units have priority over building when we click
         buildingManager.buildingsInSelectedArea();
+        unitManager.unitsInSelectedArea();
+        
     }
     
 
