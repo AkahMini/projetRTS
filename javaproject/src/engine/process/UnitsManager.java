@@ -108,44 +108,57 @@ public class UnitsManager implements UnitsInterface{
     	unit.setMoveCounter((int)(unit.getMoveCounter()+unit.getMovementSpeed()));
 	}
     
-    public void workerMouvement(Worker displacedWorker, Player p) {
-        unitMovement((Unit)displacedWorker); // Moves like a normal unit
-        
-        // 1. S'il est en mission de construction (assigné par l'IA), on ne le perturbe pas
-        if (displacedWorker.getIsWorking() && displacedWorker.getCurrentDeposit() == null) {
+    
+    public void workerMouvement(Worker displacedWorker,Player p) {
+    	/**
+    	 * how the worker collect its ressources
+    	 */
+    	unitMovement((Unit)displacedWorker); //Moves like a normal unit
+    	
+    	//if the ai is busy elsewere, we don't do anything else
+    	if (displacedWorker.getIsWorking() && displacedWorker.getCurrentDeposit() == null) {
             return; 
         }
 
-        // 2. S'il n'a pas de dépôt assigné, il en cherche un
-        if (displacedWorker.getCurrentDeposit() == null && !displacedWorker.getIsWorking())  {
-            for (RessourceDeposit deposit: manager.getRessourceDeposit()) {
-                if (manager.getDistance(displacedWorker.getPosition(), deposit.getPosition()) <= displacedWorker.getVision()) {
-                    displacedWorker.setCurrentDeposit(deposit);
-                    displacedWorker.setRessourceType(deposit.getType());
-                    break; // On arrête de chercher dès qu'on en trouve un
-                }
-            }
-        }
-        
-        // 3. LA CORRECTION : On vérifie EN PREMIER si le sac est plein !
-        if (displacedWorker.getRessourceLoad() >= displacedWorker.getMaxCargoCapacity()) {
-            displacedWorker.setIsWorking(false);
-            if (displacedWorker.getCurrentHQ() != null) {
-                displacedWorker.setDestination(displacedWorker.getCurrentHQ().getPosition());
-            }
-        } 
-        // 4. S'il N'EST PAS plein et qu'il est sur le dépôt, il mine
-        else if (displacedWorker.getCurrentDeposit() != null && manager.getDistance(displacedWorker.getPosition(), displacedWorker.getCurrentDeposit().getPosition()) <= displacedWorker.getVision()) {
-            displacedWorker.setCurrentRessourceLoad(displacedWorker.getRessourceLoad() + 1);
-            displacedWorker.setIsWorking(true);
-        }
-        // 5. S'il glande sans destination, on le renvoie au dépôt
-        else if (displacedWorker.getDestination() == null && displacedWorker.getCurrentDeposit() != null) {
-            displacedWorker.setDestination(displacedWorker.getCurrentDeposit().getPosition());
-        }
-        
-        // 6. On gère le dépôt au QG
-        workerRessourceDeposit(displacedWorker, p);
+    	if(displacedWorker.getCurrentDeposit()==null)  {
+    		//if no deposit assigned, check for a deposit nearby
+    		for(RessourceDeposit deposit: manager.getRessourceDeposit()) {
+    			if(manager.getDistance(displacedWorker.getPosition(),deposit.getPosition())<=displacedWorker.getVision()) {
+    				//if a deposit is in range
+    					displacedWorker.setCurrentDeposit(deposit);
+    					displacedWorker.setRessourceType(deposit.getType());
+    			}
+    			
+    			
+    		}
+    	}
+    	
+    	else if((displacedWorker.getRessourceLoad()<displacedWorker.getMaxCargoCapacity())&&manager.getDistance(displacedWorker.getPosition(),displacedWorker.getCurrentDeposit().getPosition())<=displacedWorker.getVision()) {
+    		//if the worker can carry more ressources and a deposit is in worker's range
+    		displacedWorker.setCurrentRessourceLoad(displacedWorker.getRessourceLoad()+1);
+    		displacedWorker.setIsWorking(true);
+    	}
+    	
+    	else if(displacedWorker.getRessourceLoad()>=displacedWorker.getMaxCargoCapacity()) {
+    		displacedWorker.setIsWorking(false);
+    		//if he has ressources, he comes back
+    		displacedWorker.setDestination(displacedWorker.getCurrentHQ().getPosition());
+    	}
+
+    	else if(displacedWorker.getDestination() == null || displacedWorker.getDestination().equals(displacedWorker.getPosition())) {
+    		//if the worker is stationnary, we can check for new deposit
+    		for(RessourceDeposit deposit: manager.getRessourceDeposit()) {
+    			if(manager.getDistance(displacedWorker.getPosition(),deposit.getPosition())<displacedWorker.getVision()) {
+    				//if a deposit is in range
+    					displacedWorker.setCurrentDeposit(deposit);
+    					displacedWorker.setRessourceType(deposit.getType());
+    			}
+    			
+    			
+    		}
+    	}
+    	
+    	workerRessourceDeposit(displacedWorker,p);
     }
     
     public void workerRessourceDeposit(Worker worker, Player player) {

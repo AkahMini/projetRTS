@@ -474,18 +474,13 @@ public class MainGUI extends JFrame implements Runnable {
 			manager.calculateSelectedArea(map.getBlock(line, column));
 			manager.getBuildingsInSelectedArea();
 			
-			//create a new 1x1 selection, for units
-			//dosen't work because when we click, we usually move units, so we remove the selection
-			//needs correction
+
 			ArrayList<Block> newSelection = new ArrayList<Block>();
 			newSelection.add(firstBlock);
 			manager.setSelectedArea(newSelection);
 			manager.calculateSelectedArea(position);
 			manager.getUnitsInSelectedArea();
-			
-			
-			
-			//manager.setUnitsInSelectedArea(new ArrayList<Unit>()); //Reset the selection
+		
 		}
 		public void longClick(MouseEvent e,Block position) {
 			manager.calculateSelectedArea(position);
