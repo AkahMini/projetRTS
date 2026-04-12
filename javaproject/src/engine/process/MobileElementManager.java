@@ -299,15 +299,15 @@ public class MobileElementManager implements MobileInterface {
 		}
 		
 		if(activeZEUS&&!(activeHADES||activePOSEIDON)) {
-			logger.info("ZEUS faction won");
+			logger.info("La Faction de Zeus a Gagné !");
 			return gameSettings.ZEUS;
 		}
 		if(activePOSEIDON&&!(activeZEUS||activeHADES)) {
-			logger.info("POSEIDON faction won");
+			logger.info("La Faction de Poseidon a Gagné !");
 			return gameSettings.POSEIDON;
 		}
 		if(activeHADES&&!(activeZEUS||activePOSEIDON)) {
-			logger.info("HADES faction won");
+			logger.info("La Faction d'Hades a Gagné !");
 			return gameSettings.HADES;
 		}
 		return winingfaction;

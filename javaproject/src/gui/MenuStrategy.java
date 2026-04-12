@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import config.GameConfiguration;
 import engine.process.GameUtility;
 import engine.process.MenuInterface;
+import engine.process.MobileInterface;
 
 public class MenuStrategy {
 	private final int windowWidth = GameConfiguration.WINDOW_WIDTH;
@@ -56,11 +57,16 @@ public class MenuStrategy {
 		}
 	}
 	
-	public void paintEndMenu(Graphics graphics) {
+	public void paintEndMenu(Graphics graphics, MobileInterface manager) {
 		graphics.setColor(Color.BLACK);
 		graphics.setFont(new Font("Arial", Font.PLAIN, 40));
-		graphics.drawString("Fin de partie", windowWidth/2-35, windowHeight/2-200);
+		graphics.drawString("Fin de partie", windowWidth/2-100, windowHeight/2-200);
 		graphics.setFont(new Font("Arial", Font.PLAIN, 20));
-		graphics.drawString("Inserer diagramme de fin ici", windowWidth/2-35, windowHeight/2+20);
+		String gameWiner =manager.winningFaction();
+		if(gameWiner!=null) {
+			gameWiner="Défaite par abandon !";
+		}
+		graphics.drawString(gameWiner, windowWidth/2-150, windowHeight/2);
+		graphics.drawString("Appuyez sur entrée pour retourner au menu principal", windowWidth/2-150, windowHeight/2+100);
 	}
 }
