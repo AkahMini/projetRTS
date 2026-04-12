@@ -69,7 +69,7 @@ public class PaintStrategy {
 	public void paint(CyclicCounter hour, CyclicCounter minute, CyclicCounter second, Graphics graphics) {
 
 		graphics.setColor(Color.BLACK);
-		graphics.setFont(new Font("Arial", Font.BOLD, 24));
+		graphics.setFont(new Font("SansSerif", Font.BOLD, 24));
 		graphics.drawString("Temps de jeu :"+hour.toString()+":"+minute.toString()+":"+second.toString(), windowWidth/80,windowHeight/20);
 	}
 
@@ -77,7 +77,7 @@ public class PaintStrategy {
 		/**
 		 * paints the stats of the player
 		 */
-		graphics.setFont(new Font("Arial", Font.PLAIN, 20));
+		graphics.setFont(new Font("SansSerif", Font.PLAIN, 20));
 		graphics.setColor(Color.BLACK);
 		graphics.drawString("Population : "+player.getCurrentPopulation()+"/"+player.getMaxPopulation(), 5*windowWidth/6,windowHeight/20);
 		graphics.setColor(new Color(0,204,102));
@@ -92,11 +92,11 @@ public class PaintStrategy {
 		/**
 		 * game notification paiting
 		 */
-		graphics.setFont(new Font("Arial", Font.BOLD, 16));
+		graphics.setFont(new Font("SansSerif", Font.BOLD, 16));
 		if(isgood) {
-			graphics.setColor(Color.GREEN.darker());
+			graphics.setColor(new Color(7, 55, 7));
 		}else {
-			graphics.setColor(Color.RED.darker());
+			graphics.setColor(new Color(142, 1, 1));
 		}
 		graphics.drawString(notif, 300, 34);
 	}
@@ -109,11 +109,46 @@ public class PaintStrategy {
 
 		int y = position.getLine();
 		int x = position.getColumn();
+		
 		if(building.getIsUnderConstruction()) {
+			int tweaker=36;//max construct time
+			int tier=building.getTierLevel();
+			//very odd way because no time to set an attribute in building like we do with unit maxHp
+			if(tier==1) {
+				if(building instanceof HQ) {
+					tweaker=20;
+				}else if(building instanceof PopulationBuilding) {
+					tweaker=10;
+				}else if(building instanceof UnitProducer) {
+					tweaker=12;
+				}
+			}else if(tier==2) {
+				if(building instanceof ResearchBuilding) {
+					tweaker=25;
+				}else if(building instanceof DefenseTower) {
+					tweaker=20;
+				}else if(building instanceof UnitProducer) {
+					tweaker=24;
+				}
+			}else if(tier==3) {
+				if(building instanceof UnitProducer) {
+					tweaker=36;
+				}
+			}
+			int time=building.getConstructionTime();
+			float percent = 1.0f - ((float) time / tweaker);
 			if (building instanceof PopulationBuilding || building instanceof DefenseTower) {
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/hourglassVariation.png"),x * blockSize,y * blockSize,10,10,null);
+				graphics.setColor(Color.DARK_GRAY);
+			    graphics.fillRect(x * blockSize, y * blockSize - 6, blockSize, 5);
+			    graphics.setColor(Color.MAGENTA);
+			    graphics.fillRect(x * blockSize, y * blockSize - 6, (int)(blockSize * percent), 5);
 			}else {
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/hourglass.png"),x * blockSize,y * blockSize,20,20,null);
+				graphics.setColor(Color.DARK_GRAY);
+			    graphics.fillRect(x * blockSize, y * blockSize - 6, blockSize*2, 5);
+			    graphics.setColor(Color.MAGENTA);
+			    graphics.fillRect(x * blockSize, y * blockSize - 6, (int)(blockSize * percent*2), 5);
 			}
 		}
 		else if(building instanceof HQ) {
@@ -350,9 +385,9 @@ public class PaintStrategy {
 		final int maxUnitDisplayed =5;
 
 		graphics.setColor(Color.BLACK);
-		graphics.setFont(new Font("Arial", Font.PLAIN, 18));
+		graphics.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		graphics.drawString("Unitées selectionées : "+unitsInSelectedArea.size(), x, y);
-		graphics.setFont(new Font("Arial", Font.PLAIN, 14));
+		graphics.setFont(new Font("SansSerif", Font.PLAIN, 14));
 		y+=18;
 		//this is for each unit in the selected area
 		int i=0; //counter
@@ -388,7 +423,7 @@ public class PaintStrategy {
 		// this is for the +nbOfunitNotDisplayed at the end
 		if(unitsInSelectedArea.size()>maxUnitDisplayed) {
 			y+=4;//tweak because of the weird way drawString works
-			graphics.setFont(new Font("Arial", Font.PLAIN, 18));
+			graphics.setFont(new Font("SansSerif", Font.PLAIN, 18));
 			graphics.setColor(Color.BLACK);
 			int unitNotDisplayed=unitsInSelectedArea.size()-maxUnitDisplayed;
 			graphics.drawString("+"+unitNotDisplayed, x, y);
@@ -403,14 +438,14 @@ public class PaintStrategy {
 		int x =windowWidth-windowWidth/5;
 		int y =510;//~13*windowHeight/18 but meh
 		graphics.setColor(Color.BLACK);
-		graphics.setFont(new Font("Arial", Font.PLAIN, 18));
+		graphics.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		
 		//if a worker is selected then if a build is selected
 		//(same things for each element, with button graphical changes)
 		if (manager.getSelectedWorker()!=null) {
 			Worker worker =manager.getSelectedWorker();
 			graphics.drawString(worker.getUnitName()+" :", x, y);
-			graphics.setFont(new Font("Arial", Font.PLAIN, 14));
+			graphics.setFont(new Font("SansSerif", Font.PLAIN, 14));
 			y+=18;
 			graphics.drawString("hp :", x, y);
 			y+=8;
@@ -462,7 +497,7 @@ public class PaintStrategy {
 		}else if (manager.getSelectedBuild()!=null){
 			Building build =manager.getSelectedBuild();
 			graphics.drawString(build.getBuildingName()+" :", x, y);
-			graphics.setFont(new Font("Arial", Font.PLAIN, 14));
+			graphics.setFont(new Font("SansSerif", Font.PLAIN, 14));
 			y+=18;
 			graphics.drawString("hp :", x, y);
 			y+=8;
