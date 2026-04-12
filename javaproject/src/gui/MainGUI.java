@@ -369,6 +369,12 @@ public class MainGUI extends JFrame implements Runnable {
 			case KeyEvent.VK_F:
 				if (currentState.equals("CHOOSE")) {
 					menu.setselectedMode(1);
+				}else if(currentState.equals("PLAYING")) {
+					if(dashboard.getFogOfWar()) {
+						dashboard.setFogOfWar(false);
+					}else {
+						dashboard.setFogOfWar(true);
+					}
 				}
 				break;
 				

@@ -259,5 +259,7 @@ public class GameDisplay extends JPanel {
 	public void setFogOfWar(boolean fogOfWar) {
 		this.fogOfWar = fogOfWar;
 	}
-	
+	public boolean getFogOfWar() {
+		return fogOfWar;
+	}
 }
