@@ -24,8 +24,8 @@ public class GameConfiguration {
 	
 	public static final int DEFAULT_GAME_SPEED =10;//Default 10
 	
-	public static final String UNITS_STATS = "src/gameData/units_Stats.csv";
-	public static final String BUILDINGS_STATS = "src/gameData/buildings_Stats.csv";
+	public static final String UNITS_STATS = "gameData/units_Stats.csv";
+	public static final String BUILDINGS_STATS = "gameData/buildings_stats.csv";
 	
 
 	public static final ArrayList<String> GAMESTATE= new ArrayList<String>(Arrays.asList("MENU","CHOOSE","PLAYING","END"));

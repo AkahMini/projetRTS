@@ -54,8 +54,8 @@ public class PaintStrategy {
 
 	public void paint(Map map, Graphics graphics) {
 		int blockSize = GameConfiguration.BLOCK_SIZE;
-		graphics.drawImage(GameUtility.readImage("src/gameData/images/grassTiled.png"),0,7*blockSize,1000,650,null);
-		graphics.drawImage(GameUtility.readImage("src/gameData/images/GameGui.png"),0,0,1280,720,null);
+		graphics.drawImage(GameUtility.readImage("/gameData/images/grassTiled.png"),0,7*blockSize,1000,650,null);
+		graphics.drawImage(GameUtility.readImage("/gameData/images/GameGui.png"),0,0,1280,720,null);
 	}
 	
 	//used to paint dark tiles (fog of war)
@@ -138,13 +138,13 @@ public class PaintStrategy {
 			int time=building.getConstructionTime();
 			float percent = 1.0f - ((float) time / tweaker);
 			if (building instanceof PopulationBuilding || building instanceof DefenseTower) {
-				graphics.drawImage(GameUtility.readImage("src/gameData/images/hourglassVariation.png"),x * blockSize,y * blockSize,10,10,null);
+				graphics.drawImage(GameUtility.readImage("/gameData/images/hourglassVariation.png"),x * blockSize,y * blockSize,10,10,null);
 				graphics.setColor(Color.DARK_GRAY);
 			    graphics.fillRect(x * blockSize, y * blockSize - 6, blockSize, 5);
 			    graphics.setColor(Color.MAGENTA);
 			    graphics.fillRect(x * blockSize, y * blockSize - 6, (int)(blockSize * percent), 5);
 			}else {
-				graphics.drawImage(GameUtility.readImage("src/gameData/images/hourglass.png"),x * blockSize,y * blockSize,20,20,null);
+				graphics.drawImage(GameUtility.readImage("/gameData/images/hourglass.png"),x * blockSize,y * blockSize,20,20,null);
 				graphics.setColor(Color.DARK_GRAY);
 			    graphics.fillRect(x * blockSize, y * blockSize - 6, blockSize*2, 5);
 			    graphics.setColor(Color.MAGENTA);
@@ -152,19 +152,19 @@ public class PaintStrategy {
 			}
 		}
 		else if(building instanceof HQ) {
-			graphics.drawImage(GameUtility.readImage("src/gameData/images/HQ"+building.getFaction()+".png"),x * blockSize,y * blockSize,20,20,null);
+			graphics.drawImage(GameUtility.readImage("/gameData/images/HQ"+building.getFaction()+".png"),x * blockSize,y * blockSize,20,20,null);
 		}
 		else if (building instanceof UnitProducer) {
-			graphics.drawImage(GameUtility.readImage("src/gameData/images/Camp"+building.getTierLevel()+building.getFaction()+".png"),x * blockSize,y * blockSize,20,20,null);
+			graphics.drawImage(GameUtility.readImage("/gameData/images/Camp"+building.getTierLevel()+building.getFaction()+".png"),x * blockSize,y * blockSize,20,20,null);
 		}
 		else if (building instanceof DefenseTower) {
-			graphics.drawImage(GameUtility.readImage("src/gameData/images/Tower"+building.getTierLevel()+building.getFaction()+".png"),x * blockSize,y * blockSize,10,10,null);  
+			graphics.drawImage(GameUtility.readImage("/gameData/images/Tower"+building.getTierLevel()+building.getFaction()+".png"),x * blockSize,y * blockSize,10,10,null);  
 		}
 		else if (building instanceof PopulationBuilding) {
-			graphics.drawImage(GameUtility.readImage("src/gameData/images/Pop"+building.getFaction()+".png"),x * blockSize,y * blockSize,10,10,null);
+			graphics.drawImage(GameUtility.readImage("/gameData/images/Pop"+building.getFaction()+".png"),x * blockSize,y * blockSize,10,10,null);
 		}
 		else if (building instanceof ResearchBuilding) {
-			graphics.drawImage(GameUtility.readImage("src/gameData/images/Research"+building.getFaction()+".png"),x * blockSize,y * blockSize,20,20,null);
+			graphics.drawImage(GameUtility.readImage("/gameData/images/Research"+building.getFaction()+".png"),x * blockSize,y * blockSize,20,20,null);
 		}
 
 		//graphics.fillRect(x * blockSize, y * blockSize, buildingSize, buildingSize);
@@ -220,9 +220,9 @@ public class PaintStrategy {
 		int y = position.getLine();
 		int x = position.getColumn();
 		if(deposit.getType().equals("FAITH")) {
-			graphics.drawImage(GameUtility.readImage("src/gameData/images/faith.png"),x * blockSize,y * blockSize,20,20,null);
+			graphics.drawImage(GameUtility.readImage("/gameData/images/faith.png"),x * blockSize,y * blockSize,20,20,null);
 		}else {
-			graphics.drawImage(GameUtility.readImage("src/gameData/images/ambroisie.png"),x * blockSize,y * blockSize,20,20,null);
+			graphics.drawImage(GameUtility.readImage("/gameData/images/ambroisie.png"),x * blockSize,y * blockSize,20,20,null);
 		}
 	}
 
@@ -474,24 +474,24 @@ public class PaintStrategy {
 			 */
 			if(selectedTier==0) {
 				//tier 1,2,3 button
-				graphics.drawImage(GameUtility.readImage("src/gameData/images/tier1.png"),1020,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("/gameData/images/tier1.png"),1020,560,60,60,null);
 					if(manager.getPlayer().getCurrentTier()>=2)
-					graphics.drawImage(GameUtility.readImage("src/gameData/images/tier2.png"),1100,560,60,60,null);
+					graphics.drawImage(GameUtility.readImage("/gameData/images/tier2.png"),1100,560,60,60,null);
 					if(manager.getPlayer().getCurrentTier()>=3)
 					graphics.drawImage(GameUtility.readImage("src/gameData/images/tier3.png"),1180,560,60,60,null);
 			}else if(selectedTier==1) {
-				graphics.drawImage(GameUtility.readImage("src/gameData/images/HQ.png"),1020,560,60,60,null);
-				graphics.drawImage(GameUtility.readImage("src/gameData/images/Camp.png"),1100,560,60,60,null);
-				graphics.drawImage(GameUtility.readImage("src/gameData/images/Pop.png"),1180,560,60,60,null);
-				graphics.drawImage(GameUtility.readImage("src/gameData/images/cancel.png"),1180,640,60,60,null);
+				graphics.drawImage(GameUtility.readImage("/gameData/images/HQ.png"),1020,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("/gameData/images/Camp.png"),1100,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("/gameData/images/Pop.png"),1180,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("/gameData/images/cancel.png"),1180,640,60,60,null);
 			}else if(selectedTier==2) {
-				graphics.drawImage(GameUtility.readImage("src/gameData/images/Lab.png"),1020,560,60,60,null);
-				graphics.drawImage(GameUtility.readImage("src/gameData/images/Camp.png"),1100,560,60,60,null);
-				graphics.drawImage(GameUtility.readImage("src/gameData/images/Tower.png"),1180,560,60,60,null);
-				graphics.drawImage(GameUtility.readImage("src/gameData/images/cancel.png"),1180,640,60,60,null);
+				graphics.drawImage(GameUtility.readImage("/gameData/images/Lab.png"),1020,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("/gameData/images/Camp.png"),1100,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("/gameData/images/Tower.png"),1180,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("/gameData/images/cancel.png"),1180,640,60,60,null);
 			}else if(selectedTier==3) {
-				graphics.drawImage(GameUtility.readImage("src/gameData/images/Camp.png"),1020,560,60,60,null);
-				graphics.drawImage(GameUtility.readImage("src/gameData/images/cancel.png"),1180,640,60,60,null);
+				graphics.drawImage(GameUtility.readImage("/gameData/images/Camp.png"),1020,560,60,60,null);
+				graphics.drawImage(GameUtility.readImage("/gameData/images/cancel.png"),1180,640,60,60,null);
 			}
 			
 		}else if (manager.getSelectedBuild()!=null){
@@ -527,7 +527,7 @@ public class PaintStrategy {
 			}
 			*/
 			
-			String imageRepertory = "src/gameData/images/";
+			String imageRepertory = "/gameData/images/";
 			String image1=imageRepertory+"emptyButton.png";
 			String image2=imageRepertory+"emptyButton.png";
 			String image3=imageRepertory+"emptyButton.png";
@@ -645,7 +645,7 @@ public class PaintStrategy {
 		int x2=(position.getLine()+1)*GameConfiguration.BLOCK_SIZE;
 		int y2=(position.getColumn()+1)*GameConfiguration.BLOCK_SIZE;
 		
-		graphics.drawImage(GameUtility.readImage("src/gameData/images/Camp.png"),x1,y1,x2,y2,null);
+		graphics.drawImage(GameUtility.readImage("/gameData/images/Camp.png"),x1,y1,x2,y2,null);
 	}
 	
 	

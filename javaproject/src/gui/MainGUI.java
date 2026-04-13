@@ -258,8 +258,8 @@ public class MainGUI extends JFrame implements Runnable {
 			if(manager.isGameStoped()) {
 				istop=true;
 			}
-			manager=null;
 		}
+		manager=null;
 		logger.info(menu.getSelectedMode());
 		manager = GameBuilder.buildInitMobile(map,this.gameSettings,menu.getSelectedFaction(),menu.getSelectedMode());
 		

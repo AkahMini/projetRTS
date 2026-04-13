@@ -1,4 +1,6 @@
 package log;
+import java.io.InputStream;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
@@ -10,19 +12,30 @@ import org.apache.log4j.PropertyConfigurator;
  * @author Tianxiao.Liu@u-cergy.fr
  */
 public class LoggerUtility {
-	private static final String TEXT_LOG_CONFIG = "src/log/log4j-text.properties";
-	private static final String HTML_LOG_CONFIG = "src/log/log4j-html.properties";
+	private static final String TEXT_LOG_CONFIG = "log/log4j-text.properties";
+	private static final String HTML_LOG_CONFIG = "log/log4j-html.properties";
 
 	public static Logger getLogger(Class<?> logClass, String logFileType) {
-		if (logFileType.equals("text")) {
-			PropertyConfigurator.configure(TEXT_LOG_CONFIG);
-		} else if (logFileType.equals("html")) {
-			PropertyConfigurator.configure(HTML_LOG_CONFIG);
-		} else {
-			throw new IllegalArgumentException("Unknown log file type !");
-		}
+		String configPath;
 
-		String className = logClass.getName();
-		return Logger.getLogger(className);
+	    if (logFileType.equals("text")) {
+	        configPath = TEXT_LOG_CONFIG;
+	    } else if (logFileType.equals("html")) {
+	        configPath = HTML_LOG_CONFIG;
+	    } else {
+	        throw new IllegalArgumentException("Unknown log file type !");
+	    }
+
+	    InputStream is = Thread.currentThread()
+	        .getContextClassLoader()
+	        .getResourceAsStream(configPath);
+
+	    if (is == null) {
+	        throw new RuntimeException("Fichier log introuvable : " + configPath);
+	    }
+
+	    PropertyConfigurator.configure(is);
+
+	    return Logger.getLogger(logClass.getName());
 	}
 }

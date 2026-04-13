@@ -3,6 +3,7 @@ package engine.process;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 
@@ -24,12 +25,17 @@ public class GameUtility {
 	 * @param filePath the path (from "src") of the image file
 	 * @return the read file
 	 */
-	public static Image readImage(String filePath) {
-		try {
-			return ImageIO.read(new File(filePath));
-		} catch (IOException e) {
-			System.err.println("-- Can not read the image file ! --");
-			return null;
-		}
+	public static Image readImage(String path) {
+	    try {
+	        URL url = GameUtility.class.getResource(path);
+	        if (url == null) {
+	            System.err.println("Image introuvable : " + path);
+	            return null;
+	        }
+	        return ImageIO.read(url);
+	    } catch (IOException e) {
+	        System.err.println("Impossible de lire l'image !");
+	        return null;
+	    }
 	}
 }

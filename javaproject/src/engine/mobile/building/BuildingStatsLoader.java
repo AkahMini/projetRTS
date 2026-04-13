@@ -3,11 +3,14 @@ package engine.mobile.building;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import org.apache.log4j.Logger;
 
 import config.GameConfiguration;
 import engine.process.BuildingRepository;
+import engine.process.GameUtility;
 import log.LoggerUtility;
 
 
@@ -20,7 +23,7 @@ public class BuildingStatsLoader {
 	public BuildingStatsLoader (String buildingsStats) {
         String line;
         try {
-			BufferedReader br = new BufferedReader(new FileReader(GameConfiguration.BUILDINGS_STATS));
+        	BufferedReader br = getReader(GameConfiguration.BUILDINGS_STATS);
 			logger.info("Reading \""+GameConfiguration.BUILDINGS_STATS+"\"");
 			br.readLine();
 			while ((line = br.readLine()) != null) {
@@ -70,5 +73,15 @@ public class BuildingStatsLoader {
 			e.printStackTrace();
 			logger.fatal(e);
 		}
+	}
+	
+	public static BufferedReader getReader(String path) {
+	    InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
+	    
+	    if (is == null) {
+	        throw new RuntimeException("Fichier introuvable : " + path);
+	    }
+
+	    return new BufferedReader(new InputStreamReader(is));
 	}
 }

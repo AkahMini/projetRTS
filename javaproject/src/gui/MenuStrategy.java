@@ -27,11 +27,11 @@ public class MenuStrategy {
 	}
 	
 	public void paintMainMenu(Graphics graphics) {
-		graphics.drawImage(GameUtility.readImage("src/gameData/images/FateOfOlympusTitle.png"),0,0,1280,720,null);
+		graphics.drawImage(GameUtility.readImage("/gameData/images/FateOfOlympusTitle.png"),0,0,1280,720,null);
 	}
 	
 	public void paintChooseMenu(MenuInterface menu,Graphics graphics) {
-		graphics.drawImage(GameUtility.readImage("src/gameData/images/SelectMenu.png"),0,0,1280,720,null);
+		graphics.drawImage(GameUtility.readImage("/gameData/images/SelectMenu.png"),0,0,1280,720,null);
 		String faction =menu.getSelectedFaction();
 		graphics.setColor(new Color(0,0,0,150));
 		if(faction.equals("Zeus")) {

@@ -3,6 +3,8 @@ package engine.mobile.unit;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import org.apache.log4j.Logger;
 
@@ -10,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import config.GameConfiguration;
 import engine.mobile.building.BuildingStatsLoader;
+import engine.process.GameUtility;
 import engine.process.UnitRepository;
 import log.LoggerUtility;
 
@@ -20,7 +23,7 @@ public class UnitsStatsLoader {
 	public UnitsStatsLoader (String unitsStats) {
 		String line;
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(GameConfiguration.UNITS_STATS));
+			BufferedReader br = getReader(GameConfiguration.UNITS_STATS);
 			logger.info("Reading of \""+GameConfiguration.UNITS_STATS+"\"");
 			br.readLine();
 			while ((line = br.readLine()) != null) {
@@ -56,5 +59,14 @@ public class UnitsStatsLoader {
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	public static BufferedReader getReader(String path) {
+	    InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
+	    
+	    if (is == null) {
+	        throw new RuntimeException("Fichier introuvable : " + path);
+	    }
+
+	    return new BufferedReader(new InputStreamReader(is));
 	}
 }
