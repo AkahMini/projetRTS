@@ -413,7 +413,7 @@ public class PaintStrategy {
 				if (percentShield > 0) {
 					int shieldWidth = (int)((percentShield *50) / 100.0);
 					graphics.setColor(Color.BLUE);
-					graphics.fillRect(x + (int)((percent*220.0/100)), y, shieldWidth, 6);
+					graphics.fillRect(x -5+ (int)((percent*220.0/100)), y, shieldWidth, 6);
 				}
 			}
 			y+=22;
@@ -461,37 +461,38 @@ public class PaintStrategy {
 				graphics.setColor(Color.RED);
 				graphics.fillRect((int)((percent*220.0/100))+x, y, (int)(220-(percent*220.0/100)), 6);
 			}
-			
-			int selectedTier = manager.getSelectedTier();
-			//button to be defined, go see just under
-			/*
-			 * button1
-			 * button2
-			 * button3
-			 * button4
-			 * button5
-			 * button6
-			 */
-			if(selectedTier==0) {
-				//tier 1,2,3 button
-				graphics.drawImage(GameUtility.readImage("/gameData/images/tier1.png"),1020,560,60,60,null);
-					if(manager.getPlayer().getCurrentTier()>=2)
-					graphics.drawImage(GameUtility.readImage("/gameData/images/tier2.png"),1100,560,60,60,null);
-					if(manager.getPlayer().getCurrentTier()>=3)
-					graphics.drawImage(GameUtility.readImage("/gameData/images/tier3.png"),1180,560,60,60,null);
-			}else if(selectedTier==1) {
-				graphics.drawImage(GameUtility.readImage("/gameData/images/HQ.png"),1020,560,60,60,null);
-				graphics.drawImage(GameUtility.readImage("/gameData/images/Camp.png"),1100,560,60,60,null);
-				graphics.drawImage(GameUtility.readImage("/gameData/images/Pop.png"),1180,560,60,60,null);
-				graphics.drawImage(GameUtility.readImage("/gameData/images/cancel.png"),1180,640,60,60,null);
-			}else if(selectedTier==2) {
-				graphics.drawImage(GameUtility.readImage("/gameData/images/Lab.png"),1020,560,60,60,null);
-				graphics.drawImage(GameUtility.readImage("/gameData/images/Camp.png"),1100,560,60,60,null);
-				graphics.drawImage(GameUtility.readImage("/gameData/images/Tower.png"),1180,560,60,60,null);
-				graphics.drawImage(GameUtility.readImage("/gameData/images/cancel.png"),1180,640,60,60,null);
-			}else if(selectedTier==3) {
-				graphics.drawImage(GameUtility.readImage("/gameData/images/Camp.png"),1020,560,60,60,null);
-				graphics.drawImage(GameUtility.readImage("/gameData/images/cancel.png"),1180,640,60,60,null);
+			if(worker.getUnitFaction().equalsIgnoreCase(manager.getPlayer().getFactionName())) {
+				int selectedTier = manager.getSelectedTier();
+				//button to be defined, go see just under
+				/*
+				 * button1
+				 * button2
+				 * button3
+				 * button4
+				 * button5
+				 * button6
+				 */
+				if(selectedTier==0) {
+					//tier 1,2,3 button
+					graphics.drawImage(GameUtility.readImage("/gameData/images/tier1.png"),1020,560,60,60,null);
+						if(manager.getPlayer().getCurrentTier()>=2)
+						graphics.drawImage(GameUtility.readImage("/gameData/images/tier2.png"),1100,560,60,60,null);
+						if(manager.getPlayer().getCurrentTier()>=3)
+						graphics.drawImage(GameUtility.readImage("/gameData/images/tier3.png"),1180,560,60,60,null);
+				}else if(selectedTier==1) {
+					graphics.drawImage(GameUtility.readImage("/gameData/images/HQ.png"),1020,560,60,60,null);
+					graphics.drawImage(GameUtility.readImage("/gameData/images/Camp.png"),1100,560,60,60,null);
+					graphics.drawImage(GameUtility.readImage("/gameData/images/Pop.png"),1180,560,60,60,null);
+					graphics.drawImage(GameUtility.readImage("/gameData/images/cancel.png"),1180,640,60,60,null);
+				}else if(selectedTier==2) {
+					graphics.drawImage(GameUtility.readImage("/gameData/images/Lab.png"),1020,560,60,60,null);
+					graphics.drawImage(GameUtility.readImage("/gameData/images/Camp.png"),1100,560,60,60,null);
+					graphics.drawImage(GameUtility.readImage("/gameData/images/Tower.png"),1180,560,60,60,null);
+					graphics.drawImage(GameUtility.readImage("/gameData/images/cancel.png"),1180,640,60,60,null);
+				}else if(selectedTier==3) {
+					graphics.drawImage(GameUtility.readImage("/gameData/images/Camp.png"),1020,560,60,60,null);
+					graphics.drawImage(GameUtility.readImage("/gameData/images/cancel.png"),1180,640,60,60,null);
+				}
 			}
 			
 		}else if (manager.getSelectedBuild()!=null){
@@ -526,76 +527,76 @@ public class PaintStrategy {
 				graphics.drawImage(GameUtility.readImage("src/gameData/images/Artillery.png"),1020,560,60,60,null);
 			}
 			*/
-			
-			String imageRepertory = "/gameData/images/";
-			String image1=imageRepertory+"emptyButton.png";
-			String image2=imageRepertory+"emptyButton.png";
-			String image3=imageRepertory+"emptyButton.png";
-			
-			
-			String name =build.getBuildingName();
-			
-			if(name.equals("Temple de Zeus")||name.equals("Gouffre du Tartare")||name.equals("Forum aquatique")) {
-				image1=imageRepertory+"miner.png";
-			}
-			if(build instanceof ResearchBuilding) {
-				image1=imageRepertory+"dmgUp.png";
-				image2=imageRepertory+"prodUnitUp.png";
-			}
-			else {
-				switch(name) {
-				case("Camp Spartiate"):
-					image1=imageRepertory+"Infantry.png";
-					break;
-				case("Colisée d’Atlantide"):
-					image1=imageRepertory+"Infantry.png";
-					break;
-				case("Camp Olympique"):
-					image1=imageRepertory+"Artillery.png";
-					break;
-				case("Puit d’invocation"):
-					image1=imageRepertory+"Artillery.png";
-					image2=imageRepertory+"Cavalry.png";
-					break;
-				case("Cascade"):
-					image1=imageRepertory+"Artillery.png";
-					image2=imageRepertory+"Cavalry.png";
-					break;
-				case("prytanée"):
-					image1=imageRepertory+"Infantry.png";
-					image2=imageRepertory+"Cavalry.png";
-					break;
-				case("Portail vers les champ Élysées"):
-					image1=imageRepertory+"Artillery.png";
-					image2=imageRepertory+"Cavalry.png";
-					break;
-				case("Fosse sous marine"):
-					image1=imageRepertory+"Infantry.png";
-					image2=imageRepertory+"Cavalry.png";
-					break;
-				case("Autel de la sagesse"):
-					image1=imageRepertory+"Infantry.png";
-					image2=imageRepertory+"Cavalry.png";
-					break;
+			if(build.getFaction().equalsIgnoreCase(manager.getPlayer().getFactionName())) {
+				String imageRepertory = "/gameData/images/";
+				String image1=imageRepertory+"emptyButton.png";
+				String image2=imageRepertory+"emptyButton.png";
+				String image3=imageRepertory+"emptyButton.png";
+				
+				
+				String name =build.getBuildingName();
+				
+				if(name.equals("Temple de Zeus")||name.equals("Gouffre du Tartare")||name.equals("Forum aquatique")) {
+					image1=imageRepertory+"miner.png";
 				}
+				if(build instanceof ResearchBuilding) {
+					image1=imageRepertory+"dmgUp.png";
+					image2=imageRepertory+"prodUnitUp.png";
+				}
+				else {
+					switch(name) {
+					case("Camp Spartiate"):
+						image1=imageRepertory+"Infantry.png";
+						break;
+					case("Colisée d’Atlantide"):
+						image1=imageRepertory+"Infantry.png";
+						break;
+					case("Camp Olympique"):
+						image1=imageRepertory+"Artillery.png";
+						break;
+					case("Puit d’invocation"):
+						image1=imageRepertory+"Artillery.png";
+						image2=imageRepertory+"Cavalry.png";
+						break;
+					case("Cascade"):
+						image1=imageRepertory+"Artillery.png";
+						image2=imageRepertory+"Cavalry.png";
+						break;
+					case("prytanée"):
+						image1=imageRepertory+"Infantry.png";
+						image2=imageRepertory+"Cavalry.png";
+						break;
+					case("Portail vers les champ Élysées"):
+						image1=imageRepertory+"Artillery.png";
+						image2=imageRepertory+"Cavalry.png";
+						break;
+					case("Fosse sous marine"):
+						image1=imageRepertory+"Infantry.png";
+						image2=imageRepertory+"Cavalry.png";
+						break;
+					case("Autel de la sagesse"):
+						image1=imageRepertory+"Infantry.png";
+						image2=imageRepertory+"Cavalry.png";
+						break;
+					}
+				}
+				
+				
+				if(image1.equals(imageRepertory+"emptyButton.png")==false)
+				graphics.drawImage(GameUtility.readImage(image1),1020,560,60,60,null);//first button
+				if(image2.equals(imageRepertory+"emptyButton.png")==false) {
+					graphics.drawImage(GameUtility.readImage(image2),1100,560,60,60,null);//second button
+				}
+				if(image3.equals(imageRepertory+"emptyButton.png")==false) {
+					graphics.drawImage(GameUtility.readImage(image3),1180,560,60,60,null);//third button
+				}
+				
+				//template for visual use only
+				//graphics.drawRect(1020, 560, 240, 140);
+				//Draw img max 6 from the entry point
+				//img are 60x60 and 20 pixels between each
+				//-> one image per building per button (capacity/research/unit)
 			}
-			
-			
-			if(image1.equals(imageRepertory+"emptyButton.png")==false)
-			graphics.drawImage(GameUtility.readImage(image1),1020,560,60,60,null);//first button
-			if(image2.equals(imageRepertory+"emptyButton.png")==false) {
-				graphics.drawImage(GameUtility.readImage(image2),1100,560,60,60,null);//second button
-			}
-			if(image3.equals(imageRepertory+"emptyButton.png")==false) {
-				graphics.drawImage(GameUtility.readImage(image3),1180,560,60,60,null);//third button
-			}
-			
-			//template for visual use only
-			//graphics.drawRect(1020, 560, 240, 140);
-			//Draw img max 6 from the entry point
-			//img are 60x60 and 20 pixels between each
-			//-> one image per building per button (capacity/research/unit)
-			
 		}
 	}
 
