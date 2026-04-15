@@ -478,7 +478,7 @@ public class PaintStrategy {
 					if(manager.getPlayer().getCurrentTier()>=2)
 					graphics.drawImage(GameUtility.readImage("/gameData/images/tier2.png"),1100,560,60,60,null);
 					if(manager.getPlayer().getCurrentTier()>=3)
-					graphics.drawImage(GameUtility.readImage("src/gameData/images/tier3.png"),1180,560,60,60,null);
+					graphics.drawImage(GameUtility.readImage("/gameData/images/tier3.png"),1180,560,60,60,null);
 			}else if(selectedTier==1) {
 				graphics.drawImage(GameUtility.readImage("/gameData/images/HQ.png"),1020,560,60,60,null);
 				graphics.drawImage(GameUtility.readImage("/gameData/images/Camp.png"),1100,560,60,60,null);
@@ -538,7 +538,7 @@ public class PaintStrategy {
 			if(name.equals("Temple de Zeus")||name.equals("Gouffre du Tartare")||name.equals("Forum aquatique")) {
 				image1=imageRepertory+"miner.png";
 			}
-			if(name.equals("Bibliothèque d'Alexandrie")||name.equals("École des Pythagoricien")||name.equals("Centre d'étude Atlan")) {
+			if(build instanceof ResearchBuilding) {
 				image1=imageRepertory+"dmgUp.png";
 				image2=imageRepertory+"prodUnitUp.png";
 			}
