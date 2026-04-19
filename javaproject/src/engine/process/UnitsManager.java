@@ -214,6 +214,7 @@ public class UnitsManager implements UnitsInterface{
     	/*
     	 * Tells the unit and the target they are fighting
     	 */
+    	unit1.setRegenCounter(Unit.getRegenTime());
     	if (target instanceof Unit) {
     		Unit unit2 = (Unit) target;
     		if(unit1.getIsInCombat() == false && unit2.getIsInCombat() == false) {
@@ -397,6 +398,14 @@ public class UnitsManager implements UnitsInterface{
     		    }
     		}
     		//units.remove(unit);
+    	}
+    }
+    
+    public void hpRegenUnits(Unit unit) {
+    	if(unit.getRegenCounter()>0 && unit.getIsInCombat()==false) {
+    		unit.setRegenCounter(unit.getRegenCounter()-1);
+    	}else if (unit.getRegenCounter()==0 && unit.getHp()<unit.getMaxHp() && unit.getIsInCombat()==false) {
+    		unit.setHp((int) (unit.getHp()+unit.getHpRegen()));
     	}
     }
     

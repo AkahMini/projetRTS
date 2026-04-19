@@ -134,7 +134,7 @@ public class MobileElementManager implements MobileInterface {
         }
         
         buildingManager.allTowerAttack(buildings);
-       	if(timetweaker.getValue() == 5) {
+       	if(timetweaker.getValue() == 7) {
        		cpuManager1.attackReaction(cpu1);
             cpuManager1.workerManagement(cpu1);
             if(mode==1) {
@@ -142,7 +142,7 @@ public class MobileElementManager implements MobileInterface {
                 cpuManager2.workerManagement(cpu2);
             }
        	}
-       	if(timetweaker.getValue() == 10) {
+       	if(timetweaker.getValue() == 13) {
        		cpuManager1.buildManagement(cpu1);
             cpuManager1.otherBuildingsManagement(cpu1);
             cpuManager1.militaryProductionManagement(cpu1);
@@ -174,7 +174,7 @@ public class MobileElementManager implements MobileInterface {
     		}
             //Units manager
             for(Unit unit: new ArrayList<>(units)) {
-                
+                unitManager.hpRegenUnits(unit);
             	// Ennemy scan
                 if (unit.getTarget() == null ) {
                     MobileElement target = unitManager.scanForEnemy(unit);
@@ -517,7 +517,7 @@ public class MobileElementManager implements MobileInterface {
 	            Block spawnBlock = map.getBlock(54+(int)(Math.random()*3), 75+(int)(Math.random()*3));
 	            Unit unit = UnitFactory.createUnit(UnitFactory.INFANTRY_UNIT, 1, DefaultGameSettings.HADES, spawnBlock);
 	            this.units.add(unit);
-	            cpu.getCreatedUnits().add(unit);
+	            cpu1.getCreatedUnits().add(unit);
 	        }
 	        */
 	        Unit w1 = UnitFactory.createUnit(UnitFactory.WORKER_UNIT, 1, cpu1.getFactionName(), ennemyHQ.getPosition());
