@@ -90,4 +90,5 @@ public interface MobileInterface {
 	DefaultGameSettings getGameSettings();
 	Chronometer getChronometer();
 	void setChartManager(ChartManager chartManager);
+	int getMode();
 }

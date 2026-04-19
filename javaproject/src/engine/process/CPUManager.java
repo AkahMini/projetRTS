@@ -43,7 +43,34 @@ public class CPUManager implements CPUinterface {
      * @param b  block that we want to check if he is not outside the designated zone
      * @return
      */
-    private boolean isBlockInCPUZone(Block b) {
+    private boolean isBlockInCPUZone(Block b, CPU c) {
+        // Si nous sommes en mode 1v1v1
+        if (manager.getMode() == 1) { 
+            Block hqPos = null;
+            // On cherche le QG de ce CPU spécifique
+            for (Building build : c.getBuiltBuilding()) {
+                if (build instanceof HQ) {
+                    hqPos = build.getPosition();
+                    break;
+                }
+            }
+
+            if (hqPos != null) {
+                // CPU1 (Bas-Gauche) : son QG est dans la colonne 15
+                if (hqPos.getColumn() < 50) { 
+                    // Zone allouée : toute la moitié gauche, et moitié basse de la map
+                    return b.getColumn() <= 50 && b.getLine() > 30; 
+                } 
+                // CPU2 (Bas-Droite) : son QG est dans la colonne 85
+                else {
+                    // Zone allouée : toute la moitié droite, et moitié basse de la map
+                    return b.getColumn() > 50 && b.getLine() > 30; 
+                }
+            }
+            return false;
+        }
+        
+        // Mode 1v1 classique (Mode 0)
         return b.getColumn() > 70 || (b.getColumn() > 45 && b.getLine() > 40); 
     }
 
@@ -135,7 +162,7 @@ public class CPUManager implements CPUinterface {
         RessourceDeposit targetDeposit = null;
 
         for (RessourceDeposit deposit : sortedDeposits) {
-            if (!isBlockInCPUZone(deposit.getPosition())) continue;
+            if (!isBlockInCPUZone(deposit.getPosition(),c)) continue;
             
             boolean isAlreadyClaimed = false;
             for (HQ hq : cpuHQs) {
@@ -156,7 +183,7 @@ public class CPUManager implements CPUinterface {
 
                         Block candidate = manager.getMap().getBlock(tLine, tCol);
                         
-                        if (!hasHQNearby(candidate, 20) && isBlockFreeForBuilding(candidate) && isBlockInCPUZone(candidate)) {
+                        if (!hasHQNearby(candidate, 20) && isBlockFreeForBuilding(candidate) && isBlockInCPUZone(candidate,c)) {
                             targetHqPos = candidate;
                             targetDeposit = deposit;
                             break; 
@@ -278,7 +305,7 @@ public class CPUManager implements CPUinterface {
             //and the number of said type so that the CPU doesn't built the same building infinitely
             if (prodCount1 < 1) {
                 if (c.getAmbroisieStock() < 125 || c.getFaithStock() < 125) return; // we stop only if we lack resources
-                Block pos = findBuildPositionSpecificallyNear(hq, 3, 9);
+                Block pos = findBuildPositionSpecificallyNear(hq, 3, 9,c);
                 if (pos != null) {
                     launchOtherBuildMission(builder, pos, BuildingFactory.PRODUCER_BUILDING,1);
                     return;
@@ -286,7 +313,7 @@ public class CPUManager implements CPUinterface {
             }
             if (prodCount2 < 2 && c.getCurrentTier()>=2) {
                 if (c.getAmbroisieStock() < 250 || c.getFaithStock() < 250) return; // we stop only if we lack resources
-                Block pos = findBuildPositionSpecificallyNear(hq, 3, 9);
+                Block pos = findBuildPositionSpecificallyNear(hq, 3, 9,c);
                 if (pos != null) {
                     launchOtherBuildMission(builder, pos, BuildingFactory.PRODUCER_BUILDING,2);
                     return;
@@ -294,7 +321,7 @@ public class CPUManager implements CPUinterface {
             }
             if (prodCount3 < 1 && c.getCurrentTier()>=3) {
                 if (c.getAmbroisieStock() < 350 || c.getFaithStock() < 275) return; // we stop only if we lack resources
-                Block pos = findBuildPositionSpecificallyNear(hq, 3, 9);
+                Block pos = findBuildPositionSpecificallyNear(hq, 3, 9,c);
                 if (pos != null) {
                     launchOtherBuildMission(builder, pos, BuildingFactory.PRODUCER_BUILDING,3);
                     return;
@@ -303,7 +330,7 @@ public class CPUManager implements CPUinterface {
 
             if (popCount < 5) {
                 if (c.getAmbroisieStock() < 100 || c.getFaithStock() < 100) return; 
-                Block pos = findBuildPositionSpecificallyNear(hq, 4, 15);
+                Block pos = findBuildPositionSpecificallyNear(hq, 4, 15,c);
                 if (pos != null) {
                     launchOtherBuildMission(builder, pos, BuildingFactory.POPULATION_BUILDING,1);
                     return;
@@ -312,7 +339,7 @@ public class CPUManager implements CPUinterface {
 
             if (labCount < 1) {
                 if (c.getAmbroisieStock() < 150 || c.getFaithStock() < 150) return; 
-                Block pos = findBuildPositionSpecificallyNear(hq, 4, 12);
+                Block pos = findBuildPositionSpecificallyNear(hq, 4, 12,c);
                 if (pos != null) {
                     launchOtherBuildMission(builder, pos, BuildingFactory.RESEARCH_BUILDING,2);
                     return;
@@ -321,7 +348,7 @@ public class CPUManager implements CPUinterface {
 
             if (towerCount < 4) {
                 if (c.getAmbroisieStock() < 150 || c.getFaithStock() < 150) return; 
-                Block pos = findBuildPositionSpecificallyNear(hq, 5, 10);
+                Block pos = findBuildPositionSpecificallyNear(hq, 5, 10,c);
                 if (pos != null) {
                     launchOtherBuildMission(builder, pos, BuildingFactory.DEFENSE_BUILDING,2);
                     return;
@@ -337,7 +364,7 @@ public class CPUManager implements CPUinterface {
     * @param maxDist  Maximum distance away from the HQ where a building can be built
     * @return       The Block where the Building will be built 
     */
-    private Block findBuildPositionSpecificallyNear(HQ hq, int minDist, int maxDist) {
+    private Block findBuildPositionSpecificallyNear(HQ hq, int minDist, int maxDist,CPU c) {
         int hqLine = hq.getPosition().getLine();
         int hqCol  = hq.getPosition().getColumn();
 
@@ -350,7 +377,7 @@ public class CPUManager implements CPUinterface {
 
                     Block candidate = manager.getMap().getBlock(line, col);
                     
-                    if (!isBlockInCPUZone(candidate)) continue; //if it's not in the expansion zone of the CPU
+                    if (!isBlockInCPUZone(candidate,c)) continue; //if it's not in the expansion zone of the CPU
                     
                     if (isBlockFreeForBuilding(candidate)) { // if there is no other building on this block
                         return candidate;
@@ -534,7 +561,7 @@ public class CPUManager implements CPUinterface {
                     double minDistance=Double.MAX_VALUE;
                     RessourceDeposit workerDeposit=null;
                     for(RessourceDeposit r: manager.getRessourceDeposit()) {
-                        if (!isBlockInCPUZone(r.getPosition())) continue;
+                        if (!isBlockInCPUZone(r.getPosition(),c)) continue;
                         
                         if(manager.getDistance(r.getPosition(), w.getPosition())<minDistance && r.getMaxWorkers()>r.getCurrentWorkers()) {
                             minDistance=manager.getDistance(r.getPosition(), u.getPosition());

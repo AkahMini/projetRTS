@@ -49,7 +49,7 @@ public class MobileElementManager implements MobileInterface {
 	private ChartManager chartManager;
 	
 	private Map map;
-    int mode;//0 for 1V1 1 for 1V1V1, 2 for devmode
+    private int mode;//0 for 1V1 1 for 1V1V1, 2 for devmode
 	
     private ArrayList<Building> buildings = new ArrayList<Building>();
     private ArrayList<Unit> unitsInSelectedArea = new ArrayList<Unit>();
@@ -546,63 +546,70 @@ public class MobileElementManager implements MobileInterface {
     	
     	}else if(mode==1) {
     		
-    		Block playerHQposition = map.getBlock(12, 50);
-	        Building playerHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1,player.getFactionName(), playerHQposition);
-	        playerHQ.setUnderConstruction(false);
-	        player.getBuiltBuilding().add(playerHQ);
-	        
-	        Block ennemyHQposition = map.getBlock(60, 10);
-	        Building ennemyHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, cpu1.getFactionName(), ennemyHQposition);
-	        ennemyHQ.setUnderConstruction(false);
-	        cpu1.getBuiltBuilding().add(ennemyHQ);
-	
-	        Block ennemy2HQposition = map.getBlock(64, 80);
-	        Building ennemy2HQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, cpu2.getFactionName(), ennemy2HQposition);
-	        ennemy2HQ.setUnderConstruction(false);
-	        cpu1.getBuiltBuilding().add(ennemy2HQ);
-	        
-	        ArrayList<RessourceDeposit> allDeposits = new ArrayList<>();
-	        
-	        //player
-	        allDeposits.add(new RessourceDeposit(map.getBlock(12, 44), RessourceDeposit.AMBROSIA));
-	        allDeposits.add(new RessourceDeposit(map.getBlock(12, 56), RessourceDeposit.FAITH));
-	        allDeposits.add(new RessourceDeposit(map.getBlock(8, 47), RessourceDeposit.FAITH));
-	        allDeposits.add(new RessourceDeposit(map.getBlock(8, 54), RessourceDeposit.AMBROSIA));
-	        
-	        //cpu1
-	        allDeposits.add(new RessourceDeposit(map.getBlock(56, 10), RessourceDeposit.AMBROSIA));
-	        allDeposits.add(new RessourceDeposit(map.getBlock(64, 10), RessourceDeposit.FAITH));
-	        allDeposits.add(new RessourceDeposit(map.getBlock(58, 5), RessourceDeposit.FAITH));
-	        allDeposits.add(new RessourceDeposit(map.getBlock(62, 5), RessourceDeposit.AMBROSIA));
-	        
-	        //cpu2
-	        allDeposits.add(new RessourceDeposit(map.getBlock(66, 75), RessourceDeposit.AMBROSIA));
-	        allDeposits.add(new RessourceDeposit(map.getBlock(69, 80), RessourceDeposit.FAITH));
-	        allDeposits.add(new RessourceDeposit(map.getBlock(66, 86), RessourceDeposit.FAITH));
-	        allDeposits.add(new RessourceDeposit(map.getBlock(61, 85), RessourceDeposit.AMBROSIA));
-	        
-	        //other
-	        allDeposits.add(new RessourceDeposit(map.getBlock(24, 30), RessourceDeposit.AMBROSIA));
-	        allDeposits.add(new RessourceDeposit(map.getBlock(26, 24), RessourceDeposit.FAITH));
-	        allDeposits.add(new RessourceDeposit(map.getBlock(32, 26), RessourceDeposit.FAITH));
-	        allDeposits.add(new RessourceDeposit(map.getBlock(32, 31), RessourceDeposit.AMBROSIA));
-	       
-	        allDeposits.add(new RessourceDeposit(map.getBlock(25, 65), RessourceDeposit.AMBROSIA));
-	        allDeposits.add(new RessourceDeposit(map.getBlock(27, 68), RessourceDeposit.FAITH));
-	        allDeposits.add(new RessourceDeposit(map.getBlock(32, 67), RessourceDeposit.FAITH));
-	        allDeposits.add(new RessourceDeposit(map.getBlock(33, 61), RessourceDeposit.AMBROSIA));
-	        
-	        allDeposits.add(new RessourceDeposit(map.getBlock(54, 50), RessourceDeposit.AMBROSIA));
-	        allDeposits.add(new RessourceDeposit(map.getBlock(58, 49), RessourceDeposit.FAITH));
-	        allDeposits.add(new RessourceDeposit(map.getBlock(58, 44), RessourceDeposit.FAITH));
-	        allDeposits.add(new RessourceDeposit(map.getBlock(52, 40), RessourceDeposit.AMBROSIA));
-	        
-	        for (RessourceDeposit d : allDeposits) {
-	            d.setMaxWorkers(2); 
-	            d.setCurrentWorkers(0);
-	            this.ressourceDeposits.add(d);
-	        }
-	        
+    		Block playerHQposition = map.getBlock(12, 50); 
+    		Building playerHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1,player.getFactionName(), playerHQposition);
+    		playerHQ.setUnderConstruction(false);
+    		player.getBuiltBuilding().add(playerHQ);
+
+    		Block ennemyHQposition = map.getBlock(60, 12); 
+    		Building ennemyHQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, cpu1.getFactionName(), ennemyHQposition);
+    		ennemyHQ.setUnderConstruction(false);
+    		cpu1.getBuiltBuilding().add(ennemyHQ);
+
+    		Block ennemy2HQposition = map.getBlock(60, 88); 
+    		Building ennemy2HQ = BuildingFactory.createBuilding(BuildingFactory.HQ_BUILDING, 1, cpu2.getFactionName(), ennemy2HQposition);
+    		ennemy2HQ.setUnderConstruction(false);
+    		cpu2.getBuiltBuilding().add(ennemy2HQ);
+
+    		ArrayList<RessourceDeposit> allDeposits = new ArrayList<>();
+
+    		// player resources
+    		allDeposits.add(new RessourceDeposit(map.getBlock(12, 44), RessourceDeposit.AMBROSIA));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(12, 56), RessourceDeposit.FAITH));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(8, 46), RessourceDeposit.FAITH));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(8, 54), RessourceDeposit.AMBROSIA));
+
+    		// CPU1 resources
+    		allDeposits.add(new RessourceDeposit(map.getBlock(56, 9), RessourceDeposit.AMBROSIA));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(64, 9), RessourceDeposit.FAITH));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(58, 4), RessourceDeposit.FAITH));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(62, 4), RessourceDeposit.AMBROSIA));
+
+    		// CPU2 resources
+    		allDeposits.add(new RessourceDeposit(map.getBlock(56, 91), RessourceDeposit.AMBROSIA));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(64, 91), RessourceDeposit.FAITH));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(58, 96), RessourceDeposit.FAITH));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(62, 96), RessourceDeposit.AMBROSIA));
+
+    		// top left
+    		allDeposits.add(new RessourceDeposit(map.getBlock(36, 15), RessourceDeposit.AMBROSIA));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(36, 27), RessourceDeposit.FAITH));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(32, 17), RessourceDeposit.FAITH));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(32, 25), RessourceDeposit.AMBROSIA));
+
+    		//top right
+    		allDeposits.add(new RessourceDeposit(map.getBlock(36, 73), RessourceDeposit.AMBROSIA));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(36, 85), RessourceDeposit.FAITH));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(32, 75), RessourceDeposit.FAITH));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(32, 83), RessourceDeposit.AMBROSIA));
+
+    		// bottom center
+    		allDeposits.add(new RessourceDeposit(map.getBlock(63, 45), RessourceDeposit.AMBROSIA));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(66, 48), RessourceDeposit.FAITH));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(66, 52), RessourceDeposit.FAITH));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(63, 55), RessourceDeposit.AMBROSIA));
+
+    		// center
+    		allDeposits.add(new RessourceDeposit(map.getBlock(45, 44), RessourceDeposit.AMBROSIA));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(45, 56), RessourceDeposit.FAITH));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(41, 46), RessourceDeposit.FAITH));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(41, 54), RessourceDeposit.AMBROSIA));
+
+    		for (RessourceDeposit d : allDeposits) {
+    		    d.setMaxWorkers(2); 
+    		    d.setCurrentWorkers(0);
+    		    this.ressourceDeposits.add(d);
+    		}
 	        Unit w1 = UnitFactory.createUnit(UnitFactory.WORKER_UNIT, 1, cpu1.getFactionName(), ennemyHQ.getPosition());
 	        Unit w2 = UnitFactory.createUnit(UnitFactory.WORKER_UNIT, 1,cpu1.getFactionName(), ennemyHQ.getPosition());
 	        ((Worker) w1).setCurrentHQ((HQ) ennemyHQ);
@@ -636,7 +643,6 @@ public class MobileElementManager implements MobileInterface {
 	        this.buildings.add(playerHQ);
 	        this.buildings.add(ennemyHQ);
 	        this.buildings.add(ennemy2HQ);
-	        System.out.println("Vision HQ: " + playerHQ.getVision());
     	}
     }
     
@@ -867,7 +873,7 @@ public class MobileElementManager implements MobileInterface {
 	}
 
 	public CPU getCpu2() {
-		return cpu1;
+		return cpu2;
 	}
 	
 	public void setCpu2(CPU cpu) {
@@ -923,6 +929,14 @@ public class MobileElementManager implements MobileInterface {
 	}
 	public void setChartManager(ChartManager chartManager){
 		this.chartManager = chartManager;
+	}
+
+	public int getMode() {
+		return mode;
+	}
+
+	public void setMode(int mode) {
+		this.mode = mode;
 	}
 
 }
