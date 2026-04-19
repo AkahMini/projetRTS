@@ -28,6 +28,7 @@ import engine.mobile.unit.Worker;
 import engine.process.chrono.Chronometer;
 import engine.process.chrono.CyclicCounter;
 import gui.MainGUI;
+import gui.instrument.ChartManager;
 import log.LoggerUtility;
 
 /**
@@ -45,6 +46,8 @@ public class MobileElementManager implements MobileInterface {
 	
 
 	private static Logger logger = LoggerUtility.getLogger(MobileElementManager.class, "html");
+	private ChartManager chartManager;
+	
 	private Map map;
     int mode;//0 for 1V1 1 for 1V1V1, 2 for devmode
 	
@@ -77,6 +80,7 @@ public class MobileElementManager implements MobileInterface {
     private UnitsInterface unitManager;
     private CPUManager cpuManager1;
     private CPUManager cpuManager2;
+
     
     public MobileElementManager(Map map, DefaultGameSettings gameSettings,String faction, int mode) {
         this.gameSettings=gameSettings;
@@ -160,6 +164,8 @@ public class MobileElementManager implements MobileInterface {
 		 */
 		//chronometer update
 		if(timetweaker.getValue() == 64) {
+			
+			chartManager.updateAllChartDataset(this.player,this.units,this.chronometer);
             chronometer.increment();
             nextTierCheck(player);
     		nextTierCheck(cpu1);
@@ -215,7 +221,8 @@ public class MobileElementManager implements MobileInterface {
 	}
 
 	
-    
+   
+
 	private void nextTierCheck(Player player){
 
 		if(player.getCurrentTier() == 1) {
@@ -910,6 +917,12 @@ public class MobileElementManager implements MobileInterface {
 	}
 	public DefaultGameSettings getGameSettings() {
 		return gameSettings;
+	}
+	public Chronometer getChronometer() {
+		return this.chronometer;
+	}
+	public void setChartManager(ChartManager chartManager){
+		this.chartManager = chartManager;
 	}
 
 }

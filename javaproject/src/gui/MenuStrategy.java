@@ -3,17 +3,21 @@ package gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
+import org.jfree.chart.JFreeChart;
 
 import config.GameConfiguration;
 import engine.process.GameUtility;
 import engine.process.MenuInterface;
 import engine.process.MobileInterface;
+import gui.instrument.ChartManager;
 
 public class MenuStrategy {
 	private final int windowWidth = GameConfiguration.WINDOW_WIDTH;
 	private final int windowHeight = GameConfiguration.WINDOW_HEIGHT; 
 
-	public void paintPauseMenu(Graphics graphics) {
+	public void paintPauseMenu(Graphics graphics, JFreeChart chart,ChartManager chartManager) {
 		graphics.setColor(new Color(0,0,0,150));
 		graphics.fillRect(0, 0, windowWidth, windowHeight);
 		graphics.setColor(Color.WHITE);
@@ -24,6 +28,20 @@ public class MenuStrategy {
 		graphics.drawString("Appuyez sur Esc pour revenir au jeu", windowWidth/2-155, windowHeight/2-20);
 		graphics.drawString("Appuyez sur a pour abandonner la partie", windowWidth/2-165, windowHeight/2+20);
 		graphics.drawString("Appuyez sur q pour quitter le jeu", windowWidth/2-145, windowHeight/2+60);
+		
+		/*
+		//to paint the endscreen directly on the pause menu, test purpose
+		if (chart != null) {
+			chartManager.refreshDataset(); //we refresh the data here in the graphic thread because otherwise there are conflicts
+		    int chartWidth = 261;
+		    int chartHeight = 196;
+		    int chartX=500;
+		    int chartY = 285;
+		    BufferedImage chartImage = chart.createBufferedImage(chartWidth, chartHeight);
+		    graphics.drawImage(chartImage, chartX, chartY, null);
+		}
+		*/
+		
 	}
 	
 	public void paintMainMenu(Graphics graphics) {
@@ -57,7 +75,7 @@ public class MenuStrategy {
 		}
 	}
 	
-	public void paintEndMenu(Graphics graphics, MobileInterface manager) {
+	public void paintEndMenu(Graphics graphics, MobileInterface manager, JFreeChart chart,ChartManager chartManager) {
 		graphics.setColor(Color.BLACK);
 		graphics.setFont(new Font("Arial", Font.PLAIN, 40));
 		graphics.drawString("Fin de partie", windowWidth/2-100, windowHeight/2-200);
@@ -68,5 +86,15 @@ public class MenuStrategy {
 		}
 		graphics.drawString(gameWiner, windowWidth/2-150, windowHeight/2);
 		graphics.drawString("Appuyez sur entrée pour retourner au menu principal", windowWidth/2-150, windowHeight/2+100);
+		
+		if (chart != null) {
+			chartManager.refreshDataset(); //we refresh the data here in the graphic thread because otherwise there are conflicts
+		    int chartWidth = 261;
+		    int chartHeight = 196;
+		    int chartX=500;
+		    int chartY = 285;
+		    BufferedImage chartImage = chart.createBufferedImage(chartWidth, chartHeight);
+		    graphics.drawImage(chartImage, chartX, chartY, null);
+		}
 	}
 }

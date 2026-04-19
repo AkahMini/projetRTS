@@ -3,8 +3,11 @@ package gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.List;
+
+import org.jfree.chart.JFreeChart;
 
 import config.GameConfiguration;
 import engine.map.Block;
@@ -25,6 +28,7 @@ import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
 import engine.process.MobileInterface;
 import engine.process.chrono.CyclicCounter;
+import gui.instrument.ChartManager;
 import engine.process.GameUtility;
 
 /**
@@ -639,7 +643,8 @@ public class PaintStrategy {
 		
 		//not used for now
 		
-		//why creating that ??? à_à
+		//q:why creating that ??? à_à
+		//a:for drawing the picture of the building we want to build on the mouse
 		
 		int x1=position.getLine()*GameConfiguration.BLOCK_SIZE;
 		int y1=position.getColumn()*GameConfiguration.BLOCK_SIZE;
@@ -647,6 +652,21 @@ public class PaintStrategy {
 		int y2=(position.getColumn()+1)*GameConfiguration.BLOCK_SIZE;
 		
 		graphics.drawImage(GameUtility.readImage("/gameData/images/Camp.png"),x1,y1,x2,y2,null);
+	}
+	
+	public void paint(Graphics g,JFreeChart unitJFreeChart,ChartManager chartManager) {
+		/**
+		 * paint the dynamic inGame chart that shows the number of units of the player
+		 */
+		if (unitJFreeChart != null) {
+			chartManager.refreshDataset(); //we refresh the data here in the graphic thread because otherwise there are conflicts
+		    int chartWidth = 261;
+		    int chartHeight = 196;
+		    int chartX =  1009;
+		    int chartY = 285;
+		    BufferedImage chartImage = unitJFreeChart.createBufferedImage(chartWidth, chartHeight);
+		    g.drawImage(chartImage, chartX, chartY, null);
+		}
 	}
 	
 	

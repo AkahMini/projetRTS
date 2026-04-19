@@ -31,6 +31,14 @@ public class Player {
 	private ArrayList<Unit> createdUnits; //The id of the built buildings
 	private String buildingToBuildID; //The id of the selected building, the one that the player want to build
 
+	//In-Game stats used for the end screen
+	private int createdUnit;
+	
+	private int createdBuilding;
+	private int totalAmbroisieGathered;
+	private int totalFaithGathered;
+	private int totalKilledUnit;
+	
 	
 
 	/**
@@ -191,5 +199,45 @@ public class Player {
 	}
 	public void setBuildingToBuildID(String buildingToBuildID) {
 		this.buildingToBuildID = buildingToBuildID;
+	}
+	
+	public int getCreatedUnit() {
+		return createdUnit;
+	}
+
+	public void setCreatedUnit(int createdUnit) {
+		this.createdUnit = createdUnit;
+	}
+
+	public int getCreatedBuilding() {
+		return createdBuilding;
+	}
+
+	public void setCreatedBuilding(int createdBuilding) {
+		this.createdBuilding = createdBuilding;
+	}
+
+	public int getTotalAmbroisieGathered() {
+		return totalAmbroisieGathered;
+	}
+
+	public void setTotalAmbroisieGathered(int totalAmbroisieGathered) {
+		this.totalAmbroisieGathered = totalAmbroisieGathered;
+	}
+
+	public int getTotalFaithGathered() {
+		return totalFaithGathered;
+	}
+
+	public void setTotalFaithGathered(int totalFaithGathered) {
+		this.totalFaithGathered = totalFaithGathered;
+	}
+
+	public int getTotalKilledUnit() {
+		return totalKilledUnit;
+	}
+
+	public void setTotalKilledUnit(int totalKilledUnit) {
+		this.totalKilledUnit = totalKilledUnit;
 	}
 }

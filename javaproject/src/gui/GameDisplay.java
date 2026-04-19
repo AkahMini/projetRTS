@@ -191,18 +191,11 @@ public class GameDisplay extends JPanel {
 				paintStrategy.paintGrid(map, g);
 			}
 			
-			if (unitJFreeChart != null) {
-				chartManager.refreshDataset(); //we refresh the data here in the graphic thread because otherwise there are conflicts
-			    int chartWidth = 261;
-			    int chartHeight = 196;
-			    int chartX =  1009;
-			    int chartY = 285;
-			    BufferedImage chartImage = unitJFreeChart.createBufferedImage(chartWidth, chartHeight);
-			    g.drawImage(chartImage, chartX, chartY, null);
-			}
+			//paintInGameChart(g);
+			paintStrategy.paint(g,unitJFreeChart,chartManager);
 			
 			if(manager.isGameStoped()) {
-				menuStrategy.paintPauseMenu(g);
+				menuStrategy.paintPauseMenu(g,chartManager.getEndChartPanel().getChart(),chartManager);
 			}
 			
 		//this is for menu display
@@ -212,12 +205,28 @@ public class GameDisplay extends JPanel {
 			}else if (menu.getCurrentState().equals("CHOOSE")) {
 				menuStrategy.paintChooseMenu(menu, g);
 			}else if (menu.getCurrentState().equals("END")) {
-				menuStrategy.paintEndMenu(g,manager);
+				menuStrategy.paintEndMenu(g,manager,chartManager.getEndChartPanel().getChart(),chartManager);
 			}
 		}
 		
 		
 	}
+
+
+	/*
+	private void paintInGameChart(Graphics g) {
+		if (unitJFreeChart != null) {
+			chartManager.refreshDataset(); //we refresh the data here in the graphic thread because otherwise there are conflicts
+		    int chartWidth = 261;
+		    int chartHeight = 196;
+		    int chartX =  1009;
+		    int chartY = 285;
+		    BufferedImage chartImage = unitJFreeChart.createBufferedImage(chartWidth, chartHeight);
+		    g.drawImage(chartImage, chartX, chartY, null);
+		}
+	}
+	*/
+	
 	
 	public void resetManager(MobileInterface manager) {
 		this.manager=manager;

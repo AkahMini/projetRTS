@@ -13,7 +13,9 @@ import engine.mobile.building.HQ;
 import engine.mobile.building.UnitProducer;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.Worker;
+import engine.process.chrono.Chronometer;
 import engine.process.chrono.CyclicCounter;
+import gui.instrument.ChartManager;
 
 /**
  * 
@@ -86,4 +88,6 @@ public interface MobileInterface {
 	void cpuLoad();
 	int countBuildingType(Player p, Class<?> class1);
 	DefaultGameSettings getGameSettings();
+	Chronometer getChronometer();
+	void setChartManager(ChartManager chartManager);
 }

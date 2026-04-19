@@ -23,11 +23,13 @@ import config.DefaultGameSettings;
 import config.GameConfiguration;
 import engine.map.Block;
 import engine.map.Map;
+import engine.mobile.Player;
 import engine.mobile.unit.Unit;
 import engine.mobile.unit.UnitsStatsLoader;
 import engine.process.GameBuilder;
 import engine.process.MenuInterface;
 import engine.process.MobileInterface;
+import engine.process.chrono.Chronometer;
 import gui.instrument.ChartManager;
 import log.LoggerUtility;
 //import gui.instrument.ChartManager;
@@ -235,7 +237,7 @@ public class MainGUI extends JFrame implements Runnable {
 					
 					if(!stop) {
 						manager.nextRound();
-						chartManager.updateUnitChart(manager.getPlayer());
+						//chartManager.updateAllChartDataset(manager.getPlayer(),manager.getUnits() ,manager.getChronometer());
 						
 					}
 					if(!manager.winningFaction().equals("null")) {
@@ -262,6 +264,7 @@ public class MainGUI extends JFrame implements Runnable {
 		manager=null;
 		logger.info(menu.getSelectedMode());
 		manager = GameBuilder.buildInitMobile(map,this.gameSettings,menu.getSelectedFaction(),menu.getSelectedMode());
+		manager.setChartManager(chartManager);
 		
 		if(istop) {
 			manager.setIsGameStoped(true);

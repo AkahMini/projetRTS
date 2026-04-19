@@ -47,6 +47,10 @@ public class Chronometer {
 	public CyclicCounter getSecond() {
 		return second;
 	}
+	
+	public int getTotalSecond() {
+		return second.getValue()+minute.getValue()*60+minute.getValue()*3600;
+	}
 
 	public String toString() {
 		return hour.toString() + " : " + minute.toString() + " : " + second.toString();
