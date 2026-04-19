@@ -44,10 +44,9 @@ public class CPUManager implements CPUinterface {
      * @return
      */
     private boolean isBlockInCPUZone(Block b, CPU c) {
-        // Si nous sommes en mode 1v1v1
         if (manager.getMode() == 1) { 
             Block hqPos = null;
-            // On cherche le QG de ce CPU spécifique
+            // looking for the hq of the cpu in question so that each cpu expand in a different zone at first
             for (Building build : c.getBuiltBuilding()) {
                 if (build instanceof HQ) {
                     hqPos = build.getPosition();
@@ -56,21 +55,19 @@ public class CPUManager implements CPUinterface {
             }
 
             if (hqPos != null) {
-                // CPU1 (Bas-Gauche) : son QG est dans la colonne 15
                 if (hqPos.getColumn() < 50) { 
-                    // Zone allouée : toute la moitié gauche, et moitié basse de la map
+                    // allocated zone for cpu1
                     return b.getColumn() <= 50 && b.getLine() > 30; 
                 } 
-                // CPU2 (Bas-Droite) : son QG est dans la colonne 85
                 else {
-                    // Zone allouée : toute la moitié droite, et moitié basse de la map
+                    // allocated zone for cpu
                     return b.getColumn() > 50 && b.getLine() > 30; 
                 }
             }
             return false;
         }
         
-        // Mode 1v1 classique (Mode 0)
+        // 1v1(mode==0)
         return b.getColumn() > 70 || (b.getColumn() > 45 && b.getLine() > 40); 
     }
 
