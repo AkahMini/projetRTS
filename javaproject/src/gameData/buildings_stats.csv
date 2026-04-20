@@ -1,22 +1,25 @@
 id,buildingType,faction,tierLevel,maxHp,ambroisieCost,faithCost,constructionTime,productionSpeed,towerDamage,towerAttackSpeed,towerRange,populationProvided,technologiesUnlocked,visionRange
-Baliste,DefenseTower,Zeus,2,400,250,250,20,0,15,2,8,0,0,9
-Canon à braise,DefenseTower,Hades,2,400,250,250,20,0,15,2,8,0,0,9
-Flûte a pluie,DefenseTower,Poseidon,2,400,250,250,20,0,15,2,8,0,0,9
-Forum aquatique,HQ,Poseidon,1,1000,600,500,20,15,0,0,0,0,0,11
-Gouffre du Tartare,HQ,Hades,1,1000,600,500,20,15,10,2,8,0,0,11
-Temple de Zeus,HQ,Zeus,1,1000,600,500,20,15,0,0,0,0,0,11
-Amphithéâtre,PopulationBuilding,Zeus,1,300,0,100,10,0,0,0,0,5,0,5
-Baraque,PopulationBuilding,Hades,1,300,0,100,10,0,0,0,0,5,0,5
-Thermes,PopulationBuilding,Poseidon,1,300,0,100,10,0,0,0,0,5,0,5
-Camp Olympique,Producer,Zeus,1,500,150,125,12,15,0,0,0,0,0,5
-Camp Spartiate,Producer,Hades,1,500,150,125,12,10,0,0,0,0,0,5
-Colisée d’Atlantide,Producer,Poseidon,1,500,150,125,12,15,0,0,0,0,0,5
-Cascade,Producer,Poseidon,2,625,250,200,24,15,0,0,0,0,0,5
-prytanée,Producer,Zeus,2,625,250,200,24,15,0,0,0,0,0,5
-Puit d’invocation,Producer,Hades,2,625,250,200,24,10,0,0,0,0,0,5
-Autel de la sagesse,Producer,Zeus,3,750,325,250,36,20,0,0,0,0,0,5
-Fosse sous marine,Producer,Poseidon,3,750,325,250,36,20,0,0,0,0,0,5
-Portail vers les champ Élysées,Producer,Hades,3,750,325,250,36,15,0,0,0,0,0,5
-Bibliothèque d’Alexandrie,ResearchBuilding,Hades,2,500,350,300,25,0,0,0,0,0,productionSpeed_2|attackDamage_1.25,5
-Centre d’étude Atlan,ResearchBuilding,Poseidon,2,500,350,300,25,0,0,0,0,0,productionSpeed_2|attackDamage_1.25,5
-École des Pythagoricien,ResearchBuilding,Zeus,2,500,350,300,25,0,0,0,0,0,productionSpeed_2|attackDamage_1.25,5
+Forum aquatique,HQ,Poseidon,1,2500,600,500,20,15,0,0,0,0,0,9
+Gouffre du Tartare,HQ,Hades,1,2500,600,500,20,15,15,2,8,0,0,9
+Temple de Zeus,HQ,Zeus,1,2500,600,500,20,15,0,0,0,0,0,9
+Amphithéâtre,PopulationBuilding,Zeus,1,600,0,100,10,0,0,0,0,5,0,11
+Baraque,PopulationBuilding,Hades,1,600,0,100,10,0,0,0,0,5,0,11
+Thermes,PopulationBuilding,Poseidon,1,600,0,100,10,0,0,0,0,5,0,11
+Camp Olympique,Producer,Zeus,1,1200,150,125,12,15,0,0,0,0,0,5
+Camp Spartiate,Producer,Hades,1,1200,150,125,12,10,0,0,0,0,0,5
+Colisée d’Atlantide,Producer,Poseidon,1,1200,150,125,12,15,0,0,0,0,0,5
+Baliste,DefenseTower,Zeus,2,800,250,250,20,0,25,2,6,0,0,7
+Canon à braise,DefenseTower,Hades,2,800,250,250,20,0,25,2,6,0,0,7
+Flûte a pluie,DefenseTower,Poseidon,2,800,250,250,20,0,25,2,6,0,0,7
+Cascade,Producer,Poseidon,2,1500,250,200,24,15,0,0,0,0,0,5
+prytanée,Producer,Zeus,2,1500,250,200,24,15,0,0,0,0,0,5
+Puit d’invocation,Producer,Hades,2,1500,250,200,24,10,0,0,0,0,0,5
+Bibliothèque d’Alexandrie,ResearchBuilding,Hades,2,1000,350,300,25,0,0,0,0,0,productionSpeed_2|attackDamage_1.25,5
+Centre d’étude Atlan,ResearchBuilding,Poseidon,2,1000,350,300,25,0,0,0,0,0,productionSpeed_2|attackDamage_1.25,5
+École des Pythagoricien,ResearchBuilding,Zeus,2,1000,350,300,25,0,0,0,0,0,productionSpeed_2|attackDamage_1.25,5
+Autel de la sagesse,Producer,Zeus,3,1500,325,250,36,20,0,0,0,0,0,5
+Fosse sous marine,Producer,Poseidon,3,1500,325,250,36,20,0,0,0,0,0,5
+Portail vers les champ Élysées,Producer,Hades,3,1500,325,250,36,15,0,0,0,0,0,5
+Rocher de la sirène,DefenseTower,Poseidon,3,1200,400,500,30,0,35,2,8,0,0,9
+Laboratoire alchimique,DefenseTower,Hades,3,1200,400,500,30,0,35,2,8,0,0,9
+Phare d’Alexandrie,DefenseTower,Zeus,3,1200,400,500,30,0,35,2,8,0,0,9

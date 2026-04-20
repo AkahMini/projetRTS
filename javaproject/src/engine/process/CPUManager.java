@@ -283,7 +283,7 @@ public class CPUManager implements CPUinterface {
         if (pendingHQTarget != null) return; // we return if an hq is beaing made at the moment
 
         for (HQ hq : cpuHQs) {
-            int prodCount1 = 0, popCount = 0, towerCount = 0, labCount = 0, prodCount2=0, prodCount3=0;
+            int prodCount1 = 0, popCount = 0, towerCount2 = 0,towerCount3 = 0, labCount = 0, prodCount2=0, prodCount3=0;
             // we have to reset and check the number of building each time because one of them could have been destroyed
             
             synchronized(manager.getBuildings()) {
@@ -293,7 +293,8 @@ public class CPUManager implements CPUinterface {
                     	else if (b instanceof UnitProducer && !(b instanceof HQ) && b.getTierLevel()==2) prodCount2++;
                     	else if (b instanceof UnitProducer && !(b instanceof HQ) && b.getTierLevel()==3) prodCount3++;
                         else if (b instanceof PopulationBuilding) popCount++;
-                        else if (b instanceof DefenseTower) towerCount++;
+                        else if (b instanceof DefenseTower && b.getTierLevel()==2) towerCount2++;
+                        else if (b instanceof DefenseTower && b.getTierLevel()==3) towerCount3++;
                         else if (b instanceof ResearchBuilding) labCount++;
                     }
                 }
@@ -343,11 +344,19 @@ public class CPUManager implements CPUinterface {
                 }
             }
 
-            if (towerCount < 4) {
-                if (c.getAmbroisieStock() < 150 || c.getFaithStock() < 150) return; 
+            if (towerCount2 < 3) {
+                if (c.getAmbroisieStock() < 250 || c.getFaithStock() < 250) return; 
                 Block pos = findBuildPositionSpecificallyNear(hq, 5, 10,c);
                 if (pos != null) {
                     launchOtherBuildMission(builder, pos, BuildingFactory.DEFENSE_BUILDING,2);
+                    return;
+                }
+            }
+            if (towerCount3 < 2) {
+                if (c.getAmbroisieStock() < 300 || c.getFaithStock() < 350) return; 
+                Block pos = findBuildPositionSpecificallyNear(hq, 5, 10,c);
+                if (pos != null) {
+                    launchOtherBuildMission(builder, pos, BuildingFactory.DEFENSE_BUILDING,3);
                     return;
                 }
             }

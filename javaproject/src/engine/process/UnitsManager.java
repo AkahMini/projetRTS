@@ -11,6 +11,7 @@ import engine.mobile.MobileElement;
 import engine.mobile.Player;
 import engine.mobile.RessourceDeposit;
 import engine.mobile.building.Building;
+import engine.mobile.unit.Artillery;
 import engine.mobile.unit.Cavalry;
 import engine.mobile.unit.Infantry;
 import engine.mobile.unit.Unit;
@@ -250,51 +251,72 @@ public class UnitsManager implements UnitsInterface{
     	 * the attackCounter increments by each call of the function by the attackSpeedValue of the unit, and 
     	 * the units attacks when it's counter reach it's AttackTime
     	 */
-    	
+
     	MobileElement target = unit.getTarget();
-        if (target != null) {
-            double attackCounter = unit.getAttackCounter();
-            double attack = unit.getATK();
-            unit.setAttackCounter(attackCounter + unit.getATKSpeed());
-            double dist = manager.getDistance(unit.getPosition(), target.getPosition());
-            if (attackCounter >= Unit.getAttackTime() && dist <= unit.getATKRange()) {
-                if (unit instanceof Cavalry) {
-                    Cavalry cavalry = (Cavalry) unit;
-                    if (cavalry.getChargeDistanceValue() > 0) {
-                        attack = (float) (attack * cavalry.getChargeBonusDamage());
-                        System.out.println("degats charge : " + attack);
-                        cavalry.setChargeDistanceValue(0);
-                        cavalry.setMovementSpeed((int) (cavalry.getMovementSpeed() / cavalry.getChargeSpeed()));
-                    }
-                }
-                double remainingDamage = attack;
-                if (target instanceof Infantry) {
-                    Infantry infantryTarget = (Infantry) target;
-                    double shield = infantryTarget.getShieldValue();
-                    if (shield > 0) {
-                        if (shield >= attack) {
-                            infantryTarget.setShieldValue(shield - attack);
-                            remainingDamage = 0;
-                        } else {
-                            infantryTarget.setShieldValue(0);
-                            remainingDamage = attack - shield;
-                        }
-                    }
-                }
-                if (remainingDamage > 0) {
-                    int newHp = (int) Math.max(0, target.getHp() - remainingDamage);
-                    target.setHp(newHp);
-                }
-                unit.setAttackCounter(unit.getAttackCounter() - Unit.getAttackTime());
-                
-                if (target.getHp() <= 0) {
-                    unit.setTarget(null);
-                    unit.setIsInCombat(false);
-                }
-            }
-        }
+    	if (target != null) {
+    		double attackCounter = unit.getAttackCounter();
+    		double attack = unit.getATK();
+    		unit.setAttackCounter(attackCounter + unit.getATKSpeed());
+    		double dist = manager.getDistance(unit.getPosition(), target.getPosition());
+    		if (attackCounter >= Unit.getAttackTime() && dist <= unit.getATKRange()) {
+    			if (unit instanceof Cavalry) {
+    				Cavalry cavalry = (Cavalry) unit;
+    				if (cavalry.getChargeDistanceValue() > 0) {
+    					attack = (float) (attack * cavalry.getChargeBonusDamage());
+    					System.out.println("degats charge : " + attack);
+    					cavalry.setChargeDistanceValue(0);
+    					cavalry.setMovementSpeed((int) (cavalry.getMovementSpeed() / cavalry.getChargeSpeed()));
+    				}
+    			}
+    			if (unit instanceof Artillery) {
+    				double aoeRadius = ((Artillery) unit).getBlastRadius(); // different for each tier of artillery
+    				Block impactPos = target.getPosition();
+
+    				for (Unit u : manager.getUnits()) { 
+    					if (!u.getUnitFaction().equalsIgnoreCase(unit.getUnitFaction()) && manager.getDistance(impactPos, u.getPosition()) <= aoeRadius) {
+    						applyDamageToElement(u, attack / 2);
+    					}
+    				}
+    				for (Building b : manager.getBuildings()) { // aoe is also applied to buildings
+    					if (!b.getFaction().equalsIgnoreCase(unit.getUnitFaction()) && manager.getDistance(impactPos, b.getPosition()) <= aoeRadius) {
+    						applyDamageToElement(b, attack/2);
+    					}
+    				}
+
+    			} else {
+    				applyDamageToElement(target, attack);
+    			}
+    			unit.setAttackCounter(unit.getAttackCounter() - Unit.getAttackTime());
+    			if (target.getHp() <= 0) {
+    				unit.setTarget(null);
+    				unit.setIsInCombat(false);
+    			}
+    		}
+    	}
     }
-    
+    private void applyDamageToElement(MobileElement element, double attackDamage) {
+    	double remainingDamage = attackDamage;
+
+    	if (element instanceof Infantry) {
+    		Infantry infantryTarget = (Infantry) element;
+    		double shield = infantryTarget.getShieldValue();
+    		if (shield > 0) {
+    			if (shield >= attackDamage) {
+    				infantryTarget.setShieldValue(shield - attackDamage);
+    				remainingDamage = 0;
+    			} else {
+    				infantryTarget.setShieldValue(0);
+    				remainingDamage = attackDamage - shield;
+    			}
+    		}
+    	}
+
+    	if (remainingDamage > 0) {
+    		int newHp = (int) Math.max(0, element.getHp() - remainingDamage);
+    		element.setHp(newHp);
+    	}
+    }
+
     
     
     public void unitsInSelectedArea() {
@@ -453,6 +475,12 @@ public class UnitsManager implements UnitsInterface{
     			manager.selectBuilding("Producer");
     			p.setBuildingToBuildID("Producer");
     			manager.setNotifText("Bat de prod tier 2 sélectioné",true);
+    			break;
+    		}
+    		else if(currentButtonTier==3) {
+    			manager.selectBuilding("DefenseTower");
+    			p.setBuildingToBuildID("DefenseTower");
+    			manager.setNotifText("Tour de défense sélectioné",true);
     			break;
     		}
     		break;

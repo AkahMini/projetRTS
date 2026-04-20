@@ -203,14 +203,14 @@ public class MobileElementManager implements MobileInterface {
             		buildingManager.setTowerTarget((DefenseTower) tower);
             	}
             }
-            if(cpu1.getCreatedUnits().size()>40) {
+            if(cpu1.getCreatedUnits().size()>42) {
             	cpuManager1.attack(cpu1);
             }
             cpuManager1.workerProductionManagement(cpu1);
             buildingManager.researchTime(cpu1);
             
             if(mode==1) {
-            	if(cpu1.getCreatedUnits().size()>40) {
+            	if(cpu1.getCreatedUnits().size()>42) {
                 	cpuManager2.attack(cpu2);
                 }
                 cpuManager2.workerProductionManagement(cpu2);
@@ -506,16 +506,16 @@ public class MobileElementManager implements MobileInterface {
 	            this.ressourceDeposits.add(d);
 	        }
 	        /*
-	        for(int i=0; i<7; i++) {
+	        for(int i=0; i<5; i++) {
 	            Block spawnBlock = map.getBlock(22+(int)(Math.random()*3), 22+(int)(Math.random()*3));
-	            Unit unit = UnitFactory.createUnit(UnitFactory.ARTILLERY_UNIT, 1, DefaultGameSettings.ZEUS, spawnBlock);
+	            Unit unit = UnitFactory.createUnit(UnitFactory.ARTILLERY_UNIT, 3, player.getFactionName(), spawnBlock);
 	            this.units.add(unit);
 	            player.getCreatedUnits().add(unit);
 	        }
 	        /*
-	        for(int i=0; i<5; i++) {
+	        for(int i=0; i<3; i++) {
 	            Block spawnBlock = map.getBlock(54+(int)(Math.random()*3), 75+(int)(Math.random()*3));
-	            Unit unit = UnitFactory.createUnit(UnitFactory.INFANTRY_UNIT, 1, DefaultGameSettings.HADES, spawnBlock);
+	            Unit unit = UnitFactory.createUnit(UnitFactory.INFANTRY_UNIT, 1, cpu1.getFactionName(), spawnBlock);
 	            this.units.add(unit);
 	            cpu1.getCreatedUnits().add(unit);
 	        }
