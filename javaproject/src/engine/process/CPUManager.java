@@ -87,9 +87,14 @@ public class CPUManager implements CPUinterface {
             }
         }
         if (cpuHQs.isEmpty()) return;
-
-        if (cpuHQs.size() >= 4) {
-            return; 
+        if(manager.getMode()==0 || manager.getMode()==2) {
+        	if (cpuHQs.size() >= 4) {
+                return; 
+        	}
+        }else if(manager.getMode()==1) {
+        	if (cpuHQs.size() >= 3) {
+                return; 
+        	}
         }
 
         for (HQ hq : cpuHQs) {
@@ -283,7 +288,7 @@ public class CPUManager implements CPUinterface {
         if (pendingHQTarget != null) return; // we return if an hq is beaing made at the moment
 
         for (HQ hq : cpuHQs) {
-            int prodCount1 = 0, popCount = 0, towerCount = 0, labCount = 0, prodCount2=0, prodCount3=0;
+            int prodCount1 = 0, popCount = 0, towerCount2 = 0,towerCount3 = 0, labCount = 0, prodCount2=0, prodCount3=0;
             // we have to reset and check the number of building each time because one of them could have been destroyed
             
             synchronized(manager.getBuildings()) {
@@ -293,7 +298,8 @@ public class CPUManager implements CPUinterface {
                     	else if (b instanceof UnitProducer && !(b instanceof HQ) && b.getTierLevel()==2) prodCount2++;
                     	else if (b instanceof UnitProducer && !(b instanceof HQ) && b.getTierLevel()==3) prodCount3++;
                         else if (b instanceof PopulationBuilding) popCount++;
-                        else if (b instanceof DefenseTower) towerCount++;
+                        else if (b instanceof DefenseTower && b.getTierLevel()==2) towerCount2++;
+                        else if (b instanceof DefenseTower && b.getTierLevel()==3) towerCount3++;
                         else if (b instanceof ResearchBuilding) labCount++;
                     }
                 }
@@ -343,11 +349,19 @@ public class CPUManager implements CPUinterface {
                 }
             }
 
-            if (towerCount < 4) {
-                if (c.getAmbroisieStock() < 150 || c.getFaithStock() < 150) return; 
+            if (towerCount2 < 3) {
+                if (c.getAmbroisieStock() < 250 || c.getFaithStock() < 250) return; 
                 Block pos = findBuildPositionSpecificallyNear(hq, 5, 10,c);
                 if (pos != null) {
                     launchOtherBuildMission(builder, pos, BuildingFactory.DEFENSE_BUILDING,2);
+                    return;
+                }
+            }
+            if (towerCount3 < 2) {
+                if (c.getAmbroisieStock() < 300 || c.getFaithStock() < 350) return; 
+                Block pos = findBuildPositionSpecificallyNear(hq, 5, 10,c);
+                if (pos != null) {
+                    launchOtherBuildMission(builder, pos, BuildingFactory.DEFENSE_BUILDING,3);
                     return;
                 }
             }
@@ -482,7 +496,7 @@ public class CPUManager implements CPUinterface {
     private boolean isBlockFreeForBuilding(Block block) {
         synchronized(manager.getBuildings()) {
             for (Building b : manager.getBuildings()) {
-                if (manager.getDistance(b.getPosition(), block) < 3) return false;
+                if (manager.getDistance(b.getPosition(), block) < 4) return false;
             }
         }
         
@@ -717,24 +731,27 @@ public class CPUManager implements CPUinterface {
     	Block attackTarget=null;
     	for( Building b : manager.getBuildings()) {
     		if(b instanceof HQ) {
-    			if(manager.getPlayer().getBuiltBuilding().contains(b)) {
-    				double distance=manager.getDistance(c.getBuiltBuilding().get(0).getPosition(), b.getPosition());
-    				if(distance<minDistance){
-    					minDistance=distance;
-    					attackTarget=b.getPosition();
+    			if(!b.getFaction().equalsIgnoreCase(c.getFactionName())) {
+    				if(!c.getBuiltBuilding().isEmpty() && c.getBuiltBuilding().get(0).getPosition()!=null) {
+    					double distance=manager.getDistance(c.getBuiltBuilding().get(0).getPosition(), b.getPosition());
+    					if(distance<minDistance){
+    						minDistance=distance;
+    						attackTarget=b.getPosition();
+    					}
     				}
     			}
+
     		}
     	}if(attackTarget==null) {
     		for( Building b : manager.getBuildings()) {
-    			if(manager.getPlayer().getBuiltBuilding().contains(b)) {
-					attackTarget=b.getPosition();
+    			if(!b.getFaction().equalsIgnoreCase(c.getFactionName())) {
+    				attackTarget=b.getPosition();
     			}
     		}
     	}
     	for(Unit u : c.getCreatedUnits()) {
     		if(!(u instanceof Worker)) {
-        		u.setDestination(attackTarget);
+    			u.setDestination(attackTarget);
     		}
     	}
     }

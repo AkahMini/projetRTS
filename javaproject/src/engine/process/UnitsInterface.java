@@ -41,4 +41,6 @@ public interface UnitsInterface {
 	void moveAllUnits(Player p);
 	
 	void workerConstruction(String button, Player p, Worker worker);
+
+	void hpRegenUnits(Unit unit);
 }

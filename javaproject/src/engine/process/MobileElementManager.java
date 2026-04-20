@@ -127,22 +127,24 @@ public class MobileElementManager implements MobileInterface {
         	unitManager.moveAllUnits(cpu2);
         }
         
-        killUnits(player);
-        killUnits(cpu1);
         if(mode==1) {
         	killUnits(cpu2);
+            removeBuildings(cpu2);
         }
-        
         buildingManager.allTowerAttack(buildings);
-       	if(timetweaker.getValue() == 5) {
+       	if(timetweaker.getValue() == 7) {
        		cpuManager1.attackReaction(cpu1);
             cpuManager1.workerManagement(cpu1);
+            killUnits(player);
+            killUnits(cpu1);
+            removeBuildings(player);
+            removeBuildings(cpu1);
             if(mode==1) {
             	cpuManager2.attackReaction(cpu2);
                 cpuManager2.workerManagement(cpu2);
             }
        	}
-       	if(timetweaker.getValue() == 10) {
+       	if(timetweaker.getValue() == 13) {
        		cpuManager1.buildManagement(cpu1);
             cpuManager1.otherBuildingsManagement(cpu1);
             cpuManager1.militaryProductionManagement(cpu1);
@@ -174,7 +176,7 @@ public class MobileElementManager implements MobileInterface {
     		}
             //Units manager
             for(Unit unit: new ArrayList<>(units)) {
-                
+                unitManager.hpRegenUnits(unit);
             	// Ennemy scan
                 if (unit.getTarget() == null ) {
                     MobileElement target = unitManager.scanForEnemy(unit);
@@ -186,9 +188,6 @@ public class MobileElementManager implements MobileInterface {
                         
             // Buildings management
             for(Building building : new ArrayList<>(buildings)) {
-            	if(building.getHp()<=0) {
-            		buildings.remove(building);
-            	}
             	buildingManager.reduceConstructionTime(building);
             	if(building instanceof UnitProducer) {
             		UnitProducer producer = (UnitProducer) building;
@@ -203,14 +202,14 @@ public class MobileElementManager implements MobileInterface {
             		buildingManager.setTowerTarget((DefenseTower) tower);
             	}
             }
-            if(cpu1.getCreatedUnits().size()>40) {
+            if(cpu1.getCurrentPopulation()>=cpu1.getMaxPopulation()*0.80) {
             	cpuManager1.attack(cpu1);
             }
             cpuManager1.workerProductionManagement(cpu1);
             buildingManager.researchTime(cpu1);
             
             if(mode==1) {
-            	if(cpu1.getCreatedUnits().size()>40) {
+            	if(cpu2.getCurrentPopulation()>=cpu2.getMaxPopulation()*0.80) {
                 	cpuManager2.attack(cpu2);
                 }
                 cpuManager2.workerProductionManagement(cpu2);
@@ -285,6 +284,20 @@ public class MobileElementManager implements MobileInterface {
                 it.remove();       
                 units.remove(u);
                 p.setCurrentPopulation(p.getCurrentPopulation()-u.getPopCost());
+            }
+        }
+    }
+	
+	private void removeBuildings(Player p) {
+		Iterator<Building> it = p.getBuiltBuilding().iterator(); 
+        while(it.hasNext()) {
+            Building b = it.next();
+            if(b.getHp() <= 0) {
+                it.remove();       
+                buildings.remove(b);
+                if(b instanceof PopulationBuilding) {
+                	p.setMaxPopulation((p.getMaxPopulation()-((PopulationBuilding) b).getPopulationProvided()));
+                }
             }
         }
     }
@@ -511,18 +524,18 @@ public class MobileElementManager implements MobileInterface {
 	            this.ressourceDeposits.add(d);
 	        }
 	        /*
-	        for(int i=0; i<7; i++) {
+	        for(int i=0; i<5; i++) {
 	            Block spawnBlock = map.getBlock(22+(int)(Math.random()*3), 22+(int)(Math.random()*3));
-	            Unit unit = UnitFactory.createUnit(UnitFactory.ARTILLERY_UNIT, 1, DefaultGameSettings.ZEUS, spawnBlock);
+	            Unit unit = UnitFactory.createUnit(UnitFactory.ARTILLERY_UNIT, 3, player.getFactionName(), spawnBlock);
 	            this.units.add(unit);
 	            player.getCreatedUnits().add(unit);
 	        }
 	        /*
-	        for(int i=0; i<5; i++) {
+	        for(int i=0; i<3; i++) {
 	            Block spawnBlock = map.getBlock(54+(int)(Math.random()*3), 75+(int)(Math.random()*3));
-	            Unit unit = UnitFactory.createUnit(UnitFactory.INFANTRY_UNIT, 1, DefaultGameSettings.HADES, spawnBlock);
+	            Unit unit = UnitFactory.createUnit(UnitFactory.INFANTRY_UNIT, 1, cpu1.getFactionName(), spawnBlock);
 	            this.units.add(unit);
-	            cpu.getCreatedUnits().add(unit);
+	            cpu1.getCreatedUnits().add(unit);
 	        }
 	        */
 	        Unit w1 = UnitFactory.createUnit(UnitFactory.WORKER_UNIT, 1, cpu1.getFactionName(), ennemyHQ.getPosition());
@@ -587,16 +600,16 @@ public class MobileElementManager implements MobileInterface {
     		allDeposits.add(new RessourceDeposit(map.getBlock(62, 96), RessourceDeposit.AMBROSIA));
 
     		// top left
-    		allDeposits.add(new RessourceDeposit(map.getBlock(36, 15), RessourceDeposit.AMBROSIA));
-    		allDeposits.add(new RessourceDeposit(map.getBlock(36, 27), RessourceDeposit.FAITH));
-    		allDeposits.add(new RessourceDeposit(map.getBlock(32, 17), RessourceDeposit.FAITH));
-    		allDeposits.add(new RessourceDeposit(map.getBlock(32, 25), RessourceDeposit.AMBROSIA));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(36, 11), RessourceDeposit.AMBROSIA));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(36, 23), RessourceDeposit.FAITH));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(31, 13), RessourceDeposit.FAITH));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(31, 21), RessourceDeposit.AMBROSIA));
 
     		//top right
-    		allDeposits.add(new RessourceDeposit(map.getBlock(36, 73), RessourceDeposit.AMBROSIA));
-    		allDeposits.add(new RessourceDeposit(map.getBlock(36, 85), RessourceDeposit.FAITH));
-    		allDeposits.add(new RessourceDeposit(map.getBlock(32, 75), RessourceDeposit.FAITH));
-    		allDeposits.add(new RessourceDeposit(map.getBlock(32, 83), RessourceDeposit.AMBROSIA));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(36, 77), RessourceDeposit.AMBROSIA));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(36, 89), RessourceDeposit.FAITH));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(31, 79), RessourceDeposit.FAITH));
+    		allDeposits.add(new RessourceDeposit(map.getBlock(31, 87), RessourceDeposit.AMBROSIA));
 
     		// bottom center
     		allDeposits.add(new RessourceDeposit(map.getBlock(63, 45), RessourceDeposit.AMBROSIA));

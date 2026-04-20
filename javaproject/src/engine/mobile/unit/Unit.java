@@ -20,7 +20,9 @@ public abstract class Unit extends MobileElement{
 
 	private static final int MOVE_TIME = 100;
 	private static final int ATTACK_TIME = 100;
+	private static final int REGEN_TIME = 5;
 	private int moveCounter;
+	private int regenCounter;
 	private double attackCounter;
 	
 	private String unitName;
@@ -166,5 +168,17 @@ public abstract class Unit extends MobileElement{
 	}
 	public String toString() {
 		return "Unit name: "+this.unitName+", faction: "+this.faction+ " tiers:"+this.tierLevel;
+	}
+
+	public int getRegenCounter() {
+		return regenCounter;
+	}
+
+	public void setRegenCounter(int regenCounter) {
+		this.regenCounter = regenCounter;
+	}
+
+	public static int getRegenTime() {
+		return REGEN_TIME;
 	}
 }

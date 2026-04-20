@@ -111,7 +111,7 @@ public class MainGUI extends JFrame implements Runnable {
 		contentPane.add(dashboard, BorderLayout.CENTER);
 
 		//THIS PART IS FOR TEST ONLY WILL BE REMOVED
-		/*
+	
 		javax.swing.JPanel RightPanel = new javax.swing.JPanel();
 		RightPanel.setBackground(java.awt.Color.GRAY); 
 
@@ -201,7 +201,7 @@ public class MainGUI extends JFrame implements Runnable {
 		RightPanel.add(testButton7);
 		RightPanel.add(testButton8);
 		contentPane.add(RightPanel, BorderLayout.SOUTH);
-		*/
+		
 		contentPane.add(dashboard, BorderLayout.CENTER);
 		
 		this.addKeyListener(new KeyControls());

@@ -495,6 +495,7 @@ public class PaintStrategy {
 					graphics.drawImage(GameUtility.readImage("/gameData/images/cancel.png"),1180,640,60,60,null);
 				}else if(selectedTier==3) {
 					graphics.drawImage(GameUtility.readImage("/gameData/images/Camp.png"),1020,560,60,60,null);
+					graphics.drawImage(GameUtility.readImage("/gameData/images/Tower.png"),1100,560,60,60,null);
 					graphics.drawImage(GameUtility.readImage("/gameData/images/cancel.png"),1180,640,60,60,null);
 				}
 			}
