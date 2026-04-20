@@ -87,9 +87,14 @@ public class CPUManager implements CPUinterface {
             }
         }
         if (cpuHQs.isEmpty()) return;
-
-        if (cpuHQs.size() >= 4) {
-            return; 
+        if(manager.getMode()==0 || manager.getMode()==2) {
+        	if (cpuHQs.size() >= 4) {
+                return; 
+        	}
+        }else if(manager.getMode()==1) {
+        	if (cpuHQs.size() >= 3) {
+                return; 
+        	}
         }
 
         for (HQ hq : cpuHQs) {
@@ -491,7 +496,7 @@ public class CPUManager implements CPUinterface {
     private boolean isBlockFreeForBuilding(Block block) {
         synchronized(manager.getBuildings()) {
             for (Building b : manager.getBuildings()) {
-                if (manager.getDistance(b.getPosition(), block) < 3) return false;
+                if (manager.getDistance(b.getPosition(), block) < 4) return false;
             }
         }
         
@@ -726,24 +731,27 @@ public class CPUManager implements CPUinterface {
     	Block attackTarget=null;
     	for( Building b : manager.getBuildings()) {
     		if(b instanceof HQ) {
-    			if(manager.getPlayer().getBuiltBuilding().contains(b)) {
-    				double distance=manager.getDistance(c.getBuiltBuilding().get(0).getPosition(), b.getPosition());
-    				if(distance<minDistance){
-    					minDistance=distance;
-    					attackTarget=b.getPosition();
+    			if(!b.getFaction().equalsIgnoreCase(c.getFactionName())) {
+    				if(!c.getBuiltBuilding().isEmpty() && c.getBuiltBuilding().get(0).getPosition()!=null) {
+    					double distance=manager.getDistance(c.getBuiltBuilding().get(0).getPosition(), b.getPosition());
+    					if(distance<minDistance){
+    						minDistance=distance;
+    						attackTarget=b.getPosition();
+    					}
     				}
     			}
+
     		}
     	}if(attackTarget==null) {
     		for( Building b : manager.getBuildings()) {
-    			if(manager.getPlayer().getBuiltBuilding().contains(b)) {
-					attackTarget=b.getPosition();
+    			if(!b.getFaction().equalsIgnoreCase(c.getFactionName())) {
+    				attackTarget=b.getPosition();
     			}
     		}
     	}
     	for(Unit u : c.getCreatedUnits()) {
     		if(!(u instanceof Worker)) {
-        		u.setDestination(attackTarget);
+    			u.setDestination(attackTarget);
     		}
     	}
     }
