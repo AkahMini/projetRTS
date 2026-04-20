@@ -84,17 +84,30 @@ public class MenuStrategy {
 		if(gameWiner!=null) {
 			gameWiner="Défaite par abandon !";
 		}
-		graphics.drawString(gameWiner, windowWidth/2-150, windowHeight/2);
-		graphics.drawString("Appuyez sur entrée pour retourner au menu principal", windowWidth/2-150, windowHeight/2+100);
+		graphics.drawString(gameWiner, windowWidth/2, windowHeight/10);
+		graphics.drawString("Appuyez sur entrée pour retourner au menu principal", windowWidth/2-250, windowHeight/8);
+		graphics.drawString("Nombre d'unités crées: "+String.valueOf(manager.getPlayer().getNumberOfCreatedUnit()), windowWidth/2-150,windowHeight/2+30);
+		graphics.drawString("Nombre de bâtiments crées: "+String.valueOf(manager.getPlayer().getNumberOfBuiltBuilding()), windowWidth/2-150, windowHeight/2+60);
+		graphics.drawString("Ambroisie collectée: "+String.valueOf(manager.getPlayer().getTotalAmbroisieGathered()), windowWidth/2-150, windowHeight/2+90);
+		graphics.drawString("Foi collectée: "+String.valueOf(manager.getPlayer().getTotalFaithGathered()), windowWidth/2-150, windowHeight/2+120);
+		graphics.drawString("Unités tuées: "+String.valueOf(manager.getPlayer().getTotalKilledUnit()), windowWidth/2-150, windowHeight/2+150);
+		/**
+		 * private int numberOfCreatedUnit;//check
+			private int numberOfBuildBuilding;//check
+			private int totalAmbroisieGathered;//check
+			private int totalFaithGathered;//check
+			private int totalKilledUnit;//check??
+		 */
 		
 		if (chart != null) {
 			chartManager.refreshDataset(); //we refresh the data here in the graphic thread because otherwise there are conflicts
 		    int chartWidth = 261;
 		    int chartHeight = 196;
-		    int chartX=500;
-		    int chartY = 285;
+		    int chartX=(windowWidth-chartWidth)/2;
+		    int chartY = (windowHeight-chartHeight)/3;
 		    BufferedImage chartImage = chart.createBufferedImage(chartWidth, chartHeight);
 		    graphics.drawImage(chartImage, chartX, chartY, null);
 		}
+		
 	}
 }

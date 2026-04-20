@@ -380,13 +380,18 @@ public class MainGUI extends JFrame implements Runnable {
 					}
 				}
 				break;
+			
 				
+			//inGame Cheats
 			case KeyEvent.VK_M:
 				if (currentState.equals("PLAYING")) {
 					manager.motherload();
-					//manager.cpuLoad();
 				}
 				break;
+			case KeyEvent.VK_W:
+				if (currentState.equals("PLAYING")) {
+					currentState="END";
+				}
 			default:
 				break;
 			}

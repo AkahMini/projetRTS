@@ -167,8 +167,10 @@ public class UnitsManager implements UnitsInterface{
                 
                 if (worker.getRessourceType() == RessourceDeposit.FAITH) {
                     player.setFaithStock(player.getFaithStock() + worker.getRessourceLoad());
+                    player.setTotalFaithGathered(player.getTotalFaithGathered()+worker.getRessourceLoad());
                 } else if (worker.getRessourceType() == RessourceDeposit.AMBROSIA) {
                     player.setAmbroisieStock(player.getAmbroisieStock() + worker.getRessourceLoad());
+                    player.setTotalAmbroisieGathered(player.getTotalAmbroisieGathered()+worker.getRessourceLoad());
                 }
                 
                 worker.setCurrentRessourceLoad(0);
@@ -244,14 +246,24 @@ public class UnitsManager implements UnitsInterface{
     	} 
     }
     
-    public void damageCalculation(Unit unit) {
+    public String damageCalculation(Unit unit) {
     	/**
+    	 * Compute the damage inflicted by the unit in parameter
+    	 * the returned string is the name of the faction attributed to the potential kill
     	 * the attackCounter increments by each call of the function by the attackSpeedValue of the unit, and 
-    	 * the units attacks when it's counter reach it's AttackTime
+    	 * the units attacks when it's counter reaches its AttackTime
     	 */
     	
     	MobileElement target = unit.getTarget();
+    	
+    	
         if (target != null) {
+        	if (target.getHp() <= 0) {
+                //if the targer is already dead, we ignore it
+        		unit.setTarget(null);
+                unit.setIsInCombat(false);
+                return null;
+            }
             double attackCounter = unit.getAttackCounter();
             double attack = unit.getATK();
             unit.setAttackCounter(attackCounter + unit.getATKSpeed());
@@ -285,13 +297,17 @@ public class UnitsManager implements UnitsInterface{
                     target.setHp(newHp);
                 }
                 unit.setAttackCounter(unit.getAttackCounter() - Unit.getAttackTime());
-                
                 if (target.getHp() <= 0) {
-                    unit.setTarget(null);
+                    //if we just killed the target, the killcount increments
+            		unit.setTarget(null);
                     unit.setIsInCombat(false);
+                    
+                    return unit.getUnitFaction();
                 }
+                
             }
         }
+        return null;
     }
     
     
@@ -387,6 +403,7 @@ public class UnitsManager implements UnitsInterface{
         	}        
         }
     }
+    /*
     public void killUnit(Unit unit, ArrayList<Unit> units) {
     	if(unit.getHp()<=0) {
     		Iterator<Unit> it = units.iterator();
@@ -399,7 +416,7 @@ public class UnitsManager implements UnitsInterface{
     		//units.remove(unit);
     	}
     }
-    
+    */
     //manage the button part
     public void workerConstruction(String button, Player p, Worker worker) {
     	int currentButtonTier = manager.getSelectedTier();

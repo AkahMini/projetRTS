@@ -80,6 +80,7 @@ public class BuildingManager implements BuildingInterface{
 				p.setFaithStock(p.getFaithStock()-newBuilding.getFaithCost());
 			}
 			p.setBuildingToBuildID(null);;
+			p.setNumberOfBuiltBuilding(p.getNumberOfBuiltBuilding()+1);
 			return 1;
 		}
 		return -1;
@@ -145,6 +146,7 @@ public class BuildingManager implements BuildingInterface{
 	            	if (p.getCurrentPopulation() + newUnit.getPopCost() > p.getMaxPopulation()) {
 	                    return;
 	                }
+	            	p.setNumberOfCreatedUnit(p.getNumberOfCreatedUnit()+1);
 	            }
 	                if (p.getAmbroisieStock() >= newUnit.getACost() && p.getFaithStock() >= newUnit.getFCost()) {
 	                    

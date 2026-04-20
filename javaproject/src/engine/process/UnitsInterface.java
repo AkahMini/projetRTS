@@ -34,7 +34,7 @@ public interface UnitsInterface {
 	MobileElement scanForEnemy(Unit unit);
 	
 	void setCombatState(Unit unit1, MobileElement target);
-	void damageCalculation(Unit unit);
+	String damageCalculation(Unit unit);
 	
 	void unitsInSelectedArea();
 	void unitMoveOrder(Block destination, Map map);
