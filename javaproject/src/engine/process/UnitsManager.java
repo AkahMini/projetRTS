@@ -248,7 +248,7 @@ public class UnitsManager implements UnitsInterface{
     	} 
     }
     
-    public String damageCalculation(Unit unit) {
+    public void damageCalculation(Unit unit,Player p) {
     	/**
     	 * Compute the damage inflicted by the unit in parameter
     	 * the returned string is the name of the faction attributed to the potential kill
@@ -296,13 +296,11 @@ public class UnitsManager implements UnitsInterface{
     			if (target.getHp() <= 0) {
     				unit.setTarget(null);
     				unit.setIsInCombat(false);
-    				return unit.getUnitFaction();
+    				p.setTotalKilledUnit(p.getTotalKilledUnit()+1);
+    				
     			}
     		}
     	}
-    	return null;
-		
-
     }
     private void applyDamageToElement(MobileElement element, double attackDamage) {
     	double remainingDamage = attackDamage;

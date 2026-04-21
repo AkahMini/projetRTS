@@ -261,12 +261,7 @@ public class MobileElementManager implements MobileInterface {
 
         			if (distance <= unit.getATKRange()) {
         				unit.setDestination(null);
-        				String killingFactionName = unitManager.damageCalculation(unit);//calculate the damage, and get the name of the faction that gets the kill
-        				
-        				if(killingFactionName!=null&&killingFactionName.equals(player.getFactionName())){
-        					player.setTotalKilledUnit(player.getTotalKilledUnit()+1);
-        					System.out.println(killingFactionName+"////////////////////////////////////////////");
-        				}
+        				unitManager.damageCalculation(unit,this.player);//calculate the damage, and get the name of the faction that gets the kill
         			}else {
         				// if not in range, we pursue
         				unit.setDestination(target.getPosition());
