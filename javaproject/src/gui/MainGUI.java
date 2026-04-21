@@ -368,6 +368,17 @@ public class MainGUI extends JFrame implements Runnable {
 					}
 				}
 				break;
+			case KeyEvent.VK_G:
+				if (currentState.equals("PLAYING")) {
+					if(stop) {
+						if(manager.isAltGui()) {
+							manager.setAltGui(false);
+						}else {
+							manager.setAltGui(true);
+						}
+					}
+				}
+				break;
 				
 			case KeyEvent.VK_F:
 				if (currentState.equals("CHOOSE")) {

@@ -91,4 +91,7 @@ public interface MobileInterface {
 	Chronometer getChronometer();
 	void setChartManager(ChartManager chartManager);
 	int getMode();
+	
+	boolean isAltGui();
+	void setAltGui(boolean isAltGui);
 }

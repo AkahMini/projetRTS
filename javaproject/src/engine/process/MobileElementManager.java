@@ -63,6 +63,7 @@ public class MobileElementManager implements MobileInterface {
     private String notification =null;
     private boolean isNotificationGood=false;
     private boolean isGameStoped = false;
+    private boolean isAltGui =false;
     
     private ArrayList<Unit> units = new ArrayList<Unit>();
     
@@ -955,6 +956,14 @@ public class MobileElementManager implements MobileInterface {
 
 	public void setMode(int mode) {
 		this.mode = mode;
+	}
+
+	public boolean isAltGui() {
+		return isAltGui;
+	}
+
+	public void setAltGui(boolean isAltGui) {
+		this.isAltGui = isAltGui;
 	}
 
 }
