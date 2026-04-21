@@ -56,10 +56,14 @@ public class PaintStrategy {
 		}
 	}
 
-	public void paint(Map map, Graphics graphics) {
+	public void paint(Map map, Graphics graphics, boolean alt) {
 		int blockSize = GameConfiguration.BLOCK_SIZE;
 		graphics.drawImage(GameUtility.readImage("/gameData/images/grassTiled.png"),0,7*blockSize,1000,650,null);
-		graphics.drawImage(GameUtility.readImage("/gameData/images/GameGui.png"),0,0,1280,720,null);
+		if(alt) {
+			graphics.drawImage(GameUtility.readImage("/gameData/images/GameGuiAlt.png"),0,0,1280,720,null);
+		}else {
+			graphics.drawImage(GameUtility.readImage("/gameData/images/GameGui.png"),0,0,1280,720,null);
+		}
 	}
 	
 	//used to paint dark tiles (fog of war)
@@ -415,7 +419,7 @@ public class PaintStrategy {
 				int percentShield = ((Infantry) unit).getPercentShield();
 
 				if (percentShield > 0) {
-					int shieldWidth = (int)((percentShield *50) / 100.0);
+					int shieldWidth = (int) (5-(percentShield *50 / 100.0));
 					graphics.setColor(Color.BLUE);
 					graphics.fillRect(x -5+ (int)((percent*220.0/100)), y, shieldWidth, 6);
 				}

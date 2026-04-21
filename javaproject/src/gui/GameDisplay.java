@@ -101,8 +101,8 @@ public class GameDisplay extends JPanel {
 				}
 			}
 			
-			
-			paintStrategy.paint(map, g);
+			boolean guiInfo =manager.isAltGui();
+			paintStrategy.paint(map, g,guiInfo);
 			
 			if(fogOfWar) {
 				for (int x = 0; x < 100; x++) {

@@ -21,15 +21,18 @@ public class MenuStrategy {
 		graphics.setColor(new Color(0,0,0,150));
 		graphics.fillRect(0, 0, windowWidth, windowHeight);
 		graphics.setColor(Color.WHITE);
-		graphics.fillRect(windowWidth/2-200,windowHeight/2-100, 400, 200);
+		graphics.fillRect(windowWidth/2-200,windowHeight/2-100, 400, 250);
 		graphics.setColor(Color.BLACK);
 		graphics.setFont(new Font("Arial", Font.PLAIN, 20));
 		graphics.drawString("PAUSE", windowWidth/2-35, windowHeight/2-60);
 		graphics.drawString("Appuyez sur Esc pour revenir au jeu", windowWidth/2-155, windowHeight/2-20);
 		graphics.drawString("Appuyez sur a pour abandonner la partie", windowWidth/2-165, windowHeight/2+20);
 		graphics.drawString("Appuyez sur q pour quitter le jeu", windowWidth/2-145, windowHeight/2+60);
+		graphics.drawString("Appuyez sur g pour changer le thème", windowWidth/2-155, windowHeight/2+100);
 		
 		/*
+		 * Why doing this ???? -_-
+		 * 
 		//to paint the endscreen directly on the pause menu, test purpose
 		if (chart != null) {
 			chartManager.refreshDataset(); //we refresh the data here in the graphic thread because otherwise there are conflicts
