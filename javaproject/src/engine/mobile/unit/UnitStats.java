@@ -54,9 +54,9 @@ public class UnitStats {
 	 * @param maxShield
 	 */
 	public UnitStats(String id, String unitType, String faction, int maxHp, int populationCost, int ambroisieCost,
-			int faithCost, double attackDamage, float attackSpeed, double movementSpeed, float attackRange,
+			int faithCost, float attackDamage, float attackSpeed, float movementSpeed, float attackRange,
 			float visionRange, int hpRegenRate, int tierLevel, float blastRadius, boolean throughObstacles,
-			double chargeBonusDamage, int chargeDistanceMax, double chargeSpeed, float maxShield) {
+			float chargeBonusDamage, int chargeDistanceMax, float chargeSpeed, float maxShield) {
 		this.id = id;
 		this.UnitType = unitType;
 		this.faction = faction;
@@ -66,15 +66,15 @@ public class UnitStats {
 		this.ambroisieCost = ambroisieCost;
 		this.faithCost = faithCost;
 		this.attackDamage = attackDamage;
-		this.attackSpeed = attackSpeed;
+		this.attackSpeed = (float)attackSpeed;
 		this.movementSpeed = movementSpeed;
-		this.attackRange = attackRange;
-		this.visionRange = visionRange;
+		this.attackRange = (float) attackRange;
+		this.visionRange = (float) visionRange;
 		this.hpRegenRate = hpRegenRate;
 		
-		this.maxShield = maxShield;
+		this.maxShield = (float) maxShield;
 		
-		this.blastRadius = blastRadius;
+		this.blastRadius = (float) blastRadius;
 		
 		this.throughObstacles = throughObstacles;
 		this.chargeBonusDamage = chargeBonusDamage;

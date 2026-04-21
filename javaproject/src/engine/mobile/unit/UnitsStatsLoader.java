@@ -36,7 +36,7 @@ public class UnitsStatsLoader {
 				int populationCost = Integer.valueOf(data[5].trim());
 				int ambroisieCost = Integer.valueOf(data[6].trim());
 				int faithCost = Integer.valueOf(data[7].trim());
-				Double AttackDamage = Double.valueOf(data[8].trim());
+				Float AttackDamage = Float.valueOf(data[8].trim());
 				Float attackSpeed = Float.valueOf(data[9].trim());
 				int movementsSpeed = Integer.valueOf(data[10].trim());
 				int attackRange = Integer.valueOf(data[11].trim());
@@ -44,9 +44,9 @@ public class UnitsStatsLoader {
 				int hpRegenRate = Integer.valueOf(data[13].trim());
 				float maxShield = Float.valueOf(data[14].trim());
 				Boolean ThroughObstacle_CAVALRY = Boolean.valueOf(data[15].trim());
-				Double ChageBonusDamage = Double.valueOf(data[16].trim());
+				Float ChageBonusDamage = Float.valueOf(data[16].trim());
 				int chargeDistanceMax = Integer.valueOf(data[17].trim());
-				Double chargeSpeed = Double.valueOf(data[18].trim());
+				Float chargeSpeed = Float.valueOf(data[18].trim());
 				int BlastRadius_ARTILLERY = Integer.valueOf(data[19].trim());
 				UnitStats stats = new UnitStats(id, UnitType, faction, maxHp, populationCost, ambroisieCost, faithCost, AttackDamage, attackSpeed, movementsSpeed, attackRange, visionRange, hpRegenRate, tierLevel, BlastRadius_ARTILLERY, ThroughObstacle_CAVALRY, ChageBonusDamage, chargeDistanceMax, chargeSpeed, maxShield);
 				String key = UnitType.toUpperCase() + "_" + faction.toUpperCase() + "_" + tierLevel;
