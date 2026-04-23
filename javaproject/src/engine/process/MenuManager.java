@@ -18,6 +18,8 @@ public class MenuManager implements MenuInterface {
 	
 	private String selectedFaction;
 	
+	private String winnerFac;
+	
 	public MenuManager(DefaultGameSettings gameSettings) {
 		this.gameSettings=gameSettings;
 		this.selectedFaction= this.gameSettings.getPlayerFaction();
@@ -44,5 +46,13 @@ public class MenuManager implements MenuInterface {
 	
 	public String getCurrentState() {
 		return currentState;
+	}
+
+	public String getWinnerFac() {
+		return winnerFac;
+	}
+
+	public void setWinnerFac(String winnerFac) {
+		this.winnerFac = winnerFac;
 	}
 }

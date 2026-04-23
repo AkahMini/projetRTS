@@ -86,7 +86,7 @@ public class MobileElementManager implements MobileInterface {
     public MobileElementManager(Map map, DefaultGameSettings gameSettings,String faction, int mode) {
         this.gameSettings=gameSettings;
     	this.map = map;
-        this.player = new Player("Jhon Doe", faction);
+        this.player = new Player("Player", faction);
         this.mode =mode;
         
         List<String> factions = new ArrayList<>(Arrays.asList(DefaultGameSettings.ZEUS, DefaultGameSettings.HADES,DefaultGameSettings.POSEIDON));
@@ -321,15 +321,15 @@ public class MobileElementManager implements MobileInterface {
 		
 		if(activeZEUS&&!(activeHADES||activePOSEIDON)) {
 			logger.info("La Faction de Zeus a Gagné !");
-			return gameSettings.ZEUS;
+			winingfaction="La Faction de Zeus a Gagné !";
 		}
 		if(activePOSEIDON&&!(activeZEUS||activeHADES)) {
 			logger.info("La Faction de Poseidon a Gagné !");
-			return gameSettings.POSEIDON;
+			winingfaction="La Faction de Poseidon a Gagné !";
 		}
 		if(activeHADES&&!(activeZEUS||activePOSEIDON)) {
 			logger.info("La Faction d'Hades a Gagné !");
-			return gameSettings.HADES;
+			winingfaction="La Faction d'Hades a Gagné !";
 		}
 		return winingfaction;
 	}

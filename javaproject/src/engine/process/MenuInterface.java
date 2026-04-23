@@ -8,4 +8,7 @@ public interface MenuInterface {
 	String getSelectedFaction();
 	void setselectedMode(int mode);
 	int getSelectedMode();
+	
+	String getWinnerFac();
+	void setWinnerFac(String winnerFac);
 }

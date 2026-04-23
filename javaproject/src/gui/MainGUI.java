@@ -111,7 +111,7 @@ public class MainGUI extends JFrame implements Runnable {
 		contentPane.add(dashboard, BorderLayout.CENTER);
 
 		//THIS PART IS FOR TEST ONLY WILL BE REMOVED
-	
+		/*
 		javax.swing.JPanel RightPanel = new javax.swing.JPanel();
 		RightPanel.setBackground(java.awt.Color.GRAY); 
 
@@ -203,6 +203,7 @@ public class MainGUI extends JFrame implements Runnable {
 		contentPane.add(RightPanel, BorderLayout.SOUTH);
 		
 		contentPane.add(dashboard, BorderLayout.CENTER);
+		*/
 		
 		this.addKeyListener(new KeyControls());
 		setFocusable(true);
@@ -241,6 +242,8 @@ public class MainGUI extends JFrame implements Runnable {
 						
 					}
 					if(!manager.winningFaction().equals("null")) {
+						menu.setWinnerFac(manager.winningFaction());
+						System.out.println("in menu WinnerFac : "+manager.winningFaction());
 						currentState=GameConfiguration.GAMESTATE.get(3);
 					}
 					break;

@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -18,18 +19,32 @@ public class MenuStrategy {
 	private final int windowHeight = GameConfiguration.WINDOW_HEIGHT; 
 
 	public void paintPauseMenu(Graphics graphics, JFreeChart chart,ChartManager chartManager) {
-		graphics.setColor(new Color(0,0,0,150));
+		graphics.setColor(new Color(0, 0, 0, 150));
 		graphics.fillRect(0, 0, windowWidth, windowHeight);
+
+		int panelWidth = 400;
+		int panelHeight = 250;
+		int panelX = (windowWidth - panelWidth) / 2;
+		int panelY = (windowHeight - panelHeight) / 2;
 		graphics.setColor(Color.WHITE);
-		graphics.fillRect(windowWidth/2-200,windowHeight/2-100, 400, 250);
+		graphics.fillRect(panelX, panelY, panelWidth, panelHeight);
+
 		graphics.setColor(Color.BLACK);
 		graphics.setFont(new Font("Arial", Font.PLAIN, 20));
-		graphics.drawString("PAUSE", windowWidth/2-35, windowHeight/2-60);
-		graphics.drawString("Appuyez sur Esc pour revenir au jeu", windowWidth/2-155, windowHeight/2-20);
-		graphics.drawString("Appuyez sur a pour abandonner la partie", windowWidth/2-165, windowHeight/2+20);
-		graphics.drawString("Appuyez sur q pour quitter le jeu", windowWidth/2-145, windowHeight/2+60);
-		graphics.drawString("Appuyez sur g pour changer le thème", windowWidth/2-155, windowHeight/2+100);
-		
+		int y = panelY + 40;
+		int spacing = 40;
+		graphics.setFont(new Font("Arial", Font.BOLD, 24));
+		drawCenteredString(graphics, "PAUSE", windowWidth, y);
+
+		y += spacing;
+		graphics.setFont(new Font("Arial", Font.PLAIN, 18));
+		drawCenteredString(graphics, "Appuyez sur Esc pour revenir au jeu", windowWidth, y);
+		y += spacing;
+		drawCenteredString(graphics, "Appuyez sur A pour abandonner la partie", windowWidth, y);
+		y += spacing;
+		drawCenteredString(graphics, "Appuyez sur Q pour quitter le jeu", windowWidth, y);
+		y += spacing;
+		drawCenteredString(graphics, "Appuyez sur G pour changer le thème", windowWidth, y);
 		/*
 		 * Why doing this ???? -_-
 		 * 
@@ -78,39 +93,90 @@ public class MenuStrategy {
 		}
 	}
 	
-	public void paintEndMenu(Graphics graphics, MobileInterface manager, JFreeChart chart,ChartManager chartManager) {
-		graphics.setColor(Color.BLACK);
-		graphics.setFont(new Font("Arial", Font.PLAIN, 40));
-		graphics.drawString("Fin de partie", windowWidth/2-100, windowHeight/2-200);
-		graphics.setFont(new Font("Arial", Font.PLAIN, 20));
-		String gameWiner =manager.winningFaction();
-		if(gameWiner!=null) {
-			gameWiner="Défaite par abandon !";
-		}
-		graphics.drawString(gameWiner, windowWidth/2, windowHeight/10);
-		graphics.drawString("Appuyez sur entrée pour retourner au menu principal", windowWidth/2-250, windowHeight/8);
-		graphics.drawString("Nombre d'unités crées: "+String.valueOf(manager.getPlayer().getNumberOfCreatedUnit()), windowWidth/2-150,windowHeight/2+30);
-		graphics.drawString("Nombre de bâtiments crées: "+String.valueOf(manager.getPlayer().getNumberOfBuiltBuilding()), windowWidth/2-150, windowHeight/2+60);
-		graphics.drawString("Ambroisie collectée: "+String.valueOf(manager.getPlayer().getTotalAmbroisieGathered()), windowWidth/2-150, windowHeight/2+90);
-		graphics.drawString("Foi collectée: "+String.valueOf(manager.getPlayer().getTotalFaithGathered()), windowWidth/2-150, windowHeight/2+120);
-		graphics.drawString("Unités tuées: "+String.valueOf(manager.getPlayer().getTotalKilledUnit()), windowWidth/2-150, windowHeight/2+150);
-		/**
-		 * private int numberOfCreatedUnit;//check
-			private int numberOfBuildBuilding;//check
-			private int totalAmbroisieGathered;//check
-			private int totalFaithGathered;//check
-			private int totalKilledUnit;//check??
-		 */
-		
-		if (chart != null) {
-			chartManager.refreshDataset(); //we refresh the data here in the graphic thread because otherwise there are conflicts
-		    int chartWidth = 261;
-		    int chartHeight = 196;
-		    int chartX=(windowWidth-chartWidth)/2;
-		    int chartY = (windowHeight-chartHeight)/3;
-		    BufferedImage chartImage = chart.createBufferedImage(chartWidth, chartHeight);
-		    graphics.drawImage(chartImage, chartX, chartY, null);
-		}
-		
+	public void paintEndMenu(Graphics graphics, MobileInterface manager, MenuInterface menu, JFreeChart chart,ChartManager chartManager) {
+		graphics.setColor(new Color(230, 230, 230));
+	    graphics.fillRect(0, 0, windowWidth, windowHeight);
+
+	    int panelWidth = 700;
+	    int panelHeight = 550;
+	    int panelX = (windowWidth - panelWidth) / 2;
+	    int panelY = (windowHeight - panelHeight) / 2;
+
+	    graphics.setColor(Color.WHITE);
+	    graphics.fillRoundRect(panelX, panelY, panelWidth, panelHeight, 20, 20);
+
+	    graphics.setColor(new Color(200, 200, 200));
+	    graphics.drawRoundRect(panelX, panelY, panelWidth, panelHeight, 20, 20);
+
+	    int centerX = windowWidth / 2;
+	    int y = panelY + 60;
+	    graphics.setFont(new Font("Arial", Font.BOLD, 40));
+	    graphics.setColor(new Color(50, 50, 50));
+	    drawCenteredString(graphics, "Fin de partie", windowWidth, y);
+
+	    y += 50;
+	    String winner = menu.getWinnerFac();
+	    if (winner == null) {
+	        winner = "Défaite par abandon";
+	        graphics.setColor(new Color(200, 60, 60));
+	    } else {
+	        graphics.setColor(new Color(60, 160, 90));
+	    }
+	    graphics.setFont(new Font("Arial", Font.BOLD, 24));
+	    drawCenteredString(graphics, winner, windowWidth, y);
+
+	    y += 70;
+	    graphics.setFont(new Font("Arial", Font.PLAIN, 20));
+	    graphics.setColor(new Color(70, 70, 70));
+	    int leftX = panelX + 80;
+	    int rightX = panelX + panelWidth - 80;
+	    int spacing = 35;
+
+	    drawStat(graphics, "Unités créées :", manager.getPlayer().getNumberOfCreatedUnit(), leftX, rightX, y);
+	    y += spacing;
+	    drawStat(graphics, "Bâtiments construits :", manager.getPlayer().getNumberOfBuiltBuilding(), leftX, rightX, y);
+	    y += spacing;
+	    drawStat(graphics, "Ambroisie collectée :", manager.getPlayer().getTotalAmbroisieGathered(), leftX, rightX, y);
+	    y += spacing;
+	    drawStat(graphics, "Foi collectée :", manager.getPlayer().getTotalFaithGathered(), leftX, rightX, y);
+	    y += spacing;
+	    drawStat(graphics, "Unités tuées :", manager.getPlayer().getTotalKilledUnit(), leftX, rightX, y);
+
+	    y += 20;
+	    if (chart != null) {
+	        chartManager.refreshDataset();
+	        int chartWidth = 600;
+	        int chartHeight = 200;
+	        chart.setBackgroundPaint(Color.WHITE);
+	        chart.getPlot().setBackgroundPaint(new Color(245, 245, 245));
+	        int chartX = (windowWidth - chartWidth) / 2;
+	        int chartY = y;
+	        BufferedImage chartImage = chart.createBufferedImage(chartWidth, chartHeight);
+	        graphics.drawImage(chartImage, chartX, chartY, null);
+	        graphics.setColor(new Color(180, 180, 180));
+	        graphics.drawRect(chartX, chartY, chartWidth, chartHeight);
+	        y += chartHeight;
+	    }
+
+	    y += 30;
+	    graphics.setFont(new Font("Arial", Font.ITALIC, 16));
+	    graphics.setColor(new Color(120, 120, 120));
+	    drawCenteredString(graphics, "Appuyez sur Entrée pour retourner au menu", windowWidth, y);
+	}
+	
+	private void drawCenteredString(Graphics g, String text, int width, int y) {
+	    FontMetrics metrics = g.getFontMetrics(g.getFont());
+	    int x = (width - metrics.stringWidth(text)) / 2;
+	    g.drawString(text, x, y);
+	}
+	
+	private void drawStat(Graphics g, String label, int value, int leftX, int rightX, int y) {
+	    g.drawString(label, leftX, y);
+
+	    String val = String.valueOf(value);
+	    FontMetrics fm = g.getFontMetrics();
+	    int valWidth = fm.stringWidth(val);
+
+	    g.drawString(val, rightX - valWidth, y);
 	}
 }

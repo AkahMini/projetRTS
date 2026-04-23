@@ -205,7 +205,7 @@ public class GameDisplay extends JPanel {
 			}else if (menu.getCurrentState().equals("CHOOSE")) {
 				menuStrategy.paintChooseMenu(menu, g);
 			}else if (menu.getCurrentState().equals("END")) {
-				menuStrategy.paintEndMenu(g,manager,chartManager.getEndChartPanel().getChart(),chartManager);
+				menuStrategy.paintEndMenu(g,manager,menu,chartManager.getEndChartPanel().getChart(),chartManager);
 			}
 		}
 		
