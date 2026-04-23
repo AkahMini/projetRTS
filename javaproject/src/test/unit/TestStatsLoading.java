@@ -28,16 +28,58 @@ public class TestStatsLoading {
 	
 	@Test
 	public void testBuildingStatsLoader() {
-		BuildingStats buildingstats = new BuildingStats("Baliste","DefenseTower","Zeus",2,800,250,250,20,0,15,2,8,0,"0",(float)3.0);
+		/**
+		 * Tests on "Baliste" stats
+		 */
 		BuildingStats buildingLoadedStats = BuildingRepository.getInstance().getStats("DEFENSETOWER_ZEUS_2");
+		BuildingStats buildingstats = new BuildingStats();
+		buildingstats.setId("Baliste");
+		buildingstats.setBuildingType("DefenseTower");
+		buildingstats.setFaction("Zeus");
+		buildingstats.setTierLevel(2);
+		buildingstats.setMaxHp(800);
+		buildingstats.setAmbroisieCost(250);
+		buildingstats.setFaithCost(250);
+		buildingstats.setConstructionTime(20);
+        buildingstats.setProductionSpeed(0);
+        buildingstats.setTowerDamage(25);
+        buildingstats.setTowerAttackSpeed(2);
+        buildingstats.setTowerRange(6);
+        buildingstats.setPopulationProvided(0);
+        buildingstats.addTechnologieUnlocked("0");
+        buildingstats.setVisionRange(7);
+		
 		assertNotNull(buildingLoadedStats);
 		assertEquals(buildingstats.toString(), buildingLoadedStats.toString());
 	}
 	@Test
 	public void testUnitStatsLoader() {
-		//new UnitStats(id, UnitType, faction, maxHp, populationCost, ambroisieCost, faithCost, AttackDamage, attackSpeed, movementsSpeed, attackRange, visionRange, hpRegenRate, tierLevel, BlastRadius_ARTILLERY, ThroughObstacle_CAVALRY, ChageBonusDamage, chargeDistanceMax, chargeSpeed, maxShield));
+		/**
+		 * Test on "Spartiates" stats
+		 */
 		UnitStats unitLoadedStats = UnitRepository.getInstance().getStats("WORKER_HADES_1");
-		UnitStats unitStats = new UnitStats("Spartiates", "WORKER", "HADES", 1, 60, 1, 0, 0, 0.0f, 0.0f, 11.0f, 1.0f, 1, 2, 0.0f,false, 0.0f, 0,0.0f, 0.0f);
+		UnitStats unitStats = new UnitStats();
+		unitStats.setId("Spartiates");
+		unitStats.setUnitType("WORKER");
+		unitStats.setFaction("HADES");
+		unitStats.setTierLevel(1);
+		unitStats.setMaxHp(60);
+		unitStats.setPopulationCost(1);
+		unitStats.setAmbroisieCost(0);
+		unitStats.setFaithCost(0);
+		unitStats.setAttackDamage(0);
+		unitStats.setAttackSpeed(0);
+		unitStats.setMovementSpeed(11);
+		unitStats.setAttackRange(1);
+		unitStats.setVisionRange(1);
+		unitStats.setHpRegenRate(2);
+		unitStats.setBlastRadius(0);
+		unitStats.setThroughObstacles(false);
+		unitStats.setChargeBonusDamage(0);
+		unitStats.setChargeDistanceMax(0);
+		unitStats.setChargeSpeed(0);
+		unitStats.setMaxShield(0);
+		
 		assertNotNull(unitLoadedStats);
 		assertEquals(unitStats.toString(), unitLoadedStats.toString());
 	}

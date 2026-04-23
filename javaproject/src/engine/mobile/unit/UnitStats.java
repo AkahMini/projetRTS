@@ -81,6 +81,9 @@ public class UnitStats {
 		this.chargeDistanceMax = chargeDistanceMax;
 		this.chargeSpeed = chargeSpeed;
 	}
+	public UnitStats() {
+		
+	}
 	
 	public String getId() {
 		return id;

@@ -39,6 +39,10 @@ public class BuildingStats {
         this.addTechnologieUnlocked(technologie);
         this.setVisionRange(visionRange);
     }
+    
+    public BuildingStats() {
+    	
+    }
 
 	public int getPopulationProvided() {
 		return populationProvided;
