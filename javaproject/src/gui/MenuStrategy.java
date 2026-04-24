@@ -97,6 +97,15 @@ public class MenuStrategy {
 		graphics.setColor(new Color(230, 230, 230));
 	    graphics.fillRect(0, 0, windowWidth, windowHeight);
 
+	    Color factionColor = Color.GRAY;
+	    String faction = manager.getPlayer().getFactionName();
+	    if (faction.equalsIgnoreCase("Zeus")) {
+	        factionColor = new Color(230, 200, 40); // jaune
+	    } else if (faction.equalsIgnoreCase("Hades")) {
+	        factionColor = new Color(200, 60, 60); // rouge
+	    } else if (faction.equalsIgnoreCase("Poseidon")) {
+	        factionColor = new Color(60, 140, 220); // bleu
+	    }
 	    int panelWidth = 700;
 	    int panelHeight = 550;
 	    int panelX = (windowWidth - panelWidth) / 2;
@@ -104,11 +113,13 @@ public class MenuStrategy {
 
 	    graphics.setColor(Color.WHITE);
 	    graphics.fillRoundRect(panelX, panelY, panelWidth, panelHeight, 20, 20);
-
+	    for (int i = 0; i < 4; i++) {
+	        graphics.setColor(new Color(factionColor.getRed(),factionColor.getGreen(),factionColor.getBlue(),100 - i * 20));
+	        graphics.drawRoundRect(panelX - i,panelY - i,panelWidth + (i * 2),panelHeight + (i * 2),20,20);
+	    }
 	    graphics.setColor(new Color(200, 200, 200));
-	    graphics.drawRoundRect(panelX, panelY, panelWidth, panelHeight, 20, 20);
+	    graphics.drawRoundRect(panelX + 2, panelY + 2, panelWidth - 4, panelHeight - 4, 18, 18);
 
-	    int centerX = windowWidth / 2;
 	    int y = panelY + 60;
 	    graphics.setFont(new Font("Arial", Font.BOLD, 40));
 	    graphics.setColor(new Color(50, 50, 50));
@@ -131,29 +142,22 @@ public class MenuStrategy {
 	    int leftX = panelX + 80;
 	    int rightX = panelX + panelWidth - 80;
 	    int spacing = 35;
-
-	    drawStat(graphics, "Unités créées :", manager.getPlayer().getNumberOfCreatedUnit(), leftX, rightX, y);
-	    y += spacing;
-	    drawStat(graphics, "Bâtiments construits :", manager.getPlayer().getNumberOfBuiltBuilding(), leftX, rightX, y);
-	    y += spacing;
-	    drawStat(graphics, "Ambroisie collectée :", manager.getPlayer().getTotalAmbroisieGathered(), leftX, rightX, y);
-	    y += spacing;
-	    drawStat(graphics, "Foi collectée :", manager.getPlayer().getTotalFaithGathered(), leftX, rightX, y);
-	    y += spacing;
+	    drawStat(graphics, "Unités créées :", manager.getPlayer().getNumberOfCreatedUnit(), leftX, rightX, y); y += spacing;
+	    drawStat(graphics, "Bâtiments construits :", manager.getPlayer().getNumberOfBuiltBuilding(), leftX, rightX, y); y += spacing;
+	    drawStat(graphics, "Ambroisie collectée :", manager.getPlayer().getTotalAmbroisieGathered(), leftX, rightX, y); y += spacing;
+	    drawStat(graphics, "Foi collectée :", manager.getPlayer().getTotalFaithGathered(), leftX, rightX, y); y += spacing;
 	    drawStat(graphics, "Unités tuées :", manager.getPlayer().getTotalKilledUnit(), leftX, rightX, y);
 
-	    y += 20;
+	    y += 50;
 	    if (chart != null) {
 	        chartManager.refreshDataset();
-	        int chartWidth = 600;
-	        int chartHeight = 200;
-	        chart.setBackgroundPaint(Color.WHITE);
-	        chart.getPlot().setBackgroundPaint(new Color(245, 245, 245));
+	        int chartWidth = 350;
+	        int chartHeight = 180;
 	        int chartX = (windowWidth - chartWidth) / 2;
 	        int chartY = y;
 	        BufferedImage chartImage = chart.createBufferedImage(chartWidth, chartHeight);
 	        graphics.drawImage(chartImage, chartX, chartY, null);
-	        graphics.setColor(new Color(180, 180, 180));
+	        graphics.setColor(factionColor);
 	        graphics.drawRect(chartX, chartY, chartWidth, chartHeight);
 	        y += chartHeight;
 	    }
