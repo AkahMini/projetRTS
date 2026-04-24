@@ -148,11 +148,11 @@ public class MenuStrategy {
 	    drawStat(graphics, "Foi collectée :", manager.getPlayer().getTotalFaithGathered(), leftX, rightX, y); y += spacing;
 	    drawStat(graphics, "Unités tuées :", manager.getPlayer().getTotalKilledUnit(), leftX, rightX, y);
 
-	    y += 50;
+	    y += 20;
 	    if (chart != null) {
 	        chartManager.refreshDataset();
-	        int chartWidth = 350;
-	        int chartHeight = 180;
+	        int chartWidth = 600;
+	        int chartHeight = 200;
 	        int chartX = (windowWidth - chartWidth) / 2;
 	        int chartY = y;
 	        BufferedImage chartImage = chart.createBufferedImage(chartWidth, chartHeight);
