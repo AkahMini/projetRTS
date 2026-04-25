@@ -119,11 +119,13 @@ public class MobileElementManager implements MobileInterface {
 	
     public void nextRound() {
         timetweaker.increment();
-        processBySeconds();
         unitCombatSystem();
-        unitManager.moveAllUnits(player);
+        moveAllUnits();
         aiManaging();
+        processBySeconds();
     }
+
+	
 
 
 	
@@ -132,11 +134,21 @@ public class MobileElementManager implements MobileInterface {
 		/*
 		 * Every slow process that don't need to be check every tick, for performance purpose
 		 */
-		//chronometer update
+		
+		if(timetweaker.getValue()==7) {
+			killUnits(player);
+	        killUnits(cpu1);
+	        removeBuildings(player);
+	        removeBuildings(cpu1);
+	        if(mode==1) {
+	        	killUnits(cpu2);
+	            removeBuildings(cpu2);
+	        }
+	        
+		}
 		if(timetweaker.getValue() == 64) {
-			
+			chronometer.increment(); //chronometer update
 			chartManager.updateAllChartDataset(this.player,this.units,this.chronometer);
-            chronometer.increment();
             nextTierCheck(player);
     		nextTierCheck(cpu1);
     		if(mode==1) {
@@ -187,7 +199,12 @@ public class MobileElementManager implements MobileInterface {
         }
 	}
 
-	
+	private void moveAllUnits() {
+		unitManager.moveAllUnits(player);
+        unitManager.moveAllUnits(cpu1);
+        if(mode==1)
+        	unitManager.moveAllUnits(cpu2);
+	}
    
 
 	private void nextTierCheck(Player player){
@@ -242,24 +259,11 @@ public class MobileElementManager implements MobileInterface {
 	private void aiManaging() {
 		if(gameSettings.isAiActivated()) {
         	
-        
-	        unitManager.moveAllUnits(cpu1);
-	        if(mode==1) {
-	        	unitManager.moveAllUnits(cpu2);
-	        }
-	        
-	        if(mode==1) {
-	        	killUnits(cpu2);
-	            removeBuildings(cpu2);
-	        }
 	        buildingManager.allTowerAttack(buildings);
 	       	if(timetweaker.getValue() == 7) {
 	       		cpuManager1.attackReaction(cpu1);
 	            cpuManager1.workerManagement(cpu1);
-	            killUnits(player);
-	            killUnits(cpu1);
-	            removeBuildings(player);
-	            removeBuildings(cpu1);
+	     
 	            if(mode==1) {
 	            	cpuManager2.attackReaction(cpu2);
 	                cpuManager2.workerManagement(cpu2);
