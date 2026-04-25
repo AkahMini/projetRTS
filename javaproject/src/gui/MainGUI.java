@@ -403,7 +403,10 @@ public class MainGUI extends JFrame implements Runnable {
 				}
 				break;
 			case KeyEvent.VK_I:
+				if(manager.getGameSettings().isAiActivated())
 				manager.getGameSettings().setAiActivated(false);
+				else
+				manager.getGameSettings().setAiActivated(true);
 				break;
 			case KeyEvent.VK_W:
 				if (currentState.equals("PLAYING")) {
