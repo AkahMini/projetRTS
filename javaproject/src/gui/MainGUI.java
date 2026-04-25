@@ -402,6 +402,9 @@ public class MainGUI extends JFrame implements Runnable {
 					manager.motherload();
 				}
 				break;
+			case KeyEvent.VK_I:
+				manager.getGameSettings().setAiActivated(false);
+				break;
 			case KeyEvent.VK_W:
 				if (currentState.equals("PLAYING")) {
 					currentState="END";

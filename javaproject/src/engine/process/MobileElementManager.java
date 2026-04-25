@@ -121,43 +121,10 @@ public class MobileElementManager implements MobileInterface {
         timetweaker.increment();
         processBySeconds();
         unitCombatSystem();
-        
         unitManager.moveAllUnits(player);
-        unitManager.moveAllUnits(cpu1);
-        if(mode==1) {
-        	unitManager.moveAllUnits(cpu2);
-        }
-        
-        if(mode==1) {
-        	killUnits(cpu2);
-            removeBuildings(cpu2);
-        }
-        buildingManager.allTowerAttack(buildings);
-       	if(timetweaker.getValue() == 7) {
-       		cpuManager1.attackReaction(cpu1);
-            cpuManager1.workerManagement(cpu1);
-            killUnits(player);
-            killUnits(cpu1);
-            removeBuildings(player);
-            removeBuildings(cpu1);
-            if(mode==1) {
-            	cpuManager2.attackReaction(cpu2);
-                cpuManager2.workerManagement(cpu2);
-            }
-       	}
-       	if(timetweaker.getValue() == 13) {
-       		cpuManager1.buildManagement(cpu1);
-            cpuManager1.otherBuildingsManagement(cpu1);
-            cpuManager1.militaryProductionManagement(cpu1);
-            if(mode==1) {
-            	cpuManager2.buildManagement(cpu2);
-                cpuManager2.otherBuildingsManagement(cpu2);
-                cpuManager2.militaryProductionManagement(cpu2);
-            }
-       	}
-
-        
+        aiManaging();
     }
+
 
 	
 
@@ -270,6 +237,46 @@ public class MobileElementManager implements MobileInterface {
         		}
         	}
         }
+	}
+	
+	private void aiManaging() {
+		if(gameSettings.isAiActivated()) {
+        	
+        
+	        unitManager.moveAllUnits(cpu1);
+	        if(mode==1) {
+	        	unitManager.moveAllUnits(cpu2);
+	        }
+	        
+	        if(mode==1) {
+	        	killUnits(cpu2);
+	            removeBuildings(cpu2);
+	        }
+	        buildingManager.allTowerAttack(buildings);
+	       	if(timetweaker.getValue() == 7) {
+	       		cpuManager1.attackReaction(cpu1);
+	            cpuManager1.workerManagement(cpu1);
+	            killUnits(player);
+	            killUnits(cpu1);
+	            removeBuildings(player);
+	            removeBuildings(cpu1);
+	            if(mode==1) {
+	            	cpuManager2.attackReaction(cpu2);
+	                cpuManager2.workerManagement(cpu2);
+	            }
+	       	}
+	       	if(timetweaker.getValue() == 13) {
+	       		cpuManager1.buildManagement(cpu1);
+	            cpuManager1.otherBuildingsManagement(cpu1);
+	            cpuManager1.militaryProductionManagement(cpu1);
+	            if(mode==1) {
+	            	cpuManager2.buildManagement(cpu2);
+	                cpuManager2.otherBuildingsManagement(cpu2);
+	                cpuManager2.militaryProductionManagement(cpu2);
+	            }
+	       	}
+	
+	    }
 	}
 	
 	private void killUnits(Player p) {

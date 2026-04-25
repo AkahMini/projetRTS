@@ -16,7 +16,9 @@ public class DefaultGameSettings {
     private String playerFaction = DEFAULT_PLAYER_FACTION;
     private int effectiveGameSpeed =GameConfiguration.DEFAULT_GAME_SPEED;//10 by default, 1 for devMode
     private boolean fogOfWar=true;
+    private boolean isAiActivated=true;
     
+	
 	
 	public String getPlayerFaction() {
     	return this.playerFaction;
@@ -38,5 +40,11 @@ public class DefaultGameSettings {
 	}
 	public void setFogOfWar(boolean fogOfWar) {
 		this.fogOfWar = fogOfWar;
+	}
+	public boolean isAiActivated() {
+		return isAiActivated;
+	}
+	public void setAiActivated(boolean isAiActivated) {
+		this.isAiActivated = isAiActivated;
 	}
 }
