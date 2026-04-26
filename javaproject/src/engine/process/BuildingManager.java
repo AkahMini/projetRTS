@@ -219,9 +219,9 @@ public class BuildingManager implements BuildingInterface{
 		//System.out.println("Bouton"+ button+"cliqué pour : " + manager.getSelectedBuild().getBuildingName());
 		switch (button) {
 		case "button1":			
+			
 			//first button for unitProducers
 			if(manager.getSelectedBuild() instanceof HQ) {
-				//UnitProducer hq = (UnitProducer) ((HQ) manager.getSelectedBuild()).getWorkerProducer();
 					UnitProducer hq = (UnitProducer) ((HQ) manager.getSelectedBuild()).getWorkerProducer();
 					manager.addQueue(hq, manager.getSelectedBuild().getPosition(), "WORKER",p);
 			}
@@ -244,48 +244,7 @@ public class BuildingManager implements BuildingInterface{
 					break;
 				}
 			}
-			
-			
-			/*
-			 * switch(name) {
-				case("Camp spartiate"):
-					image1=imageRepertory+"Infantry.png";
-					break;
-				case("Colisée d'Atlantide"):
-					image1=imageRepertory+"Infantry.png";
-					break;
-				case("Camp Olympique"):
-					image1=imageRepertory+"Artillery.png";
-					break;
-				case("Puit d'invocation"):
-					image1=imageRepertory+"Artillery.png";
-					image2=imageRepertory+"Cavalry.png";
-					break;
-				case("Cascade"):
-					image1=imageRepertory+"Artillery.png";
-					image2=imageRepertory+"Cavalry.png";
-					break;
-				case("prytanée"):
-					image1=imageRepertory+"Infantry.png";
-					image2=imageRepertory+"Cavalry.png";
-					break;
-				case("Portail vers les champs Élysées"):
-					image1=imageRepertory+"Artillery.png";
-					image2=imageRepertory+"Cavalry.png";
-					break;
-				case("Fosse sous marine"):
-					image1=imageRepertory+"Infantry.png";
-					image2=imageRepertory+"Cavalry.png";
-					break;
-				case("Autel de la sagesse"):
-					image1=imageRepertory+"Infantry.png";
-					image2=imageRepertory+"Cavalry.png";
-					break;
-				}
-			 */
-				
-			
-			
+		
 			
 			if (manager.getSelectedBuild() instanceof ResearchBuilding && !p.getTechnologies().contains("attackDamage_1.25") ) {
 				if(!manager.getSelectedBuild().getIsUnderConstruction()) {
@@ -329,23 +288,7 @@ public class BuildingManager implements BuildingInterface{
 		}
 	}
 
-	/*
-    public Unit closestEnnemy(DefenseTower tower) {
-        Unit nearest = null;
-        double minDistance = Double.MAX_VALUE;
 
-        for (Unit unit : manager.getUnits()) {
-        	double dist = manager.getDistance(tower.getPosition(), unit.getPosition());
-
-        	if (dist < minDistance&&unit.getUnitFaction()!=tower.getFaction()) {
-
-            minDistance = dist;
-            nearest = unit;
-        	}
-        }
-        return nearest;
-    }
-	 */
 	public void setTowerTarget(DefenseTower tower) {
 		if(tower.getIsUnderConstruction()==false) {
 			Unit target = null;

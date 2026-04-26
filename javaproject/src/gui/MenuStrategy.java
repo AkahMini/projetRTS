@@ -45,20 +45,7 @@ public class MenuStrategy {
 		drawCenteredString(graphics, "Appuyez sur Q pour quitter le jeu", windowWidth, y);
 		y += spacing;
 		drawCenteredString(graphics, "Appuyez sur G pour changer le thème", windowWidth, y);
-		/*
-		 * Why doing this ???? -_-
-		 * 
-		//to paint the endscreen directly on the pause menu, test purpose
-		if (chart != null) {
-			chartManager.refreshDataset(); //we refresh the data here in the graphic thread because otherwise there are conflicts
-		    int chartWidth = 261;
-		    int chartHeight = 196;
-		    int chartX=500;
-		    int chartY = 285;
-		    BufferedImage chartImage = chart.createBufferedImage(chartWidth, chartHeight);
-		    graphics.drawImage(chartImage, chartX, chartY, null);
-		}
-		*/
+
 		
 	}
 	
@@ -100,11 +87,11 @@ public class MenuStrategy {
 	    Color factionColor = Color.GRAY;
 	    String faction = manager.getPlayer().getFactionName();
 	    if (faction.equalsIgnoreCase("Zeus")) {
-	        factionColor = new Color(230, 200, 40); // jaune
+	        factionColor = new Color(230, 200, 40); // yellow
 	    } else if (faction.equalsIgnoreCase("Hades")) {
-	        factionColor = new Color(200, 60, 60); // rouge
+	        factionColor = new Color(200, 60, 60); // red
 	    } else if (faction.equalsIgnoreCase("Poseidon")) {
-	        factionColor = new Color(60, 140, 220); // bleu
+	        factionColor = new Color(60, 140, 220); // blue
 	    }
 	    int panelWidth = 700;
 	    int panelHeight = 550;

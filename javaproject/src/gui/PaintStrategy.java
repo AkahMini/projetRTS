@@ -44,8 +44,6 @@ import engine.process.GameUtility;
 public class PaintStrategy {
 	private final int windowWidth = GameConfiguration.WINDOW_WIDTH;
 	private final int windowHeight = GameConfiguration.WINDOW_HEIGHT; 
-	//private TextureInterface textureManager=new TextureManager();
-	// do NOT remove the line above pls
 	
 	private void drawBoldLine(int boldness,int x1, int y1, int x2, int y2, Graphics g) {
 		/*
@@ -109,7 +107,6 @@ public class PaintStrategy {
 		graphics.drawString(notif, 300, 34);
 	}
 
-	//Need to upgrade
 	public void paint(Building building, Graphics graphics) {
 		Block position = building.getPosition();
 		int blockSize = GameConfiguration.BLOCK_SIZE;
@@ -121,7 +118,7 @@ public class PaintStrategy {
 		if(building.getIsUnderConstruction()) {
 			int tweaker=36;//max construct time
 			int tier=building.getTierLevel();
-			//very odd way because no time to set an attribute in building like we do with unit maxHp
+
 			if(tier==1) {
 				if(building instanceof HQ) {
 					tweaker=20;
@@ -277,7 +274,6 @@ public class PaintStrategy {
 	    graphics.setColor(baseColor);
 	    graphics.fillOval(px, py, blockSize, blockSize);
 
-	    //we do the variation
 	    int centerX = px + blockSize / 2;
 	    int centerY = py + blockSize / 2;
 
@@ -354,11 +350,11 @@ public class PaintStrategy {
 			Block startPosition = selectedArea.get(0);
 			int blockSize = GameConfiguration.BLOCK_SIZE;
 			graphics.setColor(Color.BLACK);
-			Iterator<Block> it = selectedArea.iterator();//iterator is used here but can be replaced
+			Iterator<Block> it = selectedArea.iterator();
 			Block endPosition=selectedArea.get(0);
 			Block temp=null;
 
-			//find the top-left most and the bottom-right most square of the selection, its not always selectedArea.get(0) !!
+			//find the top-left most and the bottom-right most square of the selection, its not always selectedArea.get(0)
 			while(it.hasNext()) {
 				temp=it.next();
 				if(endPosition.getLine()<temp.getLine()||endPosition.getColumn()<temp.getColumn()) {
@@ -368,7 +364,7 @@ public class PaintStrategy {
 				}
 			}
 
-			//maybe all of this is not optimal but it work as wanted so its fair enough
+
 			int firstLine = Math.min(startPosition.getLine(), endPosition.getLine());
 			int lastLine = Math.max(startPosition.getLine(), endPosition.getLine());
 			int firstColumn = Math.min(startPosition.getColumn(), endPosition.getColumn());
@@ -407,10 +403,10 @@ public class PaintStrategy {
 
 			//only current hp is in green. The >=98 is for the eventual float to int conevrsion error
 			if(percent>=98) {
-				graphics.setColor(new Color(0,102,0));// dark greeeeeeen
+				graphics.setColor(new Color(0,102,0));// dark green
 				graphics.fillRect(x-5, y, 220, 6);
 			}else {
-				graphics.setColor(new Color(0,102,0));// dark greeeeeeen
+				graphics.setColor(new Color(0,102,0));// dark green
 				graphics.fillRect(x-5, y, (int)((percent*220.0/100)), 6);
 				graphics.setColor(Color.RED);
 				graphics.fillRect((int)((percent*220.0/100))+x-5, y, (int)(220-(percent*220.0/100)), 6);
@@ -428,9 +424,9 @@ public class PaintStrategy {
 			i++;
 			if(i==maxUnitDisplayed) break;
 		}
-		// this is for the +nbOfunitNotDisplayed at the end
+
 		if(unitsInSelectedArea.size()>maxUnitDisplayed) {
-			y+=4;//tweak because of the weird way drawString works
+			y+=4;
 			graphics.setFont(new Font("SansSerif", Font.PLAIN, 18));
 			graphics.setColor(Color.BLACK);
 			int unitNotDisplayed=unitsInSelectedArea.size()-maxUnitDisplayed;
@@ -439,12 +435,11 @@ public class PaintStrategy {
 	}
 
 	
-	
-	//cant be cut in 2 method because of the call order conflict
+
 	//only the info+button of the first selected building is displayed
 	public void paintSelectedInfo(MobileInterface manager, Graphics graphics) {
 		int x =windowWidth-windowWidth/5;
-		int y =510;//~13*windowHeight/18 but meh
+		int y =510;
 		graphics.setColor(Color.BLACK);
 		graphics.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		
@@ -459,12 +454,12 @@ public class PaintStrategy {
 			y+=8;
 			int percent = worker.getPercentHP();
 			
-			//only current hp is in green. The >=98 is for the eventual float to int conevrsion error
+			//only current hp is in green. The >=98 is for the eventual float to int conversion error
 			if(percent>=98) {
-				graphics.setColor(new Color(0,102,0));// dark greeeeeeen
+				graphics.setColor(new Color(0,102,0));// dark green
 				graphics.fillRect(x, y, 220, 6);
 			}else {
-				graphics.setColor(new Color(0,102,0));// dark greeeeeeen
+				graphics.setColor(new Color(0,102,0));// dark green
 				graphics.fillRect(x, y, (int)((percent*220.0/100)), 6);
 				graphics.setColor(Color.RED);
 				graphics.fillRect((int)((percent*220.0/100))+x, y, (int)(220-(percent*220.0/100)), 6);
@@ -523,19 +518,7 @@ public class PaintStrategy {
 				graphics.fillRect((int)((percent*220.0/100))+x, y, (int)(220-(percent*220.0/100)), 6);
 			}
 	
-	
-			/*
-			if(build.getBuildingName().equals("Temple de Zeus")) {
-				graphics.drawImage(GameUtility.readImage("src/gameData/images/miner.png"),1020,560,60,60,null);
-			}
-			if(build.getBuildingName().equals("École des Pythagoricien")) {
-				graphics.drawImage(GameUtility.readImage("src/gameData/images/dmgUp.png"),1020,560,60,60,null);
-				graphics.drawImage(GameUtility.readImage("src/gameData/images/prodUnitUp.png"),1100,560,60,60,null);
-			}
-			if(build.getBuildingName().equals("Camp Olympique")) {
-				graphics.drawImage(GameUtility.readImage("src/gameData/images/Artillery.png"),1020,560,60,60,null);
-			}
-			*/
+
 			if(build.getFaction().equalsIgnoreCase(manager.getPlayer().getFactionName())) {
 				String imageRepertory = "/gameData/images/";
 				String image1=imageRepertory+"emptyButton.png";
@@ -600,11 +583,7 @@ public class PaintStrategy {
 					graphics.drawImage(GameUtility.readImage(image3),1180,560,60,60,null);//third button
 				}
 				
-				//template for visual use only
-				//graphics.drawRect(1020, 560, 240, 140);
-				//Draw img max 6 from the entry point
-				//img are 60x60 and 20 pixels between each
-				//-> one image per building per button (capacity/research/unit)
+	
 			}
 		}
 	}

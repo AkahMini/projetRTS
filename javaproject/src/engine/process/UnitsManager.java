@@ -116,7 +116,7 @@ public class UnitsManager implements UnitsInterface{
     	 */
     	unitMovement((Unit)displacedWorker); //Moves like a normal unit
     	
-    	//if the ai is busy elsewere, we don't do anything else
+    	//if the worker is busy elsewere, we don't do anything else
     	if (displacedWorker.getIsWorking() && displacedWorker.getCurrentDeposit() == null) {
             return; 
         }
@@ -418,21 +418,7 @@ public class UnitsManager implements UnitsInterface{
         	}        
         }
     }
-    /*
-    public void killUnit(Unit unit, ArrayList<Unit> units) {
-    	if(unit.getHp()<=0) {
-    		Iterator<Unit> it = units.iterator();
-    		while (it.hasNext()) {
-    		    Unit u= it.next();
-    		    if (u.equals(unit)) {
-    		        it.remove();
-    		    }
-    		}
-    		//units.remove(unit);
-    	}
-    }
 
-    */
 
     
     public void hpRegenUnits(Unit unit) {
@@ -448,7 +434,6 @@ public class UnitsManager implements UnitsInterface{
     public void workerConstruction(String button, Player p, Worker worker) {
     	int currentButtonTier = manager.getSelectedTier();
     	int playerTier = manager.getPlayer().getCurrentTier();
-    	//manager.setTypeSelection("build");
     	
     	switch (button) {
     	case "button1":
@@ -459,7 +444,6 @@ public class UnitsManager implements UnitsInterface{
     			manager.selectBuilding("HQ");
     			p.setBuildingToBuildID("HQ");
     			manager.setNotifText("QG sélectioné",true);
-    			//System.out.println("selectetd");
     			break;
     		}else if(currentButtonTier==2) {
     			manager.selectBuilding("ResearchBuilding");

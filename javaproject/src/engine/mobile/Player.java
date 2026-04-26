@@ -32,11 +32,11 @@ public class Player {
 	private String buildingToBuildID; //The id of the selected building, the one that the player want to build
 
 	//In-Game stats used for the end screen
-	private int numberOfCreatedUnit;//check
-	private int numberOfBuildBuilding;//check
-	private int totalAmbroisieGathered;//check
-	private int totalFaithGathered;//check
-	private int totalKilledUnit;//check??
+	private int numberOfCreatedUnit;
+	private int numberOfBuildBuilding;
+	private int totalAmbroisieGathered;
+	private int totalFaithGathered;
+	private int totalKilledUnit;
 	
 	
 

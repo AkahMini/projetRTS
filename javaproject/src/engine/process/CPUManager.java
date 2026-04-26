@@ -619,7 +619,7 @@ public class CPUManager implements CPUinterface {
         int hqCount = manager.countBuildingType(c, HQ.class);
         int maxArmy = 10 + (hqCount * 15); 
         
-        if (armyCount >= maxArmy) { // it means we don't need to create more army.
+        if (armyCount >= maxArmy) { //we don't need to create more army.
             return;
         }
 

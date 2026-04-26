@@ -74,7 +74,6 @@ public class GameDisplay extends JPanel {
 			
 			if(fogOfWar) {
 				//reset vision at each repaint
-				//not optimal but simpler, may be changed if it feels akward visually
 				for (int x = 0; x < 100; x++) {
 					for (int y = 0; y < 72; y++) {
 							visible[x][y] = false;
@@ -165,7 +164,6 @@ public class GameDisplay extends JPanel {
 					}
 				}
 
-				//similar if of the calculDegats method in UnitManager
 				if (unit.getIsInCombat() && unit.getAttackCounter()>=(Unit.getAttackTime())-10) {
 					paintStrategy.paintAttack(unit, g);
 				}
@@ -187,18 +185,15 @@ public class GameDisplay extends JPanel {
 			if(manager.getSelectedBuild()!=null||manager.getSelectedWorker()!=null) {
 				paintStrategy.paintSelectedInfo(manager, g);
 			}
-			if(manager.getTypeSelection()!=null) {
-				paintStrategy.paintGrid(map, g);
-			}
 			
-			//paintInGameChart(g);
+			
 			paintStrategy.paint(g,unitJFreeChart,chartManager);
 			
 			if(manager.isGameStoped()) {
 				menuStrategy.paintPauseMenu(g,chartManager.getEndChartPanel().getChart(),chartManager);
 			}
 			
-		//this is for menu display
+		//menu display
 		}else {
 			if(menu.getCurrentState().equals("MENU")) {
 				menuStrategy.paintMainMenu(g);
@@ -213,19 +208,6 @@ public class GameDisplay extends JPanel {
 	}
 
 
-	/*
-	private void paintInGameChart(Graphics g) {
-		if (unitJFreeChart != null) {
-			chartManager.refreshDataset(); //we refresh the data here in the graphic thread because otherwise there are conflicts
-		    int chartWidth = 261;
-		    int chartHeight = 196;
-		    int chartX =  1009;
-		    int chartY = 285;
-		    BufferedImage chartImage = unitJFreeChart.createBufferedImage(chartWidth, chartHeight);
-		    g.drawImage(chartImage, chartX, chartY, null);
-		}
-	}
-	*/
 	
 	
 	public void resetManager(MobileInterface manager) {

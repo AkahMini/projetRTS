@@ -29,7 +29,7 @@ public class TextureManager implements TextureInterface {
 		}
 	}
 	
-	//10x10 grid is the norm
+	//10x10 grid
 	public int[][] getPattern() {
 		switch (currentTexture) {
 		default:

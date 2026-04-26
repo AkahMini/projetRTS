@@ -121,13 +121,11 @@ public class MobileElementManager implements MobileInterface {
         timetweaker.increment();
         unitCombatSystem();
         moveAllUnits();
-        aiManaging();
+        cpuManaging();
         processBySeconds();
     }
 
 	
-
-
 	
 
 	private void processBySeconds() {
@@ -144,6 +142,7 @@ public class MobileElementManager implements MobileInterface {
 	        	killUnits(cpu2);
 	            removeBuildings(cpu2);
 	        }
+	        
 	        
 		}
 		if(timetweaker.getValue() == 64) {
@@ -167,6 +166,7 @@ public class MobileElementManager implements MobileInterface {
             }
                         
             // Buildings management
+            buildingManager.allTowerAttack(buildings);
             for(Building building : new ArrayList<>(buildings)) {
             	buildingManager.reduceConstructionTime(building);
             	if(building instanceof UnitProducer) {
@@ -256,14 +256,14 @@ public class MobileElementManager implements MobileInterface {
         }
 	}
 	
-	private void aiManaging() {
-		if(gameSettings.isAiActivated()) {
+	private void cpuManaging() {
+		if(gameSettings.isCPUActivated()) {
         	
-	        buildingManager.allTowerAttack(buildings);
+	        
 	       	if(timetweaker.getValue() == 7) {
 	       		cpuManager1.attackReaction(cpu1);
 	            cpuManager1.workerManagement(cpu1);
-	     
+	            
 	            if(mode==1) {
 	            	cpuManager2.attackReaction(cpu2);
 	                cpuManager2.workerManagement(cpu2);
@@ -476,7 +476,7 @@ public class MobileElementManager implements MobileInterface {
 	
 	        ArrayList<RessourceDeposit> allDeposits = new ArrayList<>();
 	
-	        // Joueur
+	        // Player
 	        allDeposits.add(new RessourceDeposit(map.getBlock(12, 18), RessourceDeposit.AMBROSIA));
 	        allDeposits.add(new RessourceDeposit(map.getBlock(14, 13), RessourceDeposit.FAITH));
 	        allDeposits.add(new RessourceDeposit(map.getBlock(18, 12), RessourceDeposit.AMBROSIA));
@@ -490,7 +490,7 @@ public class MobileElementManager implements MobileInterface {
 	        allDeposits.add(new RessourceDeposit(map.getBlock(56, 87), RessourceDeposit.FAITH));
 	        allDeposits.add(new RessourceDeposit(map.getBlock(54, 82), RessourceDeposit.AMBROSIA));
 	
-	        // Joueur B2 (Centre-gauche)
+	        // Player B2
 	        allDeposits.add(new RessourceDeposit(map.getBlock(31, 23), RessourceDeposit.AMBROSIA));
 	        allDeposits.add(new RessourceDeposit(map.getBlock(33, 28), RessourceDeposit.FAITH));
 	        allDeposits.add(new RessourceDeposit(map.getBlock(37, 28), RessourceDeposit.AMBROSIA));
@@ -502,7 +502,7 @@ public class MobileElementManager implements MobileInterface {
 	        allDeposits.add(new RessourceDeposit(map.getBlock(40, 72), RessourceDeposit.AMBROSIA));
 	        allDeposits.add(new RessourceDeposit(map.getBlock(44, 77), RessourceDeposit.FAITH));
 	
-	        // Joueur B3 (Bottom-Left)
+	        // Player B3 (Bottom-Left)
 	        allDeposits.add(new RessourceDeposit(map.getBlock(48, 18), RessourceDeposit.AMBROSIA));
 	        allDeposits.add(new RessourceDeposit(map.getBlock(49, 23), RessourceDeposit.FAITH));
 	        allDeposits.add(new RessourceDeposit(map.getBlock(52, 23), RessourceDeposit.AMBROSIA));
@@ -530,21 +530,8 @@ public class MobileElementManager implements MobileInterface {
 	            d.setCurrentWorkers(0);
 	            this.ressourceDeposits.add(d);
 	        }
-	        /*
-	        for(int i=0; i<5; i++) {
-	            Block spawnBlock = map.getBlock(22+(int)(Math.random()*3), 22+(int)(Math.random()*3));
-	            Unit unit = UnitFactory.createUnit(UnitFactory.ARTILLERY_UNIT, 3, player.getFactionName(), spawnBlock);
-	            this.units.add(unit);
-	            player.getCreatedUnits().add(unit);
-	        }
-	        /*
-	        for(int i=0; i<3; i++) {
-	            Block spawnBlock = map.getBlock(54+(int)(Math.random()*3), 75+(int)(Math.random()*3));
-	            Unit unit = UnitFactory.createUnit(UnitFactory.INFANTRY_UNIT, 1, cpu1.getFactionName(), spawnBlock);
-	            this.units.add(unit);
-	            cpu1.getCreatedUnits().add(unit);
-	        }
-	        */
+	        
+	        
 	        Unit w1 = UnitFactory.createUnit(UnitFactory.WORKER_UNIT, 1, cpu1.getFactionName(), ennemyHQ.getPosition());
 	        Unit w2 = UnitFactory.createUnit(UnitFactory.WORKER_UNIT, 1,cpu1.getFactionName(), ennemyHQ.getPosition());
 	        ((Worker) w1).setCurrentHQ((HQ) ennemyHQ);
@@ -810,7 +797,7 @@ public class MobileElementManager implements MobileInterface {
     		buildingManager.addQueue(building, position, unitType,p);
         }
     
-    // --- Timer part ---
+    //Timer part
     public CyclicCounter getHour() {
         return chronometer.getHour();
     }

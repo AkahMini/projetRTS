@@ -19,7 +19,6 @@ import log.LoggerUtility;
 public class UnitsStatsLoader {
 	private UnitRepository unitsRepository = UnitRepository.getInstance();
 	private static Logger logger = LoggerUtility.getLogger(UnitsStatsLoader.class, "html");
-	//private static final Logger logger = Logger.getLogger(UnitsStatsLoader.class);
 	public UnitsStatsLoader (String unitsStats) {
 		String line;
 		try {
@@ -51,8 +50,6 @@ public class UnitsStatsLoader {
 				UnitStats stats = new UnitStats(id, UnitType, faction, maxHp, populationCost, ambroisieCost, faithCost, AttackDamage, attackSpeed, movementsSpeed, attackRange, visionRange, hpRegenRate, tierLevel, BlastRadius_ARTILLERY, ThroughObstacle_CAVALRY, ChageBonusDamage, chargeDistanceMax, chargeSpeed, maxShield);
 				String key = UnitType.toUpperCase() + "_" + faction.toUpperCase() + "_" + tierLevel;
 				unitsRepository.register(key, stats);
-				//System.out.println("Added Unit key: "+key);
-				//logger.info("UnitStats créé → clé={"+key+"} valeur={"+stats+"}");
 				logger.info("Added Unit key: "+key);
 			}br.close();
 			logger.info("Reading of \""+GameConfiguration.UNITS_STATS+"\" completed");

@@ -65,13 +65,10 @@ public class MainGUI extends JFrame implements Runnable {
 	
 	private ChartPanel unitChart;
 	private ChartManager chartManager = new ChartManager();
-	//private ChartPanel typeCountPie;
-	//private ChartPanel typeCountBar;
-	//private ChartPanel heightEvolutionChart;
+
 
 	
 	//launch the game with MENU as the current state
-	//please refer to the game config to see the list
 	private String currentState=GameConfiguration.GAMESTATE.get(0);
 
 	public MainGUI(String title) {
@@ -80,9 +77,6 @@ public class MainGUI extends JFrame implements Runnable {
 	}
 
 	private void init() {
-
-		//System.out.println(GameConfiguration.GAMESTATE);
-		//System.out.println(currentState);
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new BorderLayout());
 		
@@ -110,100 +104,6 @@ public class MainGUI extends JFrame implements Runnable {
 		dashboard.setBounds(0, 0, GameConfiguration.WINDOW_WIDTH, GameConfiguration.WINDOW_HEIGHT);
 		contentPane.add(dashboard, BorderLayout.CENTER);
 
-		//THIS PART IS FOR TEST ONLY WILL BE REMOVED
-		/*
-		javax.swing.JPanel RightPanel = new javax.swing.JPanel();
-		RightPanel.setBackground(java.awt.Color.GRAY); 
-
-		javax.swing.JButton testButton = new javax.swing.JButton("Test Unit Producer");
-
-		testButton.addActionListener(new ActionListener() { //Temporary button to test some features
-			public void actionPerformed(ActionEvent e) {
-				manager.selectBuilding("Producer");
-				manager.setTypeSelection("build");
-				manager.setSelectedTier(1);
-			}
-		});
-		javax.swing.JButton testButton2 = new javax.swing.JButton("Test Tower Defense");
-
-		testButton2.addActionListener(new ActionListener() { //Temporary button to test some features
-			public void actionPerformed(ActionEvent e) {
-				//manager.selectBuilding("DefenseTower");
-				manager.getPlayer().setBuildingToBuildID("DefenseTower");
-				manager.setTypeSelection("build");
-				manager.setSelectedTier(2);
-			}
-		});
-
-		javax.swing.JButton testButton3 = new javax.swing.JButton("Test Population Building ");
-
-		testButton3.addActionListener(new ActionListener() { //Temporary button to test some features
-			public void actionPerformed(ActionEvent e) {
-				//manager.selectBuilding("PopulationBuilding");
-				manager.getPlayer().setBuildingToBuildID("PopulationBuilding");
-				manager.setTypeSelection("PopulationBuilding");
-				manager.setSelectedTier(1);
-			}
-		});
-		javax.swing.JButton testButton4 = new javax.swing.JButton("Test Research Building ");
-
-		testButton4.addActionListener(new ActionListener() { //Temporary button to test some features
-			public void actionPerformed(ActionEvent e) {
-				//manager.selectBuilding("ResearchBuilding");
-				manager.getPlayer().setBuildingToBuildID("ResearchBuilding");
-				manager.setTypeSelection("build");
-				manager.setSelectedTier(2);
-			}
-		});
-
-		javax.swing.JButton testButton5 = new javax.swing.JButton(" ARTILLERY T1");
-		testButton5.addActionListener(new ActionListener() { 
-			public void actionPerformed(ActionEvent e) {
-				manager.selectUnit("ARTILLERY");
-				manager.setTypeSelection("unitAllie");
-				manager.setSelectedTier(1);
-			}
-		});
-
-		javax.swing.JButton testButton6 = new javax.swing.JButton("ennemy(INFANTRY) T1");
-		testButton6.addActionListener(new ActionListener() { 
-			public void actionPerformed(ActionEvent e) {
-				manager.selectUnit("INFANTRY");
-				manager.setTypeSelection("unitEnnemy");
-				manager.setSelectedTier(1);
-			}
-		});
-
-		javax.swing.JButton testButton7 = new javax.swing.JButton("ranged Unit T2");
-		testButton7.addActionListener(new ActionListener() { 
-			public void actionPerformed(ActionEvent e) {
-				manager.selectUnit("ARTILLERY");
-				manager.setTypeSelection("unitEnnemy");
-				manager.setSelectedTier(2);
-			}
-		});
-
-		javax.swing.JButton testButton8 = new javax.swing.JButton("cavalry T3");
-		testButton8.addActionListener(new ActionListener() { 
-			public void actionPerformed(ActionEvent e) {
-				manager.selectUnit("CAVALRY");
-				manager.setTypeSelection("unitAllie");
-				manager.setSelectedTier(3);
-			}
-		});
-		
-		RightPanel.add(testButton);
-		RightPanel.add(testButton2);
-		RightPanel.add(testButton3);
-		RightPanel.add(testButton4);
-		RightPanel.add(testButton5);
-		RightPanel.add(testButton6);
-		RightPanel.add(testButton7);
-		RightPanel.add(testButton8);
-		contentPane.add(RightPanel, BorderLayout.SOUTH);
-		
-		contentPane.add(dashboard, BorderLayout.CENTER);
-		*/
 		
 		this.addKeyListener(new KeyControls());
 		setFocusable(true);
@@ -220,10 +120,8 @@ public class MainGUI extends JFrame implements Runnable {
 	public void run() {
 		while (running) {
 			try {
-				//Thread.sleep(GameConfiguration.DEFAULT_GAME_SPEED);
 				Thread.sleep(gameSettings.getEffectiveGameSpeed());
 			} catch (InterruptedException e) {
-				//System.out.println(e.getMessage());
 				logger.fatal(e);
 			}
 			switch(currentState) {
@@ -238,8 +136,6 @@ public class MainGUI extends JFrame implements Runnable {
 					
 					if(!stop) {
 						manager.nextRound();
-						//chartManager.updateAllChartDataset(manager.getPlayer(),manager.getUnits() ,manager.getChronometer());
-						
 					}
 					if(!manager.winningFaction().equals("null")) {
 						menu.setWinnerFac(manager.winningFaction());
@@ -289,7 +185,6 @@ public class MainGUI extends JFrame implements Runnable {
 	private class KeyControls implements KeyListener {
 
 		//this part is for the keybord interaction 
-		//please indicate the gamestate (main game =2)
 		@Override
 		public void keyPressed(KeyEvent event) {
 			int keyCode = event.getKeyCode();
@@ -403,10 +298,10 @@ public class MainGUI extends JFrame implements Runnable {
 				}
 				break;
 			case KeyEvent.VK_I:
-				if(manager.getGameSettings().isAiActivated())
-				manager.getGameSettings().setAiActivated(false);
+				if(manager.getGameSettings().isCPUActivated())
+				manager.getGameSettings().setCPUActivated(false);
 				else
-				manager.getGameSettings().setAiActivated(true);
+				manager.getGameSettings().setCPUActivated(true);
 				break;
 			case KeyEvent.VK_W:
 				if (currentState.equals("PLAYING")) {
@@ -445,22 +340,13 @@ public class MainGUI extends JFrame implements Runnable {
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-
+			
 			int blockSize = GameConfiguration.BLOCK_SIZE;
 			int line = e.getY() / blockSize;
 			int column = e.getX() / blockSize;
 			
-			//we check if the player clicked in the button zone for x and y
-			boolean xZone = (e.getX()>=1020 && e.getX()<=1240);
-			boolean yZone = (e.getY()>=560 && e.getY()<=700);
-			if(xZone && yZone) {
-				//manager.areaButtonPressed(e.getX(),e.getY());
-			}
 
 			Block position = map.getBlock(line, column);
-			
-			
-			//if(clickDuration<GameConfiguration.SHORT_CLICK_TIME_DURATION||manager.getSelectedArea().get(0).equals(position)) {
 			if(manager.getSelectedArea().get(0).equals(position)) {
 				shortClick(e,position);
 			}

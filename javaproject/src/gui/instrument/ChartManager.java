@@ -31,8 +31,6 @@ public class ChartManager {
     private  String seriesName = ""; //the name of the player related to the chart
    
     //endscreen data
-    
-    
     private XYSeriesCollection endDataset = new XYSeriesCollection();
     private XYDataset playerStatsDataset;
   
